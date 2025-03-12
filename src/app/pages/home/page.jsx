@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
     const router = useRouter()
-    const maxLength = 150;
+    const maxLength = 10;
 
     const getPosts = async () => {
         try {
@@ -62,6 +62,7 @@ const HomePage = () => {
                     <div className="home-section3 bg-faedf8 py-5">
                         <div className="container">
                             <div className="row">
+                                {/* Swiper start */}
                                 <Swiper
                                     slidesPerView={1}
                                     spaceBetween={10}
@@ -93,7 +94,12 @@ const HomePage = () => {
                                                             : post.description}
                                                     </p>
                                                     {post.description.length > maxLength && (
-                                                        <button onClick={() => router.push("/pages/profile")}>More</button>
+                                                        <Link
+                                                            key={index}
+                                                            href={`pages/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                        >
+                                                            Read More
+                                                        </Link>
                                                     )}
                                                 </div>
                                             </div>
