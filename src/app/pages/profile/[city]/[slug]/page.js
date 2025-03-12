@@ -100,7 +100,7 @@ const Profile = () => {
                                         <div>
                                             <div className="profileHeader"></div>
                                             <img
-                                                src={posts.image}
+                                                src={posts.image1}
                                                 alt="Profile"
                                                 className="profileImage"
                                             />
