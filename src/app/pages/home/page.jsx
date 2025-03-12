@@ -1,18 +1,45 @@
 "use client"
 import Footer from '@/app/components/footer/page'
 import Header from '@/app/components/header/page'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import homeSec2Img from "../../../../public/images/homeSec2-img.png";
 import Sec3SliderImg from "../../../../public/images/sec3-sliderImg.png";
-// import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
+import callAPI, { interceptor } from '@/app/Common_Method/api'
+import { useRouter } from "next/navigation"
 
 
 const HomePage = () => {
+    const [posts, setPosts] = useState([]);
+    const router = useRouter()
+    const maxLength = 10;
+
+    const getPosts = async () => {
+        try {
+            interceptor();
+            const response = await callAPI.post(`/postad/getallpostad_sort_desc`, { limit: "12" });
+            if (response.data) {
+                setPosts(response.data || []);
+            } else {
+                console.error("Unexpected response format", response);
+                setPosts([]);
+            }
+        } catch (error) {
+            console.error("Error fetching posts", error);
+            setPosts([]);
+        }
+    };
+
+    useEffect(() => {
+        getPosts();
+        window.scrollTo({ behavior: "smooth", top: 0 });
+    }, []);
+
+
     return (
         <>
             <div className="container-fluid p-0">
@@ -32,28 +59,10 @@ const HomePage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="home-section2 bg-dd88cf">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-3">
-                                    <img src={homeSec2Img.src} alt="" className="w-100 bounceImg" />
-                                </div>
-                                <div className="col-lg-6 d-flex justify-content-center align-items-center">
-                                    <div className="">
-                                        <h2 className="text-white text-center fw-bolder">Lorem ipsum dolor sit amet.</h2>
-                                        <h5 className="text-white text-center fw-normal">ipsum dolor sit amet consectetur adipisicing.</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-3 d-flex justify-content-end align-items-center">
-                                    <button className="btn btn-register text-dd88cf bg-fcf3fa rounded-pill py-2 px-4 fw-semibold">Register Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div className="home-section3 bg-faedf8 py-5">
                         <div className="container">
                             <div className="row">
-                                {/* Slider start */}
+                                {/* Swiper start */}
                                 <Swiper
                                     slidesPerView={1}
                                     spaceBetween={10}
@@ -62,106 +71,40 @@ const HomePage = () => {
                                         disableOnInteraction: false,
                                     }}
                                     breakpoints={{
-                                        640: {
-                                            slidesPerView: 2,
-                                            spaceBetween: 20,
-                                        },
-                                        768: {
-                                            slidesPerView: 4,
-                                            spaceBetween: 40,
-                                        },
-                                        1024: {
-                                            slidesPerView: 4,
-                                            spaceBetween: 50,
-                                        },
+                                        640: { slidesPerView: 2, spaceBetween: 20 },
+                                        768: { slidesPerView: 4, spaceBetween: 40 },
+                                        1024: { slidesPerView: 4, spaceBetween: 50 },
                                     }}
                                     modules={[Pagination, Autoplay]}
                                     className="mySwiper"
                                 >
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
+                                    {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
+                                        <SwiperSlide key={index}>
+                                            <div className="effect-image-1">
+                                                <img src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
+                                                <div className="simple-text">
+                                                    <p>{post.name}</p>
+                                                    <p>{post.city}</p>
+                                                </div>
+                                                {/* Added overlay to match the static design */}
+                                                <div className="overlay-sim-text-2 overlay-xs-1">
+                                                    <p className="mb-1">
+                                                        {post.description.length > maxLength
+                                                            ? `${post.description.slice(0, maxLength)}...`
+                                                            : post.description}
+                                                    </p>
+                                                    {post.description.length > maxLength && (
+                                                        <Link
+                                                            key={index}
+                                                            href={`pages/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                        >
+                                                            Read More
+                                                        </Link>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="effect-image-1">
-                                            <img src={Sec3SliderImg.src} alt="image-1" className='w-100' />
-                                            <div className="simple-text">
-                                                <p>Web-designer</p>
-                                                <p>lorem text ipsum</p>
-                                            </div>
-                                            <div className="overlay-sim-text-2 overlay-xs-1">
-                                                <p>lorem ipsum text init lorem ipsum text init</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
+                                        </SwiperSlide>
+                                    )) : <p>No posts available</p>}
                                 </Swiper>
                                 {/* Slider end */}
                             </div>
@@ -193,7 +136,7 @@ const HomePage = () => {
                                         <div className="col-md-6 d-flex align-items-center">
                                             <div className="">
                                                 <div className="cardFeature">
-                                                <i className="fa-solid fa-user-tie text-dd88cf fs-1 mb-2"></i>
+                                                    <i className="fa-solid fa-user-tie text-dd88cf fs-1 mb-2"></i>
                                                     <h5 className="fw-bold">Profile Verification</h5>
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                                 </div>
@@ -207,7 +150,7 @@ const HomePage = () => {
                                         <div className="col-md-6 d-flex align-items-center">
                                             <div className="">
                                                 <div className="cardFeature">
-                                                <i className="fa-brands fa-web-awesome text-dd88cf fs-1 mb-2"></i>
+                                                    <i className="fa-brands fa-web-awesome text-dd88cf fs-1 mb-2"></i>
                                                     <h5 className="fw-bold">Premium Features</h5>
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                                 </div>
@@ -230,9 +173,9 @@ const HomePage = () => {
                     </div>
                 </div>
                 <Footer />
-            </div>
+            </div >
         </>
     )
 }
 
-export default HomePage
+export default HomePage;
