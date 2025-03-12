@@ -53,7 +53,7 @@ const HomePage = () => {
                                         <span className="text-dd88cf"> Pink Spot</span><br />
                                         Choose Your Vibe
                                     </h1>
-                                    <h3 className="text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
+                                    <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
                                     <Link href="/" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link>
                                 </div>
                             </div>
