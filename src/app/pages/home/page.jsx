@@ -4,7 +4,7 @@ import Header from '@/app/components/header/page'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import homeSec2Img from "../../../../public/images/homeSec2-img.png";
-import Sec3SliderImg from "../../../../public/images/sec3-sliderImg.png";
+import noImg from "../../../../public/images/no-img.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
     const router = useRouter()
-    const maxLength = 10;
+    const maxLength = 90;
 
     const getPosts = async () => {
         try {
@@ -81,7 +81,7 @@ const HomePage = () => {
                                     {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                         <SwiperSlide key={index}>
                                             <div className="effect-image-1">
-                                                <img src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
+                                                <img src={post.image || noImg.src} alt="Post Image" className='w-100' />
                                                 <div className="simple-text">
                                                     <p>{post.name}</p>
                                                     <p>{post.city}</p>
