@@ -1,8 +1,8 @@
 "use client"
 
 import Link from 'next/link'
-import Footer from '@/app/components/footer/page'
-import Header from '@/app/components/header/page'
+import Footer from '../../components/footer/page'
+import Header from '../../components/header/page'
 import adPostFormImg from "../../../../public/images/adpost-formImg.png";
 import React, { useState } from 'react';
 
