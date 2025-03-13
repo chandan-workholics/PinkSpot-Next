@@ -1,18 +1,18 @@
 "use client"
 
-import Footer from '@/app/components/footer/page';
-import Header from '@/app/components/header/page';
+import Footer from '../../components/footer/page';
+import Header from '../../components/header/page';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import MasonryGallery from '@/app/components/masonryGallery/page';
+import MasonryGallery from '../../components/masonryGallery/page';
 import profileImg from "../../../../public/images/pro-img.png";
-import callAPI, { interceptor } from '@/app/Common_Method/api';
+import callAPI, { interceptor } from '../../Common_Method/api';
 import { useParams } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '@/app/components/Swiper/page';
+import SwiperPage from '../../components/Swiper/page';
 
 const Profile = () => {
     const { slug } = useParams();

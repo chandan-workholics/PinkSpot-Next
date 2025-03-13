@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import Footer from '@/app/components/footer/page'
-import Header from '@/app/components/header/page'
+import Footer from '../../components/footer/page'
+import Header from '../../components/header/page'
 
 const AllCategory = () => {
     return (
