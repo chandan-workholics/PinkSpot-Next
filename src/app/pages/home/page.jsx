@@ -1,6 +1,7 @@
 "use client"
-import Footer from '@/app/components/footer/page'
-import Header from '@/app/components/header/page'
+// import Footer from './app/components/footer/page'
+import Footer from '../../components/footer/page'
+import Header from '../../components/header/page'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import homeSec2Img from "../../../../public/images/homeSec2-img.png";
@@ -9,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
-import callAPI, { interceptor } from '@/app/Common_Method/api'
+import callAPI, { interceptor } from '../../Common_Method/api'
 import { useRouter } from "next/navigation"
 
 
