@@ -82,7 +82,7 @@ const HomePage = () => {
                                     {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                         <SwiperSlide key={index}>
                                             <div className="effect-image-1">
-                                                {post?.image10 == "" || null ?
+                                                {post?.image1 == "" || null ?
                                                     <img src={noImg.src} alt="Post Images" className='w-100' /> :
                                                     <img src={post.image1} alt="Post Image" className='w-100' />
                                                 }
