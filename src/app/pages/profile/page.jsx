@@ -3,10 +3,15 @@
 import Footer from '@/app/components/footer/page';
 import Header from '@/app/components/header/page';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import MasonryGallery from '@/app/components/masonryGallery/page';
 import profileImg from "../../../../public/images/pro-img.png";
 import callAPI, { interceptor } from '@/app/Common_Method/api';
 import { useParams } from 'next/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import SwiperPage from '@/app/components/Swiper/page';
 
 const Profile = () => {
@@ -17,6 +22,7 @@ const Profile = () => {
     const [seodescription, Setseodescription] = useState("");
     const [seoimage, Setseoimage] = useState("");
     const [seokeywords, Setseokeywords] = useState("");
+    const maxLength = 80;
 
     const getPost = async () => {
         try {
@@ -80,7 +86,7 @@ const Profile = () => {
                         <div className="col-md-4">
                             {posts?.data?.map((post) => (
                                 <div key={post._id} className="profileCard">
-                                    <img src={post.image.src || profileImg.src} alt="Profile" className="profileImage" />
+                                    <Image src={post.image !== "" ? post.image : profileImg.src} alt="Profile" className="profileImage" />
                                     <h3 className="text-center mt-3">{post.name}</h3>
                                     <p className="text-center">{post.age} Years Old | {post.city}, {post.provincesid}</p>
                                     <div className="d-flex justify-content-center">
@@ -140,7 +146,7 @@ const Profile = () => {
                             {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                 <SwiperSlide key={index}>
                                     <div className="effect-image-1">
-                                        <img src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
+                                        <Image src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
                                         <div className="simple-text">
                                             <p>{post.name}</p>
                                             <p>{post.city}</p>

@@ -3,6 +3,7 @@ import Footer from '@/app/components/footer/page'
 import Header from '@/app/components/header/page'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image';
 import homeSec2Img from "../../../../public/images/homeSec2-img.png";
 import noImg from "../../../../public/images/no-img.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -61,7 +62,11 @@ const SwiperPage = () => {
                             {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                 <SwiperSlide key={index}>
                                     <div className="effect-image-1">
-                                        <img src={post.image1 ? post.image1 : (noImg.src)} alt="Post Image" className='w-100' />
+                                        <Image
+                                            src={post.image1 ? post.image1 : noImg.src}
+                                            alt="Post Image"
+                                            className="w-100"
+                                        />
                                         <div className="simple-text">
                                             <p>{post.name}</p>
                                             <p>{post.city}</p>

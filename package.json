@@ -20,5 +20,6 @@
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
     "eslint-config-next": "15.2.1"
-  }
+  },
+  "homepage": "http://206.189.130.102/pinkspot"
 }

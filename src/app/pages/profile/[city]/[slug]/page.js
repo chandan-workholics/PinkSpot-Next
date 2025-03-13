@@ -3,6 +3,7 @@ import Footer from '@/app/components/footer/page'
 import Header from '@/app/components/header/page'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image';
 import MasonryGallery from '@/app/components/masonryGallery/page'
 import { useParams } from 'next/navigation'
 import callAPI, { interceptor } from '@/app/Common_Method/api'
@@ -24,7 +25,7 @@ const Profile = () => {
     const { slug } = useParams();
     const maxLength = 10;
 
-    const getPost = async () => {
+    const getPost = useCallback(async () => {
         try {
             interceptor();
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
@@ -42,7 +43,7 @@ const Profile = () => {
         } catch (error) {
             console.error("Error fetching post details", error);
         }
-    };
+    }, [slug]);
 
     const getData = async () => {
         try {
@@ -66,7 +67,7 @@ const Profile = () => {
             getPost();
         }
         window.scrollTo({ behavior: "smooth", top: 0 });
-    }, [slug]);
+    }, [slug, getPost]);
 
     useEffect(() => {
         getData();
@@ -99,7 +100,7 @@ const Profile = () => {
                                     {posts && (
                                         <div>
                                             <div className="profileHeader"></div>
-                                            <img
+                                            <Image
                                                 src={posts.image1}
                                                 alt="Profile"
                                                 className="profileImage"
