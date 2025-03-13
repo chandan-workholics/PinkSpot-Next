@@ -84,7 +84,7 @@ const SwiperPage = () => {
                                             {post.description.length > maxLength && (
                                                 <Link
                                                     key={index}
-                                                    href={`pinkspot/pages/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                 >
                                                     Read More
                                                 </Link>
