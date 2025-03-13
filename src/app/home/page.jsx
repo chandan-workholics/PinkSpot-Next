@@ -55,7 +55,7 @@ const HomePage = () => {
                                         Choose Your Vibe
                                     </h1>
                                     <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
-                                    <Link href="/" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link>
+                                    <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link>
                                 </div>
                             </div>
                         </div>
@@ -132,9 +132,9 @@ const HomePage = () => {
                                         repudiandae odit dolorem quis laudantium impedit beatae perferendis
                                         natus, hic libero sed atque.
                                     </p>
-                                    <button className="btn bg-dd88cf text-white">
+                                    <Link href='/allCategory' className="btn bg-dd88cf text-white">
                                         Learn More <span>&raquo;</span>
-                                    </button>
+                                    </Link>
                                 </div>
                                 <div className="col-md-7">
                                     <div className="row g-4">
