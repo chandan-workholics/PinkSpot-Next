@@ -1,9 +1,9 @@
 "use client"
 
 import Link from 'next/link'
-import Footer from '../../components/footer/page'
-import Header from '../../components/header/page'
-import adPostFormImg from "../../../../public/images/adpost-formImg.png";
+import Footer from '../components/footer/Footer'
+import Header from '../components/header/Header'
+
 import React, { useState } from 'react';
 
 const AdPost = () => {

@@ -1,16 +1,16 @@
 "use client"
 // import Footer from './app/components/footer/page'
-import Footer from '../../components/footer/page'
-import Header from '../../components/header/page'
+import Footer from '../components/footer/Footer'
+import Header from '../components/header/Header'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import homeSec2Img from "../../../../public/images/homeSec2-img.png";
-import noImg from "../../../../public/images/no-img.png";
+
+import noImg from "../../../public/images/no-img.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
-import callAPI, { interceptor } from '../../Common_Method/api'
+import callAPI, { interceptor } from '../Common_Method/api'
 import { useRouter } from "next/navigation"
 
 
@@ -101,7 +101,7 @@ const HomePage = () => {
                                                     {post.description.length > maxLength && (
                                                         <Link
                                                             key={index}
-                                                            href={`pages/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                            href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                         >
                                                             Read More
                                                         </Link>

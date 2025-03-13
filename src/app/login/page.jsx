@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Header from "../../components/header/page";
-import callAPI from "../../Common_Method/api";
+import Header from "../components/header/Header";
+import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";

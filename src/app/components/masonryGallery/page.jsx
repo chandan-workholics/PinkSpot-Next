@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import callAPI, { interceptor } from '@/app/Common_Method/api';
+import callAPI, { interceptor } from '../../Common_Method/api';
 
 const MasonryGallery = () => {
     const { slug } = useParams();

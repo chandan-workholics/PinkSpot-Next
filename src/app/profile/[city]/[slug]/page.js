@@ -1,18 +1,19 @@
 "use client"
-import Footer from '../../components/footer/page'
-import Header from '../../components/header/page'
+import Footer from '../../../components/footer/Footer';
+import Header from '../../../components/header/Header';
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { useCallback } from 'react';
+
 import Image from 'next/image';
-import MasonryGallery from '../../components/masonryGallery/page'
+import MasonryGallery from '../../../components/masonryGallery/page'
 import { useParams } from 'next/navigation'
-import callAPI, { interceptor } from '../../Common_Method/api'
-import { Pagination, Autoplay } from 'swiper/modules';
-import Sec3SliderImg from "../../../../../../public/images//sec3-sliderImg.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import callAPI, { interceptor } from '../../../Common_Method/api'
+
+
+
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '../../components/Swiper/page'
+import SwiperPage from '../../../components/Swiper/page'
 
 const Profile = () => {
     const [posts, setPosts] = useState(null);  // Fixed: Use null or []
@@ -104,6 +105,8 @@ const Profile = () => {
                                                 src={posts.image1}
                                                 alt="Profile"
                                                 className="profileImage"
+                                                width={100}
+                                                height={100}
                                             />
                                             <h3 className="text-center mt-3">{posts.name}</h3>
                                             <p className="text-center">{posts.age} | {posts.city}</p>

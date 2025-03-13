@@ -1,6 +1,6 @@
 "use client"
-import Footer from '../../components/footer/page'
-import Header from '../../components/header/page'
+import Footer from '../footer/Footer'
+import Header from '../header/Header'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image';
@@ -65,8 +65,11 @@ const SwiperPage = () => {
                                         <Image
                                             src={post.image1 ? post.image1 : noImg.src}
                                             alt="Post Image"
+                                            width={500} // Set desired width
+                                            height={300} // Set desired height
                                             className="w-100"
                                         />
+
                                         <div className="simple-text">
                                             <p>{post.name}</p>
                                             <p>{post.city}</p>

@@ -1,10 +1,10 @@
 "use client"
 
-import Footer from '../../components/footer/page';
-import Header from '../../components/header/page';
+import Footer from '../components/footer';
+import Header from '../components/header/Header';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import MasonryGallery from '../../components/masonryGallery/page';
+import MasonryGallery from '../components/masonryGallery/page';
 import profileImg from "../../../../public/images/pro-img.png";
 import callAPI, { interceptor } from '../../Common_Method/api';
 import { useParams } from 'next/navigation';
@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '../../components/Swiper/page';
+import SwiperPage from '../components/Swiper/page';
 
 const Profile = () => {
     const { slug } = useParams();
@@ -161,7 +161,7 @@ const Profile = () => {
                                             {post.description.length > maxLength && (
                                                 <Link
                                                     key={index}
-                                                    href={`pages/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                 >
                                                     Read More
                                                 </Link>
