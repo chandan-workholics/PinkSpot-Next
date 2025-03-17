@@ -1,12 +1,12 @@
 "use client"
 
-import Footer from '../components/footer';
-import Header from '../components/header/Header';
 import React, { useEffect, useState } from 'react';
+import Footer from '../components/footer/Footer';
+import Header from '../components/header/Header';
 import Image from 'next/image';
 import MasonryGallery from '../components/masonryGallery/page';
-import profileImg from "../../../../public/images/pro-img.png";
-import callAPI, { interceptor } from '../../Common_Method/api';
+import profileImg from "../../../public/images/pro-img.png";
+import callAPI, { interceptor } from '../Common_Method/api';
 import { useParams } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
@@ -73,10 +73,12 @@ const Profile = () => {
                     <Header className="position-absolute w-100" />
                     <div className="container">
                         <div className="banner-content text-start">
-                            <h1 className="text-white">Single Profile</h1>
-                            <h3 className="text-white">
-                                Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
-                            </h3>
+                            <div className="">
+                                <h1 className="text-white">Single Profile</h1>
+                                <h3 className="text-white">
+                                    Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                </h3>
+                            </div>
                         </div>
                     </div>
                 </div>
