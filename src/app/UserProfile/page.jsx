@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link'
 import Footer from '../components/footer/Footer';
 import Header from '../components/header/Header';
@@ -8,6 +8,40 @@ import Image from 'next/image';
 import profileImg from "../../../public/images/pro-img.png";
 
 const UserProfile = () => {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [profile, setProfile] = useState({
+        name: "Manish Kush5555",
+        email: "manish.workholics@gmail.com",
+        password: "adhjkjkdnjkv",
+        phone: "8435360142",
+        address: "Vijay Nagar",
+        image: profileImg.src, // Default profile image
+    });
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleUpdateClick = () => {
+        setIsEditing(false);
+        console.log("Updated Profile:", profile);
+        // API call can be added here to save updated profile data
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProfile((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setProfile((prev) => ({ ...prev, image: imageUrl }));
+        }
+    };
+
     return (
         <>
             <div className="container-fluid p-0">
@@ -30,26 +64,88 @@ const UserProfile = () => {
                             {/* Left Profile Card */}
                             <div className="col-md-4">
                                 <div className="profileCard">
-                                    <div className="">
+                                    <div>
                                         <div className="profileHeader"></div>
-                                        <Image src={profileImg.src} alt="Profile" width={150} height={150} className="profileImage" />
-                                        <h3 className="text-center mt-3">postname</h3>
-                                        <p className="text-center">postage Years Old | city, provincesid</p>
+                                        <Image src={profile.image} alt="Profile" width={150} height={150} className="profileImage" />
+                                        <h3 className="text-center mt-3">Postname</h3>
+                                        <p className="text-center">Postage Years Old | City, Province</p>
                                         <div className="d-flex justify-content-center">
-                                            <button className="btn btn-warning text-white">Edit Profile</button>
+                                            {isEditing ? (
+                                                <button className="btn btn-success text-white" onClick={handleUpdateClick}>
+                                                    Update Profile
+                                                </button>
+                                            ) : (
+                                                <button className="btn btn-warning text-white" onClick={handleEditClick}>
+                                                    Edit Profile
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="profileDetails">
                                     <h4>Details</h4>
                                     <hr />
                                     <table className="table">
                                         <tbody>
-                                            <tr><td>Name</td><td>manish kush5555</td></tr>
-                                            <tr><td>Email </td><td>manish.workholics@gmail.com</td></tr>
-                                            <tr><td>Password</td><td>adhjkjkdnjkv</td></tr>
-                                            <tr><td>Phone number</td><td>8435360142</td></tr>
-                                            <tr><td>Street address / postal code (optional)</td><td>vijay nagar</td></tr>
+                                            <tr>
+                                                <td style={{ width: '125px' }}>Name</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input type="text" name="name" value={profile.name} onChange={handleChange} className="form-control" />
+                                                    ) : (
+                                                        profile.name
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{ width: '125px' }}>Email</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input type="email" name="email" value={profile.email} onChange={handleChange} className="form-control" />
+                                                    ) : (
+                                                        profile.email
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input type="password" name="password" value={profile.password} onChange={handleChange} className="form-control" />
+                                                    ) : (
+                                                        "********"
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone number</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input type="text" name="phone" value={profile.phone} onChange={handleChange} className="form-control" />
+                                                    ) : (
+                                                        profile.phone
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Street address</td>
+                                                <td>
+                                                    {isEditing ? (
+                                                        <input type="text" name="address" value={profile.address} onChange={handleChange} className="form-control" />
+                                                    ) : (
+                                                        profile.address
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            {isEditing && (
+                                                <tr>
+                                                    <td>Profile Image</td>
+                                                    <td>
+                                                        <input type="file" accept="image/*" className="form-control mt-2 shadow-none" onChange={handleImageChange} />
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
