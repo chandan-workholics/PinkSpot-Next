@@ -32,6 +32,7 @@ const Header = () => {
                             </ul>
                             <div className="d-flex">
                                 <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
+                                <button onClick={() => router.push("/UserProfile")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>MY PROFILE</button>
                                 <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-2 px-3'>POST YOUR AD</button>
                             </div>
                         </div>
