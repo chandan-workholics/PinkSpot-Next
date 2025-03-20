@@ -72,7 +72,7 @@ const Login = () => {
                 });
                 if (response.status === 200) {
                     toast.success("Registration successful");
-                    localStorage.setItem("userid", response.data?.data?._id);
+                    sessionStorage.setItem("userid", response.data?.data?._id);
                     setIsLogin(true);
                 } else {
                     toast.error("Failed to register. User may already exist");

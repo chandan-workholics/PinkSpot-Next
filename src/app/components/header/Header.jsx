@@ -1,12 +1,25 @@
 "use client"
 
 import Link from 'next/link'
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import logo from '../../../../public/images/pink-logo.png'
 import { useRouter } from 'next/navigation'
 
 const Header = () => {
     const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    useEffect(() => {
+        const token = sessionStorage.getItem("token"); 
+        setIsAuthenticated(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("authToken"); 
+        setIsAuthenticated(false);
+        router.push("/login");
+    };
+
+
     return (
         <>
             <div className="header">
@@ -31,9 +44,15 @@ const Header = () => {
                                 </li>
                             </ul>
                             <div className="d-flex">
-                                <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
-                                <button onClick={() => router.push("/UserProfile")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>MY PROFILE</button>
-                                <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-2 px-3'>POST YOUR AD</button>
+                            {!isAuthenticated ? (
+                                    <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
+                                ) : (
+                                    <>
+                                    <button onClick={handleLogout} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOGOUT</button>
+                                    <button onClick={() => router.push("/UserProfile")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>MY PROFILE</button>
+                                    <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-2 px-3'>POST YOUR AD</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -1,17 +1,56 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from "framer-motion";
 import Link from 'next/link'
 import Image from 'next/image';
 import Footer from '../components/footer/Footer'
 import Header from '../components/header/Header'
 import AdPostFormImg from "../../../public/images/adpost-formImg.png";
+import callAPI from '../Common_Method/api';
+import axios from 'axios';
 
 const AdPost = () => {
 
+    const [category, setCategory] = useState('');
+    const [subcategories, setSubcategories] = useState([]);
     const [images, setImages] = useState(Array(20).fill(null));
+    const [loading, setLoading] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [province, Setprovince] = useState('')
+    const [ethicity, Setethicity] = useState('')
+    const [data, Setdata] = useState('');
+    const [provincesid, setprovincesid] = useState('');
+    const [provincesname, setprovincesname] = useState('');
+
+    const [alertname, setalertname] = useState(false);
+    const [alertage, setalertage] = useState(false);
+    const [alertcity, setalertcity] = useState(false);
+    const [alertavailability, setalertnameavailability] = useState(false);
+    const [alertphone, setalertphone] = useState(false);
+    const [alerttitle, setalerttitle] = useState(false);
+    const [alertdescription, setalertdescription] = useState(false);
+    const [alertmainimage, setalertmainimage] = useState(false);
+
     const [step, setStep] = useState(1);
     const totalSteps = 4;
+    const [formData, setFormData] = useState({
+        name: "",
+        age: "",
+        city: "",
+        mobile: "",
+        province: "",
+        availability: "",
+        ethnicity: "",
+        status: "",
+        height: "",
+        weight: "",
+        haircolor: "",
+        eyecolor: "",
+        adTitle: "",
+        price: "",
+        description: "",
+        images: [null]
+    });
 
     const nextStep = () => {
         if (step < totalSteps) setStep(step + 1);
@@ -21,18 +60,168 @@ const AdPost = () => {
         if (step > 1) setStep(step - 1);
     };
 
-    const handleImageChange = (index, event) => {
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        setErrors({ ...errors, [name]: "" });
+    };
+
+    const handleImageUpload = async (index, event) => {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
+        if (!file) return;
+
+        const maxSize = 1024 * 1024 * 1024; // 1GB limit
+        if (file.size > maxSize) {
+            alert("File size exceeds the maximum limit.");
+            return;
+        }
+
+        setLoading((prev) => ({ ...prev, [index]: true }));
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            const response = await axios.post("http://206.189.130.102:4000/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            if (response.data?.data?.url) {
                 const newImages = [...images];
-                newImages[index] = e.target.result;
+                newImages[index] = response.data.data.url;
                 setImages(newImages);
-            };
-            reader.readAsDataURL(file);
+            }
+        } catch (error) {
+            console.error("Upload failed:", error);
+        } finally {
+            setLoading((prev) => ({ ...prev, [index]: false }));
         }
     };
+
+
+    const getCategory = async () => {
+        try {
+            const response = await callAPI.get(`/category/getallcategory`);
+
+            if (response.data) {
+                setCategory(response.data || []);
+            } else {
+                console.error("Unexpected response format", response);
+                setCategory([]);
+            }
+        } catch (error) {
+            console.error("Error fetching categories", error);
+            setCategory([]);
+        }
+    };
+
+    const fetchSubCategories = async () => {
+        try {
+            const response = await callAPI.get("/category/getallcategory");
+            if (response.data.status === "success" && response.data.data.length > 0) {
+                const allSubcategories = response.data.data.flatMap(category => category.subcategoriesId || []);
+                setSubcategories(allSubcategories);
+            }
+        } catch (error) {
+            console.error("Error fetching subcategories:", error);
+        }
+    };
+
+    const validateForm = () => {
+        let tempErrors = {};
+        if (step === 1) {
+            if (!formData.category) tempErrors.category = "Category is required";
+            if (!formData.subCategory) tempErrors.subCategory = "Sub Category is required";
+        } else if (step === 2) {
+            if (!formData.name) tempErrors.name = "Name is required";
+            if (!formData.age || isNaN(formData.age) || formData.age <= 0)
+                tempErrors.age = "Enter a valid age";
+            if (!formData.city) tempErrors.city = "City is required";
+            if (!formData.mobile || !/^\d{10}$/.test(formData.mobile))
+                tempErrors.mobile = "Enter a valid 10-digit number";
+            if (!formData.province) tempErrors.province = "Province is required";
+            if (!formData.availability) tempErrors.availability = "Availability is required";
+        } else if (step === 3) {
+            if (!formData.adTitle) tempErrors.adTitle = "Ad Title is required";
+        } else if (step === 4) {
+            if (!formData.description) tempErrors.description = "Description is required";
+            if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
+        }
+
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            console.log("Form submitted successfully", formData);
+        }
+    };
+
+    const getprovince = async () => {
+        try {
+            const response = await callAPI.get(`/getallprovince`);
+            Setprovince(response.data || []);
+        } catch (error) {
+            console.error("Error fetching provinces:", error);
+            Setprovince([]);
+        }
+    };
+
+    const getethnicity = async () => {
+        try {
+            const response = await callAPI.get(`/getall-ethnicity`);
+            if (response?.data) {
+                Setethicity(response.data || []);
+            }
+        } catch (error) {
+            console.error("Error fetching ethnicity:", error);
+            Setethicity([]);
+        }
+    };
+
+    const getcity = async (e) => {
+        try {
+            const id = e.target.value;
+            setprovincesid(id);
+            const response = await callAPI.get(`/getallcity/${id}`);
+            if (response?.data) {
+                Setdata(response.data || []);
+            }
+        } catch (error) {
+            console.error("Error fetching cities:", error);
+            Setdata([]);
+        }
+    };
+
+
+    const getcity2 = async (id, name) => {
+        try {
+            setprovincesid(id);
+            setprovincesname(name);
+            const response = await callAPI.get(`/getallcity/${id}`);
+            if (response?.data) {
+                Setdata(response.data || []);
+            }
+        } catch (error) {
+            console.error("Error fetching cities:", error);
+            Setdata([]);
+        }
+    };
+
+
+    useEffect(() => {
+        getCategory();
+        fetchSubCategories();
+        getprovince();
+        getethnicity();
+        getcity2()
+        window.scrollTo({ behavior: 'smooth', top: 0 })
+    }, [])
 
     return (
         <>
@@ -82,30 +271,35 @@ const AdPost = () => {
                                                             color: step >= s ? "#fff" : "#000"
                                                         }}
                                                     >
-                                                        {step > s ? <i class="fa-solid fa-check text-white mt-1"></i> : s}
+                                                        {step > s ? <i className="fa-solid fa-check text-white mt-1"></i> : s}
                                                     </motion.div>
                                                     <span className="step-label" style={{ color: step >= s ? "#6a0dad" : "#aaa" }}>Step {s}</span>
                                                 </motion.div>
                                             ))}
                                         </div>
 
-                                        <form>
+                                        <form onSubmit={handleSubmit}>
                                             {step === 1 && (
                                                 <>
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Category *</label>
                                                             <select className="form-select" required>
-                                                                <option value="0">Open this select menu</option>
-                                                                <option value="1">One</option>
-                                                                <option value="2">Two</option>
+//                                                                 <option value="0">Open this select menu</option>
+//                                                                 {Array.isArray(category?.data) ? category?.data?.map((cat, index) => (
+                                                                <option value="1" key={index}>{cat.name}</option>
+                                                            )) : <option>No category available</option>}
                                                             </select>
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Sub Category *</label>
                                                             <select className="form-select" required>
                                                                 <option value="0">Open this select menu</option>
-                                                                <option value="1">One</option>
+                                                                {subcategories?.map((subcategory) => (
+                                                                    <option key={subcategory._id} value={subcategory._id}>
+                                                                        {subcategory.name}
+                                                                    </option>
+                                                                ))}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -124,8 +318,13 @@ const AdPost = () => {
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">City *</label>
-                                                            <select className="form-select" required>
+                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' required>
                                                                 <option>Select City</option>
+                                                                {data?.data?.map((val, index) => {
+                                                                    return (
+                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
+                                                                    )
+                                                                })}
                                                             </select>
                                                         </div>
                                                         <div className="col-md-6 mb-3">
@@ -134,8 +333,13 @@ const AdPost = () => {
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Province *</label>
-                                                            <select className="form-select" required>
+                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} onChange={(e) => getcity2(e.target.value, e.target.options[e.target.selectedIndex].text)} required>
                                                                 <option>Select Province</option>
+                                                                {province?.data?.map((val, index) => {
+                                                                    return (
+                                                                        <option key={index} value={val._id}>{val.name}</option>
+                                                                    )
+                                                                })}
                                                             </select>
                                                         </div>
                                                         <div className="col-md-6 mb-3">
@@ -145,7 +349,11 @@ const AdPost = () => {
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Ethnicity</label>
                                                             <select className="form-select">
-                                                                <option>Select Ethnicity</option>
+                                                                {ethicity?.data?.map((val, index) => {
+                                                                    return (
+                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
+                                                                    )
+                                                                })}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -156,31 +364,38 @@ const AdPost = () => {
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Body Stats</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Body Status" />
+                                                            <input type="text" className="form-control" placeholder="Enter Body Status" onChange={handleChange} />
+                                                            {errors.status && <p className="text-danger">{errors.status}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Height</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Height" />
+                                                            <input type="text" className="form-control" placeholder="Enter Height" onChange={handleChange} />
+                                                            {errors.height && <p className="text-danger">{errors.height}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Weight</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Weight" />
+                                                            <input type="text" className="form-control" placeholder="Enter Weight" onChange={handleChange} />
+                                                            {errors.weight && <p className="text-danger">{errors.weight}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Hair Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" />
+                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" onChange={handleChange} />
+                                                            {errors.haircolor && <p className="text-danger">{errors.haircolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Eye Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" />
+                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" onChange={handleChange} />
+                                                            {errors.eyecolor && <p className="text-danger">{errors.eyecolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Ad Title *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Title" required />
+                                                            <input type="text" className="form-control" placeholder="Enter Title" required onChange={handleChange} />
+                                                            {errors.adTitle && <p className="text-danger">{errors.adTitle}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Price</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Price" />
+                                                            <input type="text" className="form-control" placeholder="Enter Price" onChange={handleChange} />
+                                                            {errors.price && <p className="text-danger">{errors.price}</p>}
                                                         </div>
                                                     </div>
                                                 </>
@@ -189,22 +404,21 @@ const AdPost = () => {
                                                 <>
                                                     <div className="mb-3">
                                                         <label className="form-label">Description *</label>
-                                                        <textarea className="form-control" rows="3" placeholder="Enter Description" required></textarea>
+                                                        <textarea className="form-control" rows="3" placeholder="Enter Description" onChange={handleChange} required></textarea>
+                                                        {errors.description && <p className="text-danger">{errors.description}</p>}
                                                     </div>
                                                     <div className="mb-3">
                                                         <label className="form-label">Upload Images</label>
                                                         <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
                                                             {images.map((img, index) => (
                                                                 <div key={index} className="image-upload">
-                                                                    <input
-                                                                        type="file"
-                                                                        accept="image/*"
-                                                                        onChange={(e) => handleImageChange(index, e)}
-                                                                    />
-                                                                    {img ? (
+                                                                    <input type="file" accept="image/*" onChange={(e) => handleImageUpload(index, e)} />
+                                                                    {loading[index] ? (
+                                                                        <span>Loading...</span>
+                                                                    ) : img ? (
                                                                         <img src={img} alt="Preview" className="previewImage" />
                                                                     ) : (
-                                                                        <i className="fa-solid fa-camera-retro" style={{ fontSize: '2rem', color: '#4b164c' }}></i>
+                                                                        <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
                                                                     )}
                                                                 </div>
                                                             ))}
