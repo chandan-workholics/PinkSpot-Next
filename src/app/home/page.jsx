@@ -63,16 +63,16 @@ const HomePage = () => {
                                 <Swiper
                                     slidesPerView={1}
                                     spaceBetween={10}
-                                    autoplay={{
-                                        delay: 3000,
-                                        disableOnInteraction: false,
-                                    }}
+                                    // autoplay={{
+                                    //     delay: 3000,
+                                    //     disableOnInteraction: false,
+                                    // }}
                                     breakpoints={{
                                         640: { slidesPerView: 2, spaceBetween: 20 },
                                         768: { slidesPerView: 4, spaceBetween: 40 },
                                         1024: { slidesPerView: 4, spaceBetween: 50 },
                                     }}
-                                    modules={[Pagination, Autoplay]}
+                                    // modules={[Pagination, Autoplay]}
                                     className="mySwiper"
                                 >
                                     {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
@@ -88,20 +88,23 @@ const HomePage = () => {
                                                     <p>{post.city}</p>
                                                 </div>
                                                 {/* Added overlay to match the static design */}
-                                                <div className="overlay-sim-text-2 overlay-xs-1">
-                                                    <p className="mb-1">
-                                                        {post.description.length > maxLength
-                                                            ? `${post.description.slice(0, maxLength)}...`
-                                                            : post.description}
-                                                    </p>
-                                                    {post.description.length > maxLength && (
-                                                        <Link
-                                                            key={index}
-                                                            href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
-                                                        >
-                                                            Read More
-                                                        </Link>
-                                                    )}
+                                                <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
+                                                    <div className="">
+                                                        <p className="mb-1">
+                                                            {post.description.length > maxLength
+                                                                ? `${post.description.slice(0, maxLength)}...`
+                                                                : post.description}
+                                                        </p>
+                                                        {post.description.length > maxLength && (
+                                                            <Link
+                                                                className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
+                                                                key={index}
+                                                                href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                            >
+                                                                Read More
+                                                            </Link>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </SwiperSlide>
