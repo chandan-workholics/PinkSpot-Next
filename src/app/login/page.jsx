@@ -85,7 +85,7 @@ const Login = () => {
     };
 
     return (
-        <div className="container-fluid p-0">
+        <div className="container-fluid p-lg-0">
             <ToastContainer position="top-right" autoClose={3000} />
             <div className="login-page">
                 <Header className="w-100 shadow" />
@@ -97,60 +97,62 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <section>
-                            <div className="box">
-                                <div className="card-container">
-                                    <div className="form">
-                                        <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>
-                                        <form onSubmit={handleSubmit}>
+                        <div className="row h-100 d-flex align-items-center">
+                            <div className="col-lg-6 mx-auto pb-5 pb-lg-0">
+                                <div className="box">
+                                    <div className="card-container">
+                                        <div className="form">
+                                            <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>
+                                            <form onSubmit={handleSubmit}>
+                                                {isLogin ? (
+                                                    <>
+                                                        <div className="inputBx">
+                                                            <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
+                                                        </div>
+                                                        <div className="inputBx password">
+                                                            <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
+                                                        </div>
+                                                        <label className="remember mb-3">
+                                                            <input type="checkbox" className="me-2" /> Remember
+                                                        </label>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="inputBx">
+                                                            <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
+                                                        </div>
+                                                        <div className="inputBx">
+                                                            <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="Mobile Number" />
+                                                        </div>
+                                                        <div className="inputBx password">
+                                                            <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
+                                                        </div>
+                                                        <div className="inputBx password">
+                                                            <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
+                                                        </div>
+                                                        <label className="terms mb-3">
+                                                            <input type="checkbox" className="me-2" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
+                                                            I agree to the <Link href="#">Terms & Conditions</Link>
+                                                        </label>
+                                                    </>
+                                                )}
+                                                <div className="inputBx">
+                                                    <input type="submit" value={loading ? "Processing..." : isLogin ? "Log in" : "Sign up"} disabled={loading} />
+                                                </div>
+                                            </form>
                                             {isLogin ? (
                                                 <>
-                                                    <div className="inputBx">
-                                                        <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
-                                                    </div>
-                                                    <div className="inputBx password">
-                                                        <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
-                                                    </div>
-                                                    <label className="remember mb-3">
-                                                        <input type="checkbox" className="me-2" /> Remember
-                                                    </label>
+                                                    <p>Forgot password? <Link href="#">Click Here</Link></p>
+                                                    <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
                                                 </>
                                             ) : (
-                                                <>
-                                                    <div className="inputBx">
-                                                        <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
-                                                    </div>
-                                                    <div className="inputBx">
-                                                        <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="Mobile Number" />
-                                                    </div>
-                                                    <div className="inputBx password">
-                                                        <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
-                                                    </div>
-                                                    <div className="inputBx password">
-                                                        <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
-                                                    </div>
-                                                    <label className="terms mb-3">
-                                                        <input type="checkbox" className="me-2" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
-                                                        I agree to the <Link href="#">Terms & Conditions</Link>
-                                                    </label>
-                                                </>
+                                                <p>Already have an account? <span onClick={() => setIsLogin(true)}>Login</span></p>
                                             )}
-                                            <div className="inputBx">
-                                                <input type="submit" value={loading ? "Processing..." : isLogin ? "Log in" : "Sign up"} disabled={loading} />
-                                            </div>
-                                        </form>
-                                        {isLogin ? (
-                                            <>
-                                                <p>Forgot password? <Link href="#">Click Here</Link></p>
-                                                <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
-                                            </>
-                                        ) : (
-                                            <p>Already have an account? <span onClick={() => setIsLogin(true)}>Login</span></p>
-                                        )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>

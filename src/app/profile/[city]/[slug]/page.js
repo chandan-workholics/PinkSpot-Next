@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 import SwiperPage from '../../../components/Swiper/page'
 
 const Profile = () => {
-    const [posts, setPosts] = useState(null);  
+    const [posts, setPosts] = useState(null);
     const [data, setData] = useState([]);
     const [urlpath, SetUrlpath] = useState("");
     const { slug } = useParams();
@@ -24,7 +24,7 @@ const Profile = () => {
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
 
             if (response.data && response.data.data) {
-                setPosts(response.data.data);  
+                setPosts(response.data.data);
             } else {
                 console.error("Unexpected response format", response);
             }
@@ -69,12 +69,12 @@ const Profile = () => {
                         <Header className="position-absolute w-100" />
                         <div className="container">
                             <div className="banner-content text-start">
-                                <h1 className="text-white">Single Profile</h1>
-                                <h3 className="text-white">
-                                    Home
-                                    <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i>
-                                    Single Profile
-                                </h3>
+                                <div className="">
+                                    <h1 className="text-white">Single Profile</h1>
+                                    <h3 className="text-white">
+                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                    </h3>
+                                </div>
                             </div>
                         </div>
                     </div>
