@@ -2,14 +2,10 @@
 import Footer from '../../components/footer/page'
 import Header from '../../components/header/page'
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image';
 import MasonryGallery from '../../components/masonryGallery/page'
 import { useParams } from 'next/navigation'
 import callAPI, { interceptor } from '../../Common_Method/api'
-import { Pagination, Autoplay } from 'swiper/modules';
-import Sec3SliderImg from "../../../../../../public/images//sec3-sliderImg.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import SwiperPage from '../../components/Swiper/page'
@@ -17,12 +13,8 @@ import SwiperPage from '../../components/Swiper/page'
 const Profile = () => {
     const [posts, setPosts] = useState(null);  // Fixed: Use null or []
     const [data, setData] = useState([]);
-    const [urlpath, SetUrlpath] = useState("");
-    const [seotitle, Setseotitle] = useState("");
-    const [seodescription, Setseodescription] = useState("");
-    const [seoimage, Setseoimage] = useState("");
-    const [seokeywords, Setseokeywords] = useState("");
     const { slug } = useParams();
+     const [urlpath, SetUrlpath] = useState("");
     const maxLength = 10;
 
     const getPost = useCallback(async () => {
@@ -30,13 +22,8 @@ const Profile = () => {
             interceptor();
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
 
-            if (response.data && response.data.data) {
-                const postData = response.data.data;
-                setPosts(postData);  // Fixed: No need for posts?.data
-                Setseotitle(postData?.metatitle || "Default Title");
-                Setseodescription(postData?.metadescription || "Default Description");
-                Setseoimage(postData?.image1 || "default-image-url");
-                Setseokeywords(postData?.keywords || "");
+            if (response.data.data) {
+                setPosts(response.data.data); 
             } else {
                 console.error("Unexpected response format", response);
             }

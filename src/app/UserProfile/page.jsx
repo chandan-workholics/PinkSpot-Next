@@ -12,8 +12,6 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import callAPI from '../Common_Method/api';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { ClientPageRoot } from 'next/dist/client/components/client-page';
-
 
 
 const UserProfile = () => {
@@ -22,7 +20,8 @@ const UserProfile = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [posts, Setposts] = useState([{}]);
-
+    const [showModal, setShowModal] = useState(false);
+    const [myProfile, setMyProfile] = useState('')
     const router = useRouter();
     const usertoken = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
@@ -44,12 +43,32 @@ const UserProfile = () => {
         } else {
             fetchUserProfile();
             getpost();
+            getMyProfile();
         }
     }, [usertoken]);
 
     const handleEditClick = () => {
         setIsEditing(true);
     };
+
+    const handleDelete = async (_id) => {
+        try {
+            const response = await callAPI.DELETE(`/postad/deletepostadby_single_id/${_id}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Post deleted:", data);
+                getPost();
+                setShowModal(false);
+            } else {
+                console.error("Failed to delete post");
+            }
+        } catch (error) {
+            console.error("Error deleting post:", error);
+        }
+    };
+
+
 
     const handleUpdateClick = async () => {
         setIsEditing(false);
@@ -85,7 +104,7 @@ const UserProfile = () => {
         formData.append("image", e.target.files[0]);
         try {
             const response = await axios.post("http://206.189.130.102:4000/upload", formData);
-            console.log("response of image :",response)
+            console.log("response of image :", response)
             if (response?.data?.url) {
                 setProfile((prev) => ({ ...prev, image: response.data.url }));
             }
@@ -128,6 +147,22 @@ const UserProfile = () => {
             console.error("Error fetching user data:", error);
         }
     }
+
+    const getMyProfile = async () => {
+        try {
+            const response = await callAPI.get(`/postad/getpostadby_user_id/${userid}`);
+            if (response?.data?.data) {
+                setMyProfile(Array.isArray(response.data.data) ? response.data.data : []);
+            } else {
+                console.warn("No data received from API");
+                setMyProfile([]);
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            setMyProfile([]); // Set empty array to prevent rendering errors
+        }
+    };
+
 
     return (
         <>
@@ -314,29 +349,165 @@ const UserProfile = () => {
                                             </div>
                                         </div>
                                         <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                            <p><strong> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos, iure.</strong>
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla autem nam id in aperiam, excepturi iste aliquam est ipsam eum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, recusandae? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus, odio!</p>
-                                        </div>
-                                        <div className="tab-pane fade" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
-                                            <div className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
+                                        {myProfile.length > 0 ? (
+                                           myProfile.map((profile, indexx) => (
+                                            <div key={indexx} className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
                                                 <div className="row g-0">
                                                     <div className="col-md-3">
                                                         <div className="rounded-5 overflow-hidden">
-                                                            <Image src={profileImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                            <Image src={profile.image1} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                            <div className='ps-3'>
+                                                                <p className="mb-0">Order Id : {profile.orderid}</p>
+                                                                <p >Payment Status: {profile.paymentstatusdetail}</p>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div className="col-md-9">
-                                                        <div className="card-body">
-                                                            <h5 className="card-title">Card title</h5>
-                                                            <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                                            <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
-                                                            <Link href="/profile" className="btn bg-4b164c text-white rounded-pill shadow me-3">View Post</Link>
-                                                            <Link href="/profile" className="btn btn-warning text-white rounded-pill shadow me-3">Edit Post</Link>
-                                                            <Link href="/profile" className="btn btn-danger rounded-pill shadow">Delete Post</Link>
-                                                        </div>
+                                                                <div className="card-body">
+                                                                    <div>
+                                                                        <h5 className="card-title">{profile.title} </h5>
+                                                                        <p className="card-text">
+                                                            {profile.description.length > 0
+                                                                ? profile.description.substring(0, 200) + "..."
+                                                                : profile.description}
+                                                        </p>
+
+                                                                        <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago | City: {profile.city}</small></p>
+                                                                        <Link href={`/viewAdd/${profile?.slug}`} className="btn bg-4b164c text-white rounded-pill shadow me-3">View Ad</Link>
+                                                                        <button
+                                                                            className="btn btn-danger rounded-pill shadow"
+                                                                            onClick={() => setShowModal(true)}
+                                                                        >
+                                                                            Delete Post
+                                                                        </button>
+                                                                    </div>
+
+                                                                    {/* Modal */}
+                                                                    {showModal && (
+                                                                        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                                                                            <div className="modal-dialog modal-dialog-centered" role="document">
+                                                                                <div className="modal-content">
+                                                                                    <div className="modal-header">
+                                                                                        <h5 className="modal-title">Confirm Deletion</h5>
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn-close"
+                                                                                            onClick={() => setShowModal(false)}
+                                                                                        ></button>
+                                                                                    </div>
+                                                                                    <div className="modal-body">
+                                                                                        <p>Do you really want to delete this post permanently?</p>
+                                                                                    </div>
+                                                                                    <div className="modal-footer">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn btn-secondary"
+                                                                                            onClick={() => setShowModal(false)}
+                                                                                        >
+                                                                                            No
+                                                                                        </button>
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn btn-danger"
+                                                                                            onClick={handleDelete}
+                                                                                        >
+                                                                                            Yes, Delete
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {/* Modal Backdrop */}
+                                                                    {showModal && <div className="modal-backdrop fade show"></div>}
+                                                                </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                             ))
+                                            ) : (
+                                              <p>No profile data available.</p>
+                                            )}
+                                        </div>
+
+                                        <div className="tab-pane fade" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
+                                            {myProfile.length > 0 ? (
+                                                myProfile.map((profile, index) => (
+                                                    <div key={index} className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
+                                                        <div className="row g-0">
+                                                            <div className="col-md-3">
+                                                                <div className="rounded-5 overflow-hidden">
+                                                                    <Image key={index} src={profile.image1} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-md-9">
+                                                                <div className="card-body">
+                                                                    <div key={index}>
+                                                                        <h5 className="card-title">{profile.title}</h5>
+                                                                        <p className="card-text">
+                                                                            {profile.description.length > 30
+                                                                                ? profile.description.substring(0, 30) + "..."
+                                                                                : profile.description}
+                                                                        </p>
+
+                                                                        <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
+                                                                        <Link href={`/myProfile1/${profile?.slug}`} className="btn bg-4b164c text-white rounded-pill shadow me-3">View Post</Link>
+                                                                        <button
+                                                                            className="btn btn-danger rounded-pill shadow"
+                                                                            onClick={() => setShowModal(true)}
+                                                                        >
+                                                                            Delete Post
+                                                                        </button>
+                                                                    </div>
+                                                                    {/* Modal */}
+                                                                    {showModal && (
+                                                                        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                                                                            <div className="modal-dialog modal-dialog-centered" role="document">
+                                                                                <div className="modal-content">
+                                                                                    <div className="modal-header">
+                                                                                        <h5 className="modal-title">Confirm Deletion</h5>
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn-close"
+                                                                                            onClick={() => setShowModal(false)}
+                                                                                        ></button>
+                                                                                    </div>
+                                                                                    <div className="modal-body">
+                                                                                        <p>Do you really want to delete this post permanently?</p>
+                                                                                    </div>
+                                                                                    <div className="modal-footer">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn btn-secondary"
+                                                                                            onClick={() => setShowModal(false)}
+                                                                                        >
+                                                                                            No
+                                                                                        </button>
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn btn-danger"
+                                                                                            onClick={handleDelete}
+                                                                                        >
+                                                                                            Yes, Delete
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {/* Modal Backdrop */}
+                                                                    {showModal && <div className="modal-backdrop fade show"></div>}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p>No profile data available.</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

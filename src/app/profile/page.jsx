@@ -18,10 +18,6 @@ const Profile = () => {
     const { slug } = useParams();
     const [posts, setPosts] = useState([]);
     const [urlpath, SetUrlpath] = useState("");
-    const [seotitle, Setseotitle] = useState("");
-    const [seodescription, Setseodescription] = useState("");
-    const [seoimage, Setseoimage] = useState("");
-    const [seokeywords, Setseokeywords] = useState("");
     const maxLength = 80;
 
     const getPost = async () => {
@@ -32,17 +28,10 @@ const Profile = () => {
                 console.error("Slug is missing, cannot fetch post.");
                 return;
             }
-
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
 
             if (response.data && response.data.data) {
-                const postData = response.data.data;
-
-                setPosts([postData]);
-                Setseotitle(postData?.metatitle || "Default Title");
-                Setseodescription(postData?.metadescription || "Default Description");
-                Setseoimage(postData?.image1 || "default-image-url");
-                Setseokeywords(postData?.keywords || "");
+                setPosts(response.data.data);
             } else {
                 console.warn("No data found for slug:", slug);
                 setPosts([]);
@@ -52,9 +41,6 @@ const Profile = () => {
             setPosts([]);
         }
     };
-
-
-
 
     useEffect(() => {
         getPost();
