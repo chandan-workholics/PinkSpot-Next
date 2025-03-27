@@ -40,7 +40,7 @@ const Header = () => {
                                     <Link className="nav-link" href="/login">Register</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" href="/">Contact Us</Link>
+                                    <Link className="nav-link" href="/contactus">Contact Us</Link>
                                 </li>
                             </ul>
                             <div className="d-flex">

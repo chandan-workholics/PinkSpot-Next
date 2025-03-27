@@ -1,6 +1,4 @@
 "use client"
-import Footer from '../components/footer/Footer'
-import Header from '../components/header/Header'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import noImg from "../../../public/images/no-img.png";
@@ -9,6 +7,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
 import callAPI, { interceptor } from '../Common_Method/api'
+import dynamic from 'next/dynamic';
+const Header = dynamic(() => import("../components/header/Header"), { ssr: false });
+const Footer = dynamic(() => import("../components/footer/Footer"), { ssr: false });
+
 
 
 const HomePage = () => {

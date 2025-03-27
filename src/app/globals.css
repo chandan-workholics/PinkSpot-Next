@@ -1108,6 +1108,42 @@ a {
 
 /* AdPost-Page - End */
 
+/* Contact us css start */
+.contact-us-page {
+  background-color: #f9f9f9; /* Light Background */
+}
+
+.contact-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.contact-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.contact-img {
+  border-radius: 15px 0 0 15px;
+}
+
+.text-primary {
+  color: #4b164c !important;
+}
+
+.bg-dd88cf {
+  background-color: #dd88cf !important;
+}
+
+.btn.bg-dd88cf:hover {
+  background-color: #c477b8 !important;
+}
+
+/* contact us css end */
+
 /* Footer - Start */
 .footer {
   .searchCitySection {
