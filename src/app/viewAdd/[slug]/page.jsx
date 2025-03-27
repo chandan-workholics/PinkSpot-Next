@@ -1,22 +1,22 @@
 "use client"
-import Footer from '../../../components/footer/Footer';
-import Header from '../../../components/header/Header';
+import Footer from '../../components/footer/Footer';
+import Header from '../../components/header/Header';
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import Image from 'next/image';
-import MasonryGallery from '../../../components/masonryGallery/page'
+import MasonryGallery from '../../components/masonryGallery/page'
 import { useParams } from 'next/navigation'
-import callAPI, { interceptor } from '../../../Common_Method/api'
+import callAPI, { interceptor } from '../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '../../../components/Swiper/page'
+import SwiperPage from '../../components/Swiper/page'
 
-const Profile = () => {
+const ViewAdd = () => {
     const [posts, setPosts] = useState(null);  
     const [data, setData] = useState([]);
     const [urlpath, SetUrlpath] = useState("");
     const { slug } = useParams();
-    const maxLength = 10;
+    //const maxLength = 10;
 
     const getPost = useCallback(async () => {
         try {
@@ -168,4 +168,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default ViewAdd;

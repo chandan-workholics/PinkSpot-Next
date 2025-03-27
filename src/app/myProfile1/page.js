@@ -1,22 +1,17 @@
 "use client"
-import Footer from '../../../components/footer/Footer';
-import Header from '../../../components/header/Header';
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import Image from 'next/image';
-import MasonryGallery from '../../../components/masonryGallery/page'
+import MasonryGallery from '../components/masonryGallery/page'
 import { useParams } from 'next/navigation'
-import callAPI, { interceptor } from '../../../Common_Method/api'
+import callAPI, { interceptor } from '../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '../../../components/Swiper/page'
 
-const Profile = () => {
+const MyProfile1 = () => {
     const [posts, setPosts] = useState(null);  
     const [data, setData] = useState([]);
-    const [urlpath, SetUrlpath] = useState("");
     const { slug } = useParams();
-    const maxLength = 10;
 
     const getPost = useCallback(async () => {
         try {
@@ -24,7 +19,8 @@ const Profile = () => {
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
 
             if (response.data && response.data.data) {
-                setPosts(response.data.data);  
+               setPosts(response.data.data || []);
+              
             } else {
                 console.error("Unexpected response format", response);
             }
@@ -63,22 +59,20 @@ const Profile = () => {
 
     return (
         <>
-            <div className="container-fluid p-0">
-                <div className="profile-page">
-                    <div className='home-banner'>
-                        <Header className="position-absolute w-100" />
-                        <div className="container">
-                            <div className="banner-content text-start">
-                                <h1 className="text-white">Single Profile</h1>
-                                <h3 className="text-white">
-                                    Home
-                                    <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i>
-                                    Single Profile
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-
+             <div className="container-fluid p-0">
+                            <div className="profile-page">
+                                <div className='home-banner'>
+                                    <div className="container">
+                                        <div className="banner-content text-start">
+                                            <div className="">
+                                                <h1 className="text-white">Single Profile</h1>
+                                                <h3 className="text-white">
+                                                    Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                     <section className="container my-5">
                         <div className="row">
                             {/* Left Profile Card */}
@@ -158,14 +152,9 @@ const Profile = () => {
                         </div>
                     </section>
                 </div>
-                <div>
-                    <SwiperPage />
-
-                </div>
-                <Footer />
             </div >
         </>
     )
 }
 
-export default Profile;
+export default MyProfile1;

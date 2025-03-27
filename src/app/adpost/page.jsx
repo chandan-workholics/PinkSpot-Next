@@ -10,7 +10,6 @@ import callAPI from '../Common_Method/api';
 import axios from 'axios';
 
 const AdPost = () => {
-
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
     const [images, setImages] = useState(Array(20).fill(null));
@@ -21,16 +20,8 @@ const AdPost = () => {
     const [data, Setdata] = useState('');
     const [provincesid, setprovincesid] = useState('');
     const [provincesname, setprovincesname] = useState('');
-
-    const [alertname, setalertname] = useState(false);
-    const [alertage, setalertage] = useState(false);
     const [alertcity, setalertcity] = useState(false);
-    const [alertavailability, setalertnameavailability] = useState(false);
-    const [alertphone, setalertphone] = useState(false);
-    const [alerttitle, setalerttitle] = useState(false);
-    const [alertdescription, setalertdescription] = useState(false);
-    const [alertmainimage, setalertmainimage] = useState(false);
-
+   
     const [step, setStep] = useState(1);
     const totalSteps = 4;
     const [formData, setFormData] = useState({
@@ -70,25 +61,20 @@ const AdPost = () => {
     const handleImageUpload = async (index, event) => {
         const file = event.target.files[0];
         if (!file) return;
-
         const maxSize = 1024 * 1024 * 1024; // 1GB limit
         if (file.size > maxSize) {
             alert("File size exceeds the maximum limit.");
             return;
         }
-
         setLoading((prev) => ({ ...prev, [index]: true }));
-
         const formData = new FormData();
         formData.append("image", file);
-
         try {
             const response = await axios.post("http://206.189.130.102:4000/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-
             if (response.data?.data?.url) {
                 const newImages = [...images];
                 newImages[index] = response.data.data.url;
@@ -150,11 +136,10 @@ const AdPost = () => {
             if (!formData.description) tempErrors.description = "Description is required";
             if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
         }
-
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
