@@ -1,17 +1,26 @@
-// src/components/ProtectedRoute.jsx
-import React from "react";
-import { Navigate } from "react-router-dom";
+"use client";
 
-const ProtectedRoute = ({ element }) => {
-    const token = sessionStorage.getItem("token"); // or localStorage if needed
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-    if (!token) {
-        // If there's no token, redirect to the login page
-        return <Navigate to="/" />;
-    }
+const ProtectedRoute = (WrappedComponent) => {
+  return function ProtectedComponent(props) {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const router = useRouter();
 
-    // If the user has a token, render the passed component
-    return element;
+    useEffect(() => {
+      const token = sessionStorage.getItem("token"); // or localStorage if needed
+      if (!token) {
+        router.replace("/login"); // Redirect to login if no token
+      } else {
+        setIsAuthenticated(true);
+      }
+    }, []);
+
+    if (!isAuthenticated) return null; // Prevents flicker
+
+    return <WrappedComponent {...props} />;
+  };
 };
 
 export default ProtectedRoute;

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React, { useState,useEffect } from 'react'
 import logo from '../../../../public/images/pink-logo.png'
 import { useRouter } from 'next/navigation'
+import ProtectedRoute from '../../Common_Method/protectedroute'
 
 const Header = () => {
     const router = useRouter();

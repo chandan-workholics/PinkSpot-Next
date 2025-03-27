@@ -8,6 +8,7 @@ import Header from '../components/header/Header'
 import AdPostFormImg from "../../../public/images/adpost-formImg.png";
 import callAPI from '../Common_Method/api';
 import axios from 'axios';
+import ProtectedRoute from '../Common_Method/protectedroute';
 
 const AdPost = () => {
     const [category, setCategory] = useState('');
@@ -431,4 +432,4 @@ const AdPost = () => {
     )
 }
 
-export default AdPost
+export default ProtectedRoute(AdPost)

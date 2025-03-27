@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'
 import callAPI, { interceptor } from '../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
+import ProtectedRoute from '../../Common_Method/protectedroute';
 
 const MyProfile1 = () => {
     const [posts, setPosts] = useState(null);  // Fixed: Use null or []
@@ -158,4 +159,4 @@ const MyProfile1 = () => {
     )
 }
 
-export default MyProfile1;
+export default ProtectedRoute(MyProfile1);
