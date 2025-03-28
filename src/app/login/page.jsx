@@ -100,6 +100,12 @@ const Login = () => {
                         <div className="row h-100 d-flex align-items-center">
                             <div className="col-lg-6 mx-auto pb-5 pb-lg-0">
                                 <div className="box">
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
                                     <div className="card-container">
                                         <div className="form">
                                             <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>

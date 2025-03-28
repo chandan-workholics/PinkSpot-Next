@@ -43,7 +43,7 @@ const Footer = () => {
                 </div>
                 <div className="bg-4b164c">
                     <div className="container">
-                        <footer className="py-5">
+                        <footer className="pt-5">
                             <div className="row">
                                 {/* Newsletter Section */}
                                 <div className="col-md-5 mb-3">
@@ -91,8 +91,8 @@ const Footer = () => {
                             </div>
 
                             {/* Copyright & Social Icons */}
-                            <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-                                <p className='text-white'>© 2024 Company, Inc. All rights reserved.</p>
+                            <div className="d-flex flex-column flex-sm-row justify-content-between py-4 border-top">
+                                <p className='text-white mb-0'>© 2024 Company, Inc. All rights reserved.</p>
 
                             </div>
                         </footer>
