@@ -65,6 +65,9 @@ const HomePage = () => {
                                 <Swiper
                                     slidesPerView={1}
                                     spaceBetween={10}
+                                    pagination={{
+                                        clickable: true,
+                                    }}
                                     autoplay={{
                                         delay: 3000,
                                         disableOnInteraction: false,
@@ -75,7 +78,7 @@ const HomePage = () => {
                                         1024: { slidesPerView: 4, spaceBetween: 50 },
                                     }}
                                     modules={[Pagination, Autoplay]}
-                                    className="mySwiper"
+                                    className="mySwiper pb-5"
                                 >
                                     {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                         <SwiperSlide key={index}>
@@ -119,23 +122,25 @@ const HomePage = () => {
                     <div className="home-section4">
                         <section className="container my-5">
                             <div className="row align-items-center">
-                                <div className="col-md-5">
-                                    <h2 className="fw-bold">
+                                <div className="col-md-5 mb-4 mb-lg-0">
+                                    <h2 className="fw-bold text-center text-lg-start">
                                         Enjoy This Our <br /> <span className="text-dd88cf">Special</span> Features
                                     </h2>
-                                    <p>
+                                    <p className='text-center text-lg-start'>
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
                                         repudiandae odit dolorem quis laudantium impedit beatae perferendis
                                         natus, hic libero sed atque.
                                     </p>
-                                    <p>
+                                    <p className='text-center text-lg-start'>
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
                                         repudiandae odit dolorem quis laudantium impedit beatae perferendis
                                         natus, hic libero sed atque.
                                     </p>
-                                    <Link href='/allCategory' className="btn bg-dd88cf text-white">
-                                        Learn More <span>&raquo;</span>
-                                    </Link>
+                                    <div className="d-flex">
+                                        <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
+                                            Learn More <span>&raquo;</span>
+                                        </Link>
+                                    </div>
                                 </div>
                                 <div className="col-md-7">
                                     <div className="row g-4">
