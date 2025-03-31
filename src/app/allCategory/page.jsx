@@ -148,15 +148,17 @@ const AllCategory = () => {
                     </div>
                     <div className="container mt-2">
                         {/* Filters */}
-                        <div className="row bg-4b164c rounded-pill py-3 px-2 my-5">
+                        <div className="row bg-4b164c rounded-0 rounded-lg-pill py-3 px-2 my-5">
                             <div className="col-md-2">
                                 <select
                                     className="form-select filter-btn"
                                     name="subcategoryid"
                                     value={filters.subcategoryid}
                                     onChange={handleChange}
-                                    style={{borderTopLeftRadius:"18px",
-                                        borderBottomLeftRadius:"18px"}}
+                                    // style={{
+                                    //     borderTopLeftRadius: "18px",
+                                    //     borderBottomLeftRadius: "18px"
+                                    // }}
                                 >
                                     <option>Sub-Category</option>
                                     {subcategory.data?.map((val, index) => (
@@ -277,12 +279,13 @@ const AllCategory = () => {
                                                                 alt="..."
                                                             />
                                                         </div>
-                                                        <div className="card-content">
+                                                        <div className="card-content shadow-lg">
                                                             <h3 className="per-name">{val?.name}</h3>
                                                             <h4 className="per-ethnicity">{val?.ethicity}</h4>
                                                             <h4 className="per-age">Age : {val?.age}</h4>
                                                             <h5 className="per-city">
                                                                 <span>
+                                                                    <i className="fa-solid fa-location-dot"></i>
                                                                 </span>{" "}
                                                                 {val?.city}
                                                             </h5>

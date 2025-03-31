@@ -14,7 +14,7 @@ function ContactUs() {
             <section className="h-100 contact-banner bg-ffdef7">
                 <div className="container h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">
-                        <div className="col-12 col-lg-10">
+                        <div className="col-12 col-lg-10" data-aos="zoom-in" data-aos-duration="2000">
                             <div className="card contact-card shadow-lg p-4 border-0 rounded-5">
                                 <div className="row g-0 align-items-center">
                                     {/* Image Section - Hidden on Small Screens */}
