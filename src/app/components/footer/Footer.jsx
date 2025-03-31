@@ -10,32 +10,32 @@ const Footer = () => {
                     <div className="container py-5">
                         <div className="row">
                             <div className="col-md-10 mx-auto">
-                                <h2 className="text-center fw-bold text-4b164c mb-4">Top Searches In</h2>
+                                <h2 className="text-center fw-bold text-4b164c mb-4" data-aos="fade-down" data-aos-duration="2000">Top Searches In</h2>
                                 <p className="searchCitySection text-center">
-                                    <span className="cityBadge">Manitoba</span>
-                                    <span className="cityBadge">Trois Rivieres</span>
-                                    <span className="cityBadge">Sarnia</span>
-                                    <span className="cityBadge">Drummondville</span>
-                                    <span className="cityBadge">Niagra Region</span>
-                                    <span className="cityBadge">Granby</span>
-                                    <span className="cityBadge">Windsor</span>
-                                    <span className="cityBadge">London</span>
-                                    <span className="cityBadge">Barrie</span>
-                                    <span className="cityBadge">Saskatoon</span>
-                                    <span className="cityBadge">Regina</span>
-                                    <span className="cityBadge">Sherbrooke</span>
-                                    <span className="cityBadge">Hamilton</span>
-                                    <span className="cityBadge">Mississuaga</span>
-                                    <span className="cityBadge">Brampton</span>
-                                    <span className="cityBadge">Halifax</span>
-                                    <span className="cityBadge">Quebec</span>
-                                    <span className="cityBadge">Vancouver</span>
-                                    <span className="cityBadge">Montreal</span>
-                                    <span className="cityBadge">Winnipeg</span>
-                                    <span className="cityBadge">Ottawa</span>
-                                    <span className="cityBadge">City Of Toronto</span>
-                                    <span className="cityBadge">Calgary</span>
-                                    <span className="cityBadge">Edmonton</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Manitoba</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Trois Rivieres</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sarnia</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Drummondville</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Niagra Region</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Granby</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Windsor</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">London</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Barrie</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Saskatoon</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Regina</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sherbrooke</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Hamilton</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Mississuaga</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Brampton</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Halifax</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Quebec</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Vancouver</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Montreal</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Winnipeg</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Ottawa</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">City Of Toronto</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Calgary</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Edmonton</span>
                                 </p>
                             </div>
                         </div>
