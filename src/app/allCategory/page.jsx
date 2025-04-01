@@ -5,6 +5,7 @@ import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import { useParams } from "next/navigation";
+import filterImg from "../../../public/images/filterImg2.png";
 
 const AllCategory = () => {
     const { category } = useParams();
@@ -138,85 +139,111 @@ const AllCategory = () => {
                         <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
-                                    <h1 className="text-white">Single Profile</h1>
+                                    <h1 className="text-white">All Category</h1>
                                     <h3 className="text-white">
-                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> All Category
                                     </h3>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="container mt-2">
-                        {/* Filters */}
-                        <div className="row bg-4b164c rounded-0 rounded-lg-pill py-3 px-2 my-5">
-                            <div className="col-md-2">
-                                <select
-                                    className="form-select filter-btn"
-                                    name="subcategoryid"
-                                    value={filters.subcategoryid}
-                                    onChange={handleChange}
-                                    // style={{
-                                    //     borderTopLeftRadius: "18px",
-                                    //     borderBottomLeftRadius: "18px"
-                                    // }}
-                                >
-                                    <option>Sub-Category</option>
-                                    {subcategory.data?.map((val, index) => (
-                                        <option key={index} value={val._id}>
-                                            {val.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="0">Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="0">Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="0">Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="0">Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <button
-                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-2 px-3"
-                                    onClick={fetchFilteredPosts}
-                                >
-                                    <i className="fa-solid fa-magnifying-glass me-1"></i>
-                                    Search
-                                </button>
-                                <button
-                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill ps-2 pe-3"
-                                    onClick={fetchFilteredPosts}
-                                >
-                                    <i className="fa-solid fa-ban me-1"></i>
-                                    Clear
-                                </button>
+                    <div className="container py-5 filterSection">
+
+                        <div className="p-2 mb-5 rounded-5 border-0 shadow-lg w-100">
+                            <div className="bg-4b164c rounded-5 p-4">
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className="">
+                                            <img src={filterImg.src} alt="" className="w-100" />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-8">
+                                        <div className="row">
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select
+                                                    className="form-select filter-btn position-relative"
+                                                    name="subcategoryid"
+                                                    value={filters.subcategoryid}
+                                                    onChange={handleChange}
+                                                >
+                                                    <option>Sub-Category</option>
+                                                    {subcategory.data?.map((val, index) => (
+                                                        <option key={index} value={val._id}>
+                                                            {val.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select className="form-select" aria-label="Default select example">
+                                                    <option value="0">Open this select menu</option>
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select className="form-select" aria-label="Default select example">
+                                                    <option value="0">Open this select menu</option>
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select className="form-select" aria-label="Default select example">
+                                                    <option value="0">Open this select menu</option>
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select className="form-select" aria-label="Default select example">
+                                                    <option value="0">Open this select menu</option>
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-12">
+                                                <button
+                                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-2 py-2 px-4"
+                                                    onClick={fetchFilteredPosts}
+                                                >
+                                                    <i className="fa-solid fa-magnifying-glass me-1"></i>
+                                                    Search
+                                                </button>
+                                                <button
+                                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-4"
+                                                    onClick={fetchFilteredPosts}
+                                                >
+                                                    <i className="fa-solid fa-ban me-1"></i>
+                                                    Clear
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {/* Filters */}
+
 
                         {/* Posts Section */}
                         <div className="container box-detail" style={{ minHeight: "100vh" }}>

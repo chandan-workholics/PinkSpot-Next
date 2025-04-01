@@ -13,12 +13,17 @@ const Footer = dynamic(() => import("../components/footer/Footer"), { ssr: false
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-AOS.init();
 
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
     const maxLength = 90;
+    
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            AOS.init();
+        }
+    }, []);
 
     const getPosts = async () => {
         try {
@@ -77,7 +82,7 @@ const HomePage = () => {
                                     }}
                                     breakpoints={{
                                         640: { slidesPerView: 2, spaceBetween: 20 },
-                                        768: { slidesPerView: 4, spaceBetween: 40 },
+                                        768: { slidesPerView: 2, spaceBetween: 40 },
                                         1024: { slidesPerView: 4, spaceBetween: 50 },
                                     }}
                                     modules={[Pagination, Autoplay]}

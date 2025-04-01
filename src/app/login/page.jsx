@@ -6,10 +6,6 @@ import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
-AOS.init();
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
