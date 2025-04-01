@@ -9,7 +9,7 @@ const Footer = () => {
                 <div className="bg-faedf8">
                     <div className="container py-5">
                         <div className="row">
-                            <div className="col-md-10 mx-auto">
+                            <div className="col-lg-10 mx-auto">
                                 <h2 className="text-center fw-bold text-4b164c mb-4" data-aos="fade-down" data-aos-duration="2000">Top Searches In</h2>
                                 <p className="searchCitySection text-center">
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Manitoba</span>

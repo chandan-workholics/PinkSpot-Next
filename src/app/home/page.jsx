@@ -130,7 +130,7 @@ const HomePage = () => {
                     <div className="home-section4">
                         <section className="container my-5">
                             <div className="row align-items-center">
-                                <div className="col-md-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1800">
+                                <div className="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1800">
                                     <h2 className="fw-bold text-center text-lg-start">
                                         Enjoy This Our <br /> <span className="text-dd88cf">Special</span> Features
                                     </h2>
@@ -150,7 +150,7 @@ const HomePage = () => {
                                         </Link>
                                     </div>
                                 </div>
-                                <div className="col-md-7" data-aos="fade-left" data-aos-duration="2000">
+                                <div className="col-lg-7" data-aos="fade-left" data-aos-duration="2000">
                                     <div className="row g-4">
                                         <div className="col-md-6 d-flex align-items-center">
                                             <div className="">
