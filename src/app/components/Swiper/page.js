@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation"
 const SwiperPage = () => {
     const [posts, setPosts] = useState([]);
     const router = useRouter()
-    const maxLength = 10;
+    const maxLength = 90;
     const getPosts = async () => {
         try {
             interceptor();
@@ -53,7 +53,7 @@ const SwiperPage = () => {
                             }}
                             breakpoints={{
                                 640: { slidesPerView: 2, spaceBetween: 20 },
-                                768: { slidesPerView: 4, spaceBetween: 40 },
+                                768: { slidesPerView: 2, spaceBetween: 40 },
                                 1024: { slidesPerView: 4, spaceBetween: 50 },
                             }}
                             modules={[Pagination, Autoplay]}
@@ -84,6 +84,7 @@ const SwiperPage = () => {
                                                 </p>
                                                 {post.description.length > maxLength && (
                                                     <Link
+                                                        className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
                                                         key={index}
                                                         href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                     >

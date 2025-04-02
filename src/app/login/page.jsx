@@ -91,15 +91,23 @@ const Login = () => {
                 <Header className="w-100 shadow" />
                 <div className="row main-card">
                     <div className="col-md-6 d-flex align-items-center justify-content-center">
-                        <div className="login-content p-5 p-xl-5">
-                            <h1 className="fw-bold text-white">Welcome to <br /><span className="text-4b164c">PINKSPOT</span></h1>
-                            <h4 className="text-white">Your trusted platform for advertising</h4>
+                        <div className="login-content p-2 pt-4 p-xl-5" data-aos="fade-up" data-aos-duration="1000">
+                            <h1 className="fw-bold text-white mb-0">Welcome to </h1>
+                            <h2 className="fw-bold"><span className="text-4b164c">PINKSPOT</span></h2>
+                            <h5 className="text-white fw-normal">
+                                Your trusted platform for advertising,Lorem ipsum dolor sit amet consectetur adipisicing elit. vel sed nemo debitis odit qui saepe!</h5>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="row h-100 d-flex align-items-center">
-                            <div className="col-lg-6 mx-auto pb-5 pb-lg-0">
-                                <div className="box">
+                            <div className="col-lg-6 col-xxl-5 mx-auto pb-5 pt-3 pt-lg-5">
+                                <div className="box" data-aos="fade-down" data-aos-duration="1000">
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
+                                    <div className="square"></div>
                                     <div className="card-container">
                                         <div className="form">
                                             <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>
