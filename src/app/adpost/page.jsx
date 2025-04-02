@@ -24,7 +24,7 @@
 //     const [alertcity, setalertcity] = useState(false);
 //     const [emptyFields, setEmptyFields] = useState([]);
 
-   
+
 //     const [step, setStep] = useState(1);
 //     const totalSteps = 4;
 //     const [formData, setFormData] = useState({
@@ -71,21 +71,21 @@
 //         price: "",
 //         images: []
 //     });
-    
+
 //     const handleShow = () => {
 //        try {
 //         if (!user) {
 //             console.error("User object is undefined");
 //             return;
 //         }
-    
+
 //         const {
 //             name, age, city, ethnicity, availability, bodystatus, phone, height, weight,
 //             haircolor, eyecolor, title, description, price, images
 //         } = user;
-    
+
 //         const emptyFieldsList = [];
-    
+
 //         if (!name) emptyFieldsList.push('name');
 //         if (!age) emptyFieldsList.push('age');
 //         if (!city) emptyFieldsList.push('city');
@@ -100,9 +100,9 @@
 //         if (!eyecolor) emptyFieldsList.push('eyecolor');
 //         if (!price) emptyFieldsList.push('price');
 //         if (!images || images.length === 0) emptyFieldsList.push('images');
-    
+
 //         setEmptyFields(emptyFieldsList);
-    
+
 //         if (emptyFieldsList.length > 0) {
 //             const firstEmptyField = document.querySelector(`[name=${emptyFieldsList[0]}]`);
 //             if (firstEmptyField) {
@@ -113,7 +113,7 @@
 //         console.log(error,"Error while submitting form");
 //        }
 //     };
-    
+
 
 //     const handleChange = (e) => {
 //         const { name, value } = e.target;
@@ -202,7 +202,7 @@
 //         setErrors(tempErrors);
 //         return Object.keys(tempErrors).length === 0;
 //     };
-    
+
 //     const handleSubmit = (e) => {
 //         e.preventDefault();
 //         if (validateForm()) {
@@ -522,14 +522,16 @@ const AdPost = () => {
     const [alertcity, setalertcity] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
 
-   
+
     const [step, setStep] = useState(1);
     const totalSteps = 4;
     const [formData, setFormData] = useState({
+        category: "",
+        subCategory: "",
         name: "",
         age: "",
         city: "",
-        mobile: "",
+        phone: "",
         province: "",
         availability: "",
         ethnicity: "",
@@ -553,6 +555,8 @@ const AdPost = () => {
     };
 
     const [user, setUser] = useState({
+        category: "",
+        subCategory: "",
         name: "",
         age: "",
         city: "",
@@ -567,59 +571,57 @@ const AdPost = () => {
         title: "",
         description: "",
         price: "",
-        images: []
+        images: [null]
     });
-    
+
     const handleShow = () => {
-       try {
-        if (!user) {
-            console.error("User object is undefined");
-            return;
-        }
-    
-        const {
-            name, age, city, ethnicity, availability, bodystatus, phone, height, weight,
-            haircolor, eyecolor, title, description, price, images
-        } = user;
-    
-        const emptyFieldsList = [];
-    
-        if (!name) emptyFieldsList.push('name');
-        if (!age) emptyFieldsList.push('age');
-        if (!city) emptyFieldsList.push('city');
-        if (!availability) emptyFieldsList.push('availability');
-        if (!phone) emptyFieldsList.push('phone');
-        if (!title) emptyFieldsList.push('title');
-        if (!description) emptyFieldsList.push('description');
-        if (!bodystatus) emptyFieldsList.push('bodystatus');
-        if (!height) emptyFieldsList.push('height');
-        if (!weight) emptyFieldsList.push('weight');
-        if (!haircolor) emptyFieldsList.push('haircolor');
-        if (!eyecolor) emptyFieldsList.push('eyecolor');
-        if (!price) emptyFieldsList.push('price');
-        if (!images || images.length === 0) emptyFieldsList.push('images');
-    
-        setEmptyFields(emptyFieldsList);
-    
-        if (emptyFieldsList.length > 0) {
-            const firstEmptyField = document.querySelector(`[name=${emptyFieldsList[0]}]`);
-            if (firstEmptyField) {
-                firstEmptyField.scrollIntoView({ behavior: 'smooth' });
+        try {
+            if (!formData || typeof formData !== "object") {
+                console.error("Form data is undefined or not an object");
+                return;
             }
+
+            console.log("Form data:", formData);
+
+            const {
+                name, age, city, availability, phone, adTitle, description,
+                status, height, weight, haircolor, eyecolor, price, images
+            } = formData;
+
+            const emptyFieldsList = Object.entries({
+                name, age, city, availability, phone, adTitle, description,
+                status, height, weight, haircolor, eyecolor, price,
+                images: images && images.length > 0 ? images : null,
+            })
+                .filter(([_, value]) => !value)
+                .map(([key]) => key);
+
+            if (emptyFieldsList.length > 0) {
+                console.warn("Missing fields:", emptyFieldsList.join(", "));
+                setEmptyFields(emptyFieldsList);
+
+                // Scroll to first empty field
+                const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
+                if (firstEmptyField) {
+                    firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
+                    firstEmptyField.focus();
+                }
+                return;
+            }
+           alert("form submitting successfully")
+            console.log("Form is complete. Proceeding...");
+        } catch (error) {
+            console.error("Error while checking form fields:", error);
         }
-       } catch (error) {
-        console.log(error,"Error while submitting form");
-       }
     };
-    
+
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
-
 
     const handleImageUpload = async (index, event) => {
         const file = event.target.files[0];
@@ -629,27 +631,41 @@ const AdPost = () => {
             alert("File size exceeds the maximum limit.");
             return;
         }
+    
         setLoading((prev) => ({ ...prev, [index]: true }));
         const formData = new FormData();
         formData.append("image", file);
+    
         try {
             const response = await axios.post("http://206.189.130.102:4000/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: { "Content-Type": "multipart/form-data" },
             });
-            if (response.data?.data?.url) {
-                const newImages = [...images];
-                newImages[index] = response.data.data.url;
-                setImages(newImages);
+    
+            console.log("Upload Response:", response.data); 
+    
+            const imageUrl = response.data?.data?.url;  
+            if (imageUrl) {
+                setImages((prevImages) => {
+                    const newImages = [...prevImages];
+                    newImages[index] = imageUrl;
+                    return newImages;
+                });
+            } else {
+                console.error("Image URL not found in response.");
             }
         } catch (error) {
-            console.error("Upload failed:", error);
+            if (error.response) {
+                console.error("Server Error:", error.response.data);
+            } else if (error.request) {
+                console.error("No Response from Server:", error.request);
+            } else {
+                console.error("Error:", error.message);
+            }
         } finally {
             setLoading((prev) => ({ ...prev, [index]: false }));
         }
     };
-
+    
 
     const getCategory = async () => {
         try {
@@ -688,7 +704,7 @@ const AdPost = () => {
             if (!formData.name) tempErrors.name = "Name is required";
             if (!formData.age || isNaN(formData.age) || formData.age <= 0)
                 tempErrors.age = "Enter a valid age";
-            if (!formData.city) tempErrors.city = "City is required";
+            // if (!formData.city) tempErrors.city = "City is required";
             if (!formData.mobile || !/^\d{10}$/.test(formData.mobile))
                 tempErrors.mobile = "Enter a valid 10-digit number";
             if (!formData.province) tempErrors.province = "Province is required";
@@ -702,7 +718,7 @@ const AdPost = () => {
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -747,11 +763,11 @@ const AdPost = () => {
     };
 
 
-    const getcity2 = async (id, name) => {
+    const getcity2 = async (provinceId, name) => {
         try {
-            setprovincesid(id);
+            setprovincesid(provinceId);
             setprovincesname(name);
-            const response = await callAPI.get(`/getallcity/${id}`);
+            const response = await callAPI.get(`/getallcity/${provinceId}`);
             if (response?.data) {
                 Setdata(response.data || []);
             }
@@ -761,7 +777,12 @@ const AdPost = () => {
         }
     };
 
-
+    useEffect(() => {
+        if (formData.province) {
+            getcity2(formData.province);
+        }
+    }, [formData.province]);
+    
     useEffect(() => {
         getCategory();
         fetchSubCategories();
@@ -794,8 +815,8 @@ const AdPost = () => {
                         <div className="container my-5">
                             <div className="row justify-content-center">
                                 <h2 className="text-center fw-bold text-4b164c mb-4">Fill Out the Form Below</h2>
-                                <div className="col-lg-6 d-lg-flex align-items-center d-none">
-                                    <Image src={AdPostFormImg.src} alt="Profile" width={400} height={600} className="w-100 object-fit-contain adpost-leftImg" />
+                                <div className="col-lg-6 d-flex align-items-center">
+                                    <Image src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain" />
                                 </div>
                                 <div className="col-lg-6 d-flex align-items-center">
                                     <div className="form-container w-100">
@@ -832,17 +853,28 @@ const AdPost = () => {
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Category *</label>
-                                                            <select className="form-select" required>
-//                                                                 <option value="0">Open this select menu</option>
-//                                                                 {Array.isArray(category?.data) ? category?.data?.map((cat, index) => (
-                                                                <option value="1" key={index}>{cat.name}</option>
-                                                            )) : <option>No category available</option>}
+                                                            <select
+                                                                className="form-select"
+                                                                name="category"
+                                                                value={formData.category}
+                                                                onChange={handleChange}
+                                                                required
+                                                            >
+                                                                <option value="">Select a category</option>
+                                                                {Array.isArray(category?.data) && category.data.length > 0 ? (
+                                                                    category.data.map((cat, index) => (
+                                                                        <option value={cat.id} key={index}>{cat.name}</option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option disabled>No category available</option>
+                                                                )}
                                                             </select>
-                                                            {errors.category && <p>{errors.category}</p>}
+                                                            {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
                                                         </div>
+
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Sub Category *</label>
-                                                            <select className="form-select" required>
+                                                            <select className="form-select" name='subCategory' value={formData.subCategory} onChange={handleChange} required>
                                                                 <option value="0">Open this select menu</option>
                                                                 {subcategories?.map((subcategory) => (
                                                                     <option key={subcategory._id} value={subcategory._id}>
@@ -860,17 +892,17 @@ const AdPost = () => {
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Name *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Name" required />
+                                                            <input type="text" className="form-control" placeholder="Enter Name" name='name' value={formData.name} onChange={handleChange} required />
                                                         </div>
                                                         {errors.name && <p>{errors.name}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Age *</label>
-                                                            <input type="number" className="form-control" placeholder="Enter Age" required />
+                                                            <input type="number" className="form-control" placeholder="Enter Age" name='age' value={formData.age} onChange={handleChange} required />
                                                         </div>
                                                         {errors.age && <p>{errors.age}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">City *</label>
-                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' required>
+                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' value={formData.city} onChange={handleChange} required>
                                                                 <option>Select City</option>
                                                                 {data?.data?.map((val, index) => {
                                                                     return (
@@ -882,34 +914,65 @@ const AdPost = () => {
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Mobile Number *</label>
-                                                            <input type="number" className="form-control" placeholder="Enter Mobile Number" required />
+                                                            <input
+                                                                type="number"
+                                                                className="form-control"
+                                                                placeholder="Enter Mobile Number"
+                                                                name="phone"
+                                                                value={formData.phone}
+                                                                onChange={handleChange}
+                                                                required
+                                                            />
+                                                            {errors.phone && <p>{errors.phone}</p>}
                                                         </div>
-                                                        {errors.phone && <p>{errors.phone}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Province *</label>
-                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} onChange={(e) => getcity2(e.target.value, e.target.options[e.target.selectedIndex].text)} required>
-                                                                <option>Select Province</option>
-                                                                {province?.data?.map((val, index) => {
-                                                                    return (
-                                                                        <option key={index} value={val._id}>{val.name}</option>
-                                                                    )
-                                                                })}
+                                                            <select
+                                                                className={`form-select ${alertcity ? 'emptyInput' : ''}`}
+                                                                name="province"
+                                                                value={formData.province || ""}
+                                                                onChange={(e) => {
+                                                                    handleChange(e);
+                                                                    if (e.target.value) {  
+                                                                        getcity2(e.target.value, e.target.options[e.target.selectedIndex].text);
+                                                                    }
+                                                                }}
+                                                                required
+                                                            >
+                                                                <option value="">Select Province</option>
+                                                                {Array.isArray(province?.data) && province.data.length > 0 ? (
+                                                                    province.data.map((val) => (
+                                                                        <option key={val._id} value={val._id}>
+                                                                            {val.name}
+                                                                        </option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option disabled>No provinces available</option>
+                                                                )}
                                                             </select>
-                                                            {errors.province && <p>{errors.province}</p>}
+
+                                                            {errors.province && <p className="text-danger">{errors.province}</p>}
                                                         </div>
+
+
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Availability *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Availability" required />
+                                                            <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
                                                         </div>
                                                         {errors.availability && <p>{errors.availability}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Ethnicity</label>
-                                                            <select className="form-select">
-                                                                {ethicity?.data?.map((val, index) => {
-                                                                    return (
-                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
-                                                                    )
-                                                                })}
+                                                            <select
+                                                                className="form-select"
+                                                                name="ethnicity"
+                                                                value={formData.ethnicity}
+                                                                onChange={handleChange}
+                                                            >
+                                                                {ethicity?.data?.map((val, index) => (
+                                                                    <option key={index} value={val.name}>
+                                                                        {val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}
+                                                                    </option>
+                                                                ))}
                                                             </select>
                                                             {errors.ethnicity && <p>{errors.ethnicity}</p>}
                                                         </div>
@@ -921,38 +984,37 @@ const AdPost = () => {
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Body Stats</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Body Status" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Body Stats" value={formData.status} name='status' onChange={handleChange} />
                                                             {errors.bodystatus && <p className="text-danger">{errors.bodystatus}</p>}
                                                         </div>
-                                                        {errors.bodystatus && <p>{errors.bodystatus}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Height</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Height" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
                                                             {errors.height && <p className="text-danger">{errors.height}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Weight</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Weight" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
                                                             {errors.weight && <p className="text-danger">{errors.weight}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Hair Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolor' value={formData.haircolor} onChange={handleChange} />
                                                             {errors.haircolor && <p className="text-danger">{errors.haircolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Eye Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolor' value={formData.eyecolor} onChange={handleChange} />
                                                             {errors.eyecolor && <p className="text-danger">{errors.eyecolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Ad Title *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Title" required onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Title" name='adTitle' required value={formData.adTitle} onChange={handleChange} />
                                                             {errors.adTitle && <p className="text-danger">{errors.adTitle}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Price</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Price" onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
                                                             {errors.price && <p className="text-danger">{errors.price}</p>}
                                                         </div>
                                                     </div>
@@ -962,7 +1024,7 @@ const AdPost = () => {
                                                 <>
                                                     <div className="mb-3">
                                                         <label className="form-label">Description *</label>
-                                                        <textarea className="form-control" rows="3" placeholder="Enter Description" onChange={handleChange} required></textarea>
+                                                        <textarea className="form-control" rows="3" placeholder="Enter Description" name='description' value={formData.description} onChange={handleChange} required></textarea>
                                                         {errors.description && <p className="text-danger">{errors.description}</p>}
                                                     </div>
                                                     <div className="mb-3">
@@ -970,7 +1032,7 @@ const AdPost = () => {
                                                         <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
                                                             {images.map((img, index) => (
                                                                 <div key={index} className="image-upload">
-                                                                    <input type="file" accept="image/*" onChange={(e) => handleImageUpload(index, e)} />
+                                                                    <input type="file" accept="image/*" name='images' value={formData.images} onChange={(e) => handleImageUpload(index, e)} />
                                                                     {loading[index] ? (
                                                                         <span>Loading...</span>
                                                                     ) : img ? (
