@@ -251,7 +251,7 @@ const AllCategory = () => {
                             <div className="row d-block d-md-none">
                                 {post?.map((val, index) =>
                                     val.isActive ? (
-                                        <div className="col-md-3" key={index}>
+                                        <div className="col-12 col-md-4 col-xl-3" key={index}>
                                             <Link
                                                 href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
                                                 state={{ data: val }}
@@ -289,7 +289,7 @@ const AllCategory = () => {
                             <div className="d-none-mobile row">
                                 {post?.map((val, index) =>
                                     val.isActive ? (
-                                        <div className="col-md-3" key={index}>
+                                        <div className="col-12 col-md-4 col-xl-3" key={index}>
                                             <Link
                                                 href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
                                                 state={{ data: val }}

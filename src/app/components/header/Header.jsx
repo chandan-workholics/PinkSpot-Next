@@ -29,7 +29,7 @@ const Header = () => {
                         <Link className="navbar-brand text-dd88cf" href="/">
                             <img src={logo.src} alt="" className="" />
                         </Link>
-                        <button className="btn d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <button className="btn d-block d-lg-none me-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                             <i className="fa-solid fa-circle-user text-dd88cf fs-1"></i>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -76,7 +76,7 @@ const Header = () => {
                 </nav>
 
                 {/* Mobile-View */}
-                <div className="d-block d-md-none">
+                <div className="d-block d-lg-none">
                     <div className="offcanvas offcanvas-start w-75" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                         <div className="offcanvas-header">
                             <div className="">

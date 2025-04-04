@@ -29,13 +29,13 @@ function ContactUs() {
                                     </div>
 
                                     {/* Contact Details Section */}
-                                    <div className="col-md-6 col-12 d-flex flex-column text-center p-4 pt-0 pt-lg-4">
+                                    <div className="col-md-6 col-12 d-flex flex-column text-center p-0 pt-0 pt-lg-4">
                                         <h1 className="fw-bold text-primary">Contact Us</h1>
                                         <p className="fw-semibold text-muted">For any support related issues please contact</p>
 
                                         {/* Contact Button */}
                                         <Link href="mailto:support@pinkspot.cc">
-                                            <button className="btn btn-lg bg-dd88cf text-white rounded-4 shadow-sm px-3 py-2 mt-3">
+                                            <button className="btn btn-lg bg-dd88cf text-white rounded-4 shadow-sm mx-auto px-3 py-2 mt-3">
                                                 <span className="">support@pinkspot.cc</span>
                                                 <i className="fa-solid fa-paper-plane ms-2"></i>
                                             </button>
