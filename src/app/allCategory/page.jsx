@@ -4,99 +4,40 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import { useParams } from "next/navigation";
+
 import filterImg from "../../../public/images/filterImg2.png";
 
 const AllCategory = () => {
-    const { category } = useParams();
-    const [catid, setCatid] = useState("6448f0807e958facc31c4d78");
-    const [province, setProvince] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
+    const [category, setCategory] = useState([])
     const [ethicity, setEthicity] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [city, setCity] = useState([]);
+
     const [subcategory, setSubcategory] = useState([]);
+
+    const [filtercategory, setfilterCategory] = useState('')
+    const [filterethicity, setfilterEthicity] = useState('');
+    const [filtercity, setfilterCity] = useState('');
+    const [filtervarified, setfilterVarified] = useState(true);
+    const [filtersubcategory, setfilterSubcategory] = useState('');
+
     const [post, setPost] = useState([]);
-    const [filters, setFilters] = useState({
-        categoryid: catid,
-        subcategoryid: "",
-        city: "",
-        ethicity: "",
-        isVerified: "",
-    });
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            // Access sessionStorage only in the browser
-            const savedCity = sessionStorage.getItem("city");
-            if (savedCity) {
-                setFilters((prev) => ({ ...prev, city: savedCity }));
-            }
-        }
-    }, []);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFilters((prev) => ({ ...prev, [name]: value }));
-        if (name === "city" && typeof window !== "undefined") {
-            sessionStorage.setItem("city", value);
-        }
+    const fetchCategory = async () => {
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
+        const result = await response.json();
+        setCategory(result?.data);
     };
 
-    const clearFilters = () => {
-        if (typeof window !== "undefined") {
-            sessionStorage.clear();
-        }
-        setFilters({
-            categoryid: catid,
-            subcategoryid: "",
-            city: "",
-            ethicity: "",
-            isVerified: "",
-        });
-        setIsLoading(true);
-        fetchFilteredPosts();
-    };
-
-    const fetchCategoryBySlug = async () => {
+    const fetchSubcategories = async (id) => {
         const response = await fetch(
-            `http://206.189.130.102:4000/api/v1/category/getCatageryIdBySlug/${category}`
+            `http://206.189.130.102:4000/api/v1/category/getsubcategorybycatid/${id}`
         );
         const result = await response.json();
-        setCatid(result?.catgoryid);
+        setSubcategory(result?.data);
     };
 
-    const fetchSubcategories = async () => {
-        const response = await fetch(
-            `http://206.189.130.102:4000/api/v1/category/getsubcategorybycatid/${catid}`
-        );
-        const result = await response.json();
-        setSubcategory(result);
-    };
-
-    const fetchPostsByCategory = async () => {
-        const response = await fetch(
-            `http://206.189.130.102:4000/api/v1/postad/getpostadby_category_id/${catid}`
-        );
-        const result = await response.json();
-        setPost(result?.data);
-        setIsLoading(false);
-    };
-
-    const fetchFilteredPosts = async () => {
-        const response = await fetch(
-            `http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilter`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(filters),
-            }
-        );
-        const result = await response.json();
-        setPost(result?.data);
-        setIsLoading(false);
-    };
 
     const fetchEthnicity = async () => {
         const response = await fetch(`http://206.189.130.102:4000/api/v1/getall-ethnicity`);
@@ -104,31 +45,62 @@ const AllCategory = () => {
         setEthicity(result?.data);
     };
 
-    const fetchProvinces = async () => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallprovince`);
-        const result = await response.json();
-        setProvince(result);
-    };
-
     const fetchCities = async (provinceId) => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity/${provinceId}`);
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity`);
         const result = await response.json();
-        setData(result);
+        setCity(result?.data);
     };
 
     useEffect(() => {
-        fetchCategoryBySlug();
-        fetchProvinces();
+        fetchCategory();
         fetchEthnicity();
-        fetchFilteredPosts();
-        fetchSubcategories();
-    }, [catid]);
+        fetchCities();
+    }, []);
 
-    const handleProvinceChange = (e) => {
-        const provinceId = e.target.value;
-        sessionStorage.setItem("province", provinceId);
-        fetchCities(provinceId);
+
+    const fetchFilteredPosts = async () => {
+        const response = await fetch(
+            `http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=${currentPage}&limit=${itemsPerPage}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    categoryid: filtercategory,
+                    subcategoryid: filtersubcategory,
+                    city: filtercity,
+                    ethicity: filterethicity,
+                    isVerified: filtervarified,
+                }),
+            }
+        );
+        const result = await response.json();
+        setPost((prevEvents) => [...prevEvents, ...result?.data]);
+        
     };
+
+    useEffect(() => {
+        fetchFilteredPosts();
+    }, [currentPage]);
+
+
+
+
+    const handleinfintescroll = async () => {
+        try {
+            if (
+                window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight
+            ) {
+                setCurrentPage((prev) => prev + 1)
+            }
+        } catch (error) {
+        }
+    }
+    useEffect(() => {
+        window.addEventListener("scroll", handleinfintescroll)
+        return () => window.removeEventListener("scroll", handleinfintescroll)
+    })
 
     return (
         <>
@@ -166,11 +138,32 @@ const AllCategory = () => {
                                                 <select
                                                     className="form-select filter-btn position-relative"
                                                     name="subcategoryid"
-                                                    value={filters.subcategoryid}
-                                                    onChange={handleChange}
+
+                                                    onChange={(e) => {
+                                                        setfilterCategory(e.target.value);
+                                                        fetchSubcategories(e.target.value); // Fetch subcategories when a category is selected
+                                                    }}
+                                                >
+                                                    <option>Category</option>
+                                                    {category.map((val, index) => (
+                                                        <option key={index} value={val._id} >
+                                                            {val.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6 position-relative mb-3">
+                                                <span className="arrow-span">
+                                                    <i className="fa-solid fa-angle-down text-white"></i>
+                                                </span>
+                                                <select
+                                                    className="form-select filter-btn position-relative"
+                                                    name="subcategoryid"
+
+                                                    onChange={(e) => setfilterSubcategory(e.target.value)}
                                                 >
                                                     <option>Sub-Category</option>
-                                                    {subcategory.data?.map((val, index) => (
+                                                    {subcategory.map((val, index) => (
                                                         <option key={index} value={val._id}>
                                                             {val.name}
                                                         </option>
@@ -181,45 +174,52 @@ const AllCategory = () => {
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
-                                                <select className="form-select" aria-label="Default select example">
-                                                    <option value="0">Open this select menu</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select
+                                                    className="form-select filter-btn position-relative"
+                                                    name="subcategoryid"
+
+                                                    onChange={(e) => setfilterEthicity(e.target.value)}
+                                                >
+                                                    <option>Ethicity</option>
+                                                    {ethicity.map((val, index) => (
+                                                        <option key={index} value={val._id}>
+                                                            {val.name}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                             <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
-                                                <select className="form-select" aria-label="Default select example">
-                                                    <option value="0">Open this select menu</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select
+                                                    className="form-select filter-btn position-relative"
+                                                    name="subcategoryid"
+
+                                                    onChange={(e) => setfilterCity(e.target.value)}
+                                                >
+                                                    <option>city</option>
+                                                    {city.map((val, index) => (
+                                                        <option key={index} value={val._id}>
+                                                            {val.name}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                             <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
-                                                <select className="form-select" aria-label="Default select example">
-                                                    <option value="0">Open this select menu</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select
+                                                    className="form-select filter-btn position-relative"
+                                                    name="subcategoryid"
+                                                    onChange={(e) => setfilterVarified(e.target.value === "true")}
+                                                >
+                                                    <option value="">is-Verified</option>
+                                                    <option value="true">yes</option>
+                                                    <option value="false">no</option>
                                                 </select>
-                                            </div>
-                                            <div className="col-md-6 position-relative mb-3">
-                                                <span className="arrow-span">
-                                                    <i className="fa-solid fa-angle-down text-white"></i>
-                                                </span>
-                                                <select className="form-select" aria-label="Default select example">
-                                                    <option value="0">Open this select menu</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                </select>
+
                                             </div>
                                             <div className="col-md-12">
                                                 <button
@@ -324,11 +324,7 @@ const AllCategory = () => {
                                         </div>
                                     ) : null
                                 )}
-                                {post.length > 0 ? null : (
-                                    <div className="text-center text-secondary">
-                                        <b>No Data Found</b>
-                                    </div>
-                                )}
+
                             </div>
                         </div>
                     </div>
