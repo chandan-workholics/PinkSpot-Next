@@ -816,7 +816,7 @@ const AdPost = () => {
                             <div className="row justify-content-center">
                                 <h2 className="text-center fw-bold text-4b164c mb-4">Fill Out the Form Below</h2>
                                 <div className="col-lg-6 d-flex align-items-center">
-                                    <Image src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain" />
+                                    <Image src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg"  />
                                 </div>
                                 <div className="col-lg-6 d-flex align-items-center">
                                     <div className="form-container w-100">
