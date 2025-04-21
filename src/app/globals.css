@@ -202,6 +202,12 @@ a {
       padding: 0;
     }
   }
+
+  @media only screen and (min-width:768px) and (max-width:991px) {
+    .offcanvas {
+      max-width: 50% !important;
+    }
+  }
 }
 
 /* Header - End */
@@ -276,6 +282,7 @@ a {
         font-weight: 700;
       }
     }
+
     @media only screen and (min-width:768px) and (max-width:991px) {
       .banner-content {
         height: 72vh;
@@ -960,6 +967,18 @@ a {
       font-size: 40px;
     }
   }
+
+  @media only screen and (min-width:768px) and (max-width:991px) {
+    .main-card {
+      min-height: 92.5vh !important;
+    }
+  }
+
+  @media only screen and (min-width:992px) and (max-width:1024px) {
+    .main-card {
+      min-height: 93.6vh !important;
+    }
+  }
 }
 
 .login-page .fas {
@@ -1471,6 +1490,18 @@ a {
 
   .btn.bg-dd88cf:hover {
     background-color: #c477b8 !important;
+  }
+
+  @media only screen and (min-width:767px) and (max-width:991px) {
+    .contact-banner {
+      min-height: 92.5vh;
+    }
+  }
+
+  @media only screen and (min-width:768px) and (max-width:1024px) {
+    .contact-banner {
+      min-height: 93.6vh;
+    }
   }
 }
 
