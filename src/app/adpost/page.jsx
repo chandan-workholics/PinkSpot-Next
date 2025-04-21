@@ -511,7 +511,8 @@ import ProtectedRoute from '../Common_Method/protectedroute';
 const AdPost = () => {
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
-    const [images, setImages] = useState(Array(20).fill(null));
+    // const [images, setImages] = useState(Array(20).fill(null));
+    const [images, setImages] = useState([null]);
     const [loading, setLoading] = useState([]);
     const [errors, setErrors] = useState({});
     const [province, Setprovince] = useState('')
@@ -543,7 +544,7 @@ const AdPost = () => {
         adTitle: "",
         price: "",
         description: "",
-        images: [null]
+        images: [],
     });
 
     const nextStep = () => {
@@ -608,7 +609,7 @@ const AdPost = () => {
                 }
                 return;
             }
-           alert("form submitting successfully")
+            alert("form submitting successfully")
             console.log("Form is complete. Proceeding...");
         } catch (error) {
             console.error("Error while checking form fields:", error);
@@ -623,49 +624,51 @@ const AdPost = () => {
         });
     };
 
-    const handleImageUpload = async (index, event) => {
-        const file = event.target.files[0];
-        if (!file) return;
+    const handleImageUpload = async (event) => {
+        const files = Array.from(event.target.files);
         const maxSize = 1024 * 1024 * 1024; // 1GB limit
-        if (file.size > maxSize) {
-            alert("File size exceeds the maximum limit.");
-            return;
-        }
-    
-        setLoading((prev) => ({ ...prev, [index]: true }));
-        const formData = new FormData();
-        formData.append("image", file);
-    
+
+        const uploadedImageUrls = [];
+        const newLoading = {};
+
         try {
-            const response = await axios.post("http://206.189.130.102:4000/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-    
-            console.log("Upload Response:", response.data); 
-    
-            const imageUrl = response.data?.data?.url;  
-            if (imageUrl) {
-                setImages((prevImages) => {
-                    const newImages = [...prevImages];
-                    newImages[index] = imageUrl;
-                    return newImages;
+            // Set loading true for each file
+            files.forEach((_, i) => newLoading[i] = true);
+            setLoading(newLoading);
+
+            for (const file of files) {
+                if (file.size > maxSize) {
+                    alert("One or more files exceed the maximum size limit.");
+                    continue;
+                }
+
+                const formDataUpload = new FormData();
+                formDataUpload.append("image", file);
+
+                const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
+                    headers: { "Content-Type": "multipart/form-data" },
                 });
-            } else {
-                console.error("Image URL not found in response.");
+
+                const imageUrl = response.data?.data?.url;
+                if (imageUrl) {
+                    uploadedImageUrls.push(imageUrl);
+                }
             }
+
+            // Update state
+            setImages((prevImages) => [...prevImages, ...uploadedImageUrls]);
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                images: [...prevFormData.images, ...uploadedImageUrls],
+            }));
         } catch (error) {
-            if (error.response) {
-                console.error("Server Error:", error.response.data);
-            } else if (error.request) {
-                console.error("No Response from Server:", error.request);
-            } else {
-                console.error("Error:", error.message);
-            }
+            console.error("Image upload error:", error);
         } finally {
-            setLoading((prev) => ({ ...prev, [index]: false }));
+            setLoading({});
         }
     };
-    
+
+
 
     const getCategory = async () => {
         try {
@@ -782,7 +785,7 @@ const AdPost = () => {
             getcity2(formData.province);
         }
     }, [formData.province]);
-    
+
     useEffect(() => {
         getCategory();
         fetchSubCategories();
@@ -933,7 +936,7 @@ const AdPost = () => {
                                                                 value={formData.province || ""}
                                                                 onChange={(e) => {
                                                                     handleChange(e);
-                                                                    if (e.target.value) {  
+                                                                    if (e.target.value) {
                                                                         getcity2(e.target.value, e.target.options[e.target.selectedIndex].text);
                                                                     }
                                                                 }}
@@ -1032,7 +1035,7 @@ const AdPost = () => {
                                                         <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
                                                             {images.map((img, index) => (
                                                                 <div key={index} className="image-upload">
-                                                                    <input type="file" accept="image/*" name='images' value={formData.images} onChange={(e) => handleImageUpload(index, e)} />
+                                                                    <input type="file" accept="image/*" name='images' multiple  onChange={(e) => handleImageUpload(e)}  />
                                                                     {loading[index] ? (
                                                                         <span>Loading...</span>
                                                                     ) : img ? (
@@ -1043,6 +1046,14 @@ const AdPost = () => {
                                                                 </div>
                                                             ))}
                                                         </div>
+                                                        <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
+                                                            {images.map((img, index) => (
+                                                                <div key={index} className="image-upload">
+                                                                    <img src={img} alt={`Preview ${index}`} className="previewImage" />
+                                                                </div>
+                                                            ))}
+                                                        </div>
+
                                                     </div>
                                                     <div className="text-center">
                                                         <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>
