@@ -878,7 +878,7 @@ const AdPost = () => {
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Sub Category *</label>
                                                             <select className="form-select" name='subCategory' value={formData.subCategory} onChange={handleChange} required>
-                                                                <option value="0">Open this select menu</option>
+                                                                <option value="0">Select a sub category</option>
                                                                 {subcategories?.map((subcategory) => (
                                                                     <option key={subcategory._id} value={subcategory._id}>
                                                                         {subcategory.name}
@@ -903,31 +903,6 @@ const AdPost = () => {
                                                             <input type="number" className="form-control" placeholder="Enter Age" name='age' value={formData.age} onChange={handleChange} required />
                                                         </div>
                                                         {errors.age && <p>{errors.age}</p>}
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">City *</label>
-                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' value={formData.city} onChange={handleChange} required>
-                                                                <option>Select City</option>
-                                                                {data?.data?.map((val, index) => {
-                                                                    return (
-                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
-                                                                    )
-                                                                })}
-                                                            </select>
-                                                            {errors.city && <p>{errors.city}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Mobile Number *</label>
-                                                            <input
-                                                                type="number"
-                                                                className="form-control"
-                                                                placeholder="Enter Mobile Number"
-                                                                name="phone"
-                                                                value={formData.phone}
-                                                                onChange={handleChange}
-                                                                required
-                                                            />
-                                                            {errors.phone && <p>{errors.phone}</p>}
-                                                        </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Province *</label>
                                                             <select
@@ -957,7 +932,31 @@ const AdPost = () => {
                                                             {errors.province && <p className="text-danger">{errors.province}</p>}
                                                         </div>
 
-
+                                                        <div className="col-md-6 mb-3">
+                                                            <label className="form-label">City *</label>
+                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' value={formData.city} onChange={handleChange} required>
+                                                                <option>Select City</option>
+                                                                {data?.data?.map((val, index) => {
+                                                                    return (
+                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
+                                                                    )
+                                                                })}
+                                                            </select>
+                                                            {errors.city && <p>{errors.city}</p>}
+                                                        </div>
+                                                        <div className="col-md-6 mb-3">
+                                                            <label className="form-label">Mobile Number *</label>
+                                                            <input
+                                                                type="number"
+                                                                className="form-control"
+                                                                placeholder="Enter Mobile Number"
+                                                                name="phone"
+                                                                value={formData.phone}
+                                                                onChange={handleChange}
+                                                                required
+                                                            />
+                                                            {errors.phone && <p>{errors.phone}</p>}
+                                                        </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Availability *</label>
                                                             <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
@@ -1035,7 +1034,7 @@ const AdPost = () => {
                                                         <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
                                                             {images.map((img, index) => (
                                                                 <div key={index} className="image-upload">
-                                                                    <input type="file" accept="image/*" name='images' multiple  onChange={(e) => handleImageUpload(e)}  />
+                                                                    <input type="file" accept="image/*" name='images' multiple  onChange={(e) => handleImageUpload(e)} />
                                                                     {loading[index] ? (
                                                                         <span>Loading...</span>
                                                                     ) : img ? (
@@ -1046,14 +1045,6 @@ const AdPost = () => {
                                                                 </div>
                                                             ))}
                                                         </div>
-                                                        <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
-                                                            {images.map((img, index) => (
-                                                                <div key={index} className="image-upload">
-                                                                    <img src={img} alt={`Preview ${index}`} className="previewImage" />
-                                                                </div>
-                                                            ))}
-                                                        </div>
-
                                                     </div>
                                                     <div className="text-center">
                                                         <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>

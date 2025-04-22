@@ -17,14 +17,70 @@ import 'aos/dist/aos.css';
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
+    const [isActive, setIsActive] = useState("");
+    const [active, setActive] = useState();
+    const [activeUnFav, setActiveUnFav] = useState();
     const maxLength = 90;
-    
+
     useEffect(() => {
         if (typeof window !== "undefined") {
             AOS.init();
         }
     }, []);
 
+    const favouriteByuserid = sessionStorage.getItem("userid");
+    const FavoriteClick = async (favouriteToPostid) => {
+        try {
+            setIsActive(favouriteToPostid);
+    
+            const favouriteByuserid = sessionStorage.getItem("userid");
+            if (!favouriteByuserid) {
+                alert("Please Login");
+                return;
+            }
+    
+            interceptor();
+    
+            const response = await callAPI.post('/postad/favouritesubmit', {
+                favouriteByuserid,
+                favouriteToPostid
+            });
+    
+            if (response.status === 200) {
+                getPosts();
+            } else {
+                console.error("Error in response:", response);
+            }
+        } catch (error) {
+            console.error("Error submitting favourite:", error);
+        }
+    };
+     
+    const UnFavFavoriteClick = async (favouriteToPostid) => {
+        try {
+            const favouriteByuserid = sessionStorage.getItem("userid");
+            if (!favouriteByuserid) {
+                alert("Please Login");
+                return;
+            }
+    
+            interceptor();
+    
+            const response = await callAPI.post('/postad/favouritesubmit', {
+                favouriteByuserid,
+                favouriteToPostid
+            });
+    
+            if (response.status === 200) {
+                getpost();
+            } else {
+                console.error("Error in response:", response);
+            }
+        } catch (error) {
+            console.error("Error removing favourite:", error);
+        }
+    };
+    
     const getPosts = async () => {
         try {
             interceptor();
@@ -40,6 +96,18 @@ const HomePage = () => {
             setPosts([]);
         }
     };
+
+    const [modalactive, setModalActive] = useState("block");
+    const setModalHide = () => {
+        setModalActive("none");
+        sessionStorage.setItem("agreemodal", "true");
+    };
+    useEffect(() => {
+        const ls = sessionStorage.getItem("agreemodal");
+        if (ls) {
+            setModalActive("none");
+        }
+    }, []);
 
     useEffect(() => {
         getPosts();
@@ -115,9 +183,16 @@ const HomePage = () => {
                                                                 key={index}
                                                                 href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                             >
-                                                                Read More
+                                                                View More
                                                             </Link>
                                                         )}
+                                                          {/* Like button for adding to favourites */}
+        <button
+            onClick={() => FavoriteClick(post.id)} // Trigger FavoriteClick on like
+            className={`like-button ${isActive === post.id ? 'liked' : ''}`}
+        >
+            <i className={`fa fa-heart ${isActive === post.id ? 'text-danger' : 'text-white'}`} />
+        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -251,6 +326,56 @@ const HomePage = () => {
                         </section>
                     </div>
                 </div>
+                <div className="modal" id="myModal" style={{ display: `${modalactive}` }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">
+                                    <img
+                                        className="logo"
+                                        src={require("../../../public/images/pink-logo.png")}
+                                        alt="sgdg"
+                                    />
+                                </h4>
+                            </div>
+                            <div className="modal-body">
+                                {sessionStorage.getItem("agreemodal")}
+                                <h6>
+                                    As condition of your use of PinkSpot, you agree to the
+                                    following:
+                                </h6>
+                                <ul style={{ listStyleType: "circle" }}>
+                                    <li>
+                                        I am at least 18 years of age - or of legal age in the country
+                                        in which I reside.
+                                    </li>
+                                    <li>
+                                        {" "}
+                                        I will not post any material that exploits minors or in any
+                                        way constitutes or assists in human trafficking.
+                                    </li>
+                                    <li>
+                                        I will not post or produce content which violates Pinkspot
+                                        guidelines (i.e. using images of genitalia, real or simulated
+                                        sex acts as my profile picture).
+                                    </li>
+                                    <li>
+                                        I have read and agree to observe the Terms of Service, Privacy
+                                        Policy, ad posting guidelines and Rules not specifically
+                                        addressed herein.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-model" onClick={() => setModalHide()}>
+                                    {" "}
+                                    Agree
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <Footer />
             </div >
         </>

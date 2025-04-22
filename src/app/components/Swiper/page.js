@@ -88,7 +88,7 @@ const SwiperPage = () => {
                                                         key={index}
                                                         href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                     >
-                                                        Read More
+                                                        View More
                                                     </Link>
                                                 )}
                                             </div>
