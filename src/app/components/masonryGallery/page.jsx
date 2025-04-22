@@ -2,6 +2,7 @@
 import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import callAPI, { interceptor } from '../../Common_Method/api';
+import { FaSearchPlus } from 'react-icons/fa'; 
 
 const MasonryGallery = () => {
     const { slug } = useParams();
@@ -56,6 +57,7 @@ const MasonryGallery = () => {
             setPosts([]);
         }
     };
+
     useEffect(() => {
         getPost();
     }, []);
@@ -68,12 +70,16 @@ const MasonryGallery = () => {
                         <div key={index} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
                             <img
                                 src={img}
-                                alt={img.title}
+                                alt={`Image ${index + 1}`}
                                 width={400}
                                 height={300}
                                 className="img-fluid rounded"
                                 style={{ objectFit: 'cover' }}
                             />
+                            {/* Zoom icon overlay */}
+                            <div className="zoomIcon position-absolute top-50 start-50 translate-middle text-white">
+                                <FaSearchPlus size={30} />
+                            </div>
                         </div>
                     ))}
                 </div>

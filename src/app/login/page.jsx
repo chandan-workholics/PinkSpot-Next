@@ -59,7 +59,7 @@ const Login = () => {
                     toast.success("Login successful");
                     sessionStorage.setItem("token", response.data.token);
                     sessionStorage.setItem("userid", response.data.userdata._id);
-                    router.push("/");
+                    router.push("/adpost");
                 } else {
                     toast.error("Invalid credentials");
                 }

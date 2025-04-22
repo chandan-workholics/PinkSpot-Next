@@ -70,9 +70,9 @@ const Profile = () => {
                         <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
-                                    <h1 className="text-white">Single Profile</h1>
+                                    <h1 className="text-white">User Profile</h1>
                                     <h3 className="text-white">
-                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> User Profile
                                     </h3>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@ const Profile = () => {
                                         <div>
                                             <div className="profileHeader"></div>
                                             <Image
-                                                src={posts.image1}
+                                           src={posts.image1 ? posts.image1 : noImg.src}
                                                 alt="Profile"
                                                 className="profileImage"
                                                 width={100}
@@ -169,3 +169,4 @@ const Profile = () => {
 }
 
 export default Profile;
+

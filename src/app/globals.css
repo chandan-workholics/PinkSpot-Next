@@ -2045,6 +2045,25 @@ a {
 
 /* Category-page - End */
 
+/* Mansoor gallery css start */
+/* Gallery Item Container */
+.galleryItem {
+  position: relative;
+}
+
+/* Zoom icon */
+.zoomIcon {
+  opacity: 0;  /* Initially hidden */
+  transition: opacity 0.3s ease;  /* Smooth transition when showing/hiding */
+}
+
+/* Show zoom icon when hovering over an image */
+.galleryItem:hover .zoomIcon {
+  opacity: 1;  /* Make the icon visible */
+}
+
+/* Mansoor gallery css end */
+
 /* Footer - Start */
 .footer {
   .searchCitySection {

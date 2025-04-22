@@ -37,16 +37,19 @@ const Header = () => {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" href="/login">Register</Link>
-                                </li>
+                                {/* <li className="nav-item">
+                                    <Link className="nav-link" href="/login">Signup</Link>
+                                </li> */}
                                 <li className="nav-item">
                                     <Link className="nav-link" href="/contactus">Contact Us</Link>
                                 </li>
                             </ul>
                             <div className="d-flex">
                                 {!isAuthenticated ? (
+                                    <>
                                     <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
+                                    <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>Signup</button>
+                                    </>
                                 ) : (
                                     <>
                                         <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3'>POST YOUR AD</button>
