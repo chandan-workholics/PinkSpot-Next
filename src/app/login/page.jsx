@@ -120,9 +120,7 @@ const Login = () => {
                                                         <div className="inputBx password">
                                                             <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
                                                         </div>
-                                                        <label className="remember mb-3">
-                                                            <input type="checkbox" className="me-2" /> Remember
-                                                        </label>
+                                                      
                                                     </>
                                                 ) : (
                                                     <>
@@ -150,7 +148,7 @@ const Login = () => {
                                             </form>
                                             {isLogin ? (
                                                 <>
-                                                    <p>Forgot password? <Link href="#">Click Here</Link></p>
+                                                    {/* <p>Forgot password? <Link href="#">Click Here</Link></p> */}
                                                     <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
                                                 </>
                                             ) : (

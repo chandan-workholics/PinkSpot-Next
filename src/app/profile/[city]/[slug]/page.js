@@ -13,10 +13,9 @@ import SwiperPage from '../../../components/Swiper/page'
 
 const Profile = () => {
     const [posts, setPosts] = useState(null);
-    const [data, setData] = useState([]);
-    const [urlpath, SetUrlpath] = useState("");
     const { slug } = useParams();
-    const maxLength = 10;
+    const [active, setActive] = useState();
+    const [isActive, setIsActive] = useState("");
 
     const getPost = useCallback(async () => {
         try {
@@ -33,22 +32,32 @@ const Profile = () => {
         }
     }, [slug]);
 
-    const getData = async () => {
-        try {
-            interceptor();
-            const response = await callAPI.post(`/postad/getallpostad_sort_desc`, { limit: "50" });
 
-            if (response.data) {
-                setData(response.data.data || []);
+    //add to favourite code 
+
+    const favouriteClick = async (favouriteToPostid) => {
+        try {
+            setIsActive(favouriteToPostid);
+            var favouriteByuserid = sessionStorage.getItem("userid");
+            if (!favouriteByuserid) {
+                alert("Please Login");
+                return;
+            }
+            const response = await callAPI.post(`/postad/favouritesubmit`, { favouriteToPostid, favouriteByuserid });
+
+            if (response.status==200) {
+                alert("Added to Favourite");
+                getPost();
             } else {
                 console.error("Unexpected response format", response);
-                setData([]);
             }
         } catch (error) {
-            console.error("Error fetching posts", error);
-            setData([]);
+            console.error("Error fetching post details", error);
         }
-    };
+    }
+
+    //add to favourite code
+
 
     useEffect(() => {
         if (slug) {
@@ -57,9 +66,8 @@ const Profile = () => {
         window.scrollTo({ behavior: "smooth", top: 0 });
     }, [slug, getPost]);
 
-    useEffect(() => {
-        getData();
-    }, []);
+
+
 
     return (
         <>
@@ -88,7 +96,7 @@ const Profile = () => {
                                         <div>
                                             <div className="profileHeader"></div>
                                             <Image
-                                           src={posts.image1 ? posts.image1 : noImg.src}
+                                                src={posts.image1 ? posts.image1 : noImg.src}
                                                 alt="Profile"
                                                 className="profileImage"
                                                 width={100}
@@ -99,7 +107,9 @@ const Profile = () => {
                                         </div>
                                     )}
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger">Get Premium</button>
+                                        <button className="btn btn-danger" onClick={() => {
+                                            setActive(posts?._id); favouriteClick(posts?._id);
+                                        }}>Add TO Favourite</button>
                                     </div>
                                 </div>
                                 <div className="profileDetails">

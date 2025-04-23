@@ -59,7 +59,7 @@ const Header = () => {
                                                 <i className="fa-solid fa-circle-user text-dd88cf fs-1"></i>
                                             </Link>
                                             <ul className="dropdown-menu rounded-3 end-0 mt-2" style={{ left: "auto" }}>
-                                                <li><a className="dropdown-item" href="#">Action</a></li>
+                                              
                                                 <li>
                                                     <button onClick={() => router.push("/UserProfile")} className="dropdown-item">MY PROFILE</button>
                                                 </li>
