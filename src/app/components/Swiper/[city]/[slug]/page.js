@@ -1,14 +1,14 @@
 "use client"
-import Footer from '../../components/footer/page'
-import Header from '../../components/header/page'
+import Footer from '../../../footer/Footer'
+import Header from '../../../header/Header'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import MasonryGallery from '../../components/masonryGallery/page'
+import MasonryGallery from '../../../masonryGallery/page'
 import { useParams } from 'next/navigation'
-import callAPI, { interceptor } from '../../Common_Method/api'
+import callAPI, { interceptor } from '../../../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import SwiperPage from '../../components/Swiper/page'
+import SwiperPage from '../../../Swiper/page'
 
 const Profile = () => {
     const [posts, setPosts] = useState(null);  // Fixed: Use null or []

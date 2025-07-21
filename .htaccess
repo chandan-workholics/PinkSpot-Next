@@ -1,16 +1,20 @@
 <IfModule mod_rewrite.c>
-  RewriteEngine on
-  
-  # -- REDIRECTION to https (optional):
-  # If you need this, uncomment the next two commands
-  # RewriteCond %{HTTPS} !on
-  # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
-  # --
-  
-  RewriteCond %{REQUEST_FILENAME} -s [OR]
-  RewriteCond %{REQUEST_FILENAME} -l [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  
-  RewriteRule ^.*$ - [NC,L]
-  RewriteRule ^(.*) index.html [NC,L]
-  </IfModule>
+  RewriteEngine On
+  RewriteBase /pinkspot/
+
+  # Redirect all requests to index.html for client-side routing
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# Caching rules (optional but recommended)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+</IfModule>
