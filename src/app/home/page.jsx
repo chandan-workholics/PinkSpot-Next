@@ -12,6 +12,7 @@ const Header = dynamic(() => import("../components/header/Header"), { ssr: false
 const Footer = dynamic(() => import("../components/footer/Footer"), { ssr: false });
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import DisclaimerModal from '../components/DisclaimerModal/DisclaimerModal'
 
 
 
@@ -334,6 +335,8 @@ const HomePage = () => {
 
                 <Footer />
             </div >
+
+            <DisclaimerModal />
         </>
     )
 }

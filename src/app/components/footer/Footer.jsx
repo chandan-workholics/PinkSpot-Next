@@ -51,9 +51,9 @@ const Footer = () => {
                                         <div className="footer-logo">
                                             <img src={logo.src} alt="" className="w-100" />
                                         </div>
-                                        <h5 className='text-white'>Subscribe to our newsletter</h5>
-                                        <p className='text-white'>Monthly digest of what's new and exciting from us.</p>
-                                        <ul className="list-unstyled d-flex">
+                                        {/* <h5 className='text-white'>Subscribe to our newsletter</h5> */}
+                                        {/* <p className='text-white'>Monthly digest of what's new and exciting from us.</p> */}
+                                        {/* <ul className="list-unstyled d-flex">
                                             <li className="me-3">
                                                 <Link href="#" className="link-body-emphasis">
                                                     <i className="fa-brands fa-facebook text-dd88cf fs-3"></i>
@@ -74,7 +74,7 @@ const Footer = () => {
                                                     <i className="fa-brands fa-square-instagram text-dd88cf fs-3"></i>
                                                 </Link>
                                             </li>
-                                        </ul>
+                                        </ul> */}
                                     </form>
                                 </div>
                                 {/* Footer Links Section */}
@@ -92,7 +92,7 @@ const Footer = () => {
 
                             {/* Copyright & Social Icons */}
                             <div className="d-flex flex-column flex-sm-row justify-content-between py-4 border-top">
-                                <p className='text-white mb-0'>© 2024 Company, Inc. All rights reserved.</p>
+                                <p className='text-white mb-0'>© 2025 PinkSpot Company, Inc. All rights reserved.</p>
 
                             </div>
                         </footer>

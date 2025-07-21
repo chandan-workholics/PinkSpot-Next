@@ -37,9 +37,9 @@ const Header = () => {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                                 </li>
-                                {/* <li className="nav-item">
-                                    <Link className="nav-link" href="/login">Signup</Link>
-                                </li> */}
+                                <li className="nav-item">
+                                    <Link className="nav-link" href="/aboutus">About Us</Link>
+                                </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" href="/contactus">Contact Us</Link>
                                 </li>
@@ -47,8 +47,8 @@ const Header = () => {
                             <div className="d-flex">
                                 {!isAuthenticated ? (
                                     <>
-                                    <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
-                                    <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>Signup</button>
+                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
+                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>Signup</button>
                                     </>
                                 ) : (
                                     <>
@@ -59,7 +59,7 @@ const Header = () => {
                                                 <i className="fa-solid fa-circle-user text-dd88cf fs-1"></i>
                                             </Link>
                                             <ul className="dropdown-menu rounded-3 end-0 mt-2" style={{ left: "auto" }}>
-                                              
+
                                                 <li>
                                                     <button onClick={() => router.push("/UserProfile")} className="dropdown-item">MY PROFILE</button>
                                                 </li>
@@ -93,6 +93,9 @@ const Header = () => {
                             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/">Home</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" aria-current="page" href="/aboutus">About Us</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" href="/login">Register</Link>

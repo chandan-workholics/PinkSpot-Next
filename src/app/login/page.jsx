@@ -23,8 +23,8 @@ const Login = () => {
             toast.error("Please enter a valid email");
             return false;
         }
-        if (!user.password || user.password.length < 6) {
-            toast.error("Password must be at least 6 characters");
+        if (!user.password) {
+            toast.error("Password is missing");
             return false;
         }
         if (!isLogin) {
