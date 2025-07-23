@@ -13,10 +13,10 @@ const Footer = dynamic(() => import("../components/footer/Footer"), { ssr: false
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import DisclaimerModal from '../components/DisclaimerModal/DisclaimerModal'
-
-
+import { useRouter } from 'next/navigation';
 
 const HomePage = () => {
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const maxLength = 90;
 
@@ -66,6 +66,47 @@ const HomePage = () => {
         window.scrollTo({ behavior: "smooth", top: 0 });
     }, []);
 
+    const [city, setCity] = useState([]);
+    const [province, setProvince] = useState([]);
+
+    const [filters, setFilters] = useState({
+        province: '',
+        city: '',
+    });
+
+    const handleFilterChange = (key, value) => {
+        setFilters(prev => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+    
+const handleSearch = async () => {
+  try {
+    router.push(`/allCategory?province=${filters.province}&city=${filters.city}`);
+  } catch (error) {
+    console.error("Search failed", error);
+  }
+
+};
+
+    const fetchProvince = async () => {
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallprovince`);
+        const result = await response.json();
+        setProvince(result?.data);
+    };
+
+    const fetchCities = async (provinceId) => {
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity/${provinceId}`);
+        const result = await response.json();
+        setCity(result?.data);
+    };
+
+    useEffect(() => {
+        fetchProvince();
+    }, []);
+
+   
 
     return (
         <>
@@ -82,6 +123,36 @@ const HomePage = () => {
                                     </h1>
                                     <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
                                     <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link>
+                                    <div className="mt-5">
+                                        <div className="input-group">
+                                            <select
+                                                className="form-select filter-btn position-relative"
+                                                name="province"
+                                                value={filters.province}
+                                                onChange={(e) => {
+                                                    handleFilterChange('province', e.target.value);
+                                                    fetchCities(e.target.value);
+                                                }}
+                                            >
+                                                <option value="">Province</option>
+                                                {province.map((val, index) => (
+                                                    <option key={index} value={val._id}>{val.name}</option>
+                                                ))}
+                                            </select>
+                                            <select
+                                                className="form-select filter-btn position-relative"
+                                                name="city"
+                                                value={filters.city}
+                                                onChange={(e) => handleFilterChange('city', e.target.value)}
+                                            >
+                                                <option value="">City</option>
+                                                {city.map((val, index) => (
+                                                    <option key={index} value={val.name}>{val.name}</option>
+                                                ))}
+                                            </select>
+                                            <button className="btn btn-outline-secondary bg-dark" type="button" onClick={handleSearch}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -4,10 +4,14 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-
+import {  useSearchParams } from 'next/navigation';
 import filterImg from "../../../public/images/filterImg2.png";
 
 const AllCategory = () => {
+    // const router = useRouter();
+    const searchParams = useSearchParams();
+    const queryProvince = searchParams.get('province');
+    const queryCity = searchParams.get('city');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     const [category, setCategory] = useState([])
@@ -22,6 +26,7 @@ const AllCategory = () => {
     const [filterethicity, setfilterEthicity] = useState('');
     const [filtervarified, setfilterVarified] = useState();
     const [filtersubcategory, setfilterSubcategory] = useState('');
+    const [querySynced, setQuerySynced] = useState(false);
     const [post, setPost] = useState([]);
 
     const [filters, setFilters] = useState({
@@ -33,17 +38,41 @@ const AllCategory = () => {
         isVerified: undefined,
     });
 
+
+useEffect(() => {
+  if ((queryProvince || queryCity) && !querySynced) {
+    setFilters(prev => ({
+      ...prev,
+      province: queryProvince || '',
+      city: '', 
+    }));
+
+    if (queryProvince) {
+      fetchCities(queryProvince).then((cityList) => {
+        const found = cityList.find(c => c.name === queryCity);
+        if (found) {
+          setFilters(prev => ({
+            ...prev,
+            city: found.name,
+          }));
+        }
+        setQuerySynced(true);
+      });
+    } else {
+      setQuerySynced(true);
+    }
+  }
+}, [queryProvince, queryCity, querySynced]);
+
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({
             ...prev,
             [key]: value,
         }));
     };
-
-    // When any filter changes, reset page and posts, then fetch filtered data
     useEffect(() => {
         setCurrentPage(1);
-        fetchFilteredPosts(1, true); // true = reset posts
+        fetchFilteredPosts(1, true); 
     }, [filters]);
 
     const fetchCategory = async () => {
@@ -70,6 +99,7 @@ const AllCategory = () => {
         const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity/${provinceId}`);
         const result = await response.json();
         setCity(result?.data);
+         return result?.data || [];
     };
 
     const fetchEthnicity = async () => {
