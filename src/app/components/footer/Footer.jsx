@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import logo from '../../../../public/images/pink-logo.png'
 
 const Footer = () => {
+
+    const [provinces, setProvinces] = useState([]);
+
+    const getProvinces = () => {
+        fetch('http://206.189.130.102:4000/api/v1/getallprovince')
+            .then(response => response.json())
+            .then(json => {
+                setProvinces(json.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching provinces:", error)
+            })
+    }
+
+    useEffect(() => {
+        getProvinces();
+    }, [])
+
     return (
         <>
             <div className="footer">
@@ -12,8 +30,20 @@ const Footer = () => {
                             <div className="col-lg-10 mx-auto">
                                 <h2 className="text-center fw-bold text-4b164c mb-4" data-aos="fade-down" data-aos-duration="2000">Top Searches In</h2>
                                 <p className="searchCitySection text-center">
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Manitoba</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Trois Rivieres</span>
+                                    {provinces.map((province) => (
+                                        <Link href="/allCategory"
+                                            key={province._id}
+                                            className="cityBadge text-decoration-none"
+                                            data-aos="zoom-in"
+                                            data-aos-duration="2000"
+                                            onClick={() => {
+                                                localStorage.setItem("selectedProvinceId", province._id);
+                                            }}
+                                        >
+                                            {province.name}
+                                        </Link>
+                                    ))}
+                                    {/* <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Trois Rivieres</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sarnia</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Drummondville</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Niagra Region</span>
@@ -35,7 +65,7 @@ const Footer = () => {
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Ottawa</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">City Of Toronto</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Calgary</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Edmonton</span>
+                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Edmonton</span> */}
                                 </p>
                             </div>
                         </div>
