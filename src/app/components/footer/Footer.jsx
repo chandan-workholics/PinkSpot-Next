@@ -1,25 +1,96 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import logo from '../../../../public/images/pink-logo.png'
+import { useCity } from "../../../context/CityContext.js";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
 
-    const [provinces, setProvinces] = useState([]);
+    const { setFooterSelectedCity } = useCity();
+    const router = useRouter();
 
-    const getProvinces = () => {
-        fetch('http://206.189.130.102:4000/api/v1/getallprovince')
-            .then(response => response.json())
-            .then(json => {
-                setProvinces(json.data);
+    // const location = useLocation();
+    // const location_path = location.pathname;
+    // const tokenstring = sessionStorage.getItem("token");
+    const [province, Setprovince] = useState([]);
+    const [city, SetCity] = useState([]);
+    const [category, Setcategory] = useState(null);
+    const URL = 'http://206.189.130.102:4000/api/v1';
+
+    const handleCityClick = (cityName) => {
+        setFooterSelectedCity(cityName);  // context me set kar diya
+        router.push("/all-category");     // navigate
+    };
+
+    const getprovince = () => {
+        fetch(`${URL}/getallprovince`, {
+            headers: { "X-API-Key": "your-api-key1" },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                Setprovince(data);
+            });
+    };
+    const getAllCity = () => {
+        fetch(`${URL}/getallcity`, {
+            headers: { "X-API-Key": "your-api-key1" },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                SetCity(data);
+            });
+    };
+
+    const getcategory = () => {
+        fetch(`${URL}/category/getallcategory`, {
+            headers: { "X-API-Key": "your-api-key1" },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.data[0]._id); // Ensure data.data exists and is an array
+                if (Array.isArray(data.data) && data.data.length > 0) {
+                    Setcategory(data.data[0]);
+                } else {
+                    // Handle the case where data is not an array or is empty
+                    Setcategory(null); // or set a default value
+                }
             })
             .catch((error) => {
-                console.error("Error fetching provinces:", error)
-            })
-    }
-
+                console.error("Error fetching category:", error);
+                // Handle the error by setting an error state or default value
+                Setcategory(null);
+            });
+    };
     useEffect(() => {
-        getProvinces();
-    }, [])
+        getprovince();
+        getAllCity();
+        getcategory();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    //  console.log(category);
+    // console.log(province);
+    // console.log(province.data);
+    // console.log(province.data[0].name);
+    const setlocalstrage = (provinceId, cityid) => {
+        // alert(value);
+        sessionStorage.setItem("province", '');
+        sessionStorage.setItem("city", '');
+        sessionStorage.setItem("province", provinceId);
+        sessionStorage.setItem("city", cityid);
+    };
+    const Clearsetlocalstrage = () => {
+        // alert(value);
+
+        sessionStorage.setItem("province", '');
+        sessionStorage.setItem("city", '');
+        window.scrollTo({ behavior: "smooth", top: 0 });
+    };
+    const checkWord = ['Manitoba', 'Trois Rivieres', 'Sarnia', 'Drummondville', 'Niagra Region', 'Granby', 'Windsor', 'London', 'Barrie', 'Saskatoon', 'Regina', 'Sherbrooke', 'Hamilton', 'Mississuaga', 'Brampton', 'Halifax', 'Quebec', 'Vancouver', 'Montreal', 'Winnipeg', 'Ottawa', 'City Of Toronto', 'Calgary', 'Edmonton'];
+
 
     return (
         <>
@@ -30,18 +101,19 @@ const Footer = () => {
                             <div className="col-lg-10 mx-auto">
                                 <h2 className="text-center fw-bold text-4b164c mb-4" data-aos="fade-down" data-aos-duration="2000">Top Searches In</h2>
                                 <p className="searchCitySection text-center">
-                                    {provinces.map((province) => (
-                                        <Link href="/allCategory"
-                                            key={province._id}
-                                            className="cityBadge text-decoration-none"
-                                            data-aos="zoom-in"
-                                            data-aos-duration="2000"
-                                            onClick={() => {
-                                                localStorage.setItem("selectedProvinceId", province._id);
-                                            }}
-                                        >
-                                            {province.name}
-                                        </Link>
+                                    {city?.data?.map((val2, index) => (
+                                        checkWord.includes(val2.name) ? (
+                                            <Link
+                                                key={index}
+                                                href="/allCategory"
+                                                onClick={() => handleCityClick(val2.name)} // ✅ Correct: only pass selected city
+                                                className="cityBadge text-decoration-none"
+                                                data-aos="zoom-in"
+                                                data-aos-duration="2000"
+                                            >
+                                                {val2.name} Escorts &nbsp;
+                                            </Link>
+                                        ) : null
                                     ))}
                                     {/* <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Trois Rivieres</span>
                                     <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sarnia</span>

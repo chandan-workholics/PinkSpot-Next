@@ -80,15 +80,15 @@ const HomePage = () => {
             [key]: value,
         }));
     };
-    
-const handleSearch = async () => {
-  try {
-    router.push(`/allCategory?province=${filters.province}&city=${filters.city}`);
-  } catch (error) {
-    console.error("Search failed", error);
-  }
 
-};
+    const handleSearch = async () => {
+        try {
+            router.push(`/allCategory?province=${filters.province}&city=${filters.city}`);
+        } catch (error) {
+            console.error("Search failed", error);
+        }
+
+    };
 
     const fetchProvince = async () => {
         const response = await fetch(`http://206.189.130.102:4000/api/v1/getallprovince`);
@@ -106,7 +106,7 @@ const handleSearch = async () => {
         fetchProvince();
     }, []);
 
-   
+
 
     return (
         <>
@@ -126,7 +126,7 @@ const handleSearch = async () => {
                                     <div className="mt-5">
                                         <div className="input-group">
                                             <select
-                                                className="form-select filter-btn position-relative"
+                                                className="form-select form-select-lg filter-btn position-relative rounded-start-pill shadow-none"
                                                 name="province"
                                                 value={filters.province}
                                                 onChange={(e) => {
@@ -140,7 +140,7 @@ const handleSearch = async () => {
                                                 ))}
                                             </select>
                                             <select
-                                                className="form-select filter-btn position-relative"
+                                                className="form-select form-select-lg filter-btn position-relative border-end-0 shadow-none"
                                                 name="city"
                                                 value={filters.city}
                                                 onChange={(e) => handleFilterChange('city', e.target.value)}
@@ -150,7 +150,12 @@ const handleSearch = async () => {
                                                     <option key={index} value={val.name}>{val.name}</option>
                                                 ))}
                                             </select>
-                                            <button className="btn btn-outline-secondary bg-dark" type="button" onClick={handleSearch}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+                                            <button
+                                                className="bg-white rounded-end-pill border-0 px-2 py-1"
+                                                type="button" onClick={handleSearch}>
+                                                    <span className="bg-dd88cf text-4b164c rounded-pill px-4 py-2">Search</span>
+                                                
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

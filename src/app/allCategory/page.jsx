@@ -4,14 +4,16 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import {  useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import filterImg from "../../../public/images/filterImg2.png";
+import { useCity } from "../../context/CityContext.js";
 
 const AllCategory = () => {
     // const router = useRouter();
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
+    const queryCities = searchParams.get("cities");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     const [category, setCategory] = useState([])
@@ -20,12 +22,6 @@ const AllCategory = () => {
     const [ethicity, setEthicity] = useState([]);
     const [subcategory, setSubcategory] = useState([]);
 
-    const [filtercategory, setfilterCategory] = useState('')
-    const [filterprovince, setfilterProvince] = useState('');
-    const [filtercity, setfilterCity] = useState('');
-    const [filterethicity, setfilterEthicity] = useState('');
-    const [filtervarified, setfilterVarified] = useState();
-    const [filtersubcategory, setfilterSubcategory] = useState('');
     const [querySynced, setQuerySynced] = useState(false);
     const [post, setPost] = useState([]);
 
@@ -38,31 +34,50 @@ const AllCategory = () => {
         isVerified: undefined,
     });
 
+    const { footerSelectedCity } = useCity();
+    const [isOnlyFilterMode, setIsOnlyFilterMode] = useState(false);
 
-useEffect(() => {
-  if ((queryProvince || queryCity) && !querySynced) {
-    setFilters(prev => ({
-      ...prev,
-      province: queryProvince || '',
-      city: '', 
-    }));
+     const fetchCardsByCityOnly = async (cityName) => {
+    const response = await fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=1&limit=50`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ city: cityName }),
+    });
+    const result = await response.json();
+    setPost(result?.data || []);
+  };
 
-    if (queryProvince) {
-      fetchCities(queryProvince).then((cityList) => {
-        const found = cityList.find(c => c.name === queryCity);
-        if (found) {
-          setFilters(prev => ({
-            ...prev,
-            city: found.name,
-          }));
-        }
-        setQuerySynced(true);
-      });
-    } else {
-      setQuerySynced(true);
+  // On mount, agar context se city aayi hai
+  useEffect(() => {
+    if (footerSelectedCity && !isOnlyFilterMode) {
+      fetchCardsByCityOnly(footerSelectedCity);
     }
-  }
-}, [queryProvince, queryCity, querySynced]);
+  }, [footerSelectedCity]);
+
+    useEffect(() => {
+        if ((queryProvince || queryCity) && !querySynced) {
+            setFilters(prev => ({
+                ...prev,
+                province: queryProvince || '',
+                city: '',
+            }));
+
+            if (queryProvince) {
+                fetchCities(queryProvince).then((cityList) => {
+                    const found = cityList.find(c => c.name === queryCity);
+                    if (found) {
+                        setFilters(prev => ({
+                            ...prev,
+                            city: found.name,
+                        }));
+                    }
+                    setQuerySynced(true);
+                });
+            } else {
+                setQuerySynced(true);
+            }
+        }
+    }, [queryProvince, queryCity, querySynced]);
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({
@@ -70,9 +85,10 @@ useEffect(() => {
             [key]: value,
         }));
     };
+
     useEffect(() => {
         setCurrentPage(1);
-        fetchFilteredPosts(1, true); 
+        fetchFilteredPosts(1, true);
     }, [filters]);
 
     const fetchCategory = async () => {
@@ -99,7 +115,7 @@ useEffect(() => {
         const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity/${provinceId}`);
         const result = await response.json();
         setCity(result?.data);
-         return result?.data || [];
+        return result?.data || [];
     };
 
     const fetchEthnicity = async () => {
