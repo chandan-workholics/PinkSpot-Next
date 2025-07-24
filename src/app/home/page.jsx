@@ -153,7 +153,7 @@ const HomePage = () => {
                                             <button
                                                 className="bg-white rounded-end-pill border-0 px-2 py-1"
                                                 type="button" onClick={handleSearch}>
-                                                    <span className="bg-dd88cf text-4b164c rounded-pill px-4 py-2">Search</span>
+                                                    <span className="bg-dd88cf text-4b164c rounded-pill px-4 py-2 fw-semibold">Search</span>
                                                 
                                             </button>
                                         </div>
