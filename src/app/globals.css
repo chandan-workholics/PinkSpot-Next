@@ -150,6 +150,22 @@ a {
 
 
 /* Header - Start */
+.nav-link {
+  color: black;
+  text-decoration: none;
+  margin-right: 20px;
+  padding-bottom: 5px;
+}
+
+.nav-link.active {
+  font-weight: 600;
+}
+
+.navbar .nav-item .nav-link.active {
+  font-weight: 600;
+}
+
+
 .header {
   .navbar-brand img {
     width: 165px;
@@ -273,8 +289,12 @@ a {
     }
 
     @media only screen and (max-width:767px) {
+
+      height: fit-content;
+
       .banner-content {
-        height: 72vh;
+        height: fit-content;
+        padding: 50px 0;
       }
 
       .banner-content h1 {
@@ -284,8 +304,12 @@ a {
     }
 
     @media only screen and (min-width:768px) and (max-width:991px) {
+
+      height: fit-content;
+
       .banner-content {
-        height: 72vh;
+        height: fit-content;
+        padding: 50px 0;
       }
 
       .banner-content h1 {

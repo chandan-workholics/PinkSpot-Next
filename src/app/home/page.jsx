@@ -116,53 +116,124 @@ const HomePage = () => {
                         <Header className="position-absolute w-100" />
                         <div className="container">
                             <div className="banner-content text-center">
-                                <div className="" data-aos="fade-up" data-aos-duration="1000">
-                                    <h1 className="text-white">Welcome To
-                                        <span className="text-dd88cf"> Pink Spot</span><br />
-                                        Choose Your Vibe
-                                    </h1>
-                                    <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
-                                    <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link>
-                                    <div className="mt-5">
-                                        <div className="input-group">
-                                            <select
-                                                className="form-select form-select-lg filter-btn position-relative rounded-start-pill shadow-none"
-                                                name="province"
-                                                value={filters.province}
-                                                onChange={(e) => {
-                                                    handleFilterChange('province', e.target.value);
-                                                    fetchCities(e.target.value);
-                                                }}
-                                            >
-                                                <option value="">Province</option>
-                                                {province.map((val, index) => (
-                                                    <option key={index} value={val._id}>{val.name}</option>
-                                                ))}
-                                            </select>
-                                            <select
-                                                className="form-select form-select-lg filter-btn position-relative border-end-0 shadow-none"
-                                                name="city"
-                                                value={filters.city}
-                                                onChange={(e) => handleFilterChange('city', e.target.value)}
-                                            >
-                                                <option value="">City</option>
-                                                {city.map((val, index) => (
-                                                    <option key={index} value={val.name}>{val.name}</option>
-                                                ))}
-                                            </select>
-                                            <button
-                                                className="bg-white rounded-end-pill border-0 px-2 py-1"
-                                                type="button" onClick={handleSearch}>
+                                <div className="">
+                                    <div className="" data-aos="fade-up" data-aos-duration="1000">
+                                        <h1 className="text-white">Welcome To
+                                            <span className="text-dd88cf"> Pink Spot</span><br />
+                                            Choose Your Vibe
+                                        </h1>
+                                        {/* <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
+                                        <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link> */}
+
+                                        <div className="row position-relative my-5 d-block d-lg-none" style={{ height: "400px" }}>
+                                            <div className="col-12">
+                                                <div className="home-section3 bg-transparent 
+                                                    position-absolute top-0 start-0"
+                                                    style={{ zIndex: 1, width: "100%" }}>
+                                                    <div className="container bg-transparent">
+                                                        {/* Swiper start */}
+                                                        <Swiper
+                                                            slidesPerView={1}
+                                                            spaceBetween={10}
+                                                            pagination={{
+                                                                clickable: true,
+                                                            }}
+                                                            autoplay={{
+                                                                delay: 3000,
+                                                                disableOnInteraction: false,
+                                                            }}
+                                                            breakpoints={{
+                                                                640: { slidesPerView: 2, spaceBetween: 20 },
+                                                                768: { slidesPerView: 2, spaceBetween: 40 },
+                                                                1024: { slidesPerView: 3, spaceBetween: 30 },
+                                                                1400: { slidesPerView: 4, spaceBetween: 50 },
+                                                            }}
+                                                            modules={[Pagination, Autoplay]}
+                                                            className="mySwiper pb-5"
+                                                        >
+                                                            {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
+                                                                <SwiperSlide key={index}>
+                                                                    <div className="effect-image-1 border border-white border-2">
+                                                                        {post?.image1 == "" || null ?
+                                                                            <img src={noImg.src} alt="Post Images" className='w-100 bg-white' /> :
+                                                                            <img src={post.image1} alt="Post Image" className='w-100 bg-white' />
+                                                                        }
+
+                                                                        <div className="simple-text">
+                                                                            <p>{post.name}</p>
+                                                                            <p>{post.city}</p>
+                                                                        </div>
+                                                                        {/* Added overlay to match the static design */}
+                                                                        <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
+                                                                            <div className="">
+                                                                                <p className="mb-1">
+                                                                                    {post.description.length > maxLength
+                                                                                        ? `${post.description.slice(0, maxLength)}...`
+                                                                                        : post.description}
+                                                                                </p>
+                                                                                {post.description.length > maxLength && (
+                                                                                    <Link
+                                                                                        className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
+                                                                                        key={index}
+                                                                                        href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                                                    >
+                                                                                        View More
+                                                                                    </Link>
+                                                                                )}
+                                                                                {/* Like button for adding to favourites */}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </SwiperSlide>
+                                                            )) : <p></p>}
+                                                        </Swiper>
+                                                        {/* Slider end */}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-5">
+                                            <div className="input-group">
+                                                <select
+                                                    className="form-select form-select-lg filter-btn position-relative rounded-start-pill shadow-none border-top-0 border-start-0 border-bottom-0 border-secondary-subtle"
+                                                    name="province"
+                                                    value={filters.province}
+                                                    onChange={(e) => {
+                                                        handleFilterChange('province', e.target.value);
+                                                        fetchCities(e.target.value);
+                                                    }}
+                                                >
+                                                    <option value="">Province</option>
+                                                    {province.map((val, index) => (
+                                                        <option key={index} value={val._id}>{val.name}</option>
+                                                    ))}
+                                                </select>
+                                                <select
+                                                    className="form-select form-select-lg filter-btn position-relative border-top-0 border-end-0 border-bottom-0 shadow-none border-secondary-subtle"
+                                                    name="city"
+                                                    value={filters.city}
+                                                    onChange={(e) => handleFilterChange('city', e.target.value)}
+                                                >
+                                                    <option value="">City</option>
+                                                    {city.map((val, index) => (
+                                                        <option key={index} value={val.name}>{val.name}</option>
+                                                    ))}
+                                                </select>
+                                                <button
+                                                    className="bg-white rounded-end-pill border-0 px-2 py-1"
+                                                    type="button" onClick={handleSearch}>
                                                     <span className="bg-dd88cf text-4b164c rounded-pill px-4 py-2 fw-semibold">Search</span>
-                                                
-                                            </button>
+
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="home-section3 bg-faedf8 py-5">
+                    <div className="home-section3 bg-faedf8 py-5 d-none d-lg-block">
                         <div className="container">
                             <div className="row" data-aos="zoom-in-up" data-aos-duration="1000">
                                 {/* Swiper start */}

@@ -6,13 +6,17 @@ import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const Login = () => {
-    const [isLogin, setIsLogin] = useState(true);
+    // const [isLogin, setIsLogin] = useState(true);
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [user, setUser] = useState({ email: "", password: "", copassword: "", phone: "" });
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const mode = searchParams.get("mode"); // "login" or "signup"
+    const [isLogin, setIsLogin] = useState(mode !== "signup"); // default to login unless explicitly signup
 
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -120,7 +124,7 @@ const Login = () => {
                                                         <div className="inputBx password">
                                                             <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
                                                         </div>
-                                                      
+
                                                     </>
                                                 ) : (
                                                     <>
