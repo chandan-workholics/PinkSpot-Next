@@ -9,11 +9,9 @@ import filterImg from "../../../public/images/filterImg2.png";
 import { useCity } from "../../context/CityContext.js";
 
 const AllCategory = () => {
-    // const router = useRouter();
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
-    const queryCities = searchParams.get("cities");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     const [category, setCategory] = useState([])
@@ -21,9 +19,10 @@ const AllCategory = () => {
     const [province, setProvince] = useState([]);
     const [ethicity, setEthicity] = useState([]);
     const [subcategory, setSubcategory] = useState([]);
-
+    const [hasUserAppliedFilters, setHasUserAppliedFilters] = useState(false);
     const [querySynced, setQuerySynced] = useState(false);
     const [post, setPost] = useState([]);
+    const fromHeader = searchParams.get('from') === 'header';
 
     const [filters, setFilters] = useState({
         categoryid: '',
@@ -35,24 +34,69 @@ const AllCategory = () => {
     });
 
     const { footerSelectedCity } = useCity();
+    const [filteredData, setFilteredData] = useState(null);
+    const [footerFiltersApplied, setFooterFiltersApplied] = useState(false);
     const [isOnlyFilterMode, setIsOnlyFilterMode] = useState(false);
 
-     const fetchCardsByCityOnly = async (cityName) => {
-    const response = await fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=1&limit=50`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ city: cityName }),
-    });
-    const result = await response.json();
-    setPost(result?.data || []);
-  };
+    const fetchCardsByCityOnly = async (cityName) => {
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=1&limit=50`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ city: cityName }),
+        });
+        const result = await response.json();
+        setPost(result?.data || []);
+    };
 
-  // On mount, agar context se city aayi hai
-  useEffect(() => {
-    if (footerSelectedCity && !isOnlyFilterMode) {
-      fetchCardsByCityOnly(footerSelectedCity);
-    }
-  }, [footerSelectedCity]);
+    useEffect(() => {
+        if (footerSelectedCity && !hasUserAppliedFilters) {
+            setFilters(prev => ({
+                ...prev,
+                city: footerSelectedCity,
+                province: '', // Reset province to avoid conflict
+            }));
+            setIsOnlyFilterMode(true);
+            fetchCardsByCityOnly(footerSelectedCity); // Directly fetch data
+        }
+    }, [footerSelectedCity]);
+
+    useEffect(() => {
+        if (footerSelectedCity) {
+            fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCity`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-API-Key": "your-api-key1",
+                },
+                body: JSON.stringify({ city: footerSelectedCity }),
+            })
+                .then(res => res.json())
+                .then(data => setFilteredData(data));
+        }
+    }, [footerSelectedCity]);
+
+    useEffect(() => {
+        if (filters.city && isOnlyFilterMode && !hasUserAppliedFilters) {
+            fetchCardsByCityOnly(filters.city);
+        }
+    }, [filters.city, isOnlyFilterMode, hasUserAppliedFilters]);
+
+    useEffect(() => {
+        if (!footerFiltersApplied && !hasUserAppliedFilters) {
+            const cityFromQuery = searchParams.get("city");
+            const provinceFromQuery = searchParams.get("province");
+
+            if (cityFromQuery || provinceFromQuery) {
+                setFilters(prev => ({
+                    ...prev,
+                    city: cityFromQuery || '',
+                    province: provinceFromQuery || ''
+                }));
+                setIsOnlyFilterMode(true);
+                setFooterFiltersApplied(true);
+            }
+        }
+    }, [searchParams, footerFiltersApplied, hasUserAppliedFilters]);
 
     useEffect(() => {
         if ((queryProvince || queryCity) && !querySynced) {
@@ -80,6 +124,8 @@ const AllCategory = () => {
     }, [queryProvince, queryCity, querySynced]);
 
     const handleFilterChange = (key, value) => {
+        setHasUserAppliedFilters(true); // mark that user changed a filter
+        setIsOnlyFilterMode(true); // switch off city-only mode
         setFilters(prev => ({
             ...prev,
             [key]: value,
@@ -173,6 +219,15 @@ const AllCategory = () => {
             ethicity: '',
             isVerified: undefined,
         });
+
+        // Reset flags
+        setHasUserAppliedFilters(false);
+        setIsOnlyFilterMode(false);
+
+        // Re-apply city-only fetch if applicable
+        if (footerSelectedCity) {
+            fetchCardsByCityOnly(footerSelectedCity);
+        }
     };
 
 
@@ -220,7 +275,7 @@ const AllCategory = () => {
                                     </div>
                                     <div className="col-md-8">
                                         <div className="row">
-                                            <div className="col-md-6 position-relative mb-3">
+                                            {/* <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
@@ -254,7 +309,47 @@ const AllCategory = () => {
                                                         <option key={index} value={val._id}>{val.name}</option>
                                                     ))}
                                                 </select>
-                                            </div>
+                                            </div> */}
+                                            {!fromHeader && (
+                                                <>
+                                                    <div className="col-md-6 position-relative mb-3">
+                                                        <span className="arrow-span">
+                                                            <i className="fa-solid fa-angle-down text-white"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select filter-btn position-relative"
+                                                            name="category"
+                                                            value={filters.categoryid}
+                                                            onChange={(e) => {
+                                                                handleFilterChange('categoryid', e.target.value);
+                                                                fetchSubcategories(e.target.value);
+                                                            }}
+                                                        >
+                                                            <option value="">Category</option>
+                                                            {category.map((val, index) => (
+                                                                <option key={index} value={val._id}>{val.name}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+
+                                                    <div className="col-md-6 position-relative mb-3">
+                                                        <span className="arrow-span">
+                                                            <i className="fa-solid fa-angle-down text-white"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select filter-btn position-relative"
+                                                            name="subcategory"
+                                                            value={filters.subcategoryid}
+                                                            onChange={(e) => handleFilterChange('subcategoryid', e.target.value)}
+                                                        >
+                                                            <option value="">Sub-Category</option>
+                                                            {subcategory.map((val, index) => (
+                                                                <option key={index} value={val._id}>{val.name}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                </>
+                                            )}
                                             <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
@@ -352,7 +447,7 @@ const AllCategory = () => {
 
 
                         {/* Posts Section */}
-                        <div className="container box-detail" style={{ minHeight: "100vh" }}>
+                        <div className="container box-detail">
                             {/* Mobile View */}
                             <div className="row d-block d-md-none">
                                 {post?.map((val, index) =>
