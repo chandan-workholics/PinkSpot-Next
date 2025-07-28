@@ -230,7 +230,7 @@ const UserProfile = () => {
                                                 <div className="profileHeader"></div>
                                                 {users &&
                                                     <div >
-                                                        {profile?.image && (
+                                                        {/* {profile?.image && (
                                                             <Image
                                                                 src={`${profile.image}?t=${new Date().getTime()}`}
                                                                 alt="Profile"
@@ -238,7 +238,7 @@ const UserProfile = () => {
                                                                 height={150}
                                                                 className="profileImage rounded-circle"
                                                             />
-                                                        )}
+                                                        )} */}
                                                         <h3 className="text-center mt-3">{users.name}</h3>
                                                         <p className="text-center">
                                                             {users.streetaddress}, Province
