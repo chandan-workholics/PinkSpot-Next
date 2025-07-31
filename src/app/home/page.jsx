@@ -30,7 +30,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const modal = sessionStorage.getItem("agreemodal");
-        setSessionModal(modal);
+        setSessionModal(modal === "true");
     }, []);
 
     const getPosts = async () => {
@@ -421,7 +421,7 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                {sessionModal == true ?
+                {sessionModal ?
 
                     <div className="modal" id="myModal" style={{ display: `${modalactive}` }}>
                         <div className="modal-dialog">

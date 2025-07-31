@@ -66,6 +66,10 @@ const Header = () => {
                                                 </li>
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li>
+                                                    <button onClick={() => router.push("/Wallet")} className="dropdown-item">WALLET</button>
+                                                </li>
+                                                <li><hr className="dropdown-divider" /></li>
+                                                <li>
                                                     <button onClick={handleLogout} className="dropdown-item bg-white text-danger fw-normal">LOGOUT
                                                         <i className="fa-solid fa-right-from-bracket text-danger ms-2"></i>
                                                     </button>

@@ -2181,3 +2181,15 @@ a {
 }
 
 /* Footer - End */
+
+/* Wallet - start */
+.wallet-page .main-card {
+  min-height: 91.5vh;
+  background: linear-gradient(-45deg, #d89bda, #af47aa, #dd88cf, #df87e0);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+.wallet-page .wallet-container{
+  background-color: whitesmoke;
+}
+/* Wallet - End */
