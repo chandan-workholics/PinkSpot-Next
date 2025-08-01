@@ -9,18 +9,15 @@ const Footer = () => {
 
     const { setFooterSelectedCity } = useCity();
     const router = useRouter();
-
-    // const location = useLocation();
-    // const location_path = location.pathname;
-    // const tokenstring = sessionStorage.getItem("token");
     const [province, Setprovince] = useState([]);
     const [city, SetCity] = useState([]);
     const [category, Setcategory] = useState(null);
     const URL = 'http://206.189.130.102:4000/api/v1';
 
     const handleCityClick = (cityName) => {
-        setFooterSelectedCity(cityName);  // context me set kar diya
-        router.push("/all-category");     // navigate
+        setFooterSelectedCity(cityName);
+        localStorage.setItem("selectedLocation", cityName); 
+        router.push("/all-category");
     };
 
     const getprovince = () => {
@@ -71,24 +68,7 @@ const Footer = () => {
         getAllCity();
         getcategory();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    //  console.log(category);
-    // console.log(province);
-    // console.log(province.data);
-    // console.log(province.data[0].name);
-    const setlocalstrage = (provinceId, cityid) => {
-        // alert(value);
-        sessionStorage.setItem("province", '');
-        sessionStorage.setItem("city", '');
-        sessionStorage.setItem("province", provinceId);
-        sessionStorage.setItem("city", cityid);
-    };
-    const Clearsetlocalstrage = () => {
-        // alert(value);
-
-        sessionStorage.setItem("province", '');
-        sessionStorage.setItem("city", '');
-        window.scrollTo({ behavior: "smooth", top: 0 });
-    };
+    
     const checkWord = ['Manitoba', 'Trois Rivieres', 'Sarnia', 'Drummondville', 'Niagra Region', 'Granby', 'Windsor', 'London', 'Barrie', 'Saskatoon', 'Regina', 'Sherbrooke', 'Hamilton', 'Mississuaga', 'Brampton', 'Halifax', 'Quebec', 'Vancouver', 'Montreal', 'Winnipeg', 'Ottawa', 'City Of Toronto', 'Calgary', 'Edmonton'];
 
 
@@ -115,29 +95,6 @@ const Footer = () => {
                                             </Link>
                                         ) : null
                                     ))}
-                                    {/* <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Trois Rivieres</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sarnia</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Drummondville</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Niagra Region</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Granby</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Windsor</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">London</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Barrie</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Saskatoon</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Regina</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Sherbrooke</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Hamilton</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Mississuaga</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Brampton</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Halifax</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Quebec</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Vancouver</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Montreal</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Winnipeg</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Ottawa</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">City Of Toronto</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Calgary</span>
-                                    <span className="cityBadge" data-aos="zoom-in" data-aos-duration="2000">Edmonton</span> */}
                                 </p>
                             </div>
                         </div>
@@ -195,7 +152,6 @@ const Footer = () => {
                             {/* Copyright & Social Icons */}
                             <div className="d-flex flex-column flex-sm-row justify-content-between py-4 border-top">
                                 <p className='text-white mb-0'>© 2025 PinkSpot Company, Inc. All rights reserved.</p>
-
                             </div>
                         </footer>
                     </div>

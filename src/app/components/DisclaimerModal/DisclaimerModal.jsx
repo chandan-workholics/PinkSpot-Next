@@ -1,17 +1,19 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from 'next/link'
-import logo from '../../../../public/images/pink-logo.png'
+import Link from 'next/link';
+import logo from '../../../../public/images/pink-logo.png';
 
 export default function DisclaimerModal() {
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
+    const [hasMounted, setHasMounted] = useState(false);
 
-    // useEffect(() => {
-    //     const hasAgreed = localStorage.getItem('disclaimerAccepted');
-    //     if (hasAgreed) {
-    //         setShow(false);
-    //     }
-    // }, []);
+    useEffect(() => {
+        const hasAgreed = localStorage.getItem('disclaimerAccepted');
+        if (!hasAgreed) {
+            setShow(true);
+        }
+        setHasMounted(true);
+    }, []);
 
     const handleAgree = () => {
         localStorage.setItem('disclaimerAccepted', 'true');
@@ -20,8 +22,9 @@ export default function DisclaimerModal() {
 
     const handleDisagree = () => {
         alert("You must agree to continue using this site.");
-        // You can also redirect or disable content here
     };
+
+    if (!hasMounted) return null; // 🛑 Don't render until client-side
 
     return (
         <>

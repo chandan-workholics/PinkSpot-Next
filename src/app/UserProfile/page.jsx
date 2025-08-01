@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Footer from '../components/footer/Footer';
 import Header from '../components/header/Header';
 import Image from 'next/image';
+import NoImg from '../../../public/images/no-img.png';
 import profileImg from "../../../public/images/pro-img.png";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -56,7 +57,14 @@ const UserProfile = () => {
 
     const handleDelete = async (_id) => {
         try {
-            const response = await callAPI.DELETE(`/postad/deletepostadby_single_id/${_id}`);
+            const response = await fetch(`http://206.189.130.102:4000/api/v1/postad/deletepostadby_single_id/${_id}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
 
             if (response.ok) {
                 const data = await response.json();
@@ -230,7 +238,7 @@ const UserProfile = () => {
                                                 <div className="profileHeader"></div>
                                                 {users &&
                                                     <div >
-                                                        {profile?.image && (
+                                                        {/* {profile?.image && (
                                                             <Image
                                                                 src={`${profile.image}?t=${new Date().getTime()}`}
                                                                 alt="Profile"
@@ -238,7 +246,7 @@ const UserProfile = () => {
                                                                 height={150}
                                                                 className="profileImage rounded-circle"
                                                             />
-                                                        )}
+                                                        )} */}
                                                         <h3 className="text-center mt-3">{users.name}</h3>
                                                         <p className="text-center">
                                                             {users.streetaddress}, Province
@@ -401,7 +409,7 @@ const UserProfile = () => {
                                                         <div className="row g-0">
                                                             <div className="col-md-3">
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image src={profile.image1} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image src={profile.image1|| NoImg.src } alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
                                                                     <div className='ps-3'>
                                                                         <p className="mb-0">Order Id : {profile.orderid}</p>
                                                                         <p >Payment Status: {profile.paymentstatusdetail}</p>
@@ -485,7 +493,9 @@ const UserProfile = () => {
                                                         <div className="row g-0">
                                                             <div className="col-md-3">
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image key={index} src={profile.image1} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image 
+                                                                    key={index} 
+                                                                    src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
                                                                 </div>
                                                             </div>
                                                             <div className="col-md-9">

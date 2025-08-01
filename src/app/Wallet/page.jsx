@@ -10,8 +10,12 @@ const userId = typeof window !== "undefined" ? sessionStorage.getItem("userid") 
 const Wallet = () => {
 
     const [paymentInfo, setPaymentInfo] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const createPayment = async () => {
+    try {
+        setLoading(true); // Start loading before fetch
+
         const res = await fetch("http://206.189.130.102:4000/api/v1/payment/create-invoice", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -21,20 +25,29 @@ const Wallet = () => {
                 title: "Add Funds"
             }),
         });
+
         const data = await res.json();
-        window.location.href = data.payment_url; // redirect to NowPayments
-    };
+        setLoading(false); // Stop loading before redirect
+        window.location.href = data.payment_url; // Redirect to NowPayments
+
+    } catch (error) {
+        console.error("Error creating payment:", error);
+        setLoading(false); // Stop loading on error
+    }
+};
+
 
     const paymentInformation = async () => {
         try {
-      const res = await fetch(`http://206.189.130.102:4000/api/v1/payment/info/${userId}`);
-      const data = await res.json();
-      setPaymentInfo(data);
-    } catch (error) {
-      console.error("Error fetching payment info:", error);
-    }
+            const res = await fetch(`http://206.189.130.102:4000/api/v1/payment/info/${userId}`);
+            const data = await res.json();
+            setPaymentInfo(data);
+        } catch (error) {
+            console.error("Error fetching payment info:", error);
+        }
     };
     useEffect(() => {
+        setLoading(false);
         paymentInformation();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -68,14 +81,19 @@ const Wallet = () => {
                                                         <h5 className="page-title">
                                                             My E-wallet
                                                         </h5>
-                                                          <div className="amount-box text-center">
-                                                                <img src={WalletImg.src} alt="" width={200} className="mb-4" />
-                                                                <h5 className=''>Total Balance</h5>
-                                                                <h5 className="amount"> ${paymentInfo?.balance}</h5>
-                                                            </div>
+                                                        <div className="amount-box text-center">
+                                                            <img src={WalletImg.src} alt="" width={200} className="mb-4" />
+                                                            <h5 className=''>Total Balance</h5>
+                                                            <h5 className="amount"> ${paymentInfo?.balance}</h5>
+                                                        </div>
 
                                                         <div className="btn-group text-center mt-3">
-                                                            <button type="button" onClick={createPayment} className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3">Add Money</button>
+                                                            <button type="button" onClick={createPayment}
+                                                                className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3"
+                                                                disabled={loading}
+                                                            >
+                                                                {loading ? "Processing..." : "Add Money"}
+                                                            </button>
                                                             {/* <button type="button" className="btn shadow bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3">Widthdraw</button> */}
                                                         </div>
 

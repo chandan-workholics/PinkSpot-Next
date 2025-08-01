@@ -27,24 +27,28 @@ const AdPost = () => {
     const [step, setStep] = useState(1);
     const totalSteps = 4;
     const [formData, setFormData] = useState({
+        postbyuserid: sessionStorage.getItem("userid") || "",
         category: "",
-        subCategory: "",
+        subcategoryid: "",
         name: "",
         age: "",
         city: "",
-        phone: "",
-        province: "",
+        provincesid: "",
+        ethicity: "",
         availability: "",
-        ethnicity: "",
-        status: "",
+        bodystatus: "",
+        phone: "",
         height: "",
         weight: "",
-        haircolor: "",
-        eyecolor: "",
-        adTitle: "",
-        price: "",
+        haircolour: "",
+        eyecolour: "",
+        title: "",
         description: "",
+        price: "",
         images: [],
+        paymentid: "",
+        orderid: "",
+        highlight: true,
     });
 
     const nextStep = () => {
@@ -56,26 +60,31 @@ const AdPost = () => {
     };
 
     const [user, setUser] = useState({
+        postbyuserid: "",
         category: "",
-        subCategory: "",
+        subcategoryid: "",
         name: "",
         age: "",
         city: "",
-        ethnicity: "",
+        provincesid: "",
+        ethicity: "",
         availability: "",
         bodystatus: "",
         phone: "",
         height: "",
         weight: "",
-        haircolor: "",
-        eyecolor: "",
+        haircolour: "",
+        eyecolour: "",
         title: "",
         description: "",
         price: "",
-        images: [null]
+        images: [],
+        paymentid: "",
+        orderid: "",
+        highlight: true,
     });
 
-    const handleShow = () => {
+    const handleShow = async () => {
         try {
             if (!formData || typeof formData !== "object") {
                 console.error("Form data is undefined or not an object");
@@ -85,13 +94,33 @@ const AdPost = () => {
             console.log("Form data:", formData);
 
             const {
-                name, age, city, availability, phone, adTitle, description,
-                status, height, weight, haircolor, eyecolor, price, images
+                postbyuserid,
+                category,
+                subcategoryid,
+                name,
+                age,
+                city,
+                provincesid,
+                ethicity,
+                availability,
+                bodystatus,
+                phone,
+                height,
+                weight,
+                haircolour,
+                eyecolour,
+                title,
+                description,
+                price,
+                images,
+                paymentid,
+                orderid,
+                highlight
             } = formData;
 
             const emptyFieldsList = Object.entries({
-                name, age, city, availability, phone, adTitle, description,
-                status, height, weight, haircolor, eyecolor, price,
+                name, age, city, availability, phone, title, description,
+                bodystatus, height, weight, haircolour, eyecolour, price,
                 images: images && images.length > 0 ? images : null,
             })
                 .filter(([_, value]) => !value)
@@ -101,7 +130,6 @@ const AdPost = () => {
                 console.warn("Missing fields:", emptyFieldsList.join(", "));
                 setEmptyFields(emptyFieldsList);
 
-                // Scroll to first empty field
                 const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
                 if (firstEmptyField) {
                     firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -109,13 +137,106 @@ const AdPost = () => {
                 }
                 return;
             }
-            alert("form submitting successfully")
-            console.log("Form is complete. Proceeding...");
+
+            // 🛠 Convert image array to image1, image2, etc.
+            const imageFields = {};
+            formData.images.forEach((url, index) => {
+                imageFields[`image${index + 1}`] = url;
+            });
+
+            // 🧾 Prepare final payload
+            const payload = {
+                ...formData,
+                ...imageFields,
+                images: undefined  // remove the array field
+            };
+
+            const response = await fetch("http://206.189.130.102:4000/api/v1/postad/createpostad", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Form submitted successfully!");
+                console.log("Submission result:", result);
+                // Reset form if needed
+            } else {
+                console.error("Submission failed:", result);
+                alert("Failed to submit the form. Please try again.");
+            }
+
         } catch (error) {
-            console.error("Error while checking form fields:", error);
+            console.error("Error while submitting form:", error);
+            alert("An error occurred. Please try again later.");
         }
     };
 
+
+    // const handleShow = async () => {
+    //     try {
+    //         if (!formData || typeof formData !== "object") {
+    //             console.error("Form data is undefined or not an object");
+    //             return;
+    //         }
+
+    //         console.log("Form data:", formData);
+
+    //         const {
+    //             name, age, city, availability, phone, title, description,
+    //             status, height, weight, haircolor, eyecolor, price, images
+    //         } = formData;
+
+    //         const emptyFieldsList = Object.entries({
+    //             name, age, city, availability, phone, adTitle, description,
+    //             status, height, weight, haircolor, eyecolor, price,
+    //             images: images && images.length > 0 ? images : null,
+    //         })
+    //             .filter(([_, value]) => !value)
+    //             .map(([key]) => key);
+
+    //         if (emptyFieldsList.length > 0) {
+    //             console.warn("Missing fields:", emptyFieldsList.join(", "));
+    //             setEmptyFields(emptyFieldsList);
+
+    //             // Scroll to first empty field
+    //             const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
+    //             if (firstEmptyField) {
+    //                 firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
+    //                 firstEmptyField.focus();
+    //             }
+    //             return;
+    //         }
+
+    //         // ✅ All fields present, submit the form
+    //         const response = await fetch("http://206.189.130.102:4000/api/v1/postad/createpostad", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify(formData)
+    //         });
+
+    //         const result = await response.json();
+
+    //         if (response.ok) {
+    //             alert("Form submitted successfully!");
+    //             console.log("Submission result:", result);
+    //             // Optionally reset form or redirect
+    //         } else {
+    //             console.error("Submission failed:", result);
+    //             alert("Failed to submit the form. Please try again.");
+    //         }
+
+    //     } catch (error) {
+    //         console.error("Error while submitting form:", error);
+    //         alert("An error occurred. Please try again later.");
+    //     }
+    // };
 
     const handleChange = (e) => {
         setFormData({
@@ -176,6 +297,7 @@ const AdPost = () => {
 
             if (response.data) {
                 setCategory(response.data || []);
+
             } else {
                 console.error("Unexpected response format", response);
                 setCategory([]);
@@ -202,18 +324,18 @@ const AdPost = () => {
         let tempErrors = {};
         if (step === 1) {
             if (!formData.category) tempErrors.category = "Category is required";
-            if (!formData.subCategory) tempErrors.subCategory = "Sub Category is required";
+            if (!formData.subcategoryid) tempErrors.subCategory = "Sub Category is required";
         } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
             if (!formData.age || isNaN(formData.age) || formData.age <= 0)
                 tempErrors.age = "Enter a valid age";
             // if (!formData.city) tempErrors.city = "City is required";
-            if (!formData.mobile || !/^\d{10}$/.test(formData.mobile))
-                tempErrors.mobile = "Enter a valid 10-digit number";
-            if (!formData.province) tempErrors.province = "Province is required";
+            if (!formData.phone || !/^\d{10}$/.test(formData.phone))
+                tempErrors.phone = "Enter a valid 10-digit number";
+            if (!formData.provincesid) tempErrors.provincesid = "Province is required";
             if (!formData.availability) tempErrors.availability = "Availability is required";
         } else if (step === 3) {
-            if (!formData.adTitle) tempErrors.adTitle = "Ad Title is required";
+            if (!formData.title) tempErrors.title = "Ad Title is required";
         } else if (step === 4) {
             if (!formData.description) tempErrors.description = "Description is required";
             if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
@@ -366,7 +488,7 @@ const AdPost = () => {
                                                                 <option value="">Select a category</option>
                                                                 {Array.isArray(category?.data) && category.data.length > 0 ? (
                                                                     category.data.map((cat, index) => (
-                                                                        <option value={cat.id} key={index}>{cat.name}</option>
+                                                                        <option value={cat._id} key={index}>{cat.name}</option>
                                                                     ))
                                                                 ) : (
                                                                     <option disabled>No category available</option>
@@ -377,7 +499,7 @@ const AdPost = () => {
 
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Sub Category *</label>
-                                                            <select className="form-select" name='subCategory' value={formData.subCategory} onChange={handleChange} required>
+                                                            <select className="form-select" name='subcategoryid' value={formData.subcategoryid} onChange={handleChange} required>
                                                                 <option value="0">Select a sub category</option>
                                                                 {subcategories?.map((subcategory) => (
                                                                     <option key={subcategory._id} value={subcategory._id}>
@@ -407,8 +529,8 @@ const AdPost = () => {
                                                             <label className="form-label">Province *</label>
                                                             <select
                                                                 className={`form-select ${alertcity ? 'emptyInput' : ''}`}
-                                                                name="province"
-                                                                value={formData.province || ""}
+                                                                name="provincesid"
+                                                                value={formData.provincesid || ""}
                                                                 onChange={(e) => {
                                                                     handleChange(e);
                                                                     if (e.target.value) {
@@ -466,8 +588,8 @@ const AdPost = () => {
                                                             <label className="form-label">Ethnicity</label>
                                                             <select
                                                                 className="form-select"
-                                                                name="ethnicity"
-                                                                value={formData.ethnicity}
+                                                                name="ethicity"
+                                                                value={formData.ethicity}
                                                                 onChange={handleChange}
                                                             >
                                                                 {ethicity?.data?.map((val, index) => (
@@ -485,8 +607,8 @@ const AdPost = () => {
                                                 <>
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Body Stats</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Body Stats" value={formData.status} name='status' onChange={handleChange} />
+                                                            <label className="form-label">Body Status</label>
+                                                            <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
                                                             {errors.bodystatus && <p className="text-danger">{errors.bodystatus}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
@@ -501,17 +623,17 @@ const AdPost = () => {
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Hair Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolor' value={formData.haircolor} onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
                                                             {errors.haircolor && <p className="text-danger">{errors.haircolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Eye Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolor' value={formData.eyecolor} onChange={handleChange} />
+                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolour' value={formData.eyecolour} onChange={handleChange} />
                                                             {errors.eyecolor && <p className="text-danger">{errors.eyecolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Ad Title *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Title" name='adTitle' required value={formData.adTitle} onChange={handleChange} />
+                                                            <label className="form-label">Title *</label>
+                                                            <input type="text" className="form-control" placeholder="Enter Title" name='title' required value={formData.title} onChange={handleChange} />
                                                             {errors.adTitle && <p className="text-danger">{errors.adTitle}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
@@ -538,7 +660,9 @@ const AdPost = () => {
                                                                     {loading[index] ? (
                                                                         <span>Loading...</span>
                                                                     ) : img ? (
-                                                                        <img src={img} alt="Preview" className="previewImage" />
+                                                                        <>
+                                                                            <img src={img} alt="Preview" className="previewImage" />
+                                                                        </>
                                                                     ) : (
                                                                         <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
                                                                     )}
