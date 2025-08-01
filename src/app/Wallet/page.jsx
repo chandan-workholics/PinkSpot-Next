@@ -13,28 +13,28 @@ const Wallet = () => {
     const [loading, setLoading] = useState(false);
 
     const createPayment = async () => {
-    try {
-        setLoading(true); // Start loading before fetch
+        try {
+            setLoading(true); // Start loading before fetch
 
-        const res = await fetch("http://206.189.130.102:4000/api/v1/payment/create-invoice", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                amount: 10,
-                order_id: Date.now(), // unique ID
-                title: "Add Funds"
-            }),
-        });
+            const res = await fetch("http://206.189.130.102:4000/api/v1/payment/create-invoice", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    amount: 10,
+                    order_id: Date.now(), // unique ID
+                    title: "Add Funds"
+                }),
+            });
 
-        const data = await res.json();
-        setLoading(false); // Stop loading before redirect
-        window.location.href = data.payment_url; // Redirect to NowPayments
+            const data = await res.json();
+            setLoading(false); // Stop loading before redirect
+            window.location.href = data.payment_url; // Redirect to NowPayments
 
-    } catch (error) {
-        console.error("Error creating payment:", error);
-        setLoading(false); // Stop loading on error
-    }
-};
+        } catch (error) {
+            console.error("Error creating payment:", error);
+            setLoading(false); // Stop loading on error
+        }
+    };
 
 
     const paymentInformation = async () => {
@@ -94,7 +94,7 @@ const Wallet = () => {
                                                             >
                                                                 {loading ? "Processing..." : "Add Money"}
                                                             </button>
-                                                            {/* <button type="button" className="btn shadow bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3">Widthdraw</button> */}
+
                                                         </div>
 
                                                     </div>
