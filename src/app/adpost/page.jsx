@@ -98,8 +98,7 @@ const AdPost = () => {
             } = formData;
 
             const emptyFieldsList = Object.entries({
-                name, age, city, availability, phone, title, description,
-                bodystatus, height, weight, haircolour, eyecolour, price,
+                category, subcategoryid, name, age, provincesid, city, availability, phone, title, description,
                 images: images && images.length > 0 ? images : null,
             })
                 .filter(([_, value]) => !value)
@@ -108,7 +107,7 @@ const AdPost = () => {
             if (emptyFieldsList.length > 0) {
                 console.warn("Missing fields:", emptyFieldsList.join(", "));
                 setEmptyFields(emptyFieldsList);
-
+                alert("please fill all required fields");
                 const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
                 if (firstEmptyField) {
                     firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -142,11 +141,10 @@ const AdPost = () => {
 
             if (response.ok) {
                 alert("Form submitted successfully!");
-                console.log("Submission result:", result);
                 // Reset form if needed
+                window.location.reload();
             } else {
-                console.error("Submission failed:", result);
-                alert("Failed to submit the form. Please try again.");
+                alert(result.error || result.message);
             }
 
         } catch (error) {
@@ -155,13 +153,29 @@ const AdPost = () => {
         }
     };
 
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+    const handleChange = (eOrName, maybeValue) => {
+        if (typeof eOrName === 'string') {
+            // Manual call: handleChange('category', e.target.value)
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [eOrName]: maybeValue,
+            }));
+        } else if (eOrName?.target) {
+            // Direct event: handleChange(e)
+            const { name, value } = eOrName.target;
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [name]: value,
+            }));
+        }
     };
+
+    // const handleChange = (e) => {
+    //     setFormData({
+    //         ...formData,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
 
     const handleImageUpload = async (event) => {
         const files = Array.from(event.target.files);
@@ -210,33 +224,24 @@ const AdPost = () => {
 
 
     const getCategory = async () => {
-        try {
-            const response = await callAPI.get(`/category/getallcategory`);
-
-            if (response.data) {
-                setCategory(response.data || []);
-
-            } else {
-                console.error("Unexpected response format", response);
-                setCategory([]);
-            }
-        } catch (error) {
-            console.error("Error fetching categories", error);
-            setCategory([]);
-        }
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
+        const result = await response.json();
+        setCategory(result?.data);
     };
 
-    const fetchSubCategories = async () => {
+    const fetchSubCategories = async (id) => {
         try {
-            const response = await callAPI.get("/category/getallcategory");
-            if (response.data.status === "success" && response.data.data.length > 0) {
-                const allSubcategories = response.data.data.flatMap(category => category.subcategoriesId || []);
-                setSubcategories(allSubcategories);
-            }
+            const response = await callAPI.get(`/category/getsubcategorybycatid/${id}`);
+            setSubcategories(response.data?.data || []);  // assuming response shape is { data: { data: [...] } }
         } catch (error) {
             console.error("Error fetching subcategories:", error);
+            setSubcategories([]);
         }
     };
+
+    useEffect(() => {
+        getCategory();
+    }, []);
 
     const validateForm = () => {
         let tempErrors = {};
@@ -385,13 +390,17 @@ const AdPost = () => {
                                                                 className="form-select"
                                                                 name="category"
                                                                 value={formData.category}
-                                                                onChange={handleChange}
+                                                                onChange={(e) => {
+                                                                    handleChange('category', e.target.value);
+                                                                    handleChange('subcategoryid', ''); // Clear selected subcategory
+                                                                    fetchSubCategories(e.target.value);
+                                                                }}
                                                                 required
                                                             >
                                                                 <option value="">Select a category</option>
-                                                                {Array.isArray(category?.data) && category.data.length > 0 ? (
-                                                                    category.data.map((cat, index) => (
-                                                                        <option value={cat._id} key={index}>{cat.name}</option>
+                                                                {Array.isArray(category) && category.length > 0 ? (
+                                                                    category.map((cat, index) => (
+                                                                        <option value={cat._id} key={index} className='text-capitalize'>{cat.name}</option>
                                                                     ))
                                                                 ) : (
                                                                     <option disabled>No category available</option>
@@ -402,11 +411,15 @@ const AdPost = () => {
 
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Sub Category *</label>
-                                                            <select className="form-select" name='subcategoryid' value={formData.subcategoryid} onChange={handleChange} required>
+                                                            <select
+                                                                className="form-select"
+                                                                name='subcategoryid'
+                                                                value={formData.subcategoryid}
+                                                                onChange={(e) => handleChange('subcategoryid', e.target.value)} required>
                                                                 <option value="0">Select a sub category</option>
-                                                                {subcategories?.map((subcategory) => (
-                                                                    <option key={subcategory._id} value={subcategory._id}>
-                                                                        {subcategory.name}
+                                                                {subcategories?.map((val, index) => (
+                                                                    <option key={index} value={val._id}>
+                                                                        {val.name}
                                                                     </option>
                                                                 ))}
                                                             </select>
@@ -555,7 +568,7 @@ const AdPost = () => {
                                                         {errors.description && <p className="text-danger">{errors.description}</p>}
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label className="form-label">Upload Images</label>
+                                                        <label className="form-label">Upload Images *</label>
                                                         <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
                                                             {images.map((img, index) => (
                                                                 <div key={index} className="image-upload">

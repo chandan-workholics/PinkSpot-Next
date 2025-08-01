@@ -1320,9 +1320,9 @@ a {
     transition: transform 0.3s ease-in-out;
   }
 
-  .form-container:hover {
+  /* .form-container:hover {
     transform: scale(1.02);
-  }
+  } */
 
   .form-label {
     font-weight: bold;

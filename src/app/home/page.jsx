@@ -165,21 +165,19 @@ const HomePage = () => {
                                                                         </div>
                                                                         {/* Added overlay to match the static design */}
                                                                         <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
-                                                                            <div className="">
-                                                                                <p className="mb-1">
+                                                                            <div className="w-100 p-3">
+                                                                                <p className="mb-1 text-center">
                                                                                     {post.description.length > maxLength
                                                                                         ? `${post.description.slice(0, maxLength)}...`
                                                                                         : post.description}
                                                                                 </p>
-                                                                                {post.description.length > maxLength && (
-                                                                                    <Link
-                                                                                        className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
-                                                                                        key={index}
-                                                                                        href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
-                                                                                    >
-                                                                                        View More
-                                                                                    </Link>
-                                                                                )}
+                                                                                <Link
+                                                                                    className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
+                                                                                    key={index}
+                                                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                                                >
+                                                                                    View More
+                                                                                </Link>
                                                                                 {/* Like button for adding to favourites */}
 
                                                                             </div>
@@ -270,21 +268,19 @@ const HomePage = () => {
                                                 </div>
                                                 {/* Added overlay to match the static design */}
                                                 <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
-                                                    <div className="">
-                                                        <p className="mb-1">
+                                                    <div className="text-center w-100 p-3">
+                                                        <p className="mb-1 text-center">
                                                             {post.description.length > maxLength
                                                                 ? `${post.description.slice(0, maxLength)}...`
                                                                 : post.description}
                                                         </p>
-                                                        {post.description.length > maxLength && (
-                                                            <Link
-                                                                className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
-                                                                key={index}
-                                                                href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
-                                                            >
-                                                                View More
-                                                            </Link>
-                                                        )}
+                                                        <Link
+                                                            className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'
+                                                            key={index}
+                                                            href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                        >
+                                                            View More
+                                                        </Link>
                                                         {/* Like button for adding to favourites */}
 
                                                     </div>

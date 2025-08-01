@@ -71,8 +71,6 @@ const UserProfile = () => {
                 console.log("Post deleted:", data);
                 getpost();
                 setShowModal(false);
-            } else {
-                console.error("Failed to delete post");
             }
         } catch (error) {
             console.error("Error deleting post:", error);
@@ -409,7 +407,7 @@ const UserProfile = () => {
                                                         <div className="row g-0">
                                                             <div className="col-md-3">
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image src={profile.image1|| NoImg.src } alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
                                                                     <div className='ps-3'>
                                                                         <p className="mb-0">Order Id : {profile.orderid}</p>
                                                                         <p >Payment Status: {profile.paymentstatusdetail}</p>
@@ -493,9 +491,9 @@ const UserProfile = () => {
                                                         <div className="row g-0">
                                                             <div className="col-md-3">
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image 
-                                                                    key={index} 
-                                                                    src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image
+                                                                        key={index}
+                                                                        src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
                                                                 </div>
                                                             </div>
                                                             <div className="col-md-9">
