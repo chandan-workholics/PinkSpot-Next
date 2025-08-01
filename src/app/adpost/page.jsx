@@ -25,7 +25,9 @@ const AdPost = () => {
 
 
     const [step, setStep] = useState(1);
+
     const totalSteps = 4;
+
     const [formData, setFormData] = useState({
         postbyuserid: sessionStorage.getItem("userid") || "",
         category: "",
@@ -59,30 +61,7 @@ const AdPost = () => {
         if (step > 1) setStep(step - 1);
     };
 
-    const [user, setUser] = useState({
-        postbyuserid: "",
-        category: "",
-        subcategoryid: "",
-        name: "",
-        age: "",
-        city: "",
-        provincesid: "",
-        ethicity: "",
-        availability: "",
-        bodystatus: "",
-        phone: "",
-        height: "",
-        weight: "",
-        haircolour: "",
-        eyecolour: "",
-        title: "",
-        description: "",
-        price: "",
-        images: [],
-        paymentid: "",
-        orderid: "",
-        highlight: true,
-    });
+
 
     const handleShow = async () => {
         try {
@@ -176,67 +155,6 @@ const AdPost = () => {
         }
     };
 
-
-    // const handleShow = async () => {
-    //     try {
-    //         if (!formData || typeof formData !== "object") {
-    //             console.error("Form data is undefined or not an object");
-    //             return;
-    //         }
-
-    //         console.log("Form data:", formData);
-
-    //         const {
-    //             name, age, city, availability, phone, title, description,
-    //             status, height, weight, haircolor, eyecolor, price, images
-    //         } = formData;
-
-    //         const emptyFieldsList = Object.entries({
-    //             name, age, city, availability, phone, adTitle, description,
-    //             status, height, weight, haircolor, eyecolor, price,
-    //             images: images && images.length > 0 ? images : null,
-    //         })
-    //             .filter(([_, value]) => !value)
-    //             .map(([key]) => key);
-
-    //         if (emptyFieldsList.length > 0) {
-    //             console.warn("Missing fields:", emptyFieldsList.join(", "));
-    //             setEmptyFields(emptyFieldsList);
-
-    //             // Scroll to first empty field
-    //             const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
-    //             if (firstEmptyField) {
-    //                 firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
-    //                 firstEmptyField.focus();
-    //             }
-    //             return;
-    //         }
-
-    //         // ✅ All fields present, submit the form
-    //         const response = await fetch("http://206.189.130.102:4000/api/v1/postad/createpostad", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify(formData)
-    //         });
-
-    //         const result = await response.json();
-
-    //         if (response.ok) {
-    //             alert("Form submitted successfully!");
-    //             console.log("Submission result:", result);
-    //             // Optionally reset form or redirect
-    //         } else {
-    //             console.error("Submission failed:", result);
-    //             alert("Failed to submit the form. Please try again.");
-    //         }
-
-    //     } catch (error) {
-    //         console.error("Error while submitting form:", error);
-    //         alert("An error occurred. Please try again later.");
-    //     }
-    // };
 
     const handleChange = (e) => {
         setFormData({
@@ -372,21 +290,6 @@ const AdPost = () => {
             Setethicity([]);
         }
     };
-
-    const getcity = async (e) => {
-        try {
-            const id = e.target.value;
-            setprovincesid(id);
-            const response = await callAPI.get(`/getallcity/${id}`);
-            if (response?.data) {
-                Setdata(response.data || []);
-            }
-        } catch (error) {
-            console.error("Error fetching cities:", error);
-            Setdata([]);
-        }
-    };
-
 
     const getcity2 = async (provinceId, name) => {
         try {
