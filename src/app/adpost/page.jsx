@@ -54,7 +54,9 @@ const AdPost = () => {
     });
 
     const nextStep = () => {
-        if (step < totalSteps) setStep(step + 1);
+        if (validateForm() && step < totalSteps) {
+            setStep(step + 1);
+        }
     };
 
     const prevStep = () => {
@@ -64,6 +66,9 @@ const AdPost = () => {
 
 
     const handleShow = async () => {
+        if (!validateForm()) {
+            return;
+        }
         try {
             if (!formData || typeof formData !== "object") {
                 console.error("Form data is undefined or not an object");
@@ -247,18 +252,18 @@ const AdPost = () => {
         let tempErrors = {};
         if (step === 1) {
             if (!formData.category) tempErrors.category = "Category is required";
-            if (!formData.subcategoryid) tempErrors.subCategory = "Sub Category is required";
+            if (!formData.subcategoryid) tempErrors.subCategory = "Sub category is required";
         } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
             if (!formData.age || isNaN(formData.age) || formData.age <= 0)
                 tempErrors.age = "Enter a valid age";
-            // if (!formData.city) tempErrors.city = "City is required";
+            if (!formData.city) tempErrors.city = "City is required";
             if (!formData.phone || !/^\d{10}$/.test(formData.phone))
                 tempErrors.phone = "Enter a valid 10-digit number";
             if (!formData.provincesid) tempErrors.provincesid = "Province is required";
             if (!formData.availability) tempErrors.availability = "Availability is required";
         } else if (step === 3) {
-            if (!formData.title) tempErrors.title = "Ad Title is required";
+            if (!formData.title) tempErrors.title = "Ad title is required";
         } else if (step === 4) {
             if (!formData.description) tempErrors.description = "Description is required";
             if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
@@ -406,7 +411,7 @@ const AdPost = () => {
                                                                     <option disabled>No category available</option>
                                                                 )}
                                                             </select>
-                                                            {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
+                                                            {errors.category && <p className='input-errormsg'>{errors.category}</p>}
                                                         </div>
 
                                                         <div className="col-md-6 mb-3">
@@ -415,7 +420,8 @@ const AdPost = () => {
                                                                 className="form-select"
                                                                 name='subcategoryid'
                                                                 value={formData.subcategoryid}
-                                                                onChange={(e) => handleChange('subcategoryid', e.target.value)} required>
+                                                                onChange={(e) => handleChange('subcategoryid', e.target.value)}
+                                                                required>
                                                                 <option value="0">Select a sub category</option>
                                                                 {subcategories?.map((val, index) => (
                                                                     <option key={index} value={val._id}>
@@ -423,7 +429,7 @@ const AdPost = () => {
                                                                     </option>
                                                                 ))}
                                                             </select>
-                                                            {errors.subCategory && <p>{errors.subCategory}</p>}
+                                                            {errors.subCategory && <p className='input-errormsg'>{errors.subCategory}</p>}
                                                         </div>
                                                     </div>
                                                 </>
@@ -433,14 +439,20 @@ const AdPost = () => {
                                                     <div className="row">
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Name *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Name" name='name' value={formData.name} onChange={handleChange} required />
+                                                            <input type="text"
+                                                                className="form-control"
+                                                                placeholder="Enter Name"
+                                                                name='name'
+                                                                value={formData.name}
+                                                                onChange={handleChange}
+                                                                required />
+                                                            {errors.name && <p className='input-errormsg'>{errors.name}</p>}
                                                         </div>
-                                                        {errors.name && <p>{errors.name}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Age *</label>
                                                             <input type="number" className="form-control" placeholder="Enter Age" name='age' value={formData.age} onChange={handleChange} required />
+                                                            {errors.age && <p className='input-errormsg'>{errors.age}</p>}
                                                         </div>
-                                                        {errors.age && <p>{errors.age}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Province *</label>
                                                             <select
@@ -467,7 +479,7 @@ const AdPost = () => {
                                                                 )}
                                                             </select>
 
-                                                            {errors.province && <p className="text-danger">{errors.province}</p>}
+                                                            {errors.provincesid && <p className='input-errormsg'>{errors.provincesid}</p>}
                                                         </div>
 
                                                         <div className="col-md-6 mb-3">
@@ -480,7 +492,7 @@ const AdPost = () => {
                                                                     )
                                                                 })}
                                                             </select>
-                                                            {errors.city && <p>{errors.city}</p>}
+                                                            {errors.city && <p className='input-errormsg'>{errors.city}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Mobile Number *</label>
@@ -493,13 +505,13 @@ const AdPost = () => {
                                                                 onChange={handleChange}
                                                                 required
                                                             />
-                                                            {errors.phone && <p>{errors.phone}</p>}
+                                                            {errors.phone && <p className='input-errormsg'>{errors.phone}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Availability *</label>
                                                             <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
+                                                            {errors.availability && <p className='input-errormsg'>{errors.availability}</p>}
                                                         </div>
-                                                        {errors.availability && <p>{errors.availability}</p>}
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Ethnicity</label>
                                                             <select
@@ -514,7 +526,7 @@ const AdPost = () => {
                                                                     </option>
                                                                 ))}
                                                             </select>
-                                                            {errors.ethnicity && <p>{errors.ethnicity}</p>}
+                                                            {errors.ethnicity && <p className='input-errormsg'>{errors.ethnicity}</p>}
                                                         </div>
                                                     </div>
                                                 </>
@@ -525,37 +537,37 @@ const AdPost = () => {
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Body Status</label>
                                                             <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
-                                                            {errors.bodystatus && <p className="text-danger">{errors.bodystatus}</p>}
+                                                            {errors.bodystatus && <p className='input-errormsg'>{errors.bodystatus}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Height</label>
                                                             <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
-                                                            {errors.height && <p className="text-danger">{errors.height}</p>}
+                                                            {errors.height && <p className='input-errormsg'>{errors.height}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Weight</label>
                                                             <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
-                                                            {errors.weight && <p className="text-danger">{errors.weight}</p>}
+                                                            {errors.weight && <p className='input-errormsg'>{errors.weight}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Hair Color</label>
                                                             <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
-                                                            {errors.haircolor && <p className="text-danger">{errors.haircolor}</p>}
+                                                            {errors.haircolor && <p className='input-errormsg'>{errors.haircolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Eye Color</label>
                                                             <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolour' value={formData.eyecolour} onChange={handleChange} />
-                                                            {errors.eyecolor && <p className="text-danger">{errors.eyecolor}</p>}
+                                                            {errors.eyecolor && <p className='input-errormsg'>{errors.eyecolor}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Title *</label>
                                                             <input type="text" className="form-control" placeholder="Enter Title" name='title' required value={formData.title} onChange={handleChange} />
-                                                            {errors.adTitle && <p className="text-danger">{errors.adTitle}</p>}
+                                                            {errors.title && <p className='input-errormsg'>{errors.title}</p>}
                                                         </div>
                                                         <div className="col-md-6 mb-3">
                                                             <label className="form-label">Price</label>
                                                             <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
-                                                            {errors.price && <p className="text-danger">{errors.price}</p>}
+                                                            {errors.price && <p className='input-errormsg'>{errors.price}</p>}
                                                         </div>
                                                     </div>
                                                 </>
@@ -565,7 +577,7 @@ const AdPost = () => {
                                                     <div className="mb-3">
                                                         <label className="form-label">Description *</label>
                                                         <textarea className="form-control" rows="3" placeholder="Enter Description" name='description' value={formData.description} onChange={handleChange} required></textarea>
-                                                        {errors.description && <p className="text-danger">{errors.description}</p>}
+                                                        {errors.description && <p className='input-errormsg'>{errors.description}</p>}
                                                     </div>
                                                     <div className="mb-3">
                                                         <label className="form-label">Upload Images *</label>
@@ -585,6 +597,7 @@ const AdPost = () => {
                                                                 </div>
                                                             ))}
                                                         </div>
+                                                        {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                     </div>
                                                     <div className="text-center">
                                                         <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>

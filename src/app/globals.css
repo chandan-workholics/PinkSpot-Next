@@ -41,6 +41,10 @@ a {
   }
 }
 
+.fs-14 {
+  font-size: 14px;
+}
+
 /* Text-Colors - Start */
 .text-dd88cf {
   color: #dd88cf !important;
@@ -1451,6 +1455,13 @@ a {
     color: #dd88cf;
     font-weight: bold;
   }
+
+  .input-errormsg {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
 }
 
 /* AdPost-Page - End */
@@ -2197,7 +2208,9 @@ a {
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
 }
-.wallet-page .wallet-container{
+
+.wallet-page .wallet-container {
   background-color: whitesmoke;
 }
+
 /* Wallet - End */
