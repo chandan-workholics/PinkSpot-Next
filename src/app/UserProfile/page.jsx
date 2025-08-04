@@ -63,10 +63,6 @@ const UserProfile = () => {
     };
 
 
-
-
-
-
     const handleUpdateClick = async () => {
         setIsEditing(false);
 
