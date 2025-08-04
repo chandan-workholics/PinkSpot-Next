@@ -143,6 +143,7 @@ const Header = () => {
                                     ) : (
                                         <>
                                             <div onClick={() => router.push("/UserProfile")} className='nav-link'>My Profile</div> <br />
+                                            <div onClick={() => router.push("/Wallet")} className='nav-link'>Wallet</div> <br />
                                             <div className="d-flex mt-3">
                                                 <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill me-2'>POST YOUR AD</button>
                                                 <button onClick={handleLogout} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill'>LOGOUT</button>

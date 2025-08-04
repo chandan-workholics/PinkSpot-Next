@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Header from "../components/header/Header";
 import WalletImg from "../../../public/images/walletImg.png";
 import ProtectedRoute from '../Common_Method/protectedroute';
+import Link from 'next/link';
 
 const userId = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
@@ -26,7 +27,8 @@ const Wallet = () => {
                 body: JSON.stringify({
                     amount: parseFloat(amount),
                     order_id: Date.now(),
-                    title: "Add Funds"
+                    title: "Add Funds",
+                    userId: userId,
                 }),
             });
 
@@ -55,7 +57,7 @@ const Wallet = () => {
     }, []);
 
     return (
-        <div className="container-fluid p-lg-0">
+        <div className="container-fluid p-0">
             <div className="wallet-page">
                 <Header className="w-100 shadow" />
                 <div className="main-card d-flex align-items-center justify-content-center">
@@ -96,15 +98,21 @@ const Wallet = () => {
                                                         />
                                                     </div>
 
-                                                    <div className="btn-group text-center mt-3">
+                                                    <div className="btn-group w-100 text-center justify-content-around mt-3">
                                                         <button
                                                             type="button"
                                                             onClick={createPayment}
-                                                            className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3"
+                                                            className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3 me-3"
                                                             disabled={loading}
                                                         >
                                                             {loading ? "Processing..." : "Add Money"}
                                                         </button>
+                                                        <Link
+                                                            href="/wallet-transactions"
+                                                            className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3 me-0"
+                                                        >
+                                                            Transactions
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
