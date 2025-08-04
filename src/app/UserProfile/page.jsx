@@ -31,6 +31,13 @@ const UserProfile = () => {
 
     const [active, setActive] = useState();
     const [isActive, setIsActive] = useState("");
+    const [deleteId, setDeleteId] = useState(null);
+
+    const confirmDelete = (id) => {
+        setDeleteId(id);
+        setShowModal(true);
+    };
+
 
     const [profile, setProfile] = useState({
         name: "",
@@ -55,33 +62,14 @@ const UserProfile = () => {
         setIsEditing(true);
     };
 
-    const handleDelete = async (_id) => {
-        try {
-            const response = await fetch(`http://206.189.130.102:4000/api/v1/postad/deletepostadby_single_id/${_id}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
-            );
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Post deleted:", data);
-                getpost();
-                setShowModal(false);
-            }
-        } catch (error) {
-            console.error("Error deleting post:", error);
-        }
-    };
+
 
 
 
     const handleUpdateClick = async () => {
         setIsEditing(false);
-        console.log("Updated Profile:", profile);
+
         try {
             const response = await callAPI.post(`/users/updateprofile/${userid}`, {
                 name: profile.name,
@@ -205,7 +193,28 @@ const UserProfile = () => {
 
     //add to favourite code
 
+    const handleDelete = async () => {
 
+        try {
+            const response = await fetch(`http://206.189.130.102:4000/api/v1/postad/deletepostadby_single_id/${deleteId}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Post deleted:", data);
+                getMyProfile();
+                setShowModal(false);
+            }
+        } catch (error) {
+            console.error("Error deleting post:", error);
+        }
+    };
 
 
     return (
@@ -236,18 +245,19 @@ const UserProfile = () => {
                                                 <div className="profileHeader"></div>
                                                 {users &&
                                                     <div >
-                                                        {/* {profile?.image && (
-                                                            <Image
-                                                                src={`${profile.image}?t=${new Date().getTime()}`}
-                                                                alt="Profile"
-                                                                width={150}
-                                                                height={150}
-                                                                className="profileImage rounded-circle"
-                                                            />
-                                                        )} */}
+
+                                                        <Image
+                                                            src={profile.image || NoImg.src}
+                                                            alt="Profile"
+                                                            width={150}
+                                                            height={150}
+                                                            className="profileImage rounded-circle"
+                                                        />
+
+
                                                         <h3 className="text-center mt-3">{users.name}</h3>
                                                         <p className="text-center">
-                                                            {users.streetaddress}, Province
+                                                            {users.streetaddress}
                                                         </p>
                                                     </div>
                                                 }
@@ -359,7 +369,7 @@ const UserProfile = () => {
                                     <nav>
                                         <div className="nav nav-tabs mb-3" id="nav-tab" role="tablist">
                                             <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">My Favorites</button>
-                                            <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">My Orders</button>
+
                                             <button className="nav-link" id="nav-post-tab" data-bs-toggle="tab" data-bs-target="#nav-post" type="button" role="tab" aria-controls="nav-post" aria-selected="false">My Post</button>
                                         </div>
                                     </nav>
@@ -371,7 +381,7 @@ const UserProfile = () => {
                                                         {posts && posts?.data?.map((post, index) => (
                                                             <div key={index}>
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image src={post?.favouriteToPostid?.image1 || profileImg.favouriteToPostid?.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image src={post?.favouriteToPostid?.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
                                                                 </div>
                                                             </div>
                                                         ))}
@@ -379,6 +389,7 @@ const UserProfile = () => {
                                                     </div>
                                                     <div className="col-md-9">
                                                         <div className="card-body">
+
                                                             {posts && posts?.data?.map((post, index1) => (
                                                                 <div key={index1}>
                                                                     <h5 className="card-title">{post.favouriteToPostid?.title || "NA"}</h5>
@@ -395,94 +406,13 @@ const UserProfile = () => {
                                                                     }}>Remove TO Favourite</button>
                                                                 </div>
                                                             ))}
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                            {myProfile.length > 0 ? (
-                                                myProfile.map((profile, indexx) => (
-                                                    <div key={indexx} className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
-                                                        <div className="row g-0">
-                                                            <div className="col-md-3">
-                                                                <div className="rounded-5 overflow-hidden">
-                                                                    <Image src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
-                                                                    <div className='ps-3'>
-                                                                        <p className="mb-0">Order Id : {profile.orderid}</p>
-                                                                        <p >Payment Status: {profile.paymentstatusdetail}</p>
-                                                                    </div>
 
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-md-9">
-                                                                <div className="card-body">
-                                                                    <div>
-                                                                        <h5 className="card-title">{profile.title} </h5>
-                                                                        <p className="card-text">
-                                                                            {profile.description.length > 0
-                                                                                ? profile.description.substring(0, 200) + "..."
-                                                                                : profile.description}
-                                                                        </p>
-
-                                                                        <p className="card-text"><small className="text-body-secondary"> City: {profile.city}</small></p>
-                                                                        <Link href={`/viewAdd/${profile?.slug}`} className="btn bg-4b164c text-white rounded-pill shadow me-3">View Ad</Link>
-                                                                        <button
-                                                                            className="btn btn-danger rounded-pill shadow"
-                                                                            onClick={() => setShowModal(true)}
-                                                                        >
-                                                                            Delete Post
-                                                                        </button>
-                                                                    </div>
-
-                                                                    {/* Modal */}
-                                                                    {showModal && (
-                                                                        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
-                                                                            <div className="modal-dialog modal-dialog-centered" role="document">
-                                                                                <div className="modal-content">
-                                                                                    <div className="modal-header">
-                                                                                        <h5 className="modal-title">Confirm Deletion</h5>
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            className="btn-close"
-                                                                                            onClick={() => setShowModal(false)}
-                                                                                        ></button>
-                                                                                    </div>
-                                                                                    <div className="modal-body">
-                                                                                        <p>Do you really want to delete this post permanently?</p>
-                                                                                    </div>
-                                                                                    <div className="modal-footer">
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            className="btn btn-secondary"
-                                                                                            onClick={() => setShowModal(false)}
-                                                                                        >
-                                                                                            No
-                                                                                        </button>
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            className="btn btn-danger"
-                                                                                            onClick={handleDelete}
-                                                                                        >
-                                                                                            Yes, Delete
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-
-                                                                    {/* Modal Backdrop */}
-                                                                    {showModal && <div className="modal-backdrop fade show"></div>}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <p>No profile data available.</p>
-                                            )}
-                                        </div>
 
                                         <div className="tab-pane fade" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
                                             {myProfile.length > 0 ? (
@@ -510,12 +440,15 @@ const UserProfile = () => {
                                                                         <Link href={`/myProfile1/${profile?.slug}`} className="btn bg-4b164c text-white rounded-pill shadow me-3">View Post</Link>
                                                                         <button
                                                                             className="btn btn-danger rounded-pill shadow"
-                                                                            onClick={() => setShowModal(true)}
+                                                                            onClick={() => confirmDelete(profile?._id)}
                                                                         >
                                                                             Delete Post
                                                                         </button>
                                                                     </div>
+
+
                                                                     {/* Modal */}
+
                                                                     {showModal && (
                                                                         <div className="modal fade show d-block" tabIndex="-1" role="dialog">
                                                                             <div className="modal-dialog modal-dialog-centered" role="document">
