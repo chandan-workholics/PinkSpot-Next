@@ -2,37 +2,15 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import logo from '../../../../public/images/pink-logo.png'
-import { useCity } from "../../../context/CityContext.js";
+
 import { useRouter } from "next/navigation";
 
 const Footer = () => {
 
-    const { setFooterSelectedCity } = useCity();
-    const router = useRouter();
-    const [province, Setprovince] = useState([]);
     const [city, SetCity] = useState([]);
-    const [category, Setcategory] = useState(null);
-    const URL = 'http://206.189.130.102:4000/api/v1';
 
-    const handleCityClick = (cityName) => {
-        setFooterSelectedCity(cityName);
-        localStorage.setItem("selectedLocation", cityName); 
-        router.push("/all-category");
-    };
-
-    const getprovince = () => {
-        fetch(`${URL}/getallprovince`, {
-            headers: { "X-API-Key": "your-api-key1" },
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                Setprovince(data);
-            });
-    };
     const getAllCity = () => {
-        fetch(`${URL}/getallcity`, {
+        fetch(`http://206.189.130.102:4000/api/v1/getallcity`, {
             headers: { "X-API-Key": "your-api-key1" },
         })
             .then((response) => {
@@ -43,33 +21,33 @@ const Footer = () => {
             });
     };
 
-    const getcategory = () => {
-        fetch(`${URL}/category/getallcategory`, {
-            headers: { "X-API-Key": "your-api-key1" },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.data[0]._id); // Ensure data.data exists and is an array
-                if (Array.isArray(data.data) && data.data.length > 0) {
-                    Setcategory(data.data[0]);
-                } else {
-                    // Handle the case where data is not an array or is empty
-                    Setcategory(null); // or set a default value
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching category:", error);
-                // Handle the error by setting an error state or default value
-                Setcategory(null);
-            });
-    };
+
     useEffect(() => {
-        getprovince();
         getAllCity();
-        getcategory();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    
+
     const checkWord = ['Manitoba', 'Trois Rivieres', 'Sarnia', 'Drummondville', 'Niagra Region', 'Granby', 'Windsor', 'London', 'Barrie', 'Saskatoon', 'Regina', 'Sherbrooke', 'Hamilton', 'Mississuaga', 'Brampton', 'Halifax', 'Quebec', 'Vancouver', 'Montreal', 'Winnipeg', 'Ottawa', 'City Of Toronto', 'Calgary', 'Edmonton'];
+
+
+    // const handleSearch = async (city) => {
+    //     try {
+    //         router.push(`/allCategory?city=${city}`);
+    //     } catch (error) {
+    //         console.error("Search failed", error);
+    //     }
+
+    // };
+
+
+
+    const handleSearch = async (city) => {
+        try {
+            window.location.href = `/allCategory?city=${city}`;
+        } catch (error) {
+            console.error("Search failed", error);
+        }
+    };
+
 
 
     return (
@@ -83,16 +61,16 @@ const Footer = () => {
                                 <p className="searchCitySection text-center">
                                     {city?.data?.map((val2, index) => (
                                         checkWord.includes(val2.name) ? (
-                                            <Link
+                                            <button
                                                 key={index}
-                                                href="/allCategory"
-                                                onClick={() => handleCityClick(val2.name)} // ✅ Correct: only pass selected city
+
+                                                onClick={() => handleSearch(val2.name)}
                                                 className="cityBadge text-decoration-none"
                                                 data-aos="zoom-in"
                                                 data-aos-duration="2000"
                                             >
                                                 {val2.name} Escorts &nbsp;
-                                            </Link>
+                                            </button>
                                         ) : null
                                     ))}
                                 </p>
@@ -110,30 +88,7 @@ const Footer = () => {
                                         <div className="footer-logo">
                                             <img src={logo.src} alt="" className="w-100" />
                                         </div>
-                                        {/* <h5 className='text-white'>Subscribe to our newsletter</h5> */}
-                                        {/* <p className='text-white'>Monthly digest of what's new and exciting from us.</p> */}
-                                        {/* <ul className="list-unstyled d-flex">
-                                            <li className="me-3">
-                                                <Link href="#" className="link-body-emphasis">
-                                                    <i className="fa-brands fa-facebook text-dd88cf fs-3"></i>
-                                                </Link>
-                                            </li>
-                                            <li className="me-3">
-                                                <Link href="#" className="link-body-emphasis">
-                                                    <i className="fa-brands fa-square-x-twitter text-dd88cf fs-3"></i>
-                                                </Link>
-                                            </li>
-                                            <li className="me-3">
-                                                <Link href="#" className="link-body-emphasis">
-                                                    <i className="fa-brands fa-linkedin text-dd88cf fs-3"></i>
-                                                </Link>
-                                            </li>
-                                            <li className="me-3">
-                                                <Link href="#" className="link-body-emphasis">
-                                                    <i className="fa-brands fa-square-instagram text-dd88cf fs-3"></i>
-                                                </Link>
-                                            </li>
-                                        </ul> */}
+
                                     </form>
                                 </div>
                                 {/* Footer Links Section */}
