@@ -79,7 +79,7 @@ const Wallet = () => {
                                         <div className="box" data-aos="fade-down" data-aos-duration="1000">
                                             <div className="card-container">
                                                 <div className="wallet-container text-center p-4 rounded-5">
-                                                    <h5 className="page-title">My E-wallet</h5>
+                                                    <h5 className="page-title">My Wallet</h5>
                                                     <div className="amount-box text-center">
                                                         <img src={WalletImg.src} alt="Wallet" width={200} className="mb-4" />
                                                         <h5>Total Balance</h5>
@@ -102,11 +102,13 @@ const Wallet = () => {
                                                         <button
                                                             type="button"
                                                             onClick={createPayment}
-                                                            className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3 me-3"
+                                                            className="btn w-100 shadow btn-login bg-4b164c text-white fw-semibold rounded-pill py-2 px-3 me-0"
                                                             disabled={loading}
                                                         >
                                                             {loading ? "Processing..." : "Add Money"}
                                                         </button>
+                                                    </div>
+                                                    <div className="btn-group w-100 text-center justify-content-around mt-3">
                                                         <Link
                                                             href="/wallet-transactions"
                                                             className="btn w-100 shadow btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3 me-0"

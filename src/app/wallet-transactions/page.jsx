@@ -81,10 +81,11 @@ const walletTransaction = () => {
                                                             <table className="table">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th scope="col" style={{minWidth:'170px', maxWidth:'170px'}}>Date & Time</th>
-                                                                        <th scope="col" style={{minWidth:'170px', maxWidth:'200px'}} className='text-start'>Description</th>
-                                                                        <th scope="col" style={{minWidth:'120px', maxWidth:'130px'}}>Payment ID</th>
-                                                                        <th scope="col" style={{minWidth:'120px', maxWidth:'fit-content'}}>Amount</th>
+                                                                        <th scope="col" style={{ minWidth: '160px', maxWidth: '170px' }}>Date & Time</th>
+                                                                        <th scope="col" style={{ minWidth: '170px', maxWidth: '200px' }} className='text-start'>Description</th>
+                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: '130px' }}>Payment ID</th>
+                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: '130px' }}>Status</th>
+                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: 'fit-content' }}>Amount</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -103,6 +104,13 @@ const walletTransaction = () => {
                                                                                 </td>
                                                                                 <td className='text-start'>{tx.description}</td>
                                                                                 <td>{tx.payment_id}</td>
+                                                                                <td className='text-capitalize'>
+                                                                                    {tx.status === 'confirmed' ? (
+                                                                                        <span className="text-success">{tx.status}</span>
+                                                                                    ) : (
+                                                                                        <span className="text-warning">{tx.status}</span>
+                                                                                    )}
+                                                                                </td>
                                                                                 <td className={tx.type === 'debit' ? 'text-danger' : 'text-success'}>
                                                                                     {tx.type === 'debit' ? '-' : '+'} ${tx.amount.toFixed(2)}
                                                                                 </td>
