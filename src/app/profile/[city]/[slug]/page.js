@@ -16,6 +16,7 @@ const Profile = () => {
     const { slug } = useParams();
     const [active, setActive] = useState();
     const [isActive, setIsActive] = useState("");
+    const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
     const getPost = useCallback(async () => {
         try {
@@ -45,8 +46,7 @@ const Profile = () => {
             }
             const response = await callAPI.post(`/postad/favouritesubmit`, { favouriteToPostid, favouriteByuserid });
 
-            if (response.status==200) {
-                alert("Added to Favourite");
+            if (response.status == 200) {
                 getPost();
             } else {
                 console.error("Unexpected response format", response);
@@ -106,11 +106,34 @@ const Profile = () => {
                                             <p className="text-center">{posts.age} | {posts.city}</p>
                                         </div>
                                     )}
+
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger" onClick={() => {
-                                            setActive(posts?._id); favouriteClick(posts?._id);
-                                        }}>Add TO Favourite</button>
+                                        {
+                                            posts?.favouritepostbyuser?.includes(userid) ? (
+                                                <button
+                                                    className="btn btn-secondary"
+                                                    onClick={() => {
+                                                        setActive(posts?._id);
+                                                        favouriteClick(posts?._id);
+                                                    }}
+                                                >
+                                                    Remove From Favourite
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => {
+                                                        setActive(posts?._id);
+                                                        favouriteClick(posts?._id);
+                                                    }}
+                                                >
+                                                    Add To Favourite
+                                                </button>
+                                            )
+                                        }
                                     </div>
+
+
                                 </div>
                                 <div className="profileDetails">
                                     <h4>Base</h4>

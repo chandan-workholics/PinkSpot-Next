@@ -28,6 +28,7 @@ const UserProfile = () => {
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
     const [users, setUsers] = useState([]);
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const [active, setActive] = useState();
     const [isActive, setIsActive] = useState("");
@@ -94,6 +95,7 @@ const UserProfile = () => {
     };
 
     const handleImageChange = async (e) => {
+        setLoading(true)
         const formData = new FormData();
         formData.append("image", e.target.files[0]);
         var requestOptions = { headers: { "Content-Type": "multipart/form-data", }, };
@@ -107,6 +109,7 @@ const UserProfile = () => {
                     ...prev,
                     image: fetchdata?.data?.data?.url, // set image URL
                 }));
+                setLoading(false)
             }
         } catch (error) {
             console.error("Image upload failed:", error);
@@ -177,7 +180,6 @@ const UserProfile = () => {
             const response = await callAPI.post(`/postad/favouritesubmit`, { favouriteToPostid, favouriteByuserid });
 
             if (response.status == 200) {
-                alert("Removed TO Favourite");
                 getpost();
             } else {
                 alert("something wrong");
@@ -258,15 +260,20 @@ const UserProfile = () => {
                                                     </div>
                                                 }
                                                 <div className="d-flex justify-content-center">
-                                                    {isEditing ? (
-                                                        <button className="btn btn-success text-white" onClick={handleUpdateClick}>
+
+                                                    {isEditing ? (<>
+                                                        {loading ? <button className="btn btn-success text-white" >
+                                                            Loading
+                                                        </button> : <button className="btn btn-success text-white" onClick={handleUpdateClick} >
                                                             Update Profile
-                                                        </button>
+                                                        </button>}
+                                                    </>
                                                     ) : (
                                                         <button className="btn btn-warning text-white" onClick={handleEditClick}>
                                                             Edit Profile
                                                         </button>
                                                     )}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -298,31 +305,7 @@ const UserProfile = () => {
                                                                 )}
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>Password</td>
-                                                            <td>
-                                                                {isEditing ? (
-                                                                    <div className="position-relative">
-                                                                        <input
-                                                                            type={showPassword ? "text" : "password"}
-                                                                            name="password"
-                                                                            value={profile.password || ""}
-                                                                            onChange={handleChange}
-                                                                            className="form-control"
-                                                                        />
-                                                                        <span
-                                                                            className="position-absolute end-0 top-50 translate-middle-y me-2"
-                                                                            onClick={() => setShowPassword(!showPassword)}
-                                                                            style={{ cursor: "pointer" }}
-                                                                        >
-                                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                        </span>
-                                                                    </div>
-                                                                ) : (
-                                                                    "********"
-                                                                )}
-                                                            </td>
-                                                        </tr>
+
 
                                                         <tr>
                                                             <td>Phone number</td>
@@ -374,34 +357,48 @@ const UserProfile = () => {
                                             <div className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
                                                 <div className="row g-0">
                                                     <div className="col-md-3">
-                                                        {posts && posts?.data?.map((post, index) => (
+                                                        {posts?.data?.filter(post => post.favouriteToPostid !== null).map((post, index) => (
                                                             <div key={index}>
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image src={post?.favouriteToPostid?.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                    <Image
+                                                                        src={post.favouriteToPostid?.image1 || NoImg.src}
+                                                                        alt="Profile"
+                                                                        width={150}
+                                                                        height={150}
+                                                                        className="img-fluid rounded-start w-100"
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         ))}
+
 
                                                     </div>
                                                     <div className="col-md-9">
                                                         <div className="card-body">
 
                                                             {posts && posts?.data?.map((post, index1) => (
-                                                                <div key={index1}>
-                                                                    <h5 className="card-title">{post.favouriteToPostid?.title || "NA"}</h5>
-                                                                    <p className="card-text">{post.favouriteToPostid?.description || "NA"}</p>
+                                                                post.favouriteToPostid !== null && (
+                                                                    <div key={index1}>
+                                                                        <h5 className="card-title">{post.favouriteToPostid?.title || "NA"}</h5>
+                                                                        <p className="card-text">{post.favouriteToPostid?.description || "NA"}</p>
 
-                                                                    <Link
-                                                                        href={`/viewAdd/${post.favouriteToPostid?.slug}`}
-                                                                        legacyBehavior
-                                                                    >
-                                                                        <a className="btn bg-4b164c text-white rounded-pill shadow">View Post</a>
-                                                                    </Link>
-                                                                    <button className="btn btn-danger text-white rounded-pill shadow" onClick={() => {
-                                                                        setActive(post?.favouriteToPostid?._id); favouriteClick(post?.favouriteToPostid?._id);
-                                                                    }}>Remove TO Favourite</button>
-                                                                </div>
+                                                                        <Link href={`/viewAdd/${post.favouriteToPostid?.slug}`} legacyBehavior>
+                                                                            <a className="btn bg-4b164c text-white rounded-pill shadow">View Post</a>
+                                                                        </Link>
+
+                                                                        <button
+                                                                            className="btn btn-danger text-white rounded-pill shadow"
+                                                                            onClick={() => {
+                                                                                setActive(post?.favouriteToPostid?._id);
+                                                                                favouriteClick(post?.favouriteToPostid?._id);
+                                                                            }}
+                                                                        >
+                                                                            Remove TO Favourite
+                                                                        </button>
+                                                                    </div>
+                                                                )
                                                             ))}
+
 
                                                         </div>
                                                     </div>
