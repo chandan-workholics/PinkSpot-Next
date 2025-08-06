@@ -27,7 +27,7 @@ const Wallet = () => {
                 body: JSON.stringify({
                     amount: parseFloat(amount),
                     order_id: Date.now(),
-                    title: "Add Funds",
+                    title: "Fund Added",
                     userId: userId,
                 }),
             });
