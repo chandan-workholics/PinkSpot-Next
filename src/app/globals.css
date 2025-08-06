@@ -1380,7 +1380,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
   }
@@ -1461,6 +1460,12 @@ a {
     font-size: 14px;
     margin-bottom: 0;
   }
+    .pacifico-regular {
+      font-family: "Pacifico", cursive;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 40px;
+    }
 
 }
 

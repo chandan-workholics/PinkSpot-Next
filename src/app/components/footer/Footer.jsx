@@ -65,7 +65,7 @@ const Footer = () => {
                                                 key={index}
 
                                                 onClick={() => handleSearch(val2.name)}
-                                                className="cityBadge text-decoration-none"
+                                                className="cityBadge text-decoration-none border-0"
                                                 data-aos="zoom-in"
                                                 data-aos-duration="2000"
                                             >
