@@ -136,7 +136,7 @@ const Profile = () => {
 
                                 </div>
                                 <div className="profileDetails">
-                                    <h4>Base</h4>
+                                    <h4>Details</h4>
                                     <hr />
                                     {posts && (
                                         <table className="table">

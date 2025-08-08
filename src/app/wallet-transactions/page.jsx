@@ -10,7 +10,21 @@ const walletTransaction = () => {
 
     const [transactions, setTransactions] = useState([]);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const [filterType, setFilterType] = useState('all'); // 'all', 'credit', 'debit'
+    const [filterType, setFilterType] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+    const currentTransactions = filteredTransactions.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,6 +43,7 @@ const walletTransaction = () => {
 
     const handleFilter = (type) => {
         setFilterType(type);
+        setCurrentPage(1);
         if (type === 'all') {
             setFilteredTransactions(transactions);
         } else {
@@ -89,8 +104,8 @@ const walletTransaction = () => {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {filteredTransactions.length > 0 ? (
-                                                                        filteredTransactions.map((tx) => (
+                                                                    {currentTransactions.length > 0 ? (
+                                                                        currentTransactions.map((tx) => (
                                                                             <tr key={tx._id}>
                                                                                 <td className='text-start'>
                                                                                     <div className="d-flex justify-content-center align-items-center">
@@ -118,7 +133,7 @@ const walletTransaction = () => {
                                                                         ))
                                                                     ) : (
                                                                         <tr>
-                                                                            <td colSpan="4" className="text-center">No transactions found</td>
+                                                                            <td colSpan="5" className="text-center">No transactions found</td>
                                                                         </tr>
                                                                     )}
                                                                 </tbody>
@@ -127,6 +142,31 @@ const walletTransaction = () => {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {totalPages > 1 && (
+                                                <nav className="mt-4">
+                                                    <ul className="pagination justify-content-center">
+                                                        <li className={`page-item ${currentPage === 1 && "disabled"}`}>
+                                                            <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(currentPage - 1)}>
+                                                                &laquo;
+                                                            </button>
+                                                        </li>
+
+                                                        {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
+                                                            <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                                                                <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(number)}>
+                                                                    {number}
+                                                                </button>
+                                                            </li>
+                                                        ))}
+
+                                                        <li className={`page-item ${currentPage === totalPages && "disabled"}`}>
+                                                            <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(currentPage + 1)}>
+                                                                &raquo;
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

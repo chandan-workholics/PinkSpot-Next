@@ -78,10 +78,10 @@ const Profile = () => {
                                     <h3 className="text-center mt-3">{post.name}</h3>
                                     <p className="text-center">{post.age} Years Old | {post.city}, {post.provincesid}</p>
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger">Get Premium</button>
+                                        {/* <button className="btn btn-danger">Get Premium</button> */}
                                     </div>
                                     <div className="profileDetails">
-                                        <h4>Base</h4>
+                                        <h4>Details</h4>
                                         <hr />
                                         <table className="table">
                                             <tbody>

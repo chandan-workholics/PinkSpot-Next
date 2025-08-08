@@ -280,7 +280,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="col-12 col-md-6 col-lg-12">
                                         <div className="profileDetails">
-                                            <h4>Details</h4>
+                                            <h4>Personal Details</h4>
                                             <hr />
                                             {users &&
                                                 <table className="table">
@@ -297,13 +297,7 @@ const UserProfile = () => {
                                                         </tr>
                                                         <tr>
                                                             <td style={{ width: '125px' }}>Email</td>
-                                                            <td>
-                                                                {isEditing ? (
-                                                                    <input type="email" name="email" value={profile.email} onChange={handleChange} className="form-control" />
-                                                                ) : (
-                                                                    users.email
-                                                                )}
-                                                            </td>
+                                                            <td>{users.email}</td>
                                                         </tr>
 
 
@@ -365,7 +359,8 @@ const UserProfile = () => {
                                                                         alt="Profile"
                                                                         width={150}
                                                                         height={150}
-                                                                        className="img-fluid rounded-start w-100"
+                                                                        className="img-fluid rounded-start w-100 bg-white"
+                                                                        style={{ maxHeight: "230px", objectFit: 'cover' }}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -416,7 +411,7 @@ const UserProfile = () => {
                                                                 <div className="rounded-5 overflow-hidden">
                                                                     <Image
                                                                         key={index}
-                                                                        src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                        src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100 bg-white" style={{ maxHeight: "230px", objectFit: 'cover' }} />
                                                                 </div>
                                                             </div>
                                                             <div className="col-md-9">

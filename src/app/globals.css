@@ -160,6 +160,23 @@ a {
 
 /* Btn - End */
 
+/* Pagination - Start */
+.pagination {
+  .page-link {
+    color: #4b164c;
+  }
+
+  .active>.page-link,
+  .page-link.active {
+    z-index: 3;
+    color: var(--bs-pagination-active-color);
+    background-color: #4b164c;
+    border-color: #4b164c;
+  }
+}
+
+/* Pagination - End */
+
 
 /* Header - Start */
 .nav-link {
@@ -1460,12 +1477,13 @@ a {
     font-size: 14px;
     margin-bottom: 0;
   }
-    .pacifico-regular {
-      font-family: "Pacifico", cursive;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 40px;
-    }
+
+  .pacifico-regular {
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 40px;
+  }
 
 }
 
