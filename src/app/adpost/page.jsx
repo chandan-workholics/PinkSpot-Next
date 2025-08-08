@@ -50,6 +50,34 @@ const AdPost = () => {
         orderid: "",
         highlight: true,
     });
+const resetForm = () => {
+  setFormData({
+    postbyuserid: "",
+    category: "",
+    subcategoryid: "",
+    name: "",
+    age: "",
+    city: "",
+    provincesid: "",
+    ethicity: "",
+    availability: "",
+    bodystatus: "",
+    phone: "",
+    height: "",
+    weight: "",
+    haircolour: "",
+    eyecolour: "",
+    title: "",
+    description: "",
+    price: "",
+    images: [],
+    paymentid: "",
+    orderid: "",
+    highlight: false
+  });
+  setStep(1); // go back to the first step if needed
+  setErrors({});
+};
 
     const nextStep = () => {
         if (step < totalSteps) setStep(step + 1);
@@ -164,6 +192,8 @@ const AdPost = () => {
             if (response.ok) {
                 alert("Form submitted successfully!");
                 console.log("Submission result:", result);
+                resetForm();
+                // window.location.reload();
                 // Reset form if needed
             } else {
                 console.error("Submission failed:", result);
