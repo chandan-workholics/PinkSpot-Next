@@ -4,138 +4,35 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import { useSearchParams } from 'next/navigation';
 import filterImg from "../../../public/images/filterImg2.png";
-import { useCity } from "../../context/CityContext.js";
+import { useSearchParams } from 'next/navigation';
+
 
 const AllCategoryClient = () => {
+
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8;
-    const [category, setCategory] = useState([])
-    const [city, setCity] = useState([]);
-    const [province, setProvince] = useState([]);
-    const [ethicity, setEthicity] = useState([]);
+
+    const [category, setCategory] = useState([]);
     const [subcategory, setSubcategory] = useState([]);
-    const [hasUserAppliedFilters, setHasUserAppliedFilters] = useState(false);
-    const [querySynced, setQuerySynced] = useState(false);
+
+    const [province, setProvince] = useState([]);
+    const [city, setCity] = useState([]);
+    const [ethicity, setEthicity] = useState([]);
+
     const [post, setPost] = useState([]);
-    const fromHeader = searchParams.get('from') === 'header';
+
 
     const [filters, setFilters] = useState({
         categoryid: '',
         subcategoryid: '',
-        province: '',
-        city: '',
+        province: queryProvince || '',
+        city: queryCity || '',
         ethicity: '',
-        isVerified: undefined,
+        isVerified: '',
     });
 
-    const { footerSelectedCity } = useCity();
-    const [filteredData, setFilteredData] = useState(null);
-    const [footerFiltersApplied, setFooterFiltersApplied] = useState(false);
-    const [isOnlyFilterMode, setIsOnlyFilterMode] = useState(false);
-
-    const fetchCardsByCityOnly = async (cityName) => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=1&limit=50`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ city: cityName }),
-        });
-        const result = await response.json();
-        setPost(result?.data || []);
-    };
-
-    useEffect(() => {
-        if (footerSelectedCity && !hasUserAppliedFilters) {
-            setFilters(prev => ({
-                ...prev,
-                city: footerSelectedCity,
-                province: '', // Reset province to avoid conflict
-            }));
-            setIsOnlyFilterMode(true);
-            fetchCardsByCityOnly(footerSelectedCity); // Directly fetch data
-        }
-    }, [footerSelectedCity]);
-
-    useEffect(() => {
-        if (footerSelectedCity) {
-            fetch(`http://206.189.130.102:4000/api/v1/filter/getPostAdByCity`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-API-Key": "your-api-key1",
-                },
-                body: JSON.stringify({ city: footerSelectedCity }),
-            })
-                .then(res => res.json())
-                .then(data => setFilteredData(data));
-        }
-    }, [footerSelectedCity]);
-
-    useEffect(() => {
-        if (filters.city && isOnlyFilterMode && !hasUserAppliedFilters) {
-            fetchCardsByCityOnly(filters.city);
-        }
-    }, [filters.city, isOnlyFilterMode, hasUserAppliedFilters]);
-
-    useEffect(() => {
-        if (!footerFiltersApplied && !hasUserAppliedFilters) {
-            const cityFromQuery = searchParams.get("city");
-            const provinceFromQuery = searchParams.get("province");
-
-            if (cityFromQuery || provinceFromQuery) {
-                setFilters(prev => ({
-                    ...prev,
-                    city: cityFromQuery || '',
-                    province: provinceFromQuery || ''
-                }));
-                setIsOnlyFilterMode(true);
-                setFooterFiltersApplied(true);
-            }
-        }
-    }, [searchParams, footerFiltersApplied, hasUserAppliedFilters]);
-
-    useEffect(() => {
-        if ((queryProvince || queryCity) && !querySynced) {
-            setFilters(prev => ({
-                ...prev,
-                province: queryProvince || '',
-                city: '',
-            }));
-
-            if (queryProvince) {
-                fetchCities(queryProvince).then((cityList) => {
-                    const found = cityList.find(c => c.name === queryCity);
-                    if (found) {
-                        setFilters(prev => ({
-                            ...prev,
-                            city: found.name,
-                        }));
-                    }
-                    setQuerySynced(true);
-                });
-            } else {
-                setQuerySynced(true);
-            }
-        }
-    }, [queryProvince, queryCity, querySynced]);
-
-    const handleFilterChange = (key, value) => {
-        setHasUserAppliedFilters(true); // mark that user changed a filter
-        setIsOnlyFilterMode(true); // switch off city-only mode
-        setFilters(prev => ({
-            ...prev,
-            [key]: value,
-        }));
-    };
-
-    useEffect(() => {
-        setCurrentPage(1);
-        fetchFilteredPosts(1, true);
-    }, [filters]);
 
     const fetchCategory = async () => {
         const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
@@ -170,81 +67,55 @@ const AllCategoryClient = () => {
         setEthicity(result?.data);
     };
 
+    const handleFilterChange = (field, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
+
+
     useEffect(() => {
         fetchCategory();
         fetchEthnicity();
         fetchProvince();
+        fetchFilteredPosts();
     }, []);
 
 
     // Fetch posts (filtered or not)
-    const fetchFilteredPosts = async (page = currentPage, reset = false) => {
-        // Remove empty values
-        const filteredBody = Object.fromEntries(
-            Object.entries(filters).filter(([_, value]) => value !== "" && value !== undefined && value !== null)
-        );
+    const fetchFilteredPosts = async () => {
 
         const response = await fetch(
-            `http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination?page=${page}&limit=${itemsPerPage}`,
+            `http://206.189.130.102:4000/api/v1/filter/getPostAdByCategoryfilterPagination`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(filteredBody),
+                body: JSON.stringify(filters),
             }
         );
         const result = await response.json();
-        if (reset) {
-            setPost(result?.data || []);
-        } else {
-            setPost(prev => [...prev, ...result?.data]);
-        }
+        setPost(result?.data || []);
     };
 
-    // Infinite scroll: only fetch more if no filters or filters are unchanged
-    useEffect(() => {
-        if (currentPage > 1) {
-            fetchFilteredPosts(currentPage);
-        }
-    }, [currentPage]);
 
     // Clear filters
     const handleClearFilters = () => {
-        setFilters({
+        const cleared = {
             categoryid: '',
             subcategoryid: '',
             province: '',
             city: '',
             ethicity: '',
-            isVerified: undefined,
-        });
-
-        // Reset flags
-        setHasUserAppliedFilters(false);
-        setIsOnlyFilterMode(false);
-
-        // Re-apply city-only fetch if applicable
-        if (footerSelectedCity) {
-            fetchCardsByCityOnly(footerSelectedCity);
-        }
+            isVerified: '',
+        };
+        setFilters(cleared);
+        fetchFilteredPosts();
     };
 
 
-    const handleinfintescroll = async () => {
-        try {
-            if (
-                window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight
-            ) {
-                setCurrentPage((prev) => prev + 1)
-            }
-        } catch (error) {
-        }
-    }
-    useEffect(() => {
-        window.addEventListener("scroll", handleinfintescroll)
-        return () => window.removeEventListener("scroll", handleinfintescroll)
-    })
 
     return (
         <>
@@ -275,7 +146,10 @@ const AllCategoryClient = () => {
                                     </div>
                                     <div className="col-md-8">
                                         <div className="row">
-                                            {/* <div className="col-md-6 position-relative mb-3">
+
+
+
+                                            <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
@@ -294,6 +168,7 @@ const AllCategoryClient = () => {
                                                     ))}
                                                 </select>
                                             </div>
+
                                             <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
@@ -309,47 +184,9 @@ const AllCategoryClient = () => {
                                                         <option key={index} value={val._id}>{val.name}</option>
                                                     ))}
                                                 </select>
-                                            </div> */}
-                                            {!fromHeader && (
-                                                <>
-                                                    <div className="col-md-6 position-relative mb-3">
-                                                        <span className="arrow-span">
-                                                            <i className="fa-solid fa-angle-down text-white"></i>
-                                                        </span>
-                                                        <select
-                                                            className="form-select filter-btn position-relative"
-                                                            name="category"
-                                                            value={filters.categoryid}
-                                                            onChange={(e) => {
-                                                                handleFilterChange('categoryid', e.target.value);
-                                                                fetchSubcategories(e.target.value);
-                                                            }}
-                                                        >
-                                                            <option value="">Category</option>
-                                                            {category.map((val, index) => (
-                                                                <option key={index} value={val._id}>{val.name}</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
+                                            </div>
 
-                                                    <div className="col-md-6 position-relative mb-3">
-                                                        <span className="arrow-span">
-                                                            <i className="fa-solid fa-angle-down text-white"></i>
-                                                        </span>
-                                                        <select
-                                                            className="form-select filter-btn position-relative"
-                                                            name="subcategory"
-                                                            value={filters.subcategoryid}
-                                                            onChange={(e) => handleFilterChange('subcategoryid', e.target.value)}
-                                                        >
-                                                            <option value="">Sub-Category</option>
-                                                            {subcategory.map((val, index) => (
-                                                                <option key={index} value={val._id}>{val.name}</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                </>
-                                            )}
+
                                             <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
@@ -416,9 +253,9 @@ const AllCategoryClient = () => {
                                                     value={filters.isVerified === undefined ? "" : filters.isVerified}
                                                     onChange={(e) => handleFilterChange('isVerified', e.target.value === "true" ? true : e.target.value === "false" ? false : undefined)}
                                                 >
-                                                    <option value="">is-Verified</option>
-                                                    <option value="true">yes</option>
-                                                    <option value="false">no</option>
+                                                    <option value="">Is-Verified</option>
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
                                                 </select>
 
                                             </div>
@@ -460,13 +297,7 @@ const AllCategoryClient = () => {
                                                     }`}
                                             >
                                                 <div className="img-box">
-                                                    <img
-                                                        src={val.image1}
-                                                        // onError={(e) => {
-                                                        //     e.target.src = defaultImage;
-                                                        // }}
-                                                        alt="Img"
-                                                    />
+                                                    <img src={val.image1} alt="Img" />
                                                 </div>
                                                 <div className="card-text" style={{ overflow: "hidden" }}>
                                                     <h6 style={{ fontSize: "14px", fontWeight: "600" }}>
@@ -528,6 +359,7 @@ const AllCategoryClient = () => {
 
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <Footer />

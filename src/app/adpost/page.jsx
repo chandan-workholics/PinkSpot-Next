@@ -8,6 +8,8 @@ import AdPostFormImg from "../../../public/images/adpost-formImg.png";
 import callAPI from '../Common_Method/api';
 import axios from 'axios';
 import ProtectedRoute from '../Common_Method/protectedroute';
+import cheersImg from "../../../public/images/cheersImg.png";
+
 
 const AdPost = () => {
     const [category, setCategory] = useState('');
@@ -22,10 +24,12 @@ const AdPost = () => {
     const [provincesname, setprovincesname] = useState('');
     const [alertcity, setalertcity] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
-
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const [step, setStep] = useState(1);
+
     const totalSteps = 4;
+
     const [formData, setFormData] = useState({
         postbyuserid: sessionStorage.getItem("userid") || "",
         category: "",
@@ -80,39 +84,21 @@ const resetForm = () => {
 };
 
     const nextStep = () => {
-        if (step < totalSteps) setStep(step + 1);
+        if (validateForm() && step < totalSteps) {
+            setStep(step + 1);
+        }
     };
 
     const prevStep = () => {
         if (step > 1) setStep(step - 1);
     };
 
-    const [user, setUser] = useState({
-        postbyuserid: "",
-        category: "",
-        subcategoryid: "",
-        name: "",
-        age: "",
-        city: "",
-        provincesid: "",
-        ethicity: "",
-        availability: "",
-        bodystatus: "",
-        phone: "",
-        height: "",
-        weight: "",
-        haircolour: "",
-        eyecolour: "",
-        title: "",
-        description: "",
-        price: "",
-        images: [],
-        paymentid: "",
-        orderid: "",
-        highlight: true,
-    });
+
 
     const handleShow = async () => {
+        if (!validateForm()) {
+            return;
+        }
         try {
             if (!formData || typeof formData !== "object") {
                 console.error("Form data is undefined or not an object");
@@ -147,8 +133,7 @@ const resetForm = () => {
             } = formData;
 
             const emptyFieldsList = Object.entries({
-                name, age, city, availability, phone, title, description,
-                bodystatus, height, weight, haircolour, eyecolour, price,
+                category, subcategoryid, name, age, provincesid, city, availability, phone, title, description,
                 images: images && images.length > 0 ? images : null,
             })
                 .filter(([_, value]) => !value)
@@ -157,7 +142,7 @@ const resetForm = () => {
             if (emptyFieldsList.length > 0) {
                 console.warn("Missing fields:", emptyFieldsList.join(", "));
                 setEmptyFields(emptyFieldsList);
-
+                alert("please fill all required fields");
                 const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
                 if (firstEmptyField) {
                     firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -190,15 +175,21 @@ const resetForm = () => {
             const result = await response.json();
 
             if (response.ok) {
+<<<<<<< HEAD
                 alert("Form submitted successfully!");
                 console.log("Submission result:", result);
                 resetForm();
                 // window.location.reload();
+=======
+                // alert("Form submitted successfully!");
+>>>>>>> efe64347be11b1d4d4d218df9f92519a716f9db7
                 // Reset form if needed
+                // window.location.reload();
             } else {
-                console.error("Submission failed:", result);
-                alert("Failed to submit the form. Please try again.");
+                alert(result.error || result.message);
             }
+
+            setIsSubmitted(true);
 
         } catch (error) {
             console.error("Error while submitting form:", error);
@@ -206,74 +197,29 @@ const resetForm = () => {
         }
     };
 
-
-    // const handleShow = async () => {
-    //     try {
-    //         if (!formData || typeof formData !== "object") {
-    //             console.error("Form data is undefined or not an object");
-    //             return;
-    //         }
-
-    //         console.log("Form data:", formData);
-
-    //         const {
-    //             name, age, city, availability, phone, title, description,
-    //             status, height, weight, haircolor, eyecolor, price, images
-    //         } = formData;
-
-    //         const emptyFieldsList = Object.entries({
-    //             name, age, city, availability, phone, adTitle, description,
-    //             status, height, weight, haircolor, eyecolor, price,
-    //             images: images && images.length > 0 ? images : null,
-    //         })
-    //             .filter(([_, value]) => !value)
-    //             .map(([key]) => key);
-
-    //         if (emptyFieldsList.length > 0) {
-    //             console.warn("Missing fields:", emptyFieldsList.join(", "));
-    //             setEmptyFields(emptyFieldsList);
-
-    //             // Scroll to first empty field
-    //             const firstEmptyField = document.querySelector(`[name="${emptyFieldsList[0]}"]`);
-    //             if (firstEmptyField) {
-    //                 firstEmptyField.scrollIntoView({ behavior: "smooth", block: "center" });
-    //                 firstEmptyField.focus();
-    //             }
-    //             return;
-    //         }
-
-    //         // ✅ All fields present, submit the form
-    //         const response = await fetch("http://206.189.130.102:4000/api/v1/postad/createpostad", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify(formData)
-    //         });
-
-    //         const result = await response.json();
-
-    //         if (response.ok) {
-    //             alert("Form submitted successfully!");
-    //             console.log("Submission result:", result);
-    //             // Optionally reset form or redirect
-    //         } else {
-    //             console.error("Submission failed:", result);
-    //             alert("Failed to submit the form. Please try again.");
-    //         }
-
-    //     } catch (error) {
-    //         console.error("Error while submitting form:", error);
-    //         alert("An error occurred. Please try again later.");
-    //     }
-    // };
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+    const handleChange = (eOrName, maybeValue) => {
+        if (typeof eOrName === 'string') {
+            // Manual call: handleChange('category', e.target.value)
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [eOrName]: maybeValue,
+            }));
+        } else if (eOrName?.target) {
+            // Direct event: handleChange(e)
+            const { name, value } = eOrName.target;
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [name]: value,
+            }));
+        }
     };
+
+    // const handleChange = (e) => {
+    //     setFormData({
+    //         ...formData,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
 
     const handleImageUpload = async (event) => {
         const files = Array.from(event.target.files);
@@ -319,53 +265,70 @@ const resetForm = () => {
         }
     };
 
+    const handleRemoveImage = (indexToRemove) => {
+        // Remove the image from images array
+        const updatedImages = images.filter((_, index) => index !== indexToRemove);
+
+        // Remove the image URL from formData.images
+        const updatedFormImages = formData.images.filter((_, index) => index !== indexToRemove);
+
+        // Remove the corresponding loading entry
+        const updatedLoading = { ...loading };
+        delete updatedLoading[indexToRemove];
+
+        // Reindex the loading object to match new image order (optional but cleaner)
+        const reindexedLoading = {};
+        Object.keys(updatedLoading)
+            .sort()
+            .forEach((key, i) => {
+                reindexedLoading[i] = updatedLoading[key];
+            });
+
+        setImages(updatedImages);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            images: updatedFormImages,
+        }));
+        setLoading(reindexedLoading);
+    };
 
 
     const getCategory = async () => {
-        try {
-            const response = await callAPI.get(`/category/getallcategory`);
-
-            if (response.data) {
-                setCategory(response.data || []);
-
-            } else {
-                console.error("Unexpected response format", response);
-                setCategory([]);
-            }
-        } catch (error) {
-            console.error("Error fetching categories", error);
-            setCategory([]);
-        }
+        const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
+        const result = await response.json();
+        setCategory(result?.data);
     };
 
-    const fetchSubCategories = async () => {
+    const fetchSubCategories = async (id) => {
         try {
-            const response = await callAPI.get("/category/getallcategory");
-            if (response.data.status === "success" && response.data.data.length > 0) {
-                const allSubcategories = response.data.data.flatMap(category => category.subcategoriesId || []);
-                setSubcategories(allSubcategories);
-            }
+            const response = await callAPI.get(`/category/getsubcategorybycatid/${id}`);
+            setSubcategories(response.data?.data || []);  // assuming response shape is { data: { data: [...] } }
         } catch (error) {
             console.error("Error fetching subcategories:", error);
+            setSubcategories([]);
         }
     };
+
+    useEffect(() => {
+        getCategory();
+    }, []);
 
     const validateForm = () => {
         let tempErrors = {};
         if (step === 1) {
             if (!formData.category) tempErrors.category = "Category is required";
-            if (!formData.subcategoryid) tempErrors.subCategory = "Sub Category is required";
+            if (!formData.subcategoryid) tempErrors.subCategory = "Sub category is required";
         } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
             if (!formData.age || isNaN(formData.age) || formData.age <= 0)
                 tempErrors.age = "Enter a valid age";
-            // if (!formData.city) tempErrors.city = "City is required";
+            if (!formData.city) tempErrors.city = "City is required";
             if (!formData.phone || !/^\d{10}$/.test(formData.phone))
                 tempErrors.phone = "Enter a valid 10-digit number";
             if (!formData.provincesid) tempErrors.provincesid = "Province is required";
             if (!formData.availability) tempErrors.availability = "Availability is required";
         } else if (step === 3) {
-            if (!formData.title) tempErrors.title = "Ad Title is required";
+            if (!formData.title) tempErrors.title = "Ad title is required";
         } else if (step === 4) {
             if (!formData.description) tempErrors.description = "Description is required";
             if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
@@ -402,21 +365,6 @@ const resetForm = () => {
             Setethicity([]);
         }
     };
-
-    const getcity = async (e) => {
-        try {
-            const id = e.target.value;
-            setprovincesid(id);
-            const response = await callAPI.get(`/getallcity/${id}`);
-            if (response?.data) {
-                Setdata(response.data || []);
-            }
-        } catch (error) {
-            console.error("Error fetching cities:", error);
-            Setdata([]);
-        }
-    };
-
 
     const getcity2 = async (provinceId, name) => {
         try {
@@ -468,251 +416,306 @@ const resetForm = () => {
                     </div>
                     <div className="">
                         <div className="container my-5">
-                            <div className="row justify-content-center">
-                                <h2 className="text-center fw-bold text-4b164c mb-4">Fill Out the Form Below</h2>
-                                <div className="col-lg-6 d-flex align-items-center">
-                                    <Image src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg" />
-                                </div>
-                                <div className="col-lg-6 d-flex align-items-center">
-                                    <div className="form-container w-100">
-                                        {/* Step Progress Bar */}
-                                        <div className="stepper-container d-flex justify-content-between align-items-center mb-4">
-                                            {[1, 2, 3, 4].map((s, index) => (
-                                                <motion.div
-                                                    key={index}
-                                                    className={`step ${step >= s ? 'active' : ''}`}
-                                                    initial={{ opacity: 0.5 }}
-                                                    animate={{ opacity: step >= s ? 1 : 0.5 }}
-                                                    transition={{ duration: 0.3 }}
-                                                >
+                            {!isSubmitted ? (
+                                <div className="row justify-content-center">
+                                    <h2 className="text-center fw-bold text-4b164c mb-4">Fill Out the Form Below</h2>
+                                    <div className="col-lg-6 d-flex align-items-center">
+                                        <img src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg" />
+                                    </div>
+                                    <div className="col-lg-6 d-flex align-items-center">
+                                        <div className="form-container w-100">
+                                            {/* Step Progress Bar */}
+                                            <div className="stepper-container d-flex justify-content-between align-items-center mb-4">
+                                                {[1, 2, 3, 4].map((s, index) => (
                                                     <motion.div
-                                                        className="step-circle"
-                                                        initial={{ scale: 0.8 }}
-                                                        animate={{ scale: step === s ? 1.2 : 1 }}
+                                                        key={index}
+                                                        className={`step ${step >= s ? 'active' : ''}`}
+                                                        initial={{ opacity: 0.5 }}
+                                                        animate={{ opacity: step >= s ? 1 : 0.5 }}
                                                         transition={{ duration: 0.3 }}
-                                                        style={{
-                                                            backgroundColor: step >= s ? "#dd88cf" : "#ddd",
-                                                            color: step >= s ? "#fff" : "#000"
-                                                        }}
                                                     >
-                                                        {step > s ? <i className="fa-solid fa-check text-white mt-1"></i> : s}
+                                                        <motion.div
+                                                            className="step-circle"
+                                                            initial={{ scale: 0.8 }}
+                                                            animate={{ scale: step === s ? 1.2 : 1 }}
+                                                            transition={{ duration: 0.3 }}
+                                                            style={{
+                                                                backgroundColor: step >= s ? "#dd88cf" : "#ddd",
+                                                                color: step >= s ? "#fff" : "#000"
+                                                            }}
+                                                        >
+                                                            {step > s ? <i className="fa-solid fa-check text-white mt-1"></i> : s}
+                                                        </motion.div>
+                                                        <span className="step-label" style={{ color: step >= s ? "#6a0dad" : "#aaa" }}>Step {s}</span>
                                                     </motion.div>
-                                                    <span className="step-label" style={{ color: step >= s ? "#6a0dad" : "#aaa" }}>Step {s}</span>
-                                                </motion.div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                            </div>
 
-                                        <form onSubmit={handleSubmit}>
-                                            {step === 1 && (
-                                                <>
-                                                    <div className="row">
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Category *</label>
-                                                            <select
-                                                                className="form-select"
-                                                                name="category"
-                                                                value={formData.category}
-                                                                onChange={handleChange}
-                                                                required
-                                                            >
-                                                                <option value="">Select a category</option>
-                                                                {Array.isArray(category?.data) && category.data.length > 0 ? (
-                                                                    category.data.map((cat, index) => (
-                                                                        <option value={cat._id} key={index}>{cat.name}</option>
-                                                                    ))
-                                                                ) : (
-                                                                    <option disabled>No category available</option>
-                                                                )}
-                                                            </select>
-                                                            {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
-                                                        </div>
+                                            <form onSubmit={handleSubmit}>
+                                                {step === 1 && (
+                                                    <>
+                                                        <div className="row">
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Category *</label>
+                                                                <select
+                                                                    className="form-select"
+                                                                    name="category"
+                                                                    value={formData.category}
+                                                                    onChange={(e) => {
+                                                                        handleChange('category', e.target.value);
+                                                                        handleChange('subcategoryid', ''); // Clear selected subcategory
+                                                                        fetchSubCategories(e.target.value);
+                                                                    }}
+                                                                    required
+                                                                >
+                                                                    <option value="">Select a category</option>
+                                                                    {Array.isArray(category) && category.length > 0 ? (
+                                                                        category.map((cat, index) => (
+                                                                            <option value={cat._id} key={index} className='text-capitalize'>{cat.name}</option>
+                                                                        ))
+                                                                    ) : (
+                                                                        <option disabled>No category available</option>
+                                                                    )}
+                                                                </select>
+                                                                {errors.category && <p className='input-errormsg'>{errors.category}</p>}
+                                                            </div>
 
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Sub Category *</label>
-                                                            <select className="form-select" name='subcategoryid' value={formData.subcategoryid} onChange={handleChange} required>
-                                                                <option value="0">Select a sub category</option>
-                                                                {subcategories?.map((subcategory) => (
-                                                                    <option key={subcategory._id} value={subcategory._id}>
-                                                                        {subcategory.name}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                            {errors.subCategory && <p>{errors.subCategory}</p>}
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                            {step === 2 && (
-                                                <>
-                                                    <div className="row">
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Name *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Name" name='name' value={formData.name} onChange={handleChange} required />
-                                                        </div>
-                                                        {errors.name && <p>{errors.name}</p>}
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Age *</label>
-                                                            <input type="number" className="form-control" placeholder="Enter Age" name='age' value={formData.age} onChange={handleChange} required />
-                                                        </div>
-                                                        {errors.age && <p>{errors.age}</p>}
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Province *</label>
-                                                            <select
-                                                                className={`form-select ${alertcity ? 'emptyInput' : ''}`}
-                                                                name="provincesid"
-                                                                value={formData.provincesid || ""}
-                                                                onChange={(e) => {
-                                                                    handleChange(e);
-                                                                    if (e.target.value) {
-                                                                        getcity2(e.target.value, e.target.options[e.target.selectedIndex].text);
-                                                                    }
-                                                                }}
-                                                                required
-                                                            >
-                                                                <option value="">Select Province</option>
-                                                                {Array.isArray(province?.data) && province.data.length > 0 ? (
-                                                                    province.data.map((val) => (
-                                                                        <option key={val._id} value={val._id}>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Sub Category *</label>
+                                                                <select
+                                                                    className="form-select"
+                                                                    name='subcategoryid'
+                                                                    value={formData.subcategoryid}
+                                                                    onChange={(e) => handleChange('subcategoryid', e.target.value)}
+                                                                    required>
+                                                                    <option value="0">Select a sub category</option>
+                                                                    {subcategories?.map((val, index) => (
+                                                                        <option key={index} value={val._id}>
                                                                             {val.name}
                                                                         </option>
-                                                                    ))
-                                                                ) : (
-                                                                    <option disabled>No provinces available</option>
-                                                                )}
-                                                            </select>
-
-                                                            {errors.province && <p className="text-danger">{errors.province}</p>}
+                                                                    ))}
+                                                                </select>
+                                                                {errors.subCategory && <p className='input-errormsg'>{errors.subCategory}</p>}
+                                                            </div>
                                                         </div>
-
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">City *</label>
-                                                            <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' value={formData.city} onChange={handleChange} required>
-                                                                <option>Select City</option>
-                                                                {data?.data?.map((val, index) => {
-                                                                    return (
-                                                                        <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
-                                                                    )
-                                                                })}
-                                                            </select>
-                                                            {errors.city && <p>{errors.city}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Mobile Number *</label>
-                                                            <input
-                                                                type="number"
-                                                                className="form-control"
-                                                                placeholder="Enter Mobile Number"
-                                                                name="phone"
-                                                                value={formData.phone}
-                                                                onChange={handleChange}
-                                                                required
-                                                            />
-                                                            {errors.phone && <p>{errors.phone}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Availability *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
-                                                        </div>
-                                                        {errors.availability && <p>{errors.availability}</p>}
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Ethnicity</label>
-                                                            <select
-                                                                className="form-select"
-                                                                name="ethicity"
-                                                                value={formData.ethicity}
-                                                                onChange={handleChange}
-                                                            >
-                                                                {ethicity?.data?.map((val, index) => (
-                                                                    <option key={index} value={val.name}>
-                                                                        {val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                            {errors.ethnicity && <p>{errors.ethnicity}</p>}
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                            {step === 3 && (
-                                                <>
-                                                    <div className="row">
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Body Status</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
-                                                            {errors.bodystatus && <p className="text-danger">{errors.bodystatus}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Height</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
-                                                            {errors.height && <p className="text-danger">{errors.height}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Weight</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
-                                                            {errors.weight && <p className="text-danger">{errors.weight}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Hair Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
-                                                            {errors.haircolor && <p className="text-danger">{errors.haircolor}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Eye Color</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolour' value={formData.eyecolour} onChange={handleChange} />
-                                                            {errors.eyecolor && <p className="text-danger">{errors.eyecolor}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Title *</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Title" name='title' required value={formData.title} onChange={handleChange} />
-                                                            {errors.adTitle && <p className="text-danger">{errors.adTitle}</p>}
-                                                        </div>
-                                                        <div className="col-md-6 mb-3">
-                                                            <label className="form-label">Price</label>
-                                                            <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
-                                                            {errors.price && <p className="text-danger">{errors.price}</p>}
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                            {step === 4 && (
-                                                <>
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Description *</label>
-                                                        <textarea className="form-control" rows="3" placeholder="Enter Description" name='description' value={formData.description} onChange={handleChange} required></textarea>
-                                                        {errors.description && <p className="text-danger">{errors.description}</p>}
-                                                    </div>
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Upload Images</label>
-                                                        <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
-                                                            {images.map((img, index) => (
-                                                                <div key={index} className="image-upload">
-                                                                    <input type="file" accept="image/*" name='images' multiple onChange={(e) => handleImageUpload(e)} />
-                                                                    {loading[index] ? (
-                                                                        <span>Loading...</span>
-                                                                    ) : img ? (
-                                                                        <>
-                                                                            <img src={img} alt="Preview" className="previewImage" />
-                                                                        </>
+                                                    </>
+                                                )}
+                                                {step === 2 && (
+                                                    <>
+                                                        <div className="row">
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Name *</label>
+                                                                <input type="text"
+                                                                    className="form-control"
+                                                                    placeholder="Enter Name"
+                                                                    name='name'
+                                                                    value={formData.name}
+                                                                    onChange={handleChange}
+                                                                    required />
+                                                                {errors.name && <p className='input-errormsg'>{errors.name}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Age *</label>
+                                                                <input type="number" className="form-control" placeholder="Enter Age" name='age' value={formData.age} onChange={handleChange} required />
+                                                                {errors.age && <p className='input-errormsg'>{errors.age}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Province *</label>
+                                                                <select
+                                                                    className={`form-select ${alertcity ? 'emptyInput' : ''}`}
+                                                                    name="provincesid"
+                                                                    value={formData.provincesid || ""}
+                                                                    onChange={(e) => {
+                                                                        handleChange(e);
+                                                                        if (e.target.value) {
+                                                                            getcity2(e.target.value, e.target.options[e.target.selectedIndex].text);
+                                                                        }
+                                                                    }}
+                                                                    required
+                                                                >
+                                                                    <option value="">Select Province</option>
+                                                                    {Array.isArray(province?.data) && province.data.length > 0 ? (
+                                                                        province.data.map((val) => (
+                                                                            <option key={val._id} value={val._id}>
+                                                                                {val.name}
+                                                                            </option>
+                                                                        ))
                                                                     ) : (
-                                                                        <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
+                                                                        <option disabled>No provinces available</option>
                                                                     )}
-                                                                </div>
-                                                            ))}
+                                                                </select>
+
+                                                                {errors.provincesid && <p className='input-errormsg'>{errors.provincesid}</p>}
+                                                            </div>
+
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">City *</label>
+                                                                <select className={`form-select ${alertcity ? 'emptyInput' : null}`} name='city' value={formData.city} onChange={handleChange} required>
+                                                                    <option>Select City</option>
+                                                                    {data?.data?.map((val, index) => {
+                                                                        return (
+                                                                            <option key={index} value={val.name}>{val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}</option>
+                                                                        )
+                                                                    })}
+                                                                </select>
+                                                                {errors.city && <p className='input-errormsg'>{errors.city}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Mobile Number *</label>
+                                                                <input
+                                                                    type="number"
+                                                                    className="form-control"
+                                                                    placeholder="Enter Mobile Number"
+                                                                    name="phone"
+                                                                    value={formData.phone}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                                {errors.phone && <p className='input-errormsg'>{errors.phone}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Availability *</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
+                                                                {errors.availability && <p className='input-errormsg'>{errors.availability}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Ethnicity</label>
+                                                                <select
+                                                                    className="form-select"
+                                                                    name="ethicity"
+                                                                    value={formData.ethicity}
+                                                                    onChange={handleChange}
+                                                                >
+                                                                    {ethicity?.data?.map((val, index) => (
+                                                                        <option key={index} value={val.name}>
+                                                                            {val.name.charAt(0).toUpperCase() + val.name.slice(1).toLowerCase()}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                                {errors.ethnicity && <p className='input-errormsg'>{errors.ethnicity}</p>}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="text-center">
-                                                        <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>
-                                                    </div>
-                                                </>
-                                            )}
-                                            <div className="d-flex justify-content-between mt-4">
-                                                {step > 1 && <button type="button" className="btn btn-secondary rounded-5" onClick={prevStep}>Previous</button>}
-                                                {step < totalSteps && <button type="button" className="btn bg-4b164c text-white px-4 rounded-pill" onClick={nextStep}>Next</button>}
-                                            </div>
-                                        </form>
+                                                    </>
+                                                )}
+                                                {step === 3 && (
+                                                    <>
+                                                        <div className="row">
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Body Status</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
+                                                                {errors.bodystatus && <p className='input-errormsg'>{errors.bodystatus}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Height</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
+                                                                {errors.height && <p className='input-errormsg'>{errors.height}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Weight</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
+                                                                {errors.weight && <p className='input-errormsg'>{errors.weight}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Hair Color</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
+                                                                {errors.haircolor && <p className='input-errormsg'>{errors.haircolor}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Eye Color</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Eye Color" name='eyecolour' value={formData.eyecolour} onChange={handleChange} />
+                                                                {errors.eyecolor && <p className='input-errormsg'>{errors.eyecolor}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Title *</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Title" name='title' required value={formData.title} onChange={handleChange} />
+                                                                {errors.title && <p className='input-errormsg'>{errors.title}</p>}
+                                                            </div>
+                                                            <div className="col-md-6 mb-3">
+                                                                <label className="form-label">Price</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
+                                                                {errors.price && <p className='input-errormsg'>{errors.price}</p>}
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                )}
+                                                {step === 4 && (
+                                                    <>
+                                                        <div className="mb-3">
+                                                            <label className="form-label">Description *</label>
+                                                            <textarea className="form-control" rows="3" placeholder="Enter Description" name='description' value={formData.description} onChange={handleChange} required></textarea>
+                                                            {errors.description && <p className='input-errormsg'>{errors.description}</p>}
+                                                        </div>
+                                                        <div className="mb-3">
+                                                            <label className="form-label">Upload Images *</label>
+                                                            <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
+                                                                {images.map((img, index) => (
+                                                                    <div key={index} className="image-upload">
+
+                                                                        {loading[index] ? (
+                                                                            <span>Loading...</span>
+                                                                        ) : img ? (
+                                                                            <>
+                                                                                <img src={img} alt="Preview" className="previewImage" />
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-sm btn-danger rounded-3 me-0 position-absolute top-0 end-0"
+                                                                                    onClick={() => handleRemoveImage(index)}
+                                                                                    style={{
+                                                                                        padding: '0.1rem 0.3rem',
+                                                                                        fontSize: '0.8rem'
+                                                                                    }}
+                                                                                >
+                                                                                    ✕
+                                                                                </button>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <input type="file" accept="image/*" name='images' multiple onChange={(e) => handleImageUpload(e)} />
+                                                                                <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            {errors.images && <p className='input-errormsg'>{errors.images}</p>}
+                                                        </div>
+                                                        <div className="text-center">
+                                                            <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>
+                                                        </div>
+                                                    </>
+                                                )}
+                                                <div className="d-flex justify-content-between mt-4">
+                                                    {step > 1 && <button type="button" className="btn btn-secondary rounded-5" onClick={prevStep}>Previous</button>}
+                                                    {step < totalSteps && <button type="button" className="btn bg-4b164c text-white px-4 rounded-pill" onClick={nextStep}>Next</button>}
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="text-center p-4 border rounded-4 bg-light">
+                                    <div className="row">
+                                        <div className="col-lg-4 mx-auto">
+                                            <img src={cheersImg.src} alt="" className="w-100" />
+                                        </div>
+                                        <div className="col-lg-6 d-flex justify-content-center align-items-center">
+                                            <div className="">
+                                                <h1 className='pacifico-regular'>Thank you!</h1>
+                                                <p>Your ad has been successfully posted.</p>
+
+                                                <div className="justify-content-center gap-3 my-4">
+                                                    <button className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill py-2 px-3" onClick={() => window.location.href = '/'}>
+                                                        Go to Home
+                                                    </button>
+                                                    <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3" onClick={() => window.location.reload()}>
+                                                        Post More Ad
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

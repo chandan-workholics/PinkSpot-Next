@@ -72,10 +72,18 @@ const LoginClient = () => {
           phone: user.phone
         });
         if (response.status === 200) {
-          toast.success("Registration successful");
+          toast.success("OTP sent on registered email. Please verify to continue.");
           sessionStorage.setItem("userid", response.data?.data?._id);
           setIsLogin(true);
-        } else {
+          localStorage.setItem("userid", response.data?.data?._id);
+          router.push("/otp");
+        } else if (response.status === 202) {
+          toast.error("User already exists. But not verified. OTP sent on registered email.")
+          router.push("/otp");
+        } else if (response.status === 400) {
+          toast.error(response.data?.message || "Failed to register. User may already exist");
+        }
+        else {
           toast.error("Failed to register. User may already exist");
         }
       }

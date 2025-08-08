@@ -14,6 +14,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import DisclaimerModal from '../components/DisclaimerModal/DisclaimerModal'
 import { useRouter } from 'next/navigation';
+import modelImg1 from "../../../public/images/m7.jpg";
+import modelImg2 from "../../../public/images/m2.jpg";
+import modelImg3 from "../../../public/images/m3.jpg";
+import modelImg4 from "../../../public/images/m4.jpg";
 
 const HomePage = () => {
     const router = useRouter();
@@ -165,21 +169,19 @@ const HomePage = () => {
                                                                         </div>
                                                                         {/* Added overlay to match the static design */}
                                                                         <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
-                                                                            <div className="">
-                                                                                <p className="mb-1">
+                                                                            <div className="w-100 p-3">
+                                                                                <p className="mb-1 text-center">
                                                                                     {post.description.length > maxLength
                                                                                         ? `${post.description.slice(0, maxLength)}...`
                                                                                         : post.description}
                                                                                 </p>
-                                                                                {post.description.length > maxLength && (
-                                                                                    <Link
-                                                                                        className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
-                                                                                        key={index}
-                                                                                        href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
-                                                                                    >
-                                                                                        View More
-                                                                                    </Link>
-                                                                                )}
+                                                                                <Link
+                                                                                    className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
+                                                                                    key={index}
+                                                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                                                >
+                                                                                    View More
+                                                                                </Link>
                                                                                 {/* Like button for adding to favourites */}
 
                                                                             </div>
@@ -270,21 +272,19 @@ const HomePage = () => {
                                                 </div>
                                                 {/* Added overlay to match the static design */}
                                                 <div className="overlay-sim-text-2 overlay-xs-1 d-flex align-items-center">
-                                                    <div className="">
-                                                        <p className="mb-1">
+                                                    <div className="text-center w-100 p-3">
+                                                        <p className="mb-1 text-center">
                                                             {post.description.length > maxLength
                                                                 ? `${post.description.slice(0, maxLength)}...`
                                                                 : post.description}
                                                         </p>
-                                                        {post.description.length > maxLength && (
-                                                            <Link
-                                                                className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
-                                                                key={index}
-                                                                href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
-                                                            >
-                                                                View More
-                                                            </Link>
-                                                        )}
+                                                        <Link
+                                                            className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'
+                                                            key={index}
+                                                            href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                        >
+                                                            View More
+                                                        </Link>
                                                         {/* Like button for adding to favourites */}
 
                                                     </div>
@@ -305,14 +305,8 @@ const HomePage = () => {
                                         Enjoy This Our <br /> <span className="text-dd88cf">Special</span> Features
                                     </h2>
                                     <p className='text-center text-lg-start'>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
-                                        repudiandae odit dolorem quis laudantium impedit beatae perferendis
-                                        natus, hic libero sed atque.
-                                    </p>
-                                    <p className='text-center text-lg-start'>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
-                                        repudiandae odit dolorem quis laudantium impedit beatae perferendis
-                                        natus, hic libero sed atque.
+                                        We’re redefining how escort services are discovered and booked in Canada. Our platform is designed to ensure safety, privacy, and seamless connections between clients and verified providers.
+                                        Experience premium features built to support a confident and secure journey.
                                     </p>
                                     <div className="d-flex">
                                         <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
@@ -326,13 +320,13 @@ const HomePage = () => {
                                             <div className="">
                                                 <div className="cardFeature">
                                                     <i className="fa-solid fa-user-tie text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Profile Verification</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                    <h5 className="fw-bold">Verified Profiles</h5>
+                                                    <p>We prioritize authenticity. All providers go through a verification process to ensure genuine and trusted connections.</p>
                                                 </div>
                                                 <div className="cardFeature">
                                                     <i className="fa-solid fa-comments text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Communication</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                    <h5 className="fw-bold">Private Messaging</h5>
+                                                    <p>Connect securely through our built-in messaging system — your conversations remain 100% confidential.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -340,18 +334,18 @@ const HomePage = () => {
                                             <div className="">
                                                 <div className="cardFeature">
                                                     <i className="fa-brands fa-web-awesome text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Premium Features</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                    <h5 className="fw-bold">Premium Listings</h5>
+                                                    <p>Stand out from the crowd. Boost your profile visibility and attract more clients with featured placements.</p>
                                                 </div>
                                                 <div className="cardFeature active">
                                                     <i className="fa-solid fa-user-shield text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Safety Guaranty</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                    <h5 className="fw-bold">Safety Assurance</h5>
+                                                    <p>Your security is our top priority — from encrypted data to anonymous browsing, we’ve got you covered.</p>
                                                 </div>
                                                 <div className="cardFeature">
                                                     <i className="fa-solid fa-globe text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Connect With Near</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                    <h5 className="fw-bold">Find Nearby Providers</h5>
+                                                    <p>Easily explore verified escort services near your location across Canada, with advanced local search filters.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -365,55 +359,55 @@ const HomePage = () => {
                         <section>
                             <div className="gallery gallery-left">
                                 <div className="left">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg2.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg3.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
                                 <div className="left">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg2.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
                             </div>
                             <div className="gallery gallery-center">
                                 <div className="center">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg3.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg4.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
                                 <div className="center">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg2.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg3.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
                             </div>
                             <div className="gallery gallery-right">
                                 <div className="right">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg2.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg"
+                                    <img src={modelImg3.src}
                                         className="box box1" alt="" loading="lazy" />
                                 </div>
                                 <div className="right">
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1" alt=""
+                                    <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg" className="box box1"
+                                    <img src={modelImg1.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src="https://cdn.pixabay.com/photo/2024/06/24/04/05/woman-8849047_640.jpg"
+                                    <img src={modelImg2.src}
                                         className="box box1" alt="" loading="lazy" />
                                 </div>
                             </div>

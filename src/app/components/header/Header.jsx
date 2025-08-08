@@ -131,25 +131,48 @@ const Header = () => {
                                 <li className="nav-item">
                                     <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</CloseOffcanvasLink>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item d-none d-lg-block">
                                     <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill my-3 py-2 px-3 mb-3"
                                         href="/allCategory?from=header">
                                         Search Escorts
                                     </CloseOffcanvasLink>
                                 </li>
-                                <li className="nav-item">
-                                    {!isAuthenticated ? (
-                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
-                                    ) : (
-                                        <>
-                                            <div onClick={() => router.push("/UserProfile")} className='nav-link'>My Profile</div> <br />
+                                {!isAuthenticated ? (
+                                    <li className="nav-item">
+                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'>LOG IN</button>
+                                    </li>
+                                ) : (
+                                    <>
+                                        <li className="nav-item">
+                                            <CloseOffcanvasLink
+                                                className={`nav-link ${pathname.startsWith("/UserProfile") ? "active" : ""}`}
+                                                href="/UserProfile">
+                                                My Profile
+                                            </CloseOffcanvasLink>
+                                            {/* <div onClick={() => router.push("/UserProfile")} className='nav-link' style={{ cursor: "pointer" }}>My Profile</div> <br /> */}
+                                        </li>
+                                        <li className="nav-item">
+                                            <CloseOffcanvasLink
+                                                className={`nav-link ${pathname.startsWith("/Wallet") ? "active" : ""}`}
+                                                href="/Wallet">
+                                                Wallet
+                                            </CloseOffcanvasLink>
+                                            {/* <div onClick={() => router.push("/Wallet")} className='nav-link' style={{ cursor: "pointer" }}>Wallet</div> <br /> */}
+                                        </li>
+                                        <li className="nav-item d-block d-lg-none">
+                                            <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill mt-3 py-2 px-3"
+                                                href="/allCategory?from=header">
+                                                Search Escorts
+                                            </CloseOffcanvasLink>
+                                        </li>
+                                        <li className="nav-item">
                                             <div className="d-flex mt-3">
                                                 <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill me-2'>POST YOUR AD</button>
                                                 <button onClick={handleLogout} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill'>LOGOUT</button>
                                             </div>
-                                        </>
-                                    )}
-                                </li>
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </div>
                     </div>
