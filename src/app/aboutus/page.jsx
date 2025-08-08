@@ -50,7 +50,7 @@ const aboutus = () => {
                                     <h4 className='text-dd88cf fw-semibold'>Welcome To</h4>
                                     <h2>Pinkspot.cc</h2>
                                     <p>Founded in 2024, Pinkspot.cc is Canada’s first sex worker-owned and operated escort directory built by and for the community. Our mission is simple but powerful: to create a safe, reliable, and affordable space for real escorts to promote their services and connect with respectful, high-paying clients—without the frustration of fake ads or outrageous fees.</p>
-                                    <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</button>
+                                    <Link href="" className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</Link>
                                 </div>
                             </div>
                         </div>
