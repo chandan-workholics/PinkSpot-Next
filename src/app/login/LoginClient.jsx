@@ -1,20 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "../components/header/Header";
 import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import Spinner from "../components/spinner/Spinner";
 
 const LoginClient = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [user, setUser] = useState({ email: "", password: "", copassword: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const mode = searchParams.get("mode"); // "login" or "signup"
-  const [isLogin, setIsLogin] = useState(mode !== "signup");
+const searchParams = useSearchParams();
+const [isLogin, setIsLogin] = useState(true);
+
+
+useEffect(() => {
+  setIsLogin(searchParams.get("mode") !== "signup");
+}, [searchParams]);
+
+  if (loading) return <Spinner />; // Show spinner while loading
+
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -30,8 +38,8 @@ const LoginClient = () => {
       return false;
     }
     if (!isLogin) {
-      if (!user.phone || !/^\d{10}$/.test(user.phone)) {
-        toast.error("Please enter a valid 10-digit mobile number");
+      if (!user.phone || !/^(?:\+1\s?)?(?:\d{3}[\s.-]?\d{3}[\s.-]?\d{4})$/.test(user.phone)) {
+        toast.error("Please enter a valid  phone number (e.g. +1 416-555-1234)");
         return false;
       }
       if (user.password !== user.copassword) {
@@ -129,7 +137,7 @@ const LoginClient = () => {
                         {!isLogin && (
                           <>
                             <div className="inputBx">
-                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="Mobile Number" />
+                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. +1 416 555 1234" />
                             </div>
                           </>
                         )}
@@ -148,13 +156,23 @@ const LoginClient = () => {
                           </>
                         )}
                         <div className="inputBx">
-                          <input type="submit" value={loading ? "Processing..." : isLogin ? "Log in" : "Sign up"} disabled={loading} />
+                          <input type="submit" value={loading ? "Processing" : isLogin ? "Log in" : "Sign up"} disabled={loading} />
                         </div>
                       </form>
                       {isLogin ? (
-                        <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
+                        <p>
+                          Don't have an account?{" "}
+                          <button type="button" onClick={() => setIsLogin(false)} className="btn btn-link p-0">
+                            Sign up
+                          </button>
+                        </p>
                       ) : (
-                        <p>Already have an account? <span onClick={() => setIsLogin(true)}>Login</span></p>
+                        <p>
+                          Already have an account?{" "}
+                          <button type="button" onClick={() => setIsLogin(true)} className="btn btn-link p-0">
+                            Login
+                          </button>
+                        </p>
                       )}
                     </div>
                   </div>

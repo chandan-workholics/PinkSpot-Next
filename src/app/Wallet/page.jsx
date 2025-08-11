@@ -5,6 +5,7 @@ import Header from "../components/header/Header";
 import WalletImg from "../../../public/images/walletImg.png";
 import ProtectedRoute from '../Common_Method/protectedroute';
 import Link from 'next/link';
+import Spinner from '../components/spinner/Spinner';
 
 const userId = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
@@ -105,7 +106,7 @@ const Wallet = () => {
                                                             className="btn w-100 shadow btn-login bg-4b164c text-white fw-semibold rounded-pill py-2 px-3 me-0"
                                                             disabled={loading}
                                                         >
-                                                            {loading ? "Processing..." : "Add Money"}
+                                                            {loading ? <Spinner/> : "Add Money"}
                                                         </button>
                                                     </div>
                                                     <div className="btn-group w-100 text-center justify-content-around mt-3">

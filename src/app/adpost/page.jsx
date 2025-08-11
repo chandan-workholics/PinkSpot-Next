@@ -54,34 +54,6 @@ const AdPost = () => {
         orderid: "",
         highlight: true,
     });
-const resetForm = () => {
-  setFormData({
-    postbyuserid: "",
-    category: "",
-    subcategoryid: "",
-    name: "",
-    age: "",
-    city: "",
-    provincesid: "",
-    ethicity: "",
-    availability: "",
-    bodystatus: "",
-    phone: "",
-    height: "",
-    weight: "",
-    haircolour: "",
-    eyecolour: "",
-    title: "",
-    description: "",
-    price: "",
-    images: [],
-    paymentid: "",
-    orderid: "",
-    highlight: false
-  });
-  setStep(1); // go back to the first step if needed
-  setErrors({});
-};
 
     const nextStep = () => {
         if (validateForm() && step < totalSteps) {
@@ -175,14 +147,7 @@ const resetForm = () => {
             const result = await response.json();
 
             if (response.ok) {
-<<<<<<< HEAD
-                alert("Form submitted successfully!");
-                console.log("Submission result:", result);
-                resetForm();
-                // window.location.reload();
-=======
                 // alert("Form submitted successfully!");
->>>>>>> efe64347be11b1d4d4d218df9f92519a716f9db7
                 // Reset form if needed
                 // window.location.reload();
             } else {
@@ -313,29 +278,65 @@ const resetForm = () => {
         getCategory();
     }, []);
 
+    const allowOnlyNumbers = (e) => {
+        const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+        if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     const validateForm = () => {
         let tempErrors = {};
+
+        const isNumeric = (value) => /^[0-9]+$/.test(value);
+
         if (step === 1) {
             if (!formData.category) tempErrors.category = "Category is required";
             if (!formData.subcategoryid) tempErrors.subCategory = "Sub category is required";
         } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
-            if (!formData.age || isNaN(formData.age) || formData.age <= 0)
-                tempErrors.age = "Enter a valid age";
+
+            if (!formData.age || isNaN(formData.age) || formData.age <= 0 || formData.age > 100)
+                tempErrors.age = "Enter a valid age (1–100)";
+
             if (!formData.city) tempErrors.city = "City is required";
-            if (!formData.phone || !/^\d{10}$/.test(formData.phone))
-                tempErrors.phone = "Enter a valid 10-digit number";
+
+            if (!formData.phone || !/^[2-9]\d{2}[2-9]\d{6}$/.test(formData.phone)) {
+                tempErrors.phone = "Enter a valid  phone number";
+            }
+
+
             if (!formData.provincesid) tempErrors.provincesid = "Province is required";
             if (!formData.availability) tempErrors.availability = "Availability is required";
+
+            // Height (only numbers and must end with "cm" or "inches")
+            if (formData.height && !/^\d+(cm|inches)$/.test(formData.height)) {
+                tempErrors.height = "Height must end with 'cm' or 'inches' (e.g. 170cm)";
+            }
+
+            // Weight (only numbers and must end with "kg" or "pounds")
+            if (formData.weight && !/^\d+(kg|pounds)$/.test(formData.weight)) {
+                tempErrors.weight = "Weight must end with 'kg' or 'pounds' (e.g. 60kg)";
+            }
+
         } else if (step === 3) {
             if (!formData.title) tempErrors.title = "Ad title is required";
         } else if (step === 4) {
             if (!formData.description) tempErrors.description = "Description is required";
-            if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
+
+            if (!formData.images.some(img => img !== null))
+                tempErrors.images = "At least one image is required";
+
+            if (formData.price && !isNumeric(formData.price)) {
+                tempErrors.price = "Price must be a number";
+            }
         }
+
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -565,7 +566,7 @@ const resetForm = () => {
                                                                 <input
                                                                     type="number"
                                                                     className="form-control"
-                                                                    placeholder="Enter Mobile Number"
+                                                                    placeholder="e.g. +1 416 555 1234"
                                                                     name="phone"
                                                                     value={formData.phone}
                                                                     onChange={handleChange}
@@ -605,16 +606,70 @@ const resetForm = () => {
                                                                 <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
                                                                 {errors.bodystatus && <p className='input-errormsg'>{errors.bodystatus}</p>}
                                                             </div>
+                                                            {/* Height */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Height</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
-                                                                {errors.height && <p className='input-errormsg'>{errors.height}</p>}
+                                                                <div className="input-group">
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter height"
+                                                                        value={formData.height.replace(/(cm|inches)$/, "")} // numeric only
+                                                                        onChange={(e) => {
+                                                                            const number = e.target.value.replace(/\D/g, ""); // keep only digits
+                                                                            const unit = formData.height.match(/(cm|inches)$/)?.[0] || "";
+                                                                            setFormData({ ...formData, height: number + unit });
+                                                                        }}
+                                                                        onKeyDown={allowOnlyNumbers}
+                                                                    />
+                                                                    <select
+                                                                        className="form-select"
+                                                                        value={formData.height.match(/(cm|inches)$/)?.[0] || ""}
+                                                                        onChange={(e) => {
+                                                                            const number = formData.height.replace(/(cm|inches)$/, "");
+                                                                            setFormData({ ...formData, height: number + e.target.value });
+                                                                        }}
+                                                                    >
+                                                                        <option value="">Unit</option>
+                                                                        <option value="cm">cm</option>
+                                                                        <option value="inches">inches</option>
+                                                                    </select>
+                                                                </div>
+                                                                {errors.height && <p className="input-errormsg">{errors.height}</p>}
                                                             </div>
+
+                                                            {/* Weight */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Weight</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
-                                                                {errors.weight && <p className='input-errormsg'>{errors.weight}</p>}
+                                                                <div className="input-group">
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter weight"
+                                                                        value={formData.weight.replace(/(kg|pounds)$/, "")}
+                                                                        onChange={(e) => {
+                                                                            const number = e.target.value.replace(/\D/g, "");
+                                                                            const unit = formData.weight.match(/(kg|pounds)$/)?.[0] || "";
+                                                                            setFormData({ ...formData, weight: number + unit });
+                                                                        }}
+                                                                        onKeyDown={allowOnlyNumbers}
+                                                                    />
+                                                                    <select
+                                                                        className="form-select"
+                                                                        value={formData.weight.match(/(kg|pounds)$/)?.[0] || ""}
+                                                                        onChange={(e) => {
+                                                                            const number = formData.weight.replace(/(kg|pounds)$/, "");
+                                                                            setFormData({ ...formData, weight: number + e.target.value });
+                                                                        }}
+                                                                    >
+                                                                        <option value="">Unit</option>
+                                                                        <option value="kg">kg</option>
+                                                                        <option value="pounds">pounds</option>
+                                                                    </select>
+                                                                </div>
+                                                                {errors.weight && <p className="input-errormsg">{errors.weight}</p>}
                                                             </div>
+
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Hair Color</label>
                                                                 <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
@@ -632,7 +687,7 @@ const resetForm = () => {
                                                             </div>
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Price</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
+                                                                <input type="number" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
                                                                 {errors.price && <p className='input-errormsg'>{errors.price}</p>}
                                                             </div>
                                                         </div>

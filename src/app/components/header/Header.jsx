@@ -3,11 +3,12 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import logo from '../../../../public/images/pink-logo.png'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import CloseOffcanvasLink from '../CloseOffcanvasLink'
 
 const Header = () => {
     const pathname = usePathname();
+  
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     useEffect(() => {

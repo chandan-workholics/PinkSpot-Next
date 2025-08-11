@@ -67,6 +67,11 @@ const UserProfile = () => {
     const handleUpdateClick = async () => {
         setIsEditing(false);
 
+        if (!profile.phone || !/^[2-9]\d{2}[2-9]\d{6}$/.test(profile.phone)) {
+            alert("Enter a valid Canadian 10-digit phone number");
+            return; // Stop API call
+        }
+
         try {
             const response = await callAPI.post(`/users/updateprofile/${userid}`, {
                 name: profile.name,

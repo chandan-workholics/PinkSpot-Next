@@ -1255,6 +1255,22 @@ a {
 /* Login-Page - End */
 
 /* AdPost-Page - Start */
+.previewImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.image-upload {
+  position: relative;
+}
+
+.image-upload .btn {
+  padding: 2px 6px;
+}
+
 .adPost-page {
   position: relative;
   z-index: 1;
