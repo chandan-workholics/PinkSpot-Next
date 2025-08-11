@@ -369,7 +369,7 @@ const HomePage = () => {
                                 <div className="left">
                                     <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1" alt=""
+                                    <img src={modelImg3.src} className="box box1" alt=""
                                         loading="lazy" />
                                     <img src={modelImg2.src} className="box box1" alt=""
                                         loading="lazy" />
@@ -379,35 +379,35 @@ const HomePage = () => {
                                 <div className="center">
                                     <img src={modelImg3.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src={modelImg4.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                </div>
-                                <div className="center">
-                                    <img src={modelImg2.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg3.src} className="box box1"
+                                    <img src={modelImg1.src} className="box box1"
                                         alt="" loading="lazy" />
                                     <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
+                                <div className="center">
+                                    <img src={modelImg3.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg1.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg2.src} className="box box1" alt=""
+                                        loading="lazy" />
+                                </div>
                             </div>
                             <div className="gallery gallery-right">
+                                <div className="right">
+                                    <img src={modelImg4.src} className="box box1" alt=""
+                                        loading="lazy" />
+                                    <img src={modelImg3.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg2.src}
+                                        className="box box1" alt="" loading="lazy" />
+                                </div>
                                 <div className="right">
                                     <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
                                     <img src={modelImg2.src} className="box box1"
                                         alt="" loading="lazy" />
                                     <img src={modelImg3.src}
-                                        className="box box1" alt="" loading="lazy" />
-                                </div>
-                                <div className="right">
-                                    <img src={modelImg4.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg2.src}
                                         className="box box1" alt="" loading="lazy" />
                                 </div>
                             </div>

@@ -28,7 +28,7 @@ const aboutus = () => {
                         </div>
                     </div>
                     <div className="py-5">
-                        <div className="about-container container pb-5">
+                        <div className="about-container container pb-lg-5 text-center text-lg-start">
                             <div className="contentLeft">
                                 <div className="row mx-auto">
                                     <div className="imgWrapper">
@@ -46,15 +46,15 @@ const aboutus = () => {
                                 </div>
                             </div>
                             <div className="contentRight">
-                                <div className="content">
-                                    <h4 className='text-dd88cf fw-semibold'>Welcome To</h4>
-                                    <h2>Pinkspot.cc</h2>
+                                <div className="content text-center text-lg-start">
+                                    <h4 className='text-dd88cf fw-semibold w-100 mb-0'>Welcome To</h4>
+                                    <h2 className='w-100'>Pinkspot.cc</h2>
                                     <p>Founded in 2024, Pinkspot.cc is Canada’s first sex worker-owned and operated escort directory built by and for the community. Our mission is simple but powerful: to create a safe, reliable, and affordable space for real escorts to promote their services and connect with respectful, high-paying clients—without the frustration of fake ads or outrageous fees.</p>
-                                    <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</button>
+                                    {/* <Link href="" className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</Link> */}
                                 </div>
                             </div>
                         </div>
-                        <div className="about-container container mt-5">
+                        <div className="about-container container py-3 py-lg-5 text-center text-lg-start gap-0 gap-lg-5">
                             <div className="contentRight">
                                 <div className="content">
                                     <h2>Why We Started Pinkspot.cc</h2>
@@ -72,7 +72,7 @@ const aboutus = () => {
                         </div>
                     </div>
                     <div className="bg-light">
-                        <div className="container py-5">
+                        <div className="container py-4 py-lg-5">
                             <div className="row justify-content-center text-center">
                                 <h1 className='fw-semibold mb-5'>What Makes Us Different</h1>
                                 <div className="col-md-4 mb-4">
@@ -151,7 +151,7 @@ const aboutus = () => {
                         </div>
                     </div>
 
-                    <div className="container py-5">
+                    <div className="container py-4 py-lg-5">
                         <div className="row justify-content-center text-center">
                             <h1 className='fw-semibold mb-2'>Our Values</h1>
                             <h5 className='text-dd88cf mb-5'>We believe that sex work is work—and it deserves the same respect, rights, and dignity as any other profession. That’s why we’ve built Pinkspot.cc on a foundation of</h5>
@@ -217,7 +217,7 @@ const aboutus = () => {
                     </div>
 
                     <div className="bg-light">
-                        <div className="container py-5">
+                        <div className="container py-4 py-lg-5">
                             <div className="row">
                                 <div className="col-lg-3 px-4">
                                     <img src={growingTogetherPng.src} alt="" className="w-100" />
@@ -235,8 +235,8 @@ const aboutus = () => {
                     </div>
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-7 px-4 d-flex align-items-center">
-                                <div className="">
+                            <div className="col-lg-7 px-4 d-flex align-items-center pt-4 pt-lg-0">
+                                <div className="text-center text-lg-start">
                                     <h1 className='fw-semibold mb-2'>Reach Out Anytime</h1>
                                     <p className="mb-3">
                                         Our team is here to help you get the most out of your experience on Pinkspot.cc. Whether you’re a new escort building your first ad or a seasoned professional looking for a better alternative, we’re ready to support you.

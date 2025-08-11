@@ -9,12 +9,13 @@ import callAPI from '../Common_Method/api';
 import axios from 'axios';
 import ProtectedRoute from '../Common_Method/protectedroute';
 import cheersImg from "../../../public/images/cheersImg.png";
+import Link from 'next/link';
 
 
 const AdPost = () => {
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
-    const [images, setImages] = useState([null]);
+    const [images, setImages] = useState([]);
     const [loading, setLoading] = useState([]);
     const [errors, setErrors] = useState({});
     const [province, Setprovince] = useState('')
@@ -64,8 +65,6 @@ const AdPost = () => {
     const prevStep = () => {
         if (step > 1) setStep(step - 1);
     };
-
-
 
     const handleShow = async () => {
         if (!validateForm()) {
@@ -123,9 +122,26 @@ const AdPost = () => {
                 return;
             }
 
-            // 🛠 Convert image array to image1, image2, etc.
+            // Upload files first
+            const uploadedUrls = [];
+
+            for (const file of formData.images) {
+                const formDataUpload = new FormData();
+                formDataUpload.append("image", file);
+
+                const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                const imageUrl = response.data?.data?.url;
+                if (imageUrl) {
+                    uploadedUrls.push(imageUrl);
+                }
+            }
+
+            // Prepare final payload
             const imageFields = {};
-            formData.images.forEach((url, index) => {
+            uploadedUrls.forEach((url, index) => {
                 imageFields[`image${index + 1}`] = url;
             });
 
@@ -186,75 +202,68 @@ const AdPost = () => {
     //     });
     // };
 
-    const handleImageUpload = async (event) => {
+    // const handleImageUpload = async (event) => {
+    //     const files = Array.from(event.target.files);
+    //     const maxSize = 1024 * 1024 * 1024; // 1GB limit
+
+    //     const uploadedImageUrls = [];
+    //     const newLoading = {};
+
+    //     try {
+    //         // Set loading true for each file
+    //         files.forEach((_, i) => newLoading[i] = true);
+    //         setLoading(newLoading);
+
+    //         for (const file of files) {
+    //             if (file.size > maxSize) {
+    //                 alert("One or more files exceed the maximum size limit.");
+    //                 continue;
+    //             }
+
+    //             const formDataUpload = new FormData();
+    //             formDataUpload.append("image", file);
+
+    //             const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
+    //                 headers: { "Content-Type": "multipart/form-data" },
+    //             });
+
+    //             const imageUrl = response.data?.data?.url;
+    //             if (imageUrl) {
+    //                 uploadedImageUrls.push(imageUrl);
+    //             }
+    //         }
+
+    //         // Update state
+    //         setImages((prevImages) => [...prevImages, ...uploadedImageUrls]);
+    //         setFormData((prevFormData) => ({
+    //             ...prevFormData,
+    //             images: [...prevFormData.images, ...uploadedImageUrls],
+    //         }));
+    //     } catch (error) {
+    //         console.error("Image upload error:", error);
+    //     } finally {
+    //         setLoading({});
+    //     }
+    // };
+
+    const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
-        const maxSize = 1024 * 1024 * 1024; // 1GB limit
 
-        const uploadedImageUrls = [];
-        const newLoading = {};
+        const newPreviews = files.map(file => URL.createObjectURL(file));
 
-        try {
-            // Set loading true for each file
-            files.forEach((_, i) => newLoading[i] = true);
-            setLoading(newLoading);
-
-            for (const file of files) {
-                if (file.size > maxSize) {
-                    alert("One or more files exceed the maximum size limit.");
-                    continue;
-                }
-
-                const formDataUpload = new FormData();
-                formDataUpload.append("image", file);
-
-                const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
-
-                const imageUrl = response.data?.data?.url;
-                if (imageUrl) {
-                    uploadedImageUrls.push(imageUrl);
-                }
-            }
-
-            // Update state
-            setImages((prevImages) => [...prevImages, ...uploadedImageUrls]);
-            setFormData((prevFormData) => ({
-                ...prevFormData,
-                images: [...prevFormData.images, ...uploadedImageUrls],
-            }));
-        } catch (error) {
-            console.error("Image upload error:", error);
-        } finally {
-            setLoading({});
-        }
+        setImages(prev => [...prev, ...newPreviews]);
+        setFormData(prev => ({
+            ...prev,
+            images: [...prev.images, ...files], // store File objects here
+        }));
     };
 
     const handleRemoveImage = (indexToRemove) => {
-        // Remove the image from images array
-        const updatedImages = images.filter((_, index) => index !== indexToRemove);
-
-        // Remove the image URL from formData.images
-        const updatedFormImages = formData.images.filter((_, index) => index !== indexToRemove);
-
-        // Remove the corresponding loading entry
-        const updatedLoading = { ...loading };
-        delete updatedLoading[indexToRemove];
-
-        // Reindex the loading object to match new image order (optional but cleaner)
-        const reindexedLoading = {};
-        Object.keys(updatedLoading)
-            .sort()
-            .forEach((key, i) => {
-                reindexedLoading[i] = updatedLoading[key];
-            });
-
-        setImages(updatedImages);
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            images: updatedFormImages,
+        setImages(prev => prev.filter((_, index) => index !== indexToRemove));
+        setFormData(prev => ({
+            ...prev,
+            images: prev.images.filter((_, index) => index !== indexToRemove),
         }));
-        setLoading(reindexedLoading);
     };
 
 
@@ -703,17 +712,27 @@ const AdPost = () => {
                                                         <div className="mb-3">
                                                             <label className="form-label">Upload Images *</label>
                                                             <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
-                                                                {images.map((img, index) => (
-                                                                    <div key={index} className="image-upload">
+                                                                <div className="image-upload">
+                                                                    <input
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                        name="images"
+                                                                        multiple
+                                                                        onChange={handleImageUpload}
+                                                                    />
+                                                                    <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
+                                                                </div>
 
+                                                                {images.map((img, index) => (
+                                                                    <div key={index} className="image-upload position-relative">
                                                                         {loading[index] ? (
                                                                             <span>Loading...</span>
-                                                                        ) : img ? (
+                                                                        ) : (
                                                                             <>
                                                                                 <img src={img} alt="Preview" className="previewImage" />
                                                                                 <button
                                                                                     type="button"
-                                                                                    className="btn btn-sm btn-danger rounded-3 me-0 position-absolute top-0 end-0"
+                                                                                    className="btn btn-sm btn-danger rounded-3 position-absolute top-0 end-0 me-0"
                                                                                     onClick={() => handleRemoveImage(index)}
                                                                                     style={{
                                                                                         padding: '0.1rem 0.3rem',
@@ -723,14 +742,10 @@ const AdPost = () => {
                                                                                     ✕
                                                                                 </button>
                                                                             </>
-                                                                        ) : (
-                                                                            <>
-                                                                                <input type="file" accept="image/*" name='images' multiple onChange={(e) => handleImageUpload(e)} />
-                                                                                <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
-                                                                            </>
                                                                         )}
                                                                     </div>
                                                                 ))}
+
                                                             </div>
                                                             {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                         </div>
@@ -759,9 +774,9 @@ const AdPost = () => {
                                                 <p>Your ad has been successfully posted.</p>
 
                                                 <div className="justify-content-center gap-3 my-4">
-                                                    <button className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill py-2 px-3" onClick={() => window.location.href = '/'}>
+                                                    <Link href="/" className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill py-2 px-3">
                                                         Go to Home
-                                                    </button>
+                                                    </Link>
                                                     <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3" onClick={() => window.location.reload()}>
                                                         Post More Ad
                                                     </button>
