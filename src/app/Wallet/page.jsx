@@ -21,7 +21,7 @@ const Wallet = () => {
 
         try {
             setLoading(true);
-            const res = await fetch("http://206.189.130.102:4000/api/v1/payment/create-invoice", {
+            const res = await fetch("http://pinkspot.cc/api/v1/payment/create-invoice", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -43,7 +43,7 @@ const Wallet = () => {
 
     const paymentInformation = async () => {
         try {
-            const res = await fetch(`http://206.189.130.102:4000/api/v1/payment/info/${userId}`);
+            const res = await fetch(`http://pinkspot.cc/api/v1/payment/info/${userId}`);
             const data = await res.json();
             setPaymentInfo(data);
         } catch (error) {

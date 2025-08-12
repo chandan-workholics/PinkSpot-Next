@@ -15,7 +15,7 @@ const walletTransaction = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://206.189.130.102:4000/api/v1/payment/info/${userId}`);
+                const response = await axios.get(`http://pinkspot.cc/api/v1/payment/info/${userId}`);
                 const sortedData = response.data.transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setTransactions(sortedData);
                 setFilteredTransactions(sortedData);

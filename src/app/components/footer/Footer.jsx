@@ -10,7 +10,7 @@ const Footer = () => {
     const [city, SetCity] = useState([]);
 
     const getAllCity = () => {
-        fetch(`http://206.189.130.102:4000/api/v1/getallcity`, {
+        fetch(`http://pinkspot.cc/api/v1/getallcity`, {
             headers: { "X-API-Key": "your-api-key1" },
         })
             .then((response) => {

@@ -136,7 +136,7 @@ const AdPost = () => {
                 images: undefined  // remove the array field
             };
 
-            const response = await fetch("http://206.189.130.102:4000/api/v1/postad/createpostad", {
+            const response = await fetch("http://pinkspot.cc/api/v1/postad/createpostad", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -207,7 +207,7 @@ const AdPost = () => {
                 const formDataUpload = new FormData();
                 formDataUpload.append("image", file);
 
-                const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
+                const response = await axios.post("http://pinkspot.cc/api/v1/upload", formDataUpload, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
@@ -259,7 +259,7 @@ const AdPost = () => {
 
 
     const getCategory = async () => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
+        const response = await fetch(`http://pinkspot.cc/api/v1/category/getallcategory`);
         const result = await response.json();
         setCategory(result?.data);
     };

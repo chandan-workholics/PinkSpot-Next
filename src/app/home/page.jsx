@@ -95,13 +95,13 @@ const HomePage = () => {
     };
 
     const fetchProvince = async () => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallprovince`);
+        const response = await fetch(`http://pinkspot.cc/api/v1/getallprovince`);
         const result = await response.json();
         setProvince(result?.data);
     };
 
     const fetchCities = async (provinceId) => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/getallcity/${provinceId}`);
+        const response = await fetch(`http://pinkspot.cc/api/v1/getallcity/${provinceId}`);
         const result = await response.json();
         setCity(result?.data);
     };

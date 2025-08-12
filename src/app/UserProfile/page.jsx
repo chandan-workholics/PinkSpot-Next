@@ -100,7 +100,7 @@ const UserProfile = () => {
         formData.append("image", e.target.files[0]);
         var requestOptions = { headers: { "Content-Type": "multipart/form-data", }, };
         try {
-            const fetchdata = await axios.post("http://206.189.130.102:4000/upload", formData, requestOptions);
+            const fetchdata = await axios.post("http://pinkspot.cc/api/v1/upload", formData, requestOptions);
 
             const response = fetchdata;
             if (response?.status === 200) {
@@ -194,7 +194,7 @@ const UserProfile = () => {
     const handleDelete = async () => {
 
         try {
-            const response = await fetch(`http://206.189.130.102:4000/api/v1/postad/deletepostadby_single_id/${deleteId}`,
+            const response = await fetch(`http://pinkspot.cc/api/v1/postad/deletepostadby_single_id/${deleteId}`,
                 {
                     method: 'DELETE',
                     headers: {
