@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Head from "next/head";
+// import Head from "next/head";
 import Header from "../components/header/Header";
 import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -103,17 +103,17 @@ useEffect(() => {
     setLoading(false);
   };
 
-   const canonicalUrl = "https://pinkspot.cc/login";
-  const seoImage = "https://pinkspot.cc/static/images/pinkspot-login.jpg"; // Replace with actual
-  const seoTitle = "Pinkspot Login – Female Escorts in Canada, Sex in Toronto";
-  const seoDescription =
-    "Login to Pinkspot – Canada's trusted escort and adult advertising platform. Connect with female escorts in Toronto and across Canada.";
-  const seoKeywords =
-    "Pinkspot Login, pinkspot.cc login, escort, Female Escorts in Canada, Sex in Toronto, Toronto escorts, adult services Canada";
+  //  const canonicalUrl = "https://pinkspot.cc/login";
+  // const seoImage = "https://pinkspot.cc/static/images/pinkspot-login.jpg"; // Replace with actual
+  // const seoTitle = "Pinkspot Login – Female Escorts in Canada, Sex in Toronto";
+  // const seoDescription =
+  //   "Login to Pinkspot – Canada's trusted escort and adult advertising platform. Connect with female escorts in Toronto and across Canada.";
+  // const seoKeywords =
+  //   "Pinkspot Login, pinkspot.cc login, escort, Female Escorts in Canada, Sex in Toronto, Toronto escorts, adult services Canada";
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <link rel="canonical" href={canonicalUrl} />
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
@@ -121,7 +121,7 @@ useEffect(() => {
         <meta name="author" content="PINK SPOT" />
         <meta name="robots" content="index, follow" />
 
-        {/* Open Graph */}
+        
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDescription} />
         <meta property="og:image" content={seoImage} />
@@ -129,13 +129,13 @@ useEffect(() => {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Pinkspot" />
 
-        {/* Twitter */}
+       
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoTitle} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={seoImage} />
 
-        {/* Schema.org JSON-LD */}
+        
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebPage",
@@ -151,7 +151,7 @@ useEffect(() => {
             }
           }
         })}</script>
-      </Head>
+      </Head> */}
     <div className="container-fluid p-lg-0">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="login-page">
@@ -186,7 +186,7 @@ useEffect(() => {
                         {!isLogin && (
                           <>
                             <div className="inputBx">
-                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. +1 416 555 1234" />
+                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. 416 555 1234" />
                             </div>
                           </>
                         )}
@@ -199,7 +199,7 @@ useEffect(() => {
                               <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
                             </div>
                             <label className="terms mb-3">
-                              <input type="checkbox" className="me-2" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
+                              <input className="bg-white me-2" type="checkbox" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
                               I agree to the <Link href="#">Terms & Conditions</Link>
                             </label>
                           </>
@@ -211,14 +211,14 @@ useEffect(() => {
                       {isLogin ? (
                         <p>
                           Don't have an account?{" "}
-                          <button type="button" onClick={() => setIsLogin(false)} className="btn btn-link p-0">
+                          <button type="button" onClick={() => setIsLogin(false)} className="btn-link p-0 border-0 bg-transparent">
                             Sign up
                           </button>
                         </p>
                       ) : (
                         <p>
                           Already have an account?{" "}
-                          <button type="button" onClick={() => setIsLogin(true)} className="btn btn-link p-0">
+                          <button type="button" onClick={() => setIsLogin(true)} className="btn-link p-0 border-0 bg-transparent">
                             Login
                           </button>
                         </p>

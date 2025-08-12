@@ -76,7 +76,8 @@ const Profile = () => {
         : "Profile | Pink Spot";
     const seoDescription = post?.description || "Discover amazing profiles on Pink Spot.";
     const seoKeywords = `${post?.name || ''}, ${post?.city || ''}, ${post?.availability || ''}, escorts, models, pink spot`;
-    const seoImage = post?.image || profileImg.src;
+    const seoImage = post?.image || '';
+    const urlpath = `https://pinkspot.cc.com/profile/${post?.slug || ''}`;
 
     // ✅ JSON-LD Structured Data
     const jsonLd = {
@@ -90,7 +91,7 @@ const Profile = () => {
             "addressLocality": post?.city || "",
             "addressRegion": post?.provincesid || ""
         },
-        "url": urlpath
+        "url": 'https://pinkspot.cc.com/profile/' + post?.slug || "",
     };
 
 

@@ -575,7 +575,7 @@ const AdPost = () => {
                                                                 <input
                                                                     type="number"
                                                                     className="form-control"
-                                                                    placeholder="e.g. +1 416 555 1234"
+                                                                    placeholder="e.g. 416 555 1234"
                                                                     name="phone"
                                                                     value={formData.phone}
                                                                     onChange={handleChange}
