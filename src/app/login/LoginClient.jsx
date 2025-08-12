@@ -1,20 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+// import Head from "next/head";
 import Header from "../components/header/Header";
 import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import Spinner from "../components/spinner/Spinner";
 
 const LoginClient = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [user, setUser] = useState({ email: "", password: "", copassword: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const mode = searchParams.get("mode"); // "login" or "signup"
-  const [isLogin, setIsLogin] = useState(mode !== "signup");
+const searchParams = useSearchParams();
+const [isLogin, setIsLogin] = useState(true);
+
+
+useEffect(() => {
+  setIsLogin(searchParams.get("mode") !== "signup");
+}, [searchParams]);
+
+  if (loading) return <Spinner />; // Show spinner while loading
+
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -30,8 +39,8 @@ const LoginClient = () => {
       return false;
     }
     if (!isLogin) {
-      if (!user.phone || !/^\d{10}$/.test(user.phone)) {
-        toast.error("Please enter a valid 10-digit mobile number");
+      if (!user.phone || !/^(?:\+1\s?)?(?:\d{3}[\s.-]?\d{3}[\s.-]?\d{4})$/.test(user.phone)) {
+        toast.error("Please enter a valid  phone number (e.g. +1 416-555-1234)");
         return false;
       }
       if (user.password !== user.copassword) {
@@ -94,7 +103,55 @@ const LoginClient = () => {
     setLoading(false);
   };
 
+  //  const canonicalUrl = "https://pinkspot.cc/login";
+  // const seoImage = "https://pinkspot.cc/static/images/pinkspot-login.jpg"; // Replace with actual
+  // const seoTitle = "Pinkspot Login – Female Escorts in Canada, Sex in Toronto";
+  // const seoDescription =
+  //   "Login to Pinkspot – Canada's trusted escort and adult advertising platform. Connect with female escorts in Toronto and across Canada.";
+  // const seoKeywords =
+  //   "Pinkspot Login, pinkspot.cc login, escort, Female Escorts in Canada, Sex in Toronto, Toronto escorts, adult services Canada";
+
   return (
+    <>
+      {/* <Head>
+        <link rel="canonical" href={canonicalUrl} />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content={seoKeywords} />
+        <meta name="author" content="PINK SPOT" />
+        <meta name="robots" content="index, follow" />
+
+        
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:image" content={seoImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Pinkspot" />
+
+       
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content={seoImage} />
+
+        
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": seoTitle,
+          "description": seoDescription,
+          "url": canonicalUrl,
+          "publisher": {
+            "@type": "Organization",
+            "name": "Pinkspot",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://pinkspot.cc/static/images/logo.png"
+            }
+          }
+        })}</script>
+      </Head> */}
     <div className="container-fluid p-lg-0">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="login-page">
@@ -129,7 +186,7 @@ const LoginClient = () => {
                         {!isLogin && (
                           <>
                             <div className="inputBx">
-                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="Mobile Number" />
+                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. 416 555 1234" />
                             </div>
                           </>
                         )}
@@ -142,19 +199,29 @@ const LoginClient = () => {
                               <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
                             </div>
                             <label className="terms mb-3">
-                              <input type="checkbox" className="me-2" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
+                              <input className="bg-white me-2" type="checkbox" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
                               I agree to the <Link href="#">Terms & Conditions</Link>
                             </label>
                           </>
                         )}
                         <div className="inputBx">
-                          <input type="submit" value={loading ? "Processing..." : isLogin ? "Log in" : "Sign up"} disabled={loading} />
+                          <input type="submit" value={loading ? "Processing" : isLogin ? "Log in" : "Sign up"} disabled={loading} />
                         </div>
                       </form>
                       {isLogin ? (
-                        <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
+                        <p>
+                          Don't have an account?{" "}
+                          <button type="button" onClick={() => setIsLogin(false)} className="btn-link p-0 border-0 bg-transparent">
+                            Sign up
+                          </button>
+                        </p>
                       ) : (
-                        <p>Already have an account? <span onClick={() => setIsLogin(true)}>Login</span></p>
+                        <p>
+                          Already have an account?{" "}
+                          <button type="button" onClick={() => setIsLogin(true)} className="btn-link p-0 border-0 bg-transparent">
+                            Login
+                          </button>
+                        </p>
                       )}
                     </div>
                   </div>
@@ -165,6 +232,7 @@ const LoginClient = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

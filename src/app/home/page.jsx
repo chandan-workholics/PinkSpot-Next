@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Head from 'next/head';
 import noImg from "../../../public/images/no-img.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -22,6 +23,7 @@ import modelImg4 from "../../../public/images/m4.jpg";
 const HomePage = () => {
     const router = useRouter();
     const [posts, setPosts] = useState([]);
+    const [canonicalUrl, setCanonicalUrl] = useState("https://pinkspot.cc/");
     const maxLength = 90;
 
     useEffect(() => {
@@ -114,6 +116,68 @@ const HomePage = () => {
 
     return (
         <>
+            {/* SEO Meta Tags */}
+            <Head>
+                <link rel="canonical" href={canonicalUrl} />
+                <title>Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More</title>
+                <meta
+                    name="description"
+                    content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Enjoy safe, premium, and discreet connections."
+                />
+                <meta
+                    name="keywords"
+                    content="female escorts Canada, Toronto escorts, Edmonton escorts, verified escorts, premium adult services, discreet dating Canada, Pink Spot, adult companionship Toronto"
+                />
+                <meta name="author" content="Pink Spot" />
+                <meta name="robots" content="index, follow" />
+
+                {/* Open Graph */}
+                <meta property="og:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
+                <meta property="og:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet." />
+                <meta property="og:image" content="https://pinkspot.cc/images/pinkspot_small.png" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:locale" content="en_CA" />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:domain" content="pinkspot.cc" />
+                <meta name="twitter:url" content={canonicalUrl} />
+                <meta name="twitter:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
+                <meta name="twitter:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot." />
+                <meta name="twitter:image" content="https://pinkspot.cc/images/pinkspot_small.png" />
+
+                {/* Performance Hints */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                <meta name="theme-color" content="#dd88cf" />
+                <link rel="icon" href="/favicon.ico" />
+
+                {/* Schema.org JSON-LD for Local Business */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "LocalBusiness",
+                            name: "Pink Spot",
+                            url: "https://pinkspot.cc/",
+                            logo: "https://pinkspot.cc/images/pinkspot_small.png",
+                            description:
+                                "Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet.",
+                            address: {
+                                "@type": "PostalAddress",
+                                addressCountry: "CA"
+                            },
+                            sameAs: [
+                                "https://facebook.com/pinkspot",
+                                "https://instagram.com/pinkspot"
+                            ]
+                        })
+                    }}
+                />
+            </Head>
+
             <div className="container-fluid p-0">
                 <div className="home-page">
                     <div className='home-banner'>
@@ -369,7 +433,7 @@ const HomePage = () => {
                                 <div className="left">
                                     <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1" alt=""
+                                    <img src={modelImg3.src} className="box box1" alt=""
                                         loading="lazy" />
                                     <img src={modelImg2.src} className="box box1" alt=""
                                         loading="lazy" />
@@ -379,35 +443,35 @@ const HomePage = () => {
                                 <div className="center">
                                     <img src={modelImg3.src} className="box box1"
                                         alt="" loading="lazy" />
-                                    <img src={modelImg4.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                </div>
-                                <div className="center">
-                                    <img src={modelImg2.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg3.src} className="box box1"
+                                    <img src={modelImg1.src} className="box box1"
                                         alt="" loading="lazy" />
                                     <img src={modelImg4.src} className="box box1" alt=""
                                         loading="lazy" />
                                 </div>
+                                <div className="center">
+                                    <img src={modelImg3.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg1.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg2.src} className="box box1" alt=""
+                                        loading="lazy" />
+                                </div>
                             </div>
                             <div className="gallery gallery-right">
+                                <div className="right">
+                                    <img src={modelImg4.src} className="box box1" alt=""
+                                        loading="lazy" />
+                                    <img src={modelImg3.src} className="box box1"
+                                        alt="" loading="lazy" />
+                                    <img src={modelImg2.src}
+                                        className="box box1" alt="" loading="lazy" />
+                                </div>
                                 <div className="right">
                                     <img src={modelImg1.src} className="box box1" alt=""
                                         loading="lazy" />
                                     <img src={modelImg2.src} className="box box1"
                                         alt="" loading="lazy" />
                                     <img src={modelImg3.src}
-                                        className="box box1" alt="" loading="lazy" />
-                                </div>
-                                <div className="right">
-                                    <img src={modelImg4.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg2.src}
                                         className="box box1" alt="" loading="lazy" />
                                 </div>
                             </div>

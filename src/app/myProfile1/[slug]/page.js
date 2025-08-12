@@ -95,11 +95,11 @@ const MyProfile1 = () => {
                                         </div>
                                     )}
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger">Get Premium</button>
+                                        {/* <button className="btn btn-danger">Get Premium</button> */}
                                     </div>
                                 </div>
                                 <div className="profileDetails">
-                                    <h4>Base</h4>
+                                    <h4>Details</h4>
                                     <hr />
                                     {posts && (
                                         <table className="table">

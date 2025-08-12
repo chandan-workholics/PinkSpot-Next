@@ -67,6 +67,11 @@ const UserProfile = () => {
     const handleUpdateClick = async () => {
         setIsEditing(false);
 
+        if (!profile.phone || !/^[2-9]\d{2}[2-9]\d{6}$/.test(profile.phone)) {
+            alert("Enter a valid Canadian 10-digit phone number");
+            return; // Stop API call
+        }
+
         try {
             const response = await callAPI.post(`/users/updateprofile/${userid}`, {
                 name: profile.name,
@@ -280,7 +285,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="col-12 col-md-6 col-lg-12">
                                         <div className="profileDetails">
-                                            <h4>Details</h4>
+                                            <h4>Personal Details</h4>
                                             <hr />
                                             {users &&
                                                 <table className="table">
@@ -297,13 +302,7 @@ const UserProfile = () => {
                                                         </tr>
                                                         <tr>
                                                             <td style={{ width: '125px' }}>Email</td>
-                                                            <td>
-                                                                {isEditing ? (
-                                                                    <input type="email" name="email" value={profile.email} onChange={handleChange} className="form-control" />
-                                                                ) : (
-                                                                    users.email
-                                                                )}
-                                                            </td>
+                                                            <td>{users.email}</td>
                                                         </tr>
 
 
@@ -354,36 +353,41 @@ const UserProfile = () => {
                                     </nav>
                                     <div className="tab-content" id="nav-tabContent">
                                         <div className="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                            <div className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5">
-                                                <div className="row g-0">
-                                                    <div className="col-md-3">
-                                                        {posts?.data?.filter(post => post.favouriteToPostid !== null).map((post, index) => (
-                                                            <div key={index}>
-                                                                <div className="rounded-5 overflow-hidden">
+                                            <div className="card mb-3 shadow-sm bg-faedf8 border-0 rounded-5 p-3">
+                                                {posts?.data
+                                                    ?.filter(post => post.favouriteToPostid !== null)
+                                                    .map((post, index) => (
+                                                        <div className="card border-0 mb-4 shadow-sm rounded-4 overflow-hidden" key={index}>
+                                                            <div className="row g-0 align-items-center">
+                                                                {/* Image section */}
+                                                                <div className="col-md-3">
                                                                     <Image
                                                                         src={post.favouriteToPostid?.image1 || NoImg.src}
                                                                         alt="Profile"
                                                                         width={150}
                                                                         height={150}
-                                                                        className="img-fluid rounded-start w-100"
+                                                                        className="img-fluid w-100 bg-white"
+                                                                        style={{
+                                                                            maxHeight: "230px",
+                                                                            objectFit: "cover"
+                                                                        }}
                                                                     />
                                                                 </div>
-                                                            </div>
-                                                        ))}
 
-
-                                                    </div>
-                                                    <div className="col-md-9">
-                                                        <div className="card-body">
-
-                                                            {posts && posts?.data?.map((post, index1) => (
-                                                                post.favouriteToPostid !== null && (
-                                                                    <div key={index1}>
-                                                                        <h5 className="card-title">{post.favouriteToPostid?.title || "NA"}</h5>
-                                                                        <p className="card-text">{post.favouriteToPostid?.description || "NA"}</p>
+                                                                {/* Content section */}
+                                                                <div className="col-md-9">
+                                                                    <div className="card-body">
+                                                                        <h5 className="card-title">
+                                                                            {post.favouriteToPostid?.title || "NA"}
+                                                                        </h5>
+                                                                        <p className="card-text">
+                                                                            {post.favouriteToPostid?.description || "NA"}
+                                                                        </p>
 
                                                                         <Link href={`/viewAdd/${post.favouriteToPostid?.slug}`} legacyBehavior>
-                                                                            <a className="btn bg-4b164c text-white rounded-pill shadow">View Post</a>
+                                                                            <a className="btn bg-4b164c text-white rounded-pill shadow me-2">
+                                                                                View Post
+                                                                            </a>
                                                                         </Link>
 
                                                                         <button
@@ -393,16 +397,13 @@ const UserProfile = () => {
                                                                                 favouriteClick(post?.favouriteToPostid?._id);
                                                                             }}
                                                                         >
-                                                                            Remove TO Favourite
+                                                                            Remove From Favourite
                                                                         </button>
                                                                     </div>
-                                                                )
-                                                            ))}
-
-
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    ))}
                                             </div>
                                         </div>
 
@@ -416,7 +417,7 @@ const UserProfile = () => {
                                                                 <div className="rounded-5 overflow-hidden">
                                                                     <Image
                                                                         key={index}
-                                                                        src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100" />
+                                                                        src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100 bg-white" style={{ maxHeight: "230px", objectFit: 'cover' }} />
                                                                 </div>
                                                             </div>
                                                             <div className="col-md-9">

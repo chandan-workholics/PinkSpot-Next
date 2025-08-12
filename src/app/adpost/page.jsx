@@ -9,12 +9,13 @@ import callAPI from '../Common_Method/api';
 import axios from 'axios';
 import ProtectedRoute from '../Common_Method/protectedroute';
 import cheersImg from "../../../public/images/cheersImg.png";
+import Link from 'next/link';
 
 
 const AdPost = () => {
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
-    const [images, setImages] = useState([null]);
+    const [images, setImages] = useState([]);
     const [loading, setLoading] = useState([]);
     const [errors, setErrors] = useState({});
     const [province, Setprovince] = useState('')
@@ -64,8 +65,6 @@ const AdPost = () => {
     const prevStep = () => {
         if (step > 1) setStep(step - 1);
     };
-
-
 
     const handleShow = async () => {
         if (!validateForm()) {
@@ -123,9 +122,26 @@ const AdPost = () => {
                 return;
             }
 
-            // 🛠 Convert image array to image1, image2, etc.
+            // Upload files first
+            const uploadedUrls = [];
+
+            for (const file of formData.images) {
+                const formDataUpload = new FormData();
+                formDataUpload.append("image", file);
+
+                const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                const imageUrl = response.data?.data?.url;
+                if (imageUrl) {
+                    uploadedUrls.push(imageUrl);
+                }
+            }
+
+            // Prepare final payload
             const imageFields = {};
-            formData.images.forEach((url, index) => {
+            uploadedUrls.forEach((url, index) => {
                 imageFields[`image${index + 1}`] = url;
             });
 
@@ -179,24 +195,17 @@ const AdPost = () => {
         }
     };
 
-    // const handleChange = (e) => {
-    //     setFormData({
-    //         ...formData,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
+   
 
     const handleImageUpload = async (event) => {
         const files = Array.from(event.target.files);
-        const maxSize = 1024 * 1024 * 1024; // 1GB limit
 
-        const uploadedImageUrls = [];
-        const newLoading = {};
+        const newPreviews = files.map(file => URL.createObjectURL(file));
 
         try {
             // Set loading true for each file
-            files.forEach((_, i) => newLoading[i] = true);
-            setLoading(newLoading);
+            files.forEach((_, i) => loading[i] = true);
+            setLoading(loading);
 
             for (const file of files) {
                 if (file.size > maxSize) {
@@ -228,33 +237,19 @@ const AdPost = () => {
         } finally {
             setLoading({});
         }
+        setImages(prev => [...prev, ...newPreviews]);
+        setFormData(prev => ({
+            ...prev,
+            images: [...prev.images, ...files], // store File objects here
+        }));
     };
 
     const handleRemoveImage = (indexToRemove) => {
-        // Remove the image from images array
-        const updatedImages = images.filter((_, index) => index !== indexToRemove);
-
-        // Remove the image URL from formData.images
-        const updatedFormImages = formData.images.filter((_, index) => index !== indexToRemove);
-
-        // Remove the corresponding loading entry
-        const updatedLoading = { ...loading };
-        delete updatedLoading[indexToRemove];
-
-        // Reindex the loading object to match new image order (optional but cleaner)
-        const reindexedLoading = {};
-        Object.keys(updatedLoading)
-            .sort()
-            .forEach((key, i) => {
-                reindexedLoading[i] = updatedLoading[key];
-            });
-
-        setImages(updatedImages);
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            images: updatedFormImages,
+        setImages(prev => prev.filter((_, index) => index !== indexToRemove));
+        setFormData(prev => ({
+            ...prev,
+            images: prev.images.filter((_, index) => index !== indexToRemove),
         }));
-        setLoading(reindexedLoading);
     };
 
 
@@ -278,29 +273,65 @@ const AdPost = () => {
         getCategory();
     }, []);
 
+    const allowOnlyNumbers = (e) => {
+        const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+        if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     const validateForm = () => {
         let tempErrors = {};
+
+        const isNumeric = (value) => /^[0-9]+$/.test(value);
+
         if (step === 1) {
             if (!formData.category) tempErrors.category = "Category is required";
             if (!formData.subcategoryid) tempErrors.subCategory = "Sub category is required";
         } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
-            if (!formData.age || isNaN(formData.age) || formData.age <= 0)
-                tempErrors.age = "Enter a valid age";
+
+            if (!formData.age || isNaN(formData.age) || formData.age <= 0 || formData.age > 100)
+                tempErrors.age = "Enter a valid age (1–100)";
+
             if (!formData.city) tempErrors.city = "City is required";
-            if (!formData.phone || !/^\d{10}$/.test(formData.phone))
-                tempErrors.phone = "Enter a valid 10-digit number";
+
+            if (!formData.phone || !/^[2-9]\d{2}[2-9]\d{6}$/.test(formData.phone)) {
+                tempErrors.phone = "Enter a valid  phone number";
+            }
+
+
             if (!formData.provincesid) tempErrors.provincesid = "Province is required";
             if (!formData.availability) tempErrors.availability = "Availability is required";
+
+            // Height (only numbers and must end with "cm" or "inches")
+            if (formData.height && !/^\d+(cm|inches)$/.test(formData.height)) {
+                tempErrors.height = "Height must end with 'cm' or 'inches' (e.g. 170cm)";
+            }
+
+            // Weight (only numbers and must end with "kg" or "pounds")
+            if (formData.weight && !/^\d+(kg|pounds)$/.test(formData.weight)) {
+                tempErrors.weight = "Weight must end with 'kg' or 'pounds' (e.g. 60kg)";
+            }
+
         } else if (step === 3) {
             if (!formData.title) tempErrors.title = "Ad title is required";
         } else if (step === 4) {
             if (!formData.description) tempErrors.description = "Description is required";
-            if (!formData.images.some(img => img !== null)) tempErrors.images = "At least one image is required";
+
+            if (!formData.images.some(img => img !== null))
+                tempErrors.images = "At least one image is required";
+
+            if (formData.price && !isNumeric(formData.price)) {
+                tempErrors.price = "Price must be a number";
+            }
         }
+
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -530,7 +561,7 @@ const AdPost = () => {
                                                                 <input
                                                                     type="number"
                                                                     className="form-control"
-                                                                    placeholder="Enter Mobile Number"
+                                                                    placeholder="e.g. 416 555 1234"
                                                                     name="phone"
                                                                     value={formData.phone}
                                                                     onChange={handleChange}
@@ -570,16 +601,70 @@ const AdPost = () => {
                                                                 <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
                                                                 {errors.bodystatus && <p className='input-errormsg'>{errors.bodystatus}</p>}
                                                             </div>
+                                                            {/* Height */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Height</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Height" name='height' value={formData.height} onChange={handleChange} />
-                                                                {errors.height && <p className='input-errormsg'>{errors.height}</p>}
+                                                                <div className="input-group">
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter height"
+                                                                        value={formData.height.replace(/(cm|inches)$/, "")} // numeric only
+                                                                        onChange={(e) => {
+                                                                            const number = e.target.value.replace(/\D/g, ""); // keep only digits
+                                                                            const unit = formData.height.match(/(cm|inches)$/)?.[0] || "";
+                                                                            setFormData({ ...formData, height: number + unit });
+                                                                        }}
+                                                                        onKeyDown={allowOnlyNumbers}
+                                                                    />
+                                                                    <select
+                                                                        className="form-select"
+                                                                        value={formData.height.match(/(cm|inches)$/)?.[0] || ""}
+                                                                        onChange={(e) => {
+                                                                            const number = formData.height.replace(/(cm|inches)$/, "");
+                                                                            setFormData({ ...formData, height: number + e.target.value });
+                                                                        }}
+                                                                    >
+                                                                        <option value="">Unit</option>
+                                                                        <option value="cm">cm</option>
+                                                                        <option value="inches">inches</option>
+                                                                    </select>
+                                                                </div>
+                                                                {errors.height && <p className="input-errormsg">{errors.height}</p>}
                                                             </div>
+
+                                                            {/* Weight */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Weight</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Weight" name='weight' value={formData.weight} onChange={handleChange} />
-                                                                {errors.weight && <p className='input-errormsg'>{errors.weight}</p>}
+                                                                <div className="input-group">
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter weight"
+                                                                        value={formData.weight.replace(/(kg|pounds)$/, "")}
+                                                                        onChange={(e) => {
+                                                                            const number = e.target.value.replace(/\D/g, "");
+                                                                            const unit = formData.weight.match(/(kg|pounds)$/)?.[0] || "";
+                                                                            setFormData({ ...formData, weight: number + unit });
+                                                                        }}
+                                                                        onKeyDown={allowOnlyNumbers}
+                                                                    />
+                                                                    <select
+                                                                        className="form-select"
+                                                                        value={formData.weight.match(/(kg|pounds)$/)?.[0] || ""}
+                                                                        onChange={(e) => {
+                                                                            const number = formData.weight.replace(/(kg|pounds)$/, "");
+                                                                            setFormData({ ...formData, weight: number + e.target.value });
+                                                                        }}
+                                                                    >
+                                                                        <option value="">Unit</option>
+                                                                        <option value="kg">kg</option>
+                                                                        <option value="pounds">pounds</option>
+                                                                    </select>
+                                                                </div>
+                                                                {errors.weight && <p className="input-errormsg">{errors.weight}</p>}
                                                             </div>
+
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Hair Color</label>
                                                                 <input type="text" className="form-control" placeholder="Enter Hair Color" name='haircolour' value={formData.haircolour} onChange={handleChange} />
@@ -597,7 +682,7 @@ const AdPost = () => {
                                                             </div>
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Price</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
+                                                                <input type="number" className="form-control" placeholder="Enter Price" name='price' value={formData.price} onChange={handleChange} />
                                                                 {errors.price && <p className='input-errormsg'>{errors.price}</p>}
                                                             </div>
                                                         </div>
@@ -613,17 +698,27 @@ const AdPost = () => {
                                                         <div className="mb-3">
                                                             <label className="form-label">Upload Images *</label>
                                                             <div className="d-flex flex-wrap gap-2 justify-content-center image-upload-container">
-                                                                {images.map((img, index) => (
-                                                                    <div key={index} className="image-upload">
+                                                                <div className="image-upload">
+                                                                    <input
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                        name="images"
+                                                                        multiple
+                                                                        onChange={handleImageUpload}
+                                                                    />
+                                                                    <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
+                                                                </div>
 
+                                                                {images.map((img, index) => (
+                                                                    <div key={index} className="image-upload position-relative">
                                                                         {loading[index] ? (
                                                                             <span>Loading...</span>
-                                                                        ) : img ? (
+                                                                        ) : (
                                                                             <>
                                                                                 <img src={img} alt="Preview" className="previewImage" />
                                                                                 <button
                                                                                     type="button"
-                                                                                    className="btn btn-sm btn-danger rounded-3 me-0 position-absolute top-0 end-0"
+                                                                                    className="btn btn-sm btn-danger rounded-3 position-absolute top-0 end-0 me-0"
                                                                                     onClick={() => handleRemoveImage(index)}
                                                                                     style={{
                                                                                         padding: '0.1rem 0.3rem',
@@ -633,14 +728,10 @@ const AdPost = () => {
                                                                                     ✕
                                                                                 </button>
                                                                             </>
-                                                                        ) : (
-                                                                            <>
-                                                                                <input type="file" accept="image/*" name='images' multiple onChange={(e) => handleImageUpload(e)} />
-                                                                                <i className="fa-solid fa-camera-retro" style={{ fontSize: "2rem", color: "#4b164c" }}></i>
-                                                                            </>
                                                                         )}
                                                                     </div>
                                                                 ))}
+
                                                             </div>
                                                             {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                         </div>
@@ -669,9 +760,9 @@ const AdPost = () => {
                                                 <p>Your ad has been successfully posted.</p>
 
                                                 <div className="justify-content-center gap-3 my-4">
-                                                    <button className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill py-2 px-3" onClick={() => window.location.href = '/'}>
+                                                    <Link href="/" className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill py-2 px-3">
                                                         Go to Home
-                                                    </button>
+                                                    </Link>
                                                     <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3" onClick={() => window.location.reload()}>
                                                         Post More Ad
                                                     </button>

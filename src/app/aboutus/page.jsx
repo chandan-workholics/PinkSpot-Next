@@ -1,16 +1,102 @@
 import React from 'react'
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import Link from 'next/link'
+import Link from 'next/link';
+import Head from "next/head";
 import modelImg1 from "../../../public/images/m7.jpg";
 import modelImg2 from "../../../public/images/m2.jpg";
 import modelImg3 from "../../../public/images/m3.jpg";
 import modelImg4 from "../../../public/images/m4.jpg";
 import reachoutPng from "../../../public/images/reachout-png.png";
 import growingTogetherPng from "../../../public/images/growingTogether-png.png";
+import workerIcon from "../../../public/images/worker-icon.png";
+import dollarIcon from "../../../public/images/dollar-icon.png";
+import verifyIcon from "../../../public/images/verify-icom.png";
+import premiumIcon from "../../../public/images/premium.png";
+import supportIcon from "../../../public/images/support-icon.png";
+import integrityIcon from "../../../public/images/integrity-icon.png";
+import empowermentIcon from "../../../public/images/empowerment-icon.png";
+import equalityIcon from "../../../public/images/equality-icon.png";
+import safetyIcon from "../../../public/images/safety-icon.png";
+
+const SITE_URL = "https://pinkspot.cc";
+const PAGE_URL = `${SITE_URL}/about-us`;
+const OG_IMAGE = `${SITE_URL}/images/pinkspot.jpg`; // make sure this is a real hosted image
 
 const aboutus = () => {
     return (
+        <>
+        <Head>
+        {/* Basic SEO */}
+        <link rel="canonical" href={PAGE_URL} />
+        <title>
+          About Us | Pinkspot.cc - Female Escorts in Canada, Personals, Toronto
+        </title>
+        <meta
+          name="description"
+          content="Learn about Pinkspot.cc, Canada's first sex worker-owned escort directory. Safe, affordable, and inclusive for providers and clients in Toronto, Edmonton, and across Canada."
+        />
+        <meta
+          name="keywords"
+          content="Canada escorts, Toronto escort directory, Edmonton escorts, independent providers, sex worker-owned, one night stand, Pinkspot, personals"
+        />
+        <meta name="author" content="Pinkspot.cc" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={PAGE_URL} />
+        <meta
+          property="og:title"
+          content="Pinkspot.cc - Female Escorts in Canada, Personals, Toronto"
+        />
+        <meta
+          property="og:description"
+          content="Canada’s most trusted escort directory. Sex worker-owned, affordable, and scam-free. Serving Toronto, Edmonton, and nationwide."
+        />
+        <meta property="og:image" content={OG_IMAGE} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Pinkspot.cc - Female Escorts in Canada, Personals, Toronto"
+        />
+        <meta
+          name="twitter:description"
+          content="Sex worker-owned and operated escort directory for Canada. Safe, affordable, and inclusive."
+        />
+        <meta name="twitter:image" content={OG_IMAGE} />
+
+        {/* Additional SEO best practices */}
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="en" />
+        <meta name="revisit-after" content="7 days" />
+
+        {/* Structured Data (JSON-LD) for Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Pinkspot.cc",
+              url: SITE_URL,
+              logo: OG_IMAGE,
+              sameAs: [
+                "https://twitter.com/PinkspotCC",
+                "https://facebook.com/PinkspotCC"
+              ],
+              description:
+                "Canada’s first sex worker-owned escort directory. Safe, affordable, and inclusive.",
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "support@pinkspot.cc",
+                contactType: "Customer Support"
+              }
+            })
+          }}
+        />
+      </Head>
         <div>
             <div className="container-fluid p-0">
                 <div className="about-page">
@@ -28,7 +114,7 @@ const aboutus = () => {
                         </div>
                     </div>
                     <div className="py-5">
-                        <div className="about-container container pb-5">
+                        <div className="about-container container pb-lg-5 text-center text-lg-start">
                             <div className="contentLeft">
                                 <div className="row mx-auto">
                                     <div className="imgWrapper">
@@ -46,15 +132,15 @@ const aboutus = () => {
                                 </div>
                             </div>
                             <div className="contentRight">
-                                <div className="content">
-                                    <h4 className='text-dd88cf fw-semibold'>Welcome To</h4>
-                                    <h2>Pinkspot.cc</h2>
+                                <div className="content text-center text-lg-start">
+                                    <h4 className='text-dd88cf fw-semibold w-100 mb-0'>Welcome To</h4>
+                                    <h2 className='w-100'>Pinkspot.cc</h2>
                                     <p>Founded in 2024, Pinkspot.cc is Canada’s first sex worker-owned and operated escort directory built by and for the community. Our mission is simple but powerful: to create a safe, reliable, and affordable space for real escorts to promote their services and connect with respectful, high-paying clients—without the frustration of fake ads or outrageous fees.</p>
-                                    <button className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</button>
+                                    {/* <Link href="" className="btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3">POST YOUR AD</Link> */}
                                 </div>
                             </div>
                         </div>
-                        <div className="about-container container mt-5">
+                        <div className="about-container container py-3 py-lg-5 text-center text-lg-start gap-0 gap-lg-5">
                             <div className="contentRight">
                                 <div className="content">
                                     <h2>Why We Started Pinkspot.cc</h2>
@@ -72,16 +158,16 @@ const aboutus = () => {
                         </div>
                     </div>
                     <div className="bg-light">
-                        <div className="container py-5">
+                        <div className="container py-4 py-lg-5">
                             <div className="row justify-content-center text-center">
                                 <h1 className='fw-semibold mb-5'>What Makes Us Different</h1>
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPenNib size={24} color="green" /> */}
+                                            <img src={workerIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Sex Worker-Owned and Operated</h5>
                                         <p className="text-muted">
@@ -94,9 +180,9 @@ const aboutus = () => {
                                     <div className="d-flex flex-column align-items-center">
                                         <div
                                             className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px' }}
                                         >
-                                            {/* <FaPeace size={24} color="green" /> */}
+                                            <img src={dollarIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Affordable and Transparent Pricing</h5>
                                         <p className="text-muted">
@@ -108,10 +194,10 @@ const aboutus = () => {
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={verifyIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Real Ads, Real People</h5>
                                         <p className="text-muted">
@@ -122,10 +208,10 @@ const aboutus = () => {
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={premiumIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Elite Clientele</h5>
                                         <p className="text-muted">
@@ -137,9 +223,9 @@ const aboutus = () => {
                                     <div className="d-flex flex-column align-items-center">
                                         <div
                                             className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px 10px 15px 10px' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={supportIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">24/7 Human Support</h5>
                                         <p className="text-muted">
@@ -151,17 +237,17 @@ const aboutus = () => {
                         </div>
                     </div>
 
-                    <div className="container py-5">
+                    <div className="container py-4 py-lg-5">
                         <div className="row justify-content-center text-center">
                             <h1 className='fw-semibold mb-2'>Our Values</h1>
                             <h5 className='text-dd88cf mb-5'>We believe that sex work is work—and it deserves the same respect, rights, and dignity as any other profession. That’s why we’ve built Pinkspot.cc on a foundation of</h5>
                             <div className="col-md-3 mb-4">
                                 <div className="d-flex flex-column align-items-center">
                                     <div
-                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-1"
                                         style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                     >
-                                        {/* <FaPenNib size={24} color="green" /> */}
+                                        <img src={empowermentIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Empowerment</h5>
                                     <p className="text-muted">
@@ -174,9 +260,9 @@ const aboutus = () => {
                                 <div className="d-flex flex-column align-items-center">
                                     <div
                                         className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px' }}
                                     >
-                                        {/* <FaPeace size={24} color="green" /> */}
+                                        <img src={safetyIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Safety</h5>
                                     <p className="text-muted">
@@ -188,10 +274,10 @@ const aboutus = () => {
                             <div className="col-md-3 mb-4">
                                 <div className="d-flex flex-column align-items-center">
                                     <div
-                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                         style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                     >
-                                        {/* <FaPaperPlane size={24} color="green" /> */}
+                                        <img src={equalityIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Equality</h5>
                                     <p className="text-muted">
@@ -203,9 +289,9 @@ const aboutus = () => {
                                 <div className="d-flex flex-column align-items-center">
                                     <div
                                         className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px 10px 15px 10px' }}
                                     >
-                                        {/* <FaPaperPlane size={24} color="green" /> */}
+                                        <img src={integrityIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Integrity</h5>
                                     <p className="text-muted">
@@ -217,7 +303,7 @@ const aboutus = () => {
                     </div>
 
                     <div className="bg-light">
-                        <div className="container py-5">
+                        <div className="container py-4 py-lg-5">
                             <div className="row">
                                 <div className="col-lg-3 px-4">
                                     <img src={growingTogetherPng.src} alt="" className="w-100" />
@@ -235,8 +321,8 @@ const aboutus = () => {
                     </div>
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-7 px-4 d-flex align-items-center">
-                                <div className="">
+                            <div className="col-lg-7 px-4 d-flex align-items-center pt-4 pt-lg-0">
+                                <div className="text-center text-lg-start">
                                     <h1 className='fw-semibold mb-2'>Reach Out Anytime</h1>
                                     <p className="mb-3">
                                         Our team is here to help you get the most out of your experience on Pinkspot.cc. Whether you’re a new escort building your first ad or a seasoned professional looking for a better alternative, we’re ready to support you.
@@ -265,6 +351,7 @@ const aboutus = () => {
                 <Footer />
             </div>
         </div>
+        </>
     )
 }
 
