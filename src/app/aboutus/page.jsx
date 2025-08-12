@@ -1,7 +1,8 @@
 import React from 'react'
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import Link from 'next/link'
+import Link from 'next/link';
+import Head from "next/head";
 import modelImg1 from "../../../public/images/m7.jpg";
 import modelImg2 from "../../../public/images/m2.jpg";
 import modelImg3 from "../../../public/images/m3.jpg";
@@ -9,8 +10,84 @@ import modelImg4 from "../../../public/images/m4.jpg";
 import reachoutPng from "../../../public/images/reachout-png.png";
 import growingTogetherPng from "../../../public/images/growingTogether-png.png";
 
+const SITE_URL = "https://pinkspot.cc";
+const PAGE_URL = `${SITE_URL}/about-us`;
+const OG_IMAGE = `${SITE_URL}/images/pinkspot.jpg`; // make sure this is a real hosted image
+
 const aboutus = () => {
     return (
+        <>
+        <Head>
+        {/* Basic SEO */}
+        <link rel="canonical" href={PAGE_URL} />
+        <title>
+          About Us | Pinkspot.cc - Female Escorts in Canada, Personals, Toronto
+        </title>
+        <meta
+          name="description"
+          content="Learn about Pinkspot.cc, Canada's first sex worker-owned escort directory. Safe, affordable, and inclusive for providers and clients in Toronto, Edmonton, and across Canada."
+        />
+        <meta
+          name="keywords"
+          content="Canada escorts, Toronto escort directory, Edmonton escorts, independent providers, sex worker-owned, one night stand, Pinkspot, personals"
+        />
+        <meta name="author" content="Pinkspot.cc" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={PAGE_URL} />
+        <meta
+          property="og:title"
+          content="Pinkspot.cc - Female Escorts in Canada, Personals, Toronto"
+        />
+        <meta
+          property="og:description"
+          content="Canada’s most trusted escort directory. Sex worker-owned, affordable, and scam-free. Serving Toronto, Edmonton, and nationwide."
+        />
+        <meta property="og:image" content={OG_IMAGE} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Pinkspot.cc - Female Escorts in Canada, Personals, Toronto"
+        />
+        <meta
+          name="twitter:description"
+          content="Sex worker-owned and operated escort directory for Canada. Safe, affordable, and inclusive."
+        />
+        <meta name="twitter:image" content={OG_IMAGE} />
+
+        {/* Additional SEO best practices */}
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="en" />
+        <meta name="revisit-after" content="7 days" />
+
+        {/* Structured Data (JSON-LD) for Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Pinkspot.cc",
+              url: SITE_URL,
+              logo: OG_IMAGE,
+              sameAs: [
+                "https://twitter.com/PinkspotCC",
+                "https://facebook.com/PinkspotCC"
+              ],
+              description:
+                "Canada’s first sex worker-owned escort directory. Safe, affordable, and inclusive.",
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "support@pinkspot.cc",
+                contactType: "Customer Support"
+              }
+            })
+          }}
+        />
+      </Head>
         <div>
             <div className="container-fluid p-0">
                 <div className="about-page">
@@ -265,6 +342,7 @@ const aboutus = () => {
                 <Footer />
             </div>
         </div>
+        </>
     )
 }
 

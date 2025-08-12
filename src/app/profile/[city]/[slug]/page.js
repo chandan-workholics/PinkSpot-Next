@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation'
 import callAPI, { interceptor } from '../../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Head from 'next/head';
 import SwiperPage from '../../../components/Swiper/page'
 
 const Profile = () => {
@@ -66,11 +67,61 @@ const Profile = () => {
         window.scrollTo({ behavior: "smooth", top: 0 });
     }, [slug, getPost]);
 
+    // ✅ Choose first post for meta (if multiple, can be adjusted)
+    const post = Array.isArray(posts?.data) && posts.data.length > 0 ? posts.data[0] : {};
 
+    // ✅ Fallback SEO values
+    const seoTitle = post?.title
+        ? `${post.title} - ${post.city || ''} | Pink Spot`
+        : "Profile | Pink Spot";
+    const seoDescription = post?.description || "Discover amazing profiles on Pink Spot.";
+    const seoKeywords = `${post?.name || ''}, ${post?.city || ''}, ${post?.availability || ''}, escorts, models, pink spot`;
+    const seoImage = post?.image || profileImg.src;
+
+    // ✅ JSON-LD Structured Data
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": post?.name || "",
+        "description": seoDescription,
+        "image": seoImage,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": post?.city || "",
+            "addressRegion": post?.provincesid || ""
+        },
+        "url": urlpath
+    };
 
 
     return (
         <>
+            <Head>
+                <link rel="canonical" href={urlpath} />
+                <title>{seoTitle}</title>
+                <meta name="description" content={seoDescription} />
+                <meta name="keywords" content={seoKeywords} />
+                <meta name="author" content="Pink Spot" />
+
+                {/* Open Graph */}
+                <meta property="og:title" content={seoTitle} />
+                <meta property="og:description" content={seoDescription} />
+                <meta property="og:image" content={seoImage} />
+                <meta property="og:url" content={urlpath} />
+                <meta property="og:type" content="profile" />
+
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={seoTitle} />
+                <meta name="twitter:description" content={seoDescription} />
+                <meta name="twitter:image" content={seoImage} />
+
+                {/* Structured Data */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            </Head>
             <div className="container-fluid p-0">
                 <div className="profile-page">
                     <div className='home-banner'>

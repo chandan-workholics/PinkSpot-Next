@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import Header from "../components/header/Header";
 import callAPI from "../Common_Method/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -102,7 +103,55 @@ useEffect(() => {
     setLoading(false);
   };
 
+   const canonicalUrl = "https://pinkspot.cc/login";
+  const seoImage = "https://pinkspot.cc/static/images/pinkspot-login.jpg"; // Replace with actual
+  const seoTitle = "Pinkspot Login – Female Escorts in Canada, Sex in Toronto";
+  const seoDescription =
+    "Login to Pinkspot – Canada's trusted escort and adult advertising platform. Connect with female escorts in Toronto and across Canada.";
+  const seoKeywords =
+    "Pinkspot Login, pinkspot.cc login, escort, Female Escorts in Canada, Sex in Toronto, Toronto escorts, adult services Canada";
+
   return (
+    <>
+      <Head>
+        <link rel="canonical" href={canonicalUrl} />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content={seoKeywords} />
+        <meta name="author" content="PINK SPOT" />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:image" content={seoImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Pinkspot" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content={seoImage} />
+
+        {/* Schema.org JSON-LD */}
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": seoTitle,
+          "description": seoDescription,
+          "url": canonicalUrl,
+          "publisher": {
+            "@type": "Organization",
+            "name": "Pinkspot",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://pinkspot.cc/static/images/logo.png"
+            }
+          }
+        })}</script>
+      </Head>
     <div className="container-fluid p-lg-0">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="login-page">
@@ -183,6 +232,7 @@ useEffect(() => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
