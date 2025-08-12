@@ -71,6 +71,40 @@
 
 
 
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: "http",
+//         hostname: "206.189.130.102",
+//         port: "4000",
+//         pathname: "/uploads/**",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "encrypted-tbn0.gstatic.com",
+//         pathname: "/**",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "png.pngtree.com",
+//         pathname: "/**",
+//       },
+//     ],
+//   },
+//   output: "standalone",
+//   trailingSlash: true,
+//   webpack: (config) => {
+//     config.cache = false;
+//     return config;
+//   },
+// };
+
+// export default nextConfig;
+
+
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -80,6 +114,11 @@ const nextConfig = {
         hostname: "206.189.130.102",
         port: "4000",
         pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "pinkspot.cc",
+        pathname: "/api/v1/uploads/**", // Match your actual URL pattern
       },
       {
         protocol: "https",
@@ -102,4 +141,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-
