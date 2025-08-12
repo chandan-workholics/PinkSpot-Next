@@ -8,6 +8,15 @@ import modelImg3 from "../../../public/images/m3.jpg";
 import modelImg4 from "../../../public/images/m4.jpg";
 import reachoutPng from "../../../public/images/reachout-png.png";
 import growingTogetherPng from "../../../public/images/growingTogether-png.png";
+import workerIcon from "../../../public/images/worker-icon.png";
+import dollarIcon from "../../../public/images/dollar-icon.png";
+import verifyIcon from "../../../public/images/verify-icom.png";
+import premiumIcon from "../../../public/images/premium.png";
+import supportIcon from "../../../public/images/support-icon.png";
+import integrityIcon from "../../../public/images/integrity-icon.png";
+import empowermentIcon from "../../../public/images/empowerment-icon.png";
+import equalityIcon from "../../../public/images/equality-icon.png";
+import safetyIcon from "../../../public/images/safety-icon.png";
 
 const aboutus = () => {
     return (
@@ -78,10 +87,10 @@ const aboutus = () => {
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPenNib size={24} color="green" /> */}
+                                            <img src={workerIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Sex Worker-Owned and Operated</h5>
                                         <p className="text-muted">
@@ -94,9 +103,9 @@ const aboutus = () => {
                                     <div className="d-flex flex-column align-items-center">
                                         <div
                                             className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px' }}
                                         >
-                                            {/* <FaPeace size={24} color="green" /> */}
+                                            <img src={dollarIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Affordable and Transparent Pricing</h5>
                                         <p className="text-muted">
@@ -108,10 +117,10 @@ const aboutus = () => {
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={verifyIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Real Ads, Real People</h5>
                                         <p className="text-muted">
@@ -122,10 +131,10 @@ const aboutus = () => {
                                 <div className="col-md-4 mb-4">
                                     <div className="d-flex flex-column align-items-center">
                                         <div
-                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                            className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                             style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={premiumIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">Elite Clientele</h5>
                                         <p className="text-muted">
@@ -137,9 +146,9 @@ const aboutus = () => {
                                     <div className="d-flex flex-column align-items-center">
                                         <div
                                             className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                            style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px 10px 15px 10px' }}
                                         >
-                                            {/* <FaPaperPlane size={24} color="green" /> */}
+                                            <img src={supportIcon.src} alt="" className="w-100" />
                                         </div>
                                         <h5 className="fw-bold">24/7 Human Support</h5>
                                         <p className="text-muted">
@@ -158,10 +167,10 @@ const aboutus = () => {
                             <div className="col-md-3 mb-4">
                                 <div className="d-flex flex-column align-items-center">
                                     <div
-                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-1"
                                         style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                     >
-                                        {/* <FaPenNib size={24} color="green" /> */}
+                                        <img src={empowermentIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Empowerment</h5>
                                     <p className="text-muted">
@@ -174,9 +183,9 @@ const aboutus = () => {
                                 <div className="d-flex flex-column align-items-center">
                                     <div
                                         className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px' }}
                                     >
-                                        {/* <FaPeace size={24} color="green" /> */}
+                                        <img src={safetyIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Safety</h5>
                                     <p className="text-muted">
@@ -188,10 +197,10 @@ const aboutus = () => {
                             <div className="col-md-3 mb-4">
                                 <div className="d-flex flex-column align-items-center">
                                     <div
-                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
+                                        className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3 p-2"
                                         style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
                                     >
-                                        {/* <FaPaperPlane size={24} color="green" /> */}
+                                        <img src={equalityIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Equality</h5>
                                     <p className="text-muted">
@@ -203,9 +212,9 @@ const aboutus = () => {
                                 <div className="d-flex flex-column align-items-center">
                                     <div
                                         className="rounded-circle shadow d-flex justify-content-center align-items-center mb-3"
-                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff' }}
+                                        style={{ width: '70px', height: '70px', backgroundColor: '#fff', padding: '10px 10px 15px 10px' }}
                                     >
-                                        {/* <FaPaperPlane size={24} color="green" /> */}
+                                        <img src={integrityIcon.src} alt="" className="w-100" />
                                     </div>
                                     <h5 className="fw-bold">Integrity</h5>
                                     <p className="text-muted">
