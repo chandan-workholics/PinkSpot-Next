@@ -1,12 +1,90 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import Link from 'next/link';
+import Head from "next/head";
 
 const term = () => {
+    const [seo, setSeo] = useState({});
+  const canonicalUrl = "https://pinkspot.cc/rules/";
+  const ogImage = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png";
+
+  const getSeoDetail = () => {
+    fetch(`https://pinkspot.cc/api/v1/pages/getPageById/653281cdefe8c2f29fdcecaf`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSeo(data?.data || {});
+      })
+      .catch((err) => console.error("SEO fetch error:", err));
+  };
+
+  useEffect(() => {
+    getSeoDetail();
+  }, []);
     return (
+        <>
+         <Head>
+        {/* Basic Meta */}
+        <title>{seo.seotitle || "Official Rules & Posting Guidelines - PinkSpot"}</title>
+        <meta
+          name="description"
+          content={
+            seo.seodescription ||"Read PinkSpot's official rules & posting guidelines to ensure safe and respectful ad posting."
+          }
+        />
+        <meta
+          name="keywords"
+          content={
+            seo.seokeyword || "PinkSpot rules, posting guidelines, ad restrictions, terms, safe posting, PinkSpot ads"
+          }
+        />
+        <meta name="author" content="PINK SPOT" />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Preload OG Image for faster preview */}
+        <link rel="preload" as="image" href={ogImage} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={seo.seotitle || "Official Rules & Posting Guidelines"} />
+        <meta property="og:description" content={seo.seodescription || "Stay informed with PinkSpot's ad posting guidelines and rules."} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:site_name" content="PinkSpot" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seo.seotitle || "Official Rules & Posting Guidelines"} />
+        <meta name="twitter:description" content={seo.seodescription || "Safe and respectful ad posting on PinkSpot."} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:site" content="@pinkspot" />
+
+        {/* Schema.org JSON-LD for SEO Rich Snippets */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              name: seo.seotitle || "Official Rules & Posting Guidelines",
+              description:
+                seo.seodescription ||"PinkSpot's official rules and posting guidelines to maintain safety and quality.",
+              url: canonicalUrl,
+              publisher: {
+                "@type": "Organization",
+                name: "PinkSpot",
+                logo: {
+                  "@type": "ImageObject",
+                  url: ogImage,
+                },
+              },
+              image: ogImage,
+            }),
+          }}
+        />
+      </Head>
         <div>
             <div className="container-fluid p-0">
                 <div className="terms-page">
@@ -76,6 +154,7 @@ const term = () => {
                 <Footer />
             </div>
         </div>
+        </>
     )
 }
 
