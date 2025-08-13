@@ -195,57 +195,6 @@ const AdPost = () => {
         }
     };
 
-    // const handleChange = (e) => {
-    //     setFormData({
-    //         ...formData,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
-
-    // const handleImageUpload = async (event) => {
-    //     const files = Array.from(event.target.files);
-    //     const maxSize = 1024 * 1024 * 1024; // 1GB limit
-
-    //     const uploadedImageUrls = [];
-    //     const newLoading = {};
-
-    //     try {
-    //         // Set loading true for each file
-    //         files.forEach((_, i) => newLoading[i] = true);
-    //         setLoading(newLoading);
-
-    //         for (const file of files) {
-    //             if (file.size > maxSize) {
-    //                 alert("One or more files exceed the maximum size limit.");
-    //                 continue;
-    //             }
-
-    //             const formDataUpload = new FormData();
-    //             formDataUpload.append("image", file);
-
-    //             const response = await axios.post("http://206.189.130.102:4000/upload", formDataUpload, {
-    //                 headers: { "Content-Type": "multipart/form-data" },
-    //             });
-
-    //             const imageUrl = response.data?.data?.url;
-    //             if (imageUrl) {
-    //                 uploadedImageUrls.push(imageUrl);
-    //             }
-    //         }
-
-    //         // Update state
-    //         setImages((prevImages) => [...prevImages, ...uploadedImageUrls]);
-    //         setFormData((prevFormData) => ({
-    //             ...prevFormData,
-    //             images: [...prevFormData.images, ...uploadedImageUrls],
-    //         }));
-    //     } catch (error) {
-    //         console.error("Image upload error:", error);
-    //     } finally {
-    //         setLoading({});
-    //     }
-    // };
-
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
 

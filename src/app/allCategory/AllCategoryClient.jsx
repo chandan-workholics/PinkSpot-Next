@@ -23,7 +23,7 @@ const AllCategoryClient = () => {
     const [ethicity, setEthicity] = useState([]);
 
     const [post, setPost] = useState([]);
-const [seoData, setSeoData] = useState({});
+    const [seoData, setSeoData] = useState({});
 
     const [filters, setFilters] = useState({
         categoryid: '',
@@ -75,8 +75,8 @@ const [seoData, setSeoData] = useState({});
         }));
     };
 
-      const fetchSeoData = async () => {
-        const response = await fetch(`http://206.189.130.102:4000/api/v1/category/getallcategory`);
+    const fetchSeoData = async () => {
+        const response = await fetch(`http://pinkspot.cc/api/v1/category/getallcategory`);
         const result = await response.json();
         setSeoData(result?.data || {});
     };
@@ -122,11 +122,11 @@ const [seoData, setSeoData] = useState({});
         fetchFilteredPosts();
     };
 
-  const canonicalUrl = `https://pinkspot.cc/all-category`;
+    const canonicalUrl = `https://pinkspot.cc/all-category`;
 
     return (
         <>
-         <Head>
+            <Head>
                 <title>{seoData?.seotitle || "All Categories - Pink Spot"}</title>
                 <meta name="description" content={seoData?.seodescription || "Explore all categories on Pink Spot"} />
                 <meta name="keywords" content={seoData?.seokeyword || "categories, listings, pinkspot"} />
