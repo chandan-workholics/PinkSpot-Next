@@ -122,49 +122,9 @@ const AllCategoryClient = () => {
         fetchFilteredPosts();
     };
 
-    const canonicalUrl = `https://pinkspot.cc/allCategory/`;
 
     return (
         <>
-            <Head>
-                <title>{seoData?.seotitle || "All Categories - Pink Spot"}</title>
-                <meta name="description" content={seoData?.seodescription || "Explore all categories on Pink Spot"} />
-                <meta name="keywords" content={seoData?.seokeyword || "categories, listings, pinkspot"} />
-                <meta name="author" content="PINK SPOT" />
-                <link rel="canonical" href={canonicalUrl} />
-
-                {/* Open Graph */}
-                <meta property="og:title" content={seoData?.seotitle} />
-                <meta property="og:description" content={seoData?.seodescription} />
-                <meta property="og:image" content={seoData?.seoimageurl} />
-                <meta property="og:url" content={canonicalUrl} />
-                <meta property="og:type" content="website" />
-
-                {/* Twitter */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={seoData?.seotitle} />
-                <meta name="twitter:description" content={seoData?.seodescription} />
-                <meta name="twitter:image" content={seoData?.seoimageurl} />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">
-                    {JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "CollectionPage",
-                        "name": seoData?.seotitle || "All Categories",
-                        "description": seoData?.seodescription || "Explore all listings and categories",
-                        "url": canonicalUrl,
-                        "publisher": {
-                            "@type": "Organization",
-                            "name": "Pink Spot",
-                            "logo": {
-                                "@type": "ImageObject",
-                                "url": "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png"
-                            }
-                        }
-                    })}
-                </script>
-            </Head>
             <div className="container-fluid p-0">
                 <div className="category-page bg-ffdef7">
                     <div className='home-banner'>
