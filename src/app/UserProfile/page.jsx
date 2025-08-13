@@ -248,8 +248,7 @@ const UserProfile = () => {
                                                 <div className="profileHeader"></div>
                                                 {users &&
                                                     <div >
-
-                                                        <Image
+                                                        <img
                                                             src={profile.image || NoImg.src}
                                                             alt="Profile"
                                                             width={150}
@@ -265,27 +264,31 @@ const UserProfile = () => {
                                                     </div>
                                                 }
                                                 <div className="d-flex justify-content-center">
-
-                                                    {isEditing ? (<>
-                                                        {loading ? <button className="btn btn-success text-white" >
-                                                            Loading
-                                                        </button> : <button className="btn btn-success text-white" onClick={handleUpdateClick} >
-                                                            Update Profile
-                                                        </button>}
-                                                    </>
-                                                    ) : (
-                                                        <button className="btn btn-warning text-white" onClick={handleEditClick}>
-                                                            Edit Profile
-                                                        </button>
-                                                    )}
-
+                                                    <Link href="/changepassword" className="btn bg-ffdef7 text-4b164c fw-semibold rounded-pill">
+                                                        Change Password
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-12 col-md-6 col-lg-12">
                                         <div className="profileDetails">
-                                            <h4>Personal Details</h4>
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <h4>Personal Details</h4>
+                                                {isEditing ? (
+                                                    <>
+                                                        {loading ? <button className="btn bg-4b164c text-white rounded-pill" >
+                                                            Loading
+                                                        </button> : <button className="btn bg-4b164c text-white rounded-pill " onClick={handleUpdateClick} >
+                                                            Update
+                                                        </button>}
+                                                    </>
+                                                ) : (
+                                                    <button className="btn bg-ffdef7 text-4b164c fw-semibold rounded-pill" onClick={handleEditClick}>
+                                                        Edit
+                                                    </button>
+                                                )}
+                                            </div>
                                             <hr />
                                             {users &&
                                                 <table className="table">

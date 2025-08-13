@@ -14,16 +14,12 @@ const LoginClient = () => {
   const [user, setUser] = useState({ email: "", password: "", copassword: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-const searchParams = useSearchParams();
-const [isLogin, setIsLogin] = useState(true);
+  const searchParams = useSearchParams();
+  const [isLogin, setIsLogin] = useState(true);
 
-
-useEffect(() => {
-  setIsLogin(searchParams.get("mode") !== "signup");
-}, [searchParams]);
-
-  if (loading) return <Spinner />; // Show spinner while loading
-
+  useEffect(() => {
+    setIsLogin(searchParams.get("mode") !== "signup");
+  }, [searchParams]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -152,77 +148,84 @@ useEffect(() => {
           }
         })}</script>
       </Head> */}
-    <div className="container-fluid p-lg-0">
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div className="login-page">
-        <Header className="w-100 shadow" />
-        <div className="row main-card">
-          <div className="col-lg-6 d-flex align-items-center justify-content-center px-3 px-lg-0">
-            <div className="login-content p-2 pt-4 p-xl-5" data-aos="fade-up" data-aos-duration="1000">
-              <h1 className="fw-bold text-white mb-0">Welcome to </h1>
-              <h2 className="fw-bold"><span className="text-4b164c">PINKSPOT</span></h2>
-              <h5 className="text-white fw-normal">
-                Your trusted platform for advertising...
-              </h5>
+      <div className="container-fluid p-lg-0">
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div className="login-page">
+          <Header className="w-100 shadow" />
+          <div className="row main-card">
+            <div className="col-lg-6 d-flex align-items-center justify-content-center px-3 px-lg-0">
+              <div className="login-content p-2 pt-4 p-xl-5" data-aos="fade-up" data-aos-duration="1000">
+                <h1 className="fw-bold text-white mb-0">Welcome to </h1>
+                <h2 className="fw-bold"><span className="text-4b164c">PINKSPOT</span></h2>
+                <h5 className="text-white fw-normal">
+                  Your trusted platform for advertising...
+                </h5>
+              </div>
             </div>
-          </div>
-          <div className="col-lg-6 px-5 px-lg-0">
-            <div className="row h-100 d-flex align-items-center">
-              <div className="col-12 col-md-7 col-lg-6 col-xxl-5 mx-auto pb-5 pt-3 pt-lg-5">
-                <div className="box" data-aos="fade-down" data-aos-duration="1000">
-                  <div className="square"></div>
-                  <div className="square"></div>
-                  <div className="square"></div>
-                  <div className="square"></div>
-                  <div className="square"></div>
-                  <div className="square"></div>
-                  <div className="card-container">
-                    <div className="form">
-                      <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>
-                      <form onSubmit={handleSubmit}>
-                        <div className="inputBx">
-                          <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
-                        </div>
-                        {!isLogin && (
+            <div className="col-lg-6 px-5 px-lg-0">
+              <div className="row h-100 d-flex align-items-center">
+                <div className="col-12 col-md-7 col-lg-6 col-xxl-5 mx-auto pb-5 pt-3 pt-lg-5">
+                  <div className="box" data-aos="fade-down" data-aos-duration="1000">
+                    <div className="square"></div>
+                    <div className="square"></div>
+                    <div className="square"></div>
+                    <div className="square"></div>
+                    <div className="square"></div>
+                    <div className="square"></div>
+                    <div className="card-container">
+                      <div className="form">
+                        <h2>{isLogin ? "LOGIN" : "SIGN UP"}</h2>
+                        <form onSubmit={handleSubmit}>
+                          <div className="inputBx">
+                            <input type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Email" />
+                          </div>
+                          {!isLogin && (
+                            <>
+                              <div className="inputBx">
+                                <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. 416 555 1234" />
+                              </div>
+                            </>
+                          )}
+                          <div className="inputBx password">
+                            <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
+                          </div>
+                          {!isLogin && (
+                            <>
+                              <div className="inputBx password">
+                                <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
+                              </div>
+                              <label className="terms mb-3">
+                                <input className="bg-white me-2" type="checkbox" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
+                                I agree to the <Link href="#">Terms & Conditions</Link>
+                              </label>
+                            </>
+                          )}
+                          <div className="inputBx">
+                            <input type="submit" value={loading ? "Processing" : isLogin ? "Log in" : "Sign up"} disabled={loading} />
+                          </div>
+                        </form>
+                        {isLogin ? (
                           <>
-                            <div className="inputBx">
-                              <input type="tel" name="phone" value={user.phone} onChange={handleChange} required placeholder="e.g. 416 555 1234" />
-                            </div>
-                          </>
+                            <p>
+                              <Link type="button" href="/forgotpassword" className="btn-link p-0 border-0 bg-transparent">
+                                Forgot password?
+                              </Link>
+                            </p>
+                            <p>
+                              Don't have an account?{" "}
+                              <button type="button" onClick={() => setIsLogin(false)} className="btn-link p-0 border-0 bg-transparent">
+                                Sign up
+                              </button>
+                            </p></>
+                        ) : (
+                          <p>
+                            Already have an account?{" "}
+                            <button type="button" onClick={() => setIsLogin(true)} className="btn-link p-0 border-0 bg-transparent">
+                              Login
+                            </button>
+                          </p>
                         )}
-                        <div className="inputBx password">
-                          <input type="password" name="password" value={user.password} onChange={handleChange} required placeholder="Password" />
-                        </div>
-                        {!isLogin && (
-                          <>
-                            <div className="inputBx password">
-                              <input type="password" name="copassword" value={user.copassword} onChange={handleChange} required placeholder="Confirm Password" />
-                            </div>
-                            <label className="terms mb-3">
-                              <input className="bg-white me-2" type="checkbox" checked={agreeTerms} onChange={() => setAgreeTerms(!agreeTerms)} />
-                              I agree to the <Link href="#">Terms & Conditions</Link>
-                            </label>
-                          </>
-                        )}
-                        <div className="inputBx">
-                          <input type="submit" value={loading ? "Processing" : isLogin ? "Log in" : "Sign up"} disabled={loading} />
-                        </div>
-                      </form>
-                      {isLogin ? (
-                        <p>
-                          Don't have an account?{" "}
-                          <button type="button" onClick={() => setIsLogin(false)} className="btn-link p-0 border-0 bg-transparent">
-                            Sign up
-                          </button>
-                        </p>
-                      ) : (
-                        <p>
-                          Already have an account?{" "}
-                          <button type="button" onClick={() => setIsLogin(true)} className="btn-link p-0 border-0 bg-transparent">
-                            Login
-                          </button>
-                        </p>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -231,7 +234,6 @@ useEffect(() => {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
