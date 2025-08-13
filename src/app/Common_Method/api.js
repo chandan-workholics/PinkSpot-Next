@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiURL = "http://pinkspot.cc/api/v1";
+const apiURL = "https://pinkspot.cc/api/v1";
 
 const axiosApiInstance = axios.create({ baseURL: apiURL });
 

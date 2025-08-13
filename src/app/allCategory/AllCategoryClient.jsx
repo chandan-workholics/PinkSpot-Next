@@ -36,34 +36,34 @@ const AllCategoryClient = () => {
 
 
     const fetchCategory = async () => {
-        const response = await fetch(`http://pinkspot.cc/api/v1/category/getallcategory`);
+        const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
         const result = await response.json();
         setCategory(result?.data);
     };
 
     const fetchSubcategories = async (id) => {
         const response = await fetch(
-            `http://pinkspot.cc/api/v1/category/getsubcategorybycatid/${id}`
+            `https://pinkspot.cc/api/v1/category/getsubcategorybycatid/${id}`
         );
         const result = await response.json();
         setSubcategory(result?.data);
     };
 
     const fetchProvince = async () => {
-        const response = await fetch(`http://pinkspot.cc/api/v1/getallprovince`);
+        const response = await fetch(`https://pinkspot.cc/api/v1/getallprovince`);
         const result = await response.json();
         setProvince(result?.data);
     };
 
     const fetchCities = async (provinceId) => {
-        const response = await fetch(`http://pinkspot.cc/api/v1/getallcity/${provinceId}`);
+        const response = await fetch(`https://pinkspot.cc/api/v1/getallcity/${provinceId}`);
         const result = await response.json();
         setCity(result?.data);
         return result?.data || [];
     };
 
     const fetchEthnicity = async () => {
-        const response = await fetch(`http://pinkspot.cc/api/v1/getall-ethnicity`);
+        const response = await fetch(`https://pinkspot.cc/api/v1/getall-ethnicity`);
         const result = await response.json();
         setEthicity(result?.data);
     };
@@ -76,7 +76,7 @@ const AllCategoryClient = () => {
     };
 
     const fetchSeoData = async () => {
-        const response = await fetch(`http://pinkspot.cc/api/v1/category/getallcategory`);
+        const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
         const result = await response.json();
         setSeoData(result?.data || {});
     };
@@ -94,7 +94,7 @@ const AllCategoryClient = () => {
     const fetchFilteredPosts = async () => {
 
         const response = await fetch(
-            `http://pinkspot.cc/api/v1/filter/getPostAdByCategoryfilterPagination`,
+            `https://pinkspot.cc/api/v1/filter/getPostAdByCategoryfilterPagination`,
             {
                 method: "POST",
                 headers: {
