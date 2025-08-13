@@ -2349,3 +2349,67 @@ a {
 }
 
 /* Wallet - End */
+
+/* Terms-Page - Start */
+.terms-page {
+  position: relative;
+  z-index: 1;
+
+  .home-banner {
+    width: 100%;
+    height: 40vh;
+    background-image: url(../../public/images/bannerImg.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .header .navbar .nav-item .nav-link {
+      color: #FFFFFF;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .header .navbar .nav-item .nav-link::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: #dd88cf;
+      transition: width .3s;
+    }
+
+    .header .navbar .nav-item .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .header .navbar .nav-item .nav-link.active {
+      width: fit-content;
+      color: #fcf3fa;
+      font-weight: 600;
+    }
+
+    .header .navbar .nav-item .nav-link.active::after {
+      width: 100%;
+    }
+
+    .banner-content {
+      height: 30vh;
+      display: flex;
+      justify-content: left;
+      align-items: center;
+    }
+
+    .banner-content h1 {
+      font-size: 50px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .banner-content h3 {
+      font-size: 22px;
+      font-weight: 500;
+    }
+  }
+}
+/* Terms-Page - End */
