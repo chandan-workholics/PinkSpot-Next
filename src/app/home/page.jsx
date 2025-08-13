@@ -112,8 +112,6 @@ const HomePage = () => {
         fetchProvince();
     }, []);
 
-
-
     return (
         <>
             {/* SEO Meta Tags */}
@@ -480,7 +478,6 @@ const HomePage = () => {
                 </div>
 
                 {sessionModal ?
-
                     <div className="modal" id="myModal" style={{ display: `${modalactive}` }}>
                         <div className="modal-dialog">
                             <div className="modal-content">
@@ -493,11 +490,7 @@ const HomePage = () => {
                                         />
                                     </h4>
                                 </div>
-
-
-
                                 <div className="modal-body">
-
                                     <h6>
                                         As condition of your use of PinkSpot, you agree to the
                                         following:
@@ -531,9 +524,6 @@ const HomePage = () => {
                                         Agree
                                     </button>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div> : ''}

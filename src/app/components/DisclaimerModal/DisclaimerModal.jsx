@@ -20,9 +20,9 @@ export default function DisclaimerModal() {
         setShow(false);
     };
 
-    const handleDisagree = () => {
-        alert("You must agree to continue using this site.");
-    };
+    // const handleDisagree = () => {
+    //     alert("You must agree to continue using this site.");
+    // };
 
     if (!hasMounted) return null; // 🛑 Don't render until client-side
 
@@ -61,7 +61,7 @@ export default function DisclaimerModal() {
                                 </ol>
                                 <div className="d-flex justify-content-start mt-4 gap-3">
                                     <button className="bg-success text-white border-0 px-3 py-1 rounded-2" onClick={handleAgree}>I agree</button>
-                                    <button className="bg-white text-danger border-0" onClick={handleDisagree}>I disagree with the conditions</button>
+                                    {/* <button className="bg-white text-danger border-0" onClick={handleDisagree}>I disagree with the conditions</button> */}
                                 </div>
                             </div>
                         </div>
