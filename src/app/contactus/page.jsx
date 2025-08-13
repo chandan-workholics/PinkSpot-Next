@@ -7,7 +7,7 @@ import Header from "../components/header/Header";
 import contactus from "../../../public/images/Contact us-rafiki.png";
 
 function ContactUs() {
-    const canonicalUrl = "https://pinkspot.cc/contact-us";
+    const canonicalUrl = "https://pinkspot.cc/contactus/";
 
     // Static SEO data (can be replaced with fetched API data)
     const seo = {
@@ -15,7 +15,7 @@ function ContactUs() {
         description: "Get in touch with Pink Spot for support, inquiries, and assistance. We're here to help you with any questions you may have.",
         keywords: "Pink Spot contact, customer support, help center, Pink Spot assistance, email support",
         author: "Pink Spot",
-        image: "https://pinkspot.cc/images/contact-us-banner.jpg", // Use your actual hosted image
+        image: "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png", 
         url: canonicalUrl
     };
     return (
@@ -45,10 +45,6 @@ function ContactUs() {
                 <meta name="twitter:description" content={seo.description} />
                 <meta name="twitter:image" content={seo.image} />
                 <meta name="twitter:site" content="@PinkSpot" />
-
-                {/* Additional SEO Enhancements */}
-                <meta name="theme-color" content="#dd88cf" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="contact-us-page">
                 {/* Header */}

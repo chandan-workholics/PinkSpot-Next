@@ -122,7 +122,7 @@ const AllCategoryClient = () => {
         fetchFilteredPosts();
     };
 
-    const canonicalUrl = `https://pinkspot.cc/all-category`;
+    const canonicalUrl = `https://pinkspot.cc/allCategory/`;
 
     return (
         <>
@@ -159,7 +159,7 @@ const AllCategoryClient = () => {
                             "name": "Pink Spot",
                             "logo": {
                                 "@type": "ImageObject",
-                                "url": "https://pinkspot.cc/logo.png"
+                                "url": "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png"
                             }
                         }
                     })}

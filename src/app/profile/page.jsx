@@ -18,7 +18,7 @@ import SwiperPage from '../components/Swiper/page';
 const Profile = () => {
     const { slug } = useParams();
     const [posts, setPosts] = useState([]);
-    // const [urlpath, SetUrlpath] = useState("");
+    const [urlpath, SetUrlpath] = useState("");
     const maxLength = 80;
 
     const getPost = async () => {
@@ -63,7 +63,7 @@ const Profile = () => {
     const seoDescription = post?.description || "Discover amazing profiles on Pink Spot.";
     const seoKeywords = `${post?.name || ''}, ${post?.city || ''}, ${post?.availability || ''}, escorts, models, pink spot`;
     const seoImage = post?.image || profileImg.src;
-    const urlpath = `https://pinkspot.cc.com/profile/${post?.slug || ''}`;
+    const canonicalUrl = `https://pinkspot.cc.com/profile/${post?.slug || ''}`;
 
     // ✅ JSON-LD Structured Data
     const jsonLd = {
@@ -83,7 +83,7 @@ const Profile = () => {
     return (
         <>
             <Head>
-                <link rel="canonical" href={urlpath} />
+                <link rel="canonical" href={canonicalUrl} />
                 <title>{seoTitle}</title>
                 <meta name="description" content={seoDescription} />
                 <meta name="keywords" content={seoKeywords} />
@@ -93,7 +93,7 @@ const Profile = () => {
                 <meta property="og:title" content={seoTitle} />
                 <meta property="og:description" content={seoDescription} />
                 <meta property="og:image" content={seoImage} />
-                <meta property="og:url" content={urlpath} />
+                <meta property="og:url" content={canonicalUrl} />
                 <meta property="og:type" content="profile" />
 
                 {/* Twitter Card */}
