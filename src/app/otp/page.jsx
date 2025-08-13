@@ -38,7 +38,7 @@ const Otp = () => {
         const combinedOtp = otp.join("");
 
         try {
-            const res = await fetch(`http://pinkspot.cc/api/v1/users/verifyemailotp/${userId}`, {
+            const res = await fetch(`https://pinkspot.cc/api/v1/users/verifyemailotp/${userId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

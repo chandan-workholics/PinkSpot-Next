@@ -144,8 +144,8 @@ const aboutus = () => {
                             <div className="contentRight">
                                 <div className="content">
                                     <h2>Why We Started Pinkspot.cc</h2>
-                                    <p><Link href='http://Pinkspot.cc'>Pinkspot.cc</Link> was born out of necessity. We experienced firsthand the flaws of other advertising platforms—sky-high posting fees, poor customer support, and endless fake ads that drown out real sex workers. These issues don’t just hurt business; they create an unsafe and unfair digital environment. That’s why we decided to build something better.</p>
-                                    <p> We launched <Link href='http://Pinkspot.cc'>Pinkspot.cc</Link> with the goal of putting power back into the hands of working companions. By charging the lowest posting fees in the industry and providing proper ad verification, we ensure your time and money aren’t wasted. Our platform helps filter out scams and fake accounts so genuine providers can stand out and thrive.</p>
+                                    <p><Link href='https://pinkspot.cc'>Pinkspot.cc</Link> was born out of necessity. We experienced firsthand the flaws of other advertising platforms—sky-high posting fees, poor customer support, and endless fake ads that drown out real sex workers. These issues don’t just hurt business; they create an unsafe and unfair digital environment. That’s why we decided to build something better.</p>
+                                    <p> We launched <Link href='https://pinkspot.cc'>Pinkspot.cc</Link> with the goal of putting power back into the hands of working companions. By charging the lowest posting fees in the industry and providing proper ad verification, we ensure your time and money aren’t wasted. Our platform helps filter out scams and fake accounts so genuine providers can stand out and thrive.</p>
                                 </div>
                             </div>
                             <div className="contentLeft">

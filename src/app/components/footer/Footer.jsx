@@ -10,7 +10,7 @@ const Footer = () => {
     const [city, SetCity] = useState([]);
 
     const getAllCity = () => {
-        fetch(`http://pinkspot.cc/api/v1/getallcity`, {
+        fetch(`https://pinkspot.cc/api/v1/getallcity`, {
             headers: { "X-API-Key": "your-api-key1" },
         })
             .then((response) => {
@@ -87,7 +87,7 @@ const Footer = () => {
                                     <ul className="nav flex-column">
                                         <li className="nav-item mb-2">
                                             <p className="nav-link p-0 text-white mb-0 fs-14 lh-2 px-3  text-center">
-                                                The content on this site is user generated and in no way reflects the views nor is endorsed by the owners of this site. You agree that the owner of this website is released of all liabilities. If you are offended by any material posted on this site you should exit immediately. This entire <Link href="http://pinkspot.cc/" target='blank' className='text-white fw-semibold'>www.pinkspot.cc</Link> website, including its code, images, logos, and names are protected by copyright, and any infringement of said copyright will be prosecuted to the fullest extent of the law. By entering the website you acknowledge and agree to the above and agree to our terms & conditions, rules, and privacy policy. All with links that will navigate to upon clicking the <Link href="/" className='text-white fw-semibold'>terms & conditions</Link>, <Link href="/" className='text-white fw-semibold'>rules</Link>, and <Link href="/" className='text-white fw-semibold'>privacy policy</Link>.
+                                                The content on this site is user generated and in no way reflects the views nor is endorsed by the owners of this site. You agree that the owner of this website is released of all liabilities. If you are offended by any material posted on this site you should exit immediately. This entire <Link href="https://pinkspot.cc/" target='blank' className='text-white fw-semibold'>www.pinkspot.cc</Link> website, including its code, images, logos, and names are protected by copyright, and any infringement of said copyright will be prosecuted to the fullest extent of the law. By entering the website you acknowledge and agree to the above and agree to our terms & conditions, rules, and privacy policy. All with links that will navigate to upon clicking the <Link href="/" className='text-white fw-semibold'>terms & conditions</Link>, <Link href="/" className='text-white fw-semibold'>rules</Link>, and <Link href="/" className='text-white fw-semibold'>privacy policy</Link>.
                                             </p>
                                         </li>
                                     </ul>
