@@ -132,7 +132,7 @@ const HomePage = () => {
                 {/* Open Graph */}
                 <meta property="og:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
                 <meta property="og:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet." />
-                <meta property="og:image" content="https://pinkspot.cc/images/pinkspot_small.png" />
+                <meta property="og:image" content="https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png" />
                 <meta property="og:url" content={canonicalUrl} />
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en_CA" />
@@ -143,7 +143,7 @@ const HomePage = () => {
                 <meta name="twitter:url" content={canonicalUrl} />
                 <meta name="twitter:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
                 <meta name="twitter:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot." />
-                <meta name="twitter:image" content="https://pinkspot.cc/images/pinkspot_small.png" />
+                <meta name="twitter:image" content="https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png" />
 
                 {/* Performance Hints */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -160,7 +160,7 @@ const HomePage = () => {
                             "@type": "LocalBusiness",
                             name: "Pink Spot",
                             url: "https://pinkspot.cc/",
-                            logo: "https://pinkspot.cc/images/pinkspot_small.png",
+                            logo: "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png",
                             description:
                                 "Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet.",
                             address: {

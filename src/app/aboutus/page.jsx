@@ -19,16 +19,15 @@ import empowermentIcon from "../../../public/images/empowerment-icon.png";
 import equalityIcon from "../../../public/images/equality-icon.png";
 import safetyIcon from "../../../public/images/safety-icon.png";
 
-const SITE_URL = "https://pinkspot.cc";
-const PAGE_URL = `${SITE_URL}/about-us`;
-const OG_IMAGE = `${SITE_URL}/images/pinkspot.jpg`; // make sure this is a real hosted image
+const canonicalUrl = `https://pinkspot.cc/aboutus/`;
+const OG_IMAGE = `https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png`; 
 
 const aboutus = () => {
     return (
         <>
         <Head>
         {/* Basic SEO */}
-        <link rel="canonical" href={PAGE_URL} />
+        <link rel="canonical" href={canonicalUrl} />
         <title>
           About Us | Pinkspot.cc - Female Escorts in Canada, Personals, Toronto
         </title>
@@ -44,7 +43,7 @@ const aboutus = () => {
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={PAGE_URL} />
+        <meta property="og:url" content={canonicalUrl} />
         <meta
           property="og:title"
           content="Pinkspot.cc - Female Escorts in Canada, Personals, Toronto"
@@ -80,7 +79,7 @@ const aboutus = () => {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Pinkspot.cc",
-              url: SITE_URL,
+              url: "https://pinkspot.cc/",
               logo: OG_IMAGE,
               sameAs: [
                 "https://twitter.com/PinkspotCC",
