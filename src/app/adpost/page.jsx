@@ -11,12 +11,12 @@ import ProtectedRoute from '../Common_Method/protectedroute';
 import cheersImg from "../../../public/images/cheersImg.png";
 import Link from 'next/link';
 
-
 const AdPost = () => {
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState([]);
+    const [btnLoading, setBtnLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [province, Setprovince] = useState('')
     const [ethicity, Setethicity] = useState('')
@@ -26,15 +26,16 @@ const AdPost = () => {
     const [alertcity, setalertcity] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [step, setStep] = useState(1);
 
-    const totalSteps = 4;
+    const totalSteps = 3;
 
     const [formData, setFormData] = useState({
         postbyuserid: sessionStorage.getItem("userid") || "",
-        category: "",
-        subcategoryid: "",
+        category: "6448f0807e958facc31c4d78",
+        subcategoryid: "6448f11f7e958facc31c4d8c",
         name: "",
         age: "",
         city: "",
@@ -67,6 +68,7 @@ const AdPost = () => {
     };
 
     const handleShow = async () => {
+        // setLoading(true);
         if (!validateForm()) {
             return;
         }
@@ -122,6 +124,8 @@ const AdPost = () => {
                 return;
             }
 
+            setBtnLoading(true);
+
             // Upload files first
             const uploadedUrls = [];
 
@@ -163,18 +167,26 @@ const AdPost = () => {
             const result = await response.json();
 
             if (response.ok) {
-                // alert("Form submitted successfully!");
-                // Reset form if needed
-                // window.location.reload();
+                if (
+                    result?.error?.toLowerCase().includes("Insufficient wallet balance") ||
+                    result?.message?.toLowerCase().includes("Insufficient wallet balance")
+                ) {
+                    setErrorMessage("Your wallet balance is too low to post the ad. Please top up your wallet.");
+                    setIsSubmitted(false);
+                } else {
+                    setIsSubmitted(true);
+                }
             } else {
-                alert(result.error || result.message);
+                setErrorMessage(result.error || result.message);
+                setIsSubmitted(false);
             }
-
-            setIsSubmitted(true);
 
         } catch (error) {
             console.error("Error while submitting form:", error);
             alert("An error occurred. Please try again later.");
+        }
+        finally {
+            setBtnLoading(false);
         }
     };
 
@@ -249,18 +261,15 @@ const AdPost = () => {
         const isNumeric = (value) => /^[0-9]+$/.test(value);
 
         if (step === 1) {
-            if (!formData.category) tempErrors.category = "Category is required";
-            if (!formData.subcategoryid) tempErrors.subCategory = "Sub category is required";
-        } else if (step === 2) {
             if (!formData.name) tempErrors.name = "Name is required";
 
-            if (!formData.age || isNaN(formData.age) || formData.age <= 0 || formData.age > 100)
-                tempErrors.age = "Enter a valid age (1–100)";
+            if (!formData.age || isNaN(formData.age) || formData.age <= 18 || formData.age > 100)
+                tempErrors.age = "Enter a valid age";
 
             if (!formData.city) tempErrors.city = "City is required";
 
             if (!formData.phone || !/^[2-9]\d{2}[2-9]\d{6}$/.test(formData.phone)) {
-                tempErrors.phone = "Enter a valid  phone number";
+                tempErrors.phone = "Enter a valid phone number";
             }
 
 
@@ -277,9 +286,9 @@ const AdPost = () => {
                 tempErrors.weight = "Weight must end with 'kg' or 'pounds' (e.g. 60kg)";
             }
 
-        } else if (step === 3) {
+        } else if (step === 2) {
             if (!formData.title) tempErrors.title = "Ad title is required";
-        } else if (step === 4) {
+        } else if (step === 3) {
             if (!formData.description) tempErrors.description = "Description is required";
 
             if (!formData.images.some(img => img !== null))
@@ -385,7 +394,7 @@ const AdPost = () => {
                                         <div className="form-container w-100">
                                             {/* Step Progress Bar */}
                                             <div className="stepper-container d-flex justify-content-between align-items-center mb-4">
-                                                {[1, 2, 3, 4].map((s, index) => (
+                                                {[1, 2, 3].map((s, index) => (
                                                     <motion.div
                                                         key={index}
                                                         className={`step ${step >= s ? 'active' : ''}`}
@@ -411,7 +420,7 @@ const AdPost = () => {
                                             </div>
 
                                             <form onSubmit={handleSubmit}>
-                                                {step === 1 && (
+                                                {/* {step === 1 && (
                                                     <>
                                                         <div className="row">
                                                             <div className="col-md-6 mb-3">
@@ -458,8 +467,8 @@ const AdPost = () => {
                                                             </div>
                                                         </div>
                                                     </>
-                                                )}
-                                                {step === 2 && (
+                                                )} */}
+                                                {step === 1 && (
                                                     <>
                                                         <div className="row">
                                                             <div className="col-md-6 mb-3">
@@ -556,7 +565,7 @@ const AdPost = () => {
                                                         </div>
                                                     </>
                                                 )}
-                                                {step === 3 && (
+                                                {step === 2 && (
                                                     <>
                                                         <div className="row">
                                                             <div className="col-md-6 mb-3">
@@ -582,13 +591,14 @@ const AdPost = () => {
                                                                     />
                                                                     <select
                                                                         className="form-select"
+                                                                        style={{ width: "10px" }}
                                                                         value={formData.height.match(/(cm|inches)$/)?.[0] || ""}
                                                                         onChange={(e) => {
                                                                             const number = formData.height.replace(/(cm|inches)$/, "");
                                                                             setFormData({ ...formData, height: number + e.target.value });
                                                                         }}
                                                                     >
-                                                                        <option value="">Unit</option>
+                                                                        {/* <option value="" disabled>Unit</option> */}
                                                                         <option value="cm">cm</option>
                                                                         <option value="inches">inches</option>
                                                                     </select>
@@ -612,7 +622,8 @@ const AdPost = () => {
                                                                         }}
                                                                         onKeyDown={allowOnlyNumbers}
                                                                     />
-                                                                    <select
+                                                                    <span className="input-group-text">pounds</span>
+                                                                    {/* <select
                                                                         className="form-select"
                                                                         value={formData.weight.match(/(kg|pounds)$/)?.[0] || ""}
                                                                         onChange={(e) => {
@@ -620,10 +631,10 @@ const AdPost = () => {
                                                                             setFormData({ ...formData, weight: number + e.target.value });
                                                                         }}
                                                                     >
-                                                                        <option value="">Unit</option>
+                                                                        <option value="" disabled>Unit</option>
                                                                         <option value="kg">kg</option>
                                                                         <option value="pounds">pounds</option>
-                                                                    </select>
+                                                                    </select> */}
                                                                 </div>
                                                                 {errors.weight && <p className="input-errormsg">{errors.weight}</p>}
                                                             </div>
@@ -651,7 +662,7 @@ const AdPost = () => {
                                                         </div>
                                                     </>
                                                 )}
-                                                {step === 4 && (
+                                                {step === 3 && (
                                                     <>
                                                         <div className="mb-3">
                                                             <label className="form-label">Description *</label>
@@ -694,12 +705,17 @@ const AdPost = () => {
                                                                         )}
                                                                     </div>
                                                                 ))}
-
                                                             </div>
                                                             {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                         </div>
                                                         <div className="text-center">
-                                                            <button type="submit" className="btn btn-custom text-white px-5 py-2" onClick={handleShow}>Submit</button>
+                                                            <h5 className="mb-4 fw-bold">This ad will cost <span className="text-dd88cf">$20</span></h5>
+                                                            <button type="submit" className="btn btn-custom text-white px-5 py-2 mb-4" onClick={handleShow}>
+                                                                {btnLoading ? "Processing..." : "Submit"}
+                                                            </button>
+                                                            {errorMessage && (
+                                                                <h5 className="mt-2 text-danger">{errorMessage}</h5>
+                                                            )}
                                                         </div>
                                                     </>
                                                 )}

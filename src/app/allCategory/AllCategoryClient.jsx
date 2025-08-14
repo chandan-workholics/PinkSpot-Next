@@ -155,7 +155,7 @@ const AllCategoryClient = () => {
 
 
 
-                                            <div className="col-md-6 position-relative mb-3">
+                                            {/* <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
@@ -173,9 +173,9 @@ const AllCategoryClient = () => {
                                                         <option key={index} value={val._id}>{val.name}</option>
                                                     ))}
                                                 </select>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="col-md-6 position-relative mb-3">
+                                            {/* <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
@@ -190,7 +190,7 @@ const AllCategoryClient = () => {
                                                         <option key={index} value={val._id}>{val.name}</option>
                                                     ))}
                                                 </select>
-                                            </div>
+                                            </div> */}
 
 
                                             <div className="col-md-6 position-relative mb-3">
@@ -293,76 +293,91 @@ const AllCategoryClient = () => {
                         <div className="container box-detail">
                             {/* Mobile View */}
                             <div className="row d-block d-md-none">
-                                {post?.map((val, index) =>
-                                    val.isActive ? (
-                                        <div className="col-12 col-md-4 col-xl-3" key={index}>
-                                            <Link
-                                                href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
-                                                state={{ data: val }}
-                                                className={`categeory-card ${val.highlight ? "highlight-box" : null
-                                                    }`}
-                                            >
-                                                <div className="img-box">
-                                                    <img src={val.image1} alt="Img" />
+                                {post && post.length > 0 ? (
+                                    <>
+                                        {post?.map((val, index) =>
+                                            val.isActive ? (
+                                                <div className="col-12 col-md-4 col-xl-3" key={index}>
+                                                    <Link
+                                                        href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                        state={{ data: val }}
+                                                        className={`categeory-card ${val.highlight ? "highlight-box" : null
+                                                            }`}
+                                                    >
+                                                        <div className="img-box">
+                                                            <img src={val.image1} alt="Img" />
+                                                        </div>
+                                                        <div className="card-text" style={{ overflow: "hidden" }}>
+                                                            <h6 style={{ fontSize: "14px", fontWeight: "600" }}>
+                                                                {val?.title}
+                                                            </h6>
+                                                            <span>{val?.name}</span>
+                                                            <br />
+                                                            <span className="text-capitalize">
+                                                                {val?.city}, {val?.provincesid?.name}
+                                                            </span>
+                                                            <br />
+                                                            <span>{val?.age}</span>
+                                                        </div>
+                                                    </Link>
                                                 </div>
-                                                <div className="card-text" style={{ overflow: "hidden" }}>
-                                                    <h6 style={{ fontSize: "14px", fontWeight: "600" }}>
-                                                        {val?.title}
-                                                    </h6>
-                                                    <span>{val?.name}</span>
-                                                    <br />
-                                                    <span className="text-capitalize">
-                                                        {val?.city}, {val?.provincesid?.name}
-                                                    </span>
-                                                    <br />
-                                                    <span>{val?.age}</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    ) : null
+                                            ) : null
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="col-12 text-center">
+                                        <p>No data found</p>
+                                    </div>
                                 )}
                             </div>
 
                             {/* Desktop View */}
                             <div className="d-none-mobile row">
-                                {post?.map((val, index) =>
-                                    val.isActive ? (
-                                        <div className="col-12 col-md-4 col-xl-3" key={index}>
-                                            <Link
-                                                href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
-                                                state={{ data: val }}
-                                            >
-                                                <div
-                                                    className={`card mb-4 ${val.highlight ? "highlight-box" : null
-                                                        }`}
-                                                >
-                                                    <div className="card-box">
-                                                        <div className="card-img">
-                                                            <img
-                                                                src={val.image1}
-                                                                className="card-img-top"
-                                                                alt="..."
-                                                            />
+                                {post && post.length > 0 ? (
+                                    <>
+                                        {post?.map((val, index) =>
+                                            val.isActive ? (
+                                                <div className="col-12 col-md-4 col-xl-3" key={index}>
+                                                    <Link
+                                                        href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                        state={{ data: val }}
+                                                    >
+                                                        <div
+                                                            className={`card mb-4 ${val.highlight ? "highlight-box" : null
+                                                                }`}
+                                                        >
+                                                            <div className="card-box">
+                                                                <div className="card-img">
+                                                                    <img
+                                                                        src={val.image1}
+                                                                        className="card-img-top"
+                                                                        alt="..."
+                                                                    />
+                                                                </div>
+                                                                <div className="card-content shadow-lg">
+                                                                    <h3 className="per-name">{val?.name}</h3>
+                                                                    <h4 className="per-ethnicity">{val?.ethicity}</h4>
+                                                                    <h4 className="per-age">Age : {val?.age}</h4>
+                                                                    <h5 className="per-city">
+                                                                        <span>
+                                                                            <i className="fa-solid fa-location-dot"></i>
+                                                                        </span>{" "}
+                                                                        {val?.city}
+                                                                    </h5>
+                                                                    <h4 className="per-descriptn">{val?.title}</h4>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="card-content shadow-lg">
-                                                            <h3 className="per-name">{val?.name}</h3>
-                                                            <h4 className="per-ethnicity">{val?.ethicity}</h4>
-                                                            <h4 className="per-age">Age : {val?.age}</h4>
-                                                            <h5 className="per-city">
-                                                                <span>
-                                                                    <i className="fa-solid fa-location-dot"></i>
-                                                                </span>{" "}
-                                                                {val?.city}
-                                                            </h5>
-                                                            <h4 className="per-descriptn">{val?.title}</h4>
-                                                        </div>
-                                                    </div>
+                                                    </Link>
                                                 </div>
-                                            </Link>
-                                        </div>
-                                    ) : null
+                                            ) : null
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="col-12 text-center">
+                                        <p>No data found</p>
+                                    </div>
                                 )}
-
                             </div>
                         </div>
 

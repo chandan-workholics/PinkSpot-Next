@@ -42,7 +42,7 @@ const HomePage = () => {
     const getPosts = async () => {
         try {
             interceptor();
-            const response = await callAPI.post(`/postad/getallpostad_sort_desc`, { limit: "12" });
+            const response = await callAPI.post(`/postad/getallpostad_sort_desc`, { limit: "15" });
             if (response.data) {
                 setPosts(response.data || []);
             } else {
@@ -219,7 +219,7 @@ const HomePage = () => {
                                                         >
                                                             {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                                                 <SwiperSlide key={index}>
-                                                                    <div className="effect-image-1 border border-white border-2">
+                                                                    <div className="effect-image-1 border border-white border-2 rounded-4">
                                                                         {post?.image1 == "" || null ?
                                                                             <img src={noImg.src} alt="Post Images" className='w-100 bg-white' /> :
                                                                             <img src={post.image1} alt="Post Image" className='w-100 bg-white' />
@@ -364,11 +364,11 @@ const HomePage = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1800">
                                     <h2 className="fw-bold text-center text-lg-start">
-                                        Enjoy This Our <br /> <span className="text-dd88cf">Special</span> Features
+                                        Connecting Providers and Clients <span className="text-dd88cf">Safely and Seamlessly</span>
                                     </h2>
                                     <p className='text-center text-lg-start'>
-                                        We’re redefining how escort services are discovered and booked in Canada. Our platform is designed to ensure safety, privacy, and seamless connections between clients and verified providers.
-                                        Experience premium features built to support a confident and secure journey.
+                                        We link clients with verified providers in a secure, discreet space.
+                                        Fake ads are removed quickly, and fair pricing keeps costs low without sacrificing quality.
                                     </p>
                                     <div className="d-flex">
                                         <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
@@ -421,59 +421,86 @@ const HomePage = () => {
                         <section>
                             <div className="gallery gallery-left">
                                 <div className="left">
-                                    <img src={modelImg1.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg2.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg3.src} className="box box1" alt=""
-                                        loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(0, 3).map((post, index) => (
+                                            <img
+                                                key={`left-top-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                                 <div className="left">
-                                    <img src={modelImg4.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg3.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg2.src} className="box box1" alt=""
-                                        loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(3, 6).map((post, index) => (
+                                            <img
+                                                key={`left-bottom-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                             </div>
+
                             <div className="gallery gallery-center">
                                 <div className="center">
-                                    <img src={modelImg3.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg4.src} className="box box1" alt=""
-                                        loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(6, 9).map((post, index) => (
+                                            <img
+                                                key={`center-top-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                                 <div className="center">
-                                    <img src={modelImg3.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg1.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg2.src} className="box box1" alt=""
-                                        loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(9, 12).map((post, index) => (
+                                            <img
+                                                key={`center-bottom-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                             </div>
+
                             <div className="gallery gallery-right">
                                 <div className="right">
-                                    <img src={modelImg4.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg3.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg2.src}
-                                        className="box box1" alt="" loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(12, 15).map((post, index) => (
+                                            <img
+                                                key={`right-top-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                                 <div className="right">
-                                    <img src={modelImg1.src} className="box box1" alt=""
-                                        loading="lazy" />
-                                    <img src={modelImg2.src} className="box box1"
-                                        alt="" loading="lazy" />
-                                    <img src={modelImg3.src}
-                                        className="box box1" alt="" loading="lazy" />
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(15, 18).map((post, index) => (
+                                            <img
+                                                key={`right-bottom-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
                                 </div>
                             </div>
                         </section>
+
                     </div>
                 </div>
 

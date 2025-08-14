@@ -62,7 +62,7 @@ const SwiperPage = () => {
                             {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                 <SwiperSlide key={index}>
                                     <div className="effect-image-1">
-                                        <Image
+                                        <img
                                             src={post.image1 ? post.image1 : noImg.src}
                                             alt="Post Image"
                                             width={500} // Set desired width

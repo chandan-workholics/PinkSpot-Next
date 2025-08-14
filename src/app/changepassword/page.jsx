@@ -55,7 +55,7 @@ const UserProfile = () => {
                                 <div className="">
                                     <h1 className="text-white">Change Password</h1>
                                     <h3 className="text-white">
-                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> User Profile <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Change Password
+                                        User Profile <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Change Password
                                     </h3>
                                 </div>
                             </div>

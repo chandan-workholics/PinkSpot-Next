@@ -147,7 +147,7 @@ const Profile = () => {
                                     {posts && (
                                         <div>
                                             <div className="profileHeader"></div>
-                                            <Image
+                                            <img
                                                 src={posts.image1 ? posts.image1 : noImg.src}
                                                 alt="Profile"
                                                 className="profileImage"
