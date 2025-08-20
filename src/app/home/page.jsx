@@ -184,10 +184,10 @@ const HomePage = () => {
                             <div className="banner-content text-center">
                                 <div className="">
                                     <div className="" data-aos="fade-up" data-aos-duration="1000">
-                                        <h1 className="text-white">Welcome To
+                                        {/* <h1 className="text-white">Welcome To
                                             <span className="text-dd88cf"> Pink Spot</span><br />
                                             Choose Your Vibe
-                                        </h1>
+                                        </h1> */}
                                         {/* <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
                                         <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link> */}
 
@@ -372,11 +372,11 @@ const HomePage = () => {
                                     </p>
                                     <div className="d-flex">
                                         <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
-                                            Learn More <span>&raquo;</span>
+                                           Search ads <span>&raquo;</span>
                                         </Link>
                                     </div>
                                 </div>
-                                <div className="col-lg-7" data-aos="fade-left" data-aos-duration="2000">
+                                {/* <div className="col-lg-7" data-aos="fade-left" data-aos-duration="2000">
                                     <div className="row g-4">
                                         <div className="col-md-6 d-flex align-items-center">
                                             <div className="">
@@ -412,12 +412,12 @@ const HomePage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </section>
                     </div>
                     <div className="home-section5">
-                        <h1>Gallery Images</h1>
+                        {/* <h1>Gallery Images</h1> */}
                         <section>
                             <div className="gallery gallery-left">
                                 <div className="left">

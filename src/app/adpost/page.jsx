@@ -386,7 +386,10 @@ const AdPost = () => {
                         <div className="container my-5">
                             {!isSubmitted ? (
                                 <div className="row justify-content-center">
-                                    <h2 className="text-center fw-bold text-4b164c mb-4">Fill Out the Form Below</h2>
+                                    <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span class="text-dd88cf">$20</span></h2>
+                                    
+
+                                     {/* <h5 className="mb-4 fw-bold">Let's Publish Your Ad In Just <span className="text-dd88cf">$20</span></h5> */}
                                     <div className="col-lg-6 d-flex align-items-center">
                                         <img src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg" />
                                     </div>
@@ -471,6 +474,10 @@ const AdPost = () => {
                                                 {step === 1 && (
                                                     <>
                                                         <div className="row">
+                                                       
+
+
+
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Name *</label>
                                                                 <input type="text"
@@ -562,6 +569,7 @@ const AdPost = () => {
                                                                 </select>
                                                                 {errors.ethnicity && <p className='input-errormsg'>{errors.ethnicity}</p>}
                                                             </div>
+                                                             
                                                         </div>
                                                     </>
                                                 )}
@@ -709,7 +717,7 @@ const AdPost = () => {
                                                             {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                         </div>
                                                         <div className="text-center">
-                                                            <h5 className="mb-4 fw-bold">This ad will cost <span className="text-dd88cf">$20</span></h5>
+                                                            {/* <h5 className="mb-4 fw-bold">This ad will cost <span className="text-dd88cf">$20</span></h5> */}
                                                             <button type="submit" className="btn btn-custom text-white px-5 py-2 mb-4" onClick={handleShow}>
                                                                 {btnLoading ? "Processing..." : "Submit"}
                                                             </button>

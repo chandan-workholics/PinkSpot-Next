@@ -418,7 +418,7 @@ const UserProfile = () => {
                                                         <div className="row g-0">
                                                             <div className="col-md-3">
                                                                 <div className="rounded-5 overflow-hidden">
-                                                                    <Image
+                                                                    <img
                                                                         key={index}
                                                                         src={profile.image1 || NoImg.src} alt="Profile" width={150} height={150} className="img-fluid rounded-start w-100 bg-white" style={{ maxHeight: "230px", objectFit: 'cover' }} />
                                                                 </div>
