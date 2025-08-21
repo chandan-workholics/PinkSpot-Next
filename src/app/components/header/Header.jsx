@@ -60,6 +60,18 @@ const Header = () => {
                                 <li className="nav-item">
                                     <Link className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</Link>
                                 </li>
+                                {isAuthenticated ? (
+                                    <li className="nav-item">
+                                        <Link
+                                            className={`nav-link ${pathname.startsWith("/subscription") ? "active" : ""}`}
+                                            href="/subscription"
+                                        >
+                                            Subscription Plan
+                                        </Link>
+                                    </li>
+                                ) : ''}
+
+
                             </ul>
                             <div className="d-flex">
                                 {!isAuthenticated ? (
@@ -132,6 +144,7 @@ const Header = () => {
                                 <li className="nav-item">
                                     <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</CloseOffcanvasLink>
                                 </li>
+
                                 <li className="nav-item d-none d-lg-block">
                                     <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill my-3 py-2 px-3 mb-3"
                                         href="/allCategory?from=header">

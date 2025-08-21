@@ -2476,3 +2476,66 @@ a {
 }
 
 /* Subscription-Page - End */
+
+
+/* Modal Backdrop */
+.modal-backdrop.show {
+  background-color: rgba(75, 22, 76, 0.7); /* dark purple overlay */
+}
+
+/* Modal Container */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(75, 22, 76, 0.25);
+  background: #fff5fb; /* soft pink background */
+}
+
+/* Modal Header */
+.modal-header {
+  border-bottom: none;
+  background: linear-gradient(90deg, #ac46a7, #4b164c);
+  color: #fff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+/* Modal Title */
+.modal-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Modal Body */
+.modal-body {
+  font-size: 1.1rem;
+  color: #4b164c; /* purple text */
+  text-align: center;
+  padding: 20px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  border-top: none;
+  justify-content: center;
+  background-color: transparent;
+  padding-bottom: 20px;
+}
+
+/* Buttons inside modal */
+.modal-footer .btn,
+.modal-header .btn-close {
+  border-radius: 10px;
+}
+
+.modal-footer .btn-secondary {
+  background: linear-gradient(90deg, #8e2de2, #ac46a7);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 500;
+}
+
+.modal-footer .btn-secondary:hover {
+  opacity: 0.9;
+}

@@ -386,7 +386,7 @@ const AdPost = () => {
                         <div className="container my-5">
                             {!isSubmitted ? (
                                 <div className="row justify-content-center">
-                                    <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span class="text-dd88cf">$20</span></h2>
+                                    <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span className="text-dd88cf">$20</span></h2>
                                     
 
                                      {/* <h5 className="mb-4 fw-bold">Let's Publish Your Ad In Just <span className="text-dd88cf">$20</span></h5> */}
