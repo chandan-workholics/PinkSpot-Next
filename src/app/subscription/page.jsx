@@ -14,10 +14,16 @@ const Page = () => {
   const [subscriptionDetail, setSubscriptionDetail] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
-  // 👉 Subscribe Function
-  const handleSubscribe = async (plan) => {
+  const [selectedPlan, setSelectedPlan] = useState(null); // ✅ store plan
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // ✅ confirmation modal toggle
+
+  // 👉 Subscribe API Call
+  const confirmSubscribe = async () => {
+    if (!selectedPlan) return;
+
     setLoading(true);
     setModalMessage("");
+    setShowConfirmModal(false); // close confirmation modal
 
     try {
       const res = await fetch(
@@ -25,7 +31,7 @@ const Page = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId, plan }),
+          body: JSON.stringify({ userId, plan: selectedPlan }),
         }
       );
 
@@ -45,6 +51,12 @@ const Page = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // 👉 Open confirmation modal first
+  const handleSubscribe = (plan) => {
+    setSelectedPlan(plan);
+    setShowConfirmModal(true);
   };
 
   // 👉 Fetch My Subscription Detail
@@ -163,7 +175,54 @@ const Page = () => {
           </div>
         </section>
 
-        {/* ✅ Subscription Confirmation Modal */}
+        {/* ✅ Confirmation Modal */}
+        {showConfirmModal && (
+          <div
+            className="modal fade show"
+            style={{ display: "block" }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header bg-warning">
+                  <h5 className="modal-title">Confirm Subscription</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setShowConfirmModal(false)}
+                  ></button>
+                </div>
+                <div className="modal-body text-center">
+                  <p>
+                    You are about to subscribe to{" "}
+                    <strong>{selectedPlan?.toUpperCase()}</strong> plan.
+                  </p>
+                  <p>Please confirm to proceed with payment deduction.</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowConfirmModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={confirmSubscribe}
+                    disabled={loading}
+                  >
+                    {loading ? "Processing..." : "Yes, Confirm"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ Subscription Status Modal */}
         {showModal && (
           <div
             className="modal fade show"
@@ -257,7 +316,7 @@ const Page = () => {
         )}
 
         {/* Backdrops */}
-        {(showModal || showDetailModal) && (
+        {(showModal || showDetailModal || showConfirmModal) && (
           <div className="modal-backdrop fade show"></div>
         )}
       </div>
