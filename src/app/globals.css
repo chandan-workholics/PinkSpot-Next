@@ -323,7 +323,7 @@ a {
 
       .banner-content {
         height: fit-content;
-        padding: 50px 0;
+        padding: 0 0 50px 0;
       }
 
       .banner-content h1 {
@@ -2412,4 +2412,67 @@ a {
     }
   }
 }
+
 /* Terms-Page - End */
+
+/* Subscription-Page - Start */
+.subscription-page {
+  .main-content{
+    min-height: 100vh;
+  }
+  .pricing-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s ease, background 0.4s ease, color 0.4s ease;
+    background: #fff;
+    color: #000;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(-45deg, #4b164c, #ff6ef8, #dd88cf, #4b164c);
+    color: #fff;
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    /* all text turns white */
+  }
+
+  .pricing-card:hover h5,
+  .pricing-card:hover p,
+  .pricing-card:hover li,
+  .pricing-card:hover .price {
+    color: #fff !important;
+  }
+
+  .btn-premium {
+    background: linear-gradient(-45deg, #4b164c, #ac46a7, #dd88cf, #4b164c);
+    color: #fff;
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .pricing-card:hover .btn-premium {
+    background: #fff;
+    color: #4b164c;
+    font-weight: 600;
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ffc107;
+    color: #000;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+}
+
+/* Subscription-Page - End */

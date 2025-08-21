@@ -8,7 +8,7 @@ import CloseOffcanvasLink from '../CloseOffcanvasLink'
 
 const Header = () => {
     const pathname = usePathname();
-  
+
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     useEffect(() => {
@@ -144,6 +144,13 @@ const Header = () => {
                                     </li>
                                 ) : (
                                     <>
+                                        <li className="nav-item">
+                                            <CloseOffcanvasLink
+                                                className={`nav-link ${pathname.startsWith("/subscription") ? "active" : ""}`}
+                                                href="/subscription">
+                                                Subscription Plan
+                                            </CloseOffcanvasLink>
+                                        </li>
                                         <li className="nav-item">
                                             <CloseOffcanvasLink
                                                 className={`nav-link ${pathname.startsWith("/UserProfile") ? "active" : ""}`}
