@@ -20,8 +20,8 @@ const MyProfile1 = () => {
             interceptor();
             const response = await callAPI.post(`/postad/getpostadby_single_slug`, { slug });
 
-            if ( response.data.data) {
-                setPosts(response.data.data);  
+            if (response.data.data) {
+                setPosts(response.data.data);
             } else {
                 console.error("Unexpected response format", response);
             }
@@ -62,19 +62,19 @@ const MyProfile1 = () => {
     return (
         <>
             <div className="container-fluid p-0">
-                           <div className="profile-page">
-                               <div className='home-banner'>
-                                   <div className="container">
-                                       <div className="banner-content text-start">
-                                           <div className="">
-                                               <h1 className="text-white">Single Profile</h1>
-                                               <h3 className="text-white">
-                                                   Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
-                                               </h3>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
+                <div className="profile-page">
+                    <div className='home-banner'>
+                        <div className="container">
+                            <div className="banner-content text-start">
+                                <div className="">
+                                    <h1 className="text-white">Single Profile</h1>
+                                    <h3 className="text-white">
+                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <section className="container my-5">
                         <div className="row">
                             {/* Left Profile Card */}
@@ -83,7 +83,7 @@ const MyProfile1 = () => {
                                     {posts && (
                                         <div>
                                             <div className="profileHeader"></div>
-                                            <Image
+                                            <img
                                                 src={posts.image1}
                                                 alt="Profile"
                                                 className="profileImage"

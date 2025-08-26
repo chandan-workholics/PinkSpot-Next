@@ -68,6 +68,30 @@ const AdPost = () => {
     };
 
     const handleShow = async () => {
+
+        // Step 1: Pre-check with API
+        const checkResponse = await fetch("https://pinkspot.cc/api/v1/postad/checkPostLimit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: formData.postbyuserid })
+        });
+
+        const checkResult = await checkResponse.json();
+
+        if (checkResult.status === "warning") {
+            if (!checkResult.canPost) {
+                alert("Insufficient balance. Please top up your wallet to post.");
+                return; // stop here
+            } else {
+                const confirmProceed = confirm(checkResult.message + " Do you want to continue?");
+                if (!confirmProceed) return; // stop posting if user cancels
+            }
+        } else {
+            alert(checkResult.message);
+        }
+
+
+
         // setLoading(true);
         if (!validateForm()) {
             return;
@@ -237,7 +261,7 @@ const AdPost = () => {
     const fetchSubCategories = async (id) => {
         try {
             const response = await callAPI.get(`/category/getsubcategorybycatid/${id}`);
-            setSubcategories(response.data?.data || []);  // assuming response shape is { data: { data: [...] } }
+            setSubcategories(response.data?.data || []);
         } catch (error) {
             console.error("Error fetching subcategories:", error);
             setSubcategories([]);
@@ -387,9 +411,7 @@ const AdPost = () => {
                             {!isSubmitted ? (
                                 <div className="row justify-content-center">
                                     <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span className="text-dd88cf">$20</span></h2>
-                                    
 
-                                     {/* <h5 className="mb-4 fw-bold">Let's Publish Your Ad In Just <span className="text-dd88cf">$20</span></h5> */}
                                     <div className="col-lg-6 d-flex align-items-center">
                                         <img src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg" />
                                     </div>
@@ -423,61 +445,9 @@ const AdPost = () => {
                                             </div>
 
                                             <form onSubmit={handleSubmit}>
-                                                {/* {step === 1 && (
-                                                    <>
-                                                        <div className="row">
-                                                            <div className="col-md-6 mb-3">
-                                                                <label className="form-label">Category *</label>
-                                                                <select
-                                                                    className="form-select"
-                                                                    name="category"
-                                                                    value={formData.category}
-                                                                    onChange={(e) => {
-                                                                        handleChange('category', e.target.value);
-                                                                        handleChange('subcategoryid', ''); // Clear selected subcategory
-                                                                        fetchSubCategories(e.target.value);
-                                                                    }}
-                                                                    required
-                                                                >
-                                                                    <option value="">Select a category</option>
-                                                                    {Array.isArray(category) && category.length > 0 ? (
-                                                                        category.map((cat, index) => (
-                                                                            <option value={cat._id} key={index} className='text-capitalize'>{cat.name}</option>
-                                                                        ))
-                                                                    ) : (
-                                                                        <option disabled>No category available</option>
-                                                                    )}
-                                                                </select>
-                                                                {errors.category && <p className='input-errormsg'>{errors.category}</p>}
-                                                            </div>
-
-                                                            <div className="col-md-6 mb-3">
-                                                                <label className="form-label">Sub Category *</label>
-                                                                <select
-                                                                    className="form-select"
-                                                                    name='subcategoryid'
-                                                                    value={formData.subcategoryid}
-                                                                    onChange={(e) => handleChange('subcategoryid', e.target.value)}
-                                                                    required>
-                                                                    <option value="0">Select a sub category</option>
-                                                                    {subcategories?.map((val, index) => (
-                                                                        <option key={index} value={val._id}>
-                                                                            {val.name}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                                {errors.subCategory && <p className='input-errormsg'>{errors.subCategory}</p>}
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                )} */}
                                                 {step === 1 && (
                                                     <>
                                                         <div className="row">
-                                                       
-
-
-
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Name *</label>
                                                                 <input type="text"
@@ -569,7 +539,7 @@ const AdPost = () => {
                                                                 </select>
                                                                 {errors.ethnicity && <p className='input-errormsg'>{errors.ethnicity}</p>}
                                                             </div>
-                                                             
+
                                                         </div>
                                                     </>
                                                 )}
@@ -606,7 +576,6 @@ const AdPost = () => {
                                                                             setFormData({ ...formData, height: number + e.target.value });
                                                                         }}
                                                                     >
-                                                                        {/* <option value="" disabled>Unit</option> */}
                                                                         <option value="cm">cm</option>
                                                                         <option value="inches">inches</option>
                                                                     </select>
@@ -631,18 +600,6 @@ const AdPost = () => {
                                                                         onKeyDown={allowOnlyNumbers}
                                                                     />
                                                                     <span className="input-group-text">pounds</span>
-                                                                    {/* <select
-                                                                        className="form-select"
-                                                                        value={formData.weight.match(/(kg|pounds)$/)?.[0] || ""}
-                                                                        onChange={(e) => {
-                                                                            const number = formData.weight.replace(/(kg|pounds)$/, "");
-                                                                            setFormData({ ...formData, weight: number + e.target.value });
-                                                                        }}
-                                                                    >
-                                                                        <option value="" disabled>Unit</option>
-                                                                        <option value="kg">kg</option>
-                                                                        <option value="pounds">pounds</option>
-                                                                    </select> */}
                                                                 </div>
                                                                 {errors.weight && <p className="input-errormsg">{errors.weight}</p>}
                                                             </div>
@@ -717,7 +674,6 @@ const AdPost = () => {
                                                             {errors.images && <p className='input-errormsg'>{errors.images}</p>}
                                                         </div>
                                                         <div className="text-center">
-                                                            {/* <h5 className="mb-4 fw-bold">This ad will cost <span className="text-dd88cf">$20</span></h5> */}
                                                             <button type="submit" className="btn btn-custom text-white px-5 py-2 mb-4" onClick={handleShow}>
                                                                 {btnLoading ? "Processing..." : "Submit"}
                                                             </button>
