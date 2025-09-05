@@ -182,7 +182,7 @@ const HomePage = () => {
                         <Header className="position-absolute w-100" />
                         <div className="container">
                             <div className="banner-content text-center">
-                                <div className="">
+                                <div className="w-100">
                                     <div className="" data-aos="fade-up" data-aos-duration="1000">
                                         {/* <h1 className="text-white">Welcome To
                                             <span className="text-dd88cf"> Pink Spot</span><br />
@@ -257,10 +257,10 @@ const HomePage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="mt-5">
-                                            <div className="input-group">
+                                        <div className="row mt-5">
+                                            <div className="col-12 col-lg-8 col-xl-6 col-xxl-5 mx-auto">
                                                 <select
-                                                    className="form-select form-select-lg filter-btn position-relative rounded-start-pill shadow-none border-top-0 border-start-0 border-bottom-0 border-secondary-subtle"
+                                                    className="form-select form-select-lg filter-btn position-relative rounded-pill shadow-none border-secondary-subtle mb-3"
                                                     name="province"
                                                     value={filters.province}
                                                     onChange={(e) => {
@@ -274,7 +274,7 @@ const HomePage = () => {
                                                     ))}
                                                 </select>
                                                 <select
-                                                    className="form-select form-select-lg filter-btn position-relative border-top-0 border-end-0 border-bottom-0 shadow-none border-secondary-subtle"
+                                                    className="form-select form-select-lg filter-btn position-relative rounded-pill shadow-none border-secondary-subtle mb-3"
                                                     name="city"
                                                     value={filters.city}
                                                     onChange={(e) => handleFilterChange('city', e.target.value)}
@@ -285,10 +285,9 @@ const HomePage = () => {
                                                     ))}
                                                 </select>
                                                 <button
-                                                    className="bg-white rounded-end-pill border-0 px-2 py-1"
+                                                    className="btn btn-lg bg-dd88cf text-4b164c border-0 w-100 rounded-pill px-4 fw-semibold"
                                                     type="button" onClick={handleSearch}>
-                                                    <span className="bg-dd88cf text-4b164c rounded-pill px-4 py-2 fw-semibold">Search</span>
-
+                                                    Search
                                                 </button>
                                             </div>
                                         </div>
@@ -364,7 +363,7 @@ const HomePage = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1800">
                                     <h2 className="fw-bold text-center text-lg-start">
-                                        Connecting Providers and Clients <span className="text-dd88cf">Safely and Seamlessly</span>
+                                        <span className="text-4b164c">Trusted, Verified, Discreet</span>
                                     </h2>
                                     <p className='text-center text-lg-start'>
                                         We link clients with verified providers in a secure, discreet space.
@@ -372,7 +371,7 @@ const HomePage = () => {
                                     </p>
                                     <div className="d-flex">
                                         <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
-                                           Search ads <span>&raquo;</span>
+                                            Search ads <span>&raquo;</span>
                                         </Link>
                                     </div>
                                 </div>

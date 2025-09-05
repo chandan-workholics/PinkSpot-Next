@@ -43,12 +43,17 @@ const Header = () => {
             <div className="header">
                 <nav className="navbar navbar-expand-lg px-0 px-xl-5">
                     <div className="container-fluid p-0">
-                        <Link className="navbar-brand text-dd88cf" href="/">
+                        <Link className="navbar-brand text-dd88cf me-0" href="/">
                             <img src={logo.src} alt="" className="" />
                         </Link>
-                        <button className="btn d-block d-lg-none me-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                            <i className="fa-solid fa-circle-user text-dd88cf fs-1"></i>
-                        </button>
+                        <div className="d-flex align-items-center gap-2 d-lg-none">
+                            {!isAuthenticated ? (
+                                <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 text-capitalize me-0'>Log in/ Sign up</button>
+                            ) : (<></>)}
+                            <button className="btn d-block d-lg-none me-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                <i class="fa-solid fa-bars text-dd88cf fs-1"></i>
+                            </button>
+                        </div>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
