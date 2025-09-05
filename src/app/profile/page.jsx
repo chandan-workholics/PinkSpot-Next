@@ -130,7 +130,7 @@ const Profile = () => {
                             <div className="col-md-4">
                                 {posts?.data?.map((post) => (
                                     <div key={post._id} className="profileCard">
-                                        <Image src={post.image !== "" ? post.image : profileImg.src} alt="Profile" className="profileImage" />
+                                        <img src={post.image !== "" ? post.image : profileImg.src} alt="Profile" className="profileImage" />
                                         <h3 className="text-center mt-3">{post.name}</h3>
                                         <p className="text-center">{post.age} Years Old | {post.city}, {post.provincesid}</p>
                                         <div className="d-flex justify-content-center">
@@ -190,7 +190,7 @@ const Profile = () => {
                                 {Array.isArray(posts?.data) ? posts.data.map((post, index) => (
                                     <SwiperSlide key={index}>
                                         <div className="effect-image-1">
-                                            <Image src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
+                                            <img src={post.image || Sec3SliderImg.src} alt="Post Image" className='w-100' />
                                             <div className="simple-text">
                                                 <p>{post.name}</p>
                                                 <p>{post.city}</p>

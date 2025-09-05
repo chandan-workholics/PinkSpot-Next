@@ -2,11 +2,15 @@
 
 import React, { useState } from "react";
 import Header from "../components/header/Header";
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 const userId =
     typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
 const Page = () => {
+    const pathname = usePathname();
+
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [showModal, setShowModal] = useState(false);
@@ -15,6 +19,7 @@ const Page = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
 
     const [selectedPlan, setSelectedPlan] = useState(null); // ✅ store plan
+    const [selectedPlanprice, setSelectedPlanprice] = useState(null); // ✅ store plan
     const [showConfirmModal, setShowConfirmModal] = useState(false); // ✅ confirmation modal toggle
 
     // 👉 Subscribe API Call
@@ -54,8 +59,9 @@ const Page = () => {
     };
 
     // 👉 Open confirmation modal first
-    const handleSubscribe = (plan) => {
+    const handleSubscribe = (plan, price) => {
         setSelectedPlan(plan);
+        setSelectedPlanprice(price)
         setShowConfirmModal(true);
     };
 
@@ -111,6 +117,7 @@ const Page = () => {
                             <div className="col-md-4 mb-4">
                                 <div className="card pricing-card p-4 h-100">
                                     <h5 className="mb-3">Basic Plan</h5>
+
                                     <h1 className="price">
                                         $20.00 <span className="fs-6 text-muted">/AD</span>
                                     </h1>
@@ -121,7 +128,8 @@ const Page = () => {
                                     <ul className="list-unstyled mt-3 mb-4">
                                         <li>✔ No subscription</li>
                                     </ul>
-                                    <button className="btn btn-premium w-100">
+
+                                    <button onClick={() => router.push("/adpost")} className="btn btn-premium w-100">
                                         Go Basic
                                     </button>
                                 </div>
@@ -141,7 +149,7 @@ const Page = () => {
                                     </ul>
                                     <button
                                         className="btn btn-premium w-100"
-                                        onClick={() => handleSubscribe("standard")}
+                                        onClick={() => handleSubscribe("standard", "100")}
                                         disabled={loading}
                                     >
                                         {loading ? "Processing..." : "Go Standard"}
@@ -164,7 +172,7 @@ const Page = () => {
                                     </ul>
                                     <button
                                         className="btn btn-premium w-100"
-                                        onClick={() => handleSubscribe("premium")}
+                                        onClick={() => handleSubscribe("premium", "150")}
                                         disabled={loading}
                                     >
                                         {loading ? "Processing..." : "Go Premium"}
@@ -195,9 +203,11 @@ const Page = () => {
                                 </div>
                                 <div className="modal-body text-center">
                                     <h5 className="mb-2">
-                                        Awesome choice! You're about to unlock all the benefits of the <strong>{selectedPlan?.toUpperCase()}</strong> Plan. Just hit confirm to get started.{" "}
+                                        <strong>{selectedPlan?.toUpperCase()} PLAN</strong>{" "}
                                     </h5>
-                                    <p className="">Please confirm to proceed with payment deduction.</p>
+                                    <h5 className="mb-2">Cost: ${selectedPlanprice?.toUpperCase()} (deducted from wallet)</h5>
+                                    <h5 className="mb-2">Validity: 30 days</h5>
+                                    <p className="">Click confirm to continue.</p>
                                 </div>
                                 <div className="modal-footer">
                                     <button

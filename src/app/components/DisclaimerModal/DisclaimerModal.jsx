@@ -38,11 +38,11 @@ export default function DisclaimerModal() {
                                         <img src={logo.src} alt="" className="" width={150} />
                                     </Link>
                                 </div>
-                                <h5 className="fw-semibold">
+                                <h6 className="fw-semibold">
                                     By using
                                     <span className="text-dd88cf"> PinkSpot</span>,
-                                    you confirm that you understand and agree to the following conditions:</h5>
-                                <ol className="mt-3" style={{ fontSize: "0.95rem" }}>
+                                    you confirm that you understand and agree to the following conditions:</h6>
+                                <ol className="mt-3" style={{ fontSize: "0.80rem" }}>
                                     <li>
                                         I am 18 years of age or older, or I meet the age of majority required by the laws of my country or region.
                                     </li>
