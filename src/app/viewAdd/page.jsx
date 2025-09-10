@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import Image from 'next/image';
 import MasonryGallery from '../components/masonryGallery/page'
-import { useParams, useRouterm } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import callAPI, { interceptor } from '../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
