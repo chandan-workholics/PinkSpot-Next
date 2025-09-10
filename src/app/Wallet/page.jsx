@@ -69,8 +69,7 @@ const Wallet = () => {
                                     <h2 className="fw-bold text-white mb-0">Manage Your</h2>
                                     <h1 className="fw-bold"><span className="text-4b164c">Digital Wallet</span></h1>
                                     <h5 className="text-white fw-normal">
-                                        Easily track and control your advertising funds.
-                                        Secure, simple, and built for your success.
+                                        Built for ad funds and subscriptions - deposit Litecoin (LTC), get credited instantly in CAD.
                                     </h5>
                                 </div>
                             </div>
@@ -106,7 +105,7 @@ const Wallet = () => {
                                                             className="btn w-100 shadow btn-login bg-4b164c text-white fw-semibold rounded-pill py-2 px-3 me-0"
                                                             disabled={loading}
                                                         >
-                                                            {loading ? <Spinner/> : "Add Money"}
+                                                            {loading ? <Spinner /> : "Add Money"}
                                                         </button>
                                                     </div>
                                                     <div className="btn-group w-100 text-center justify-content-around mt-3">
