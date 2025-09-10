@@ -168,10 +168,11 @@ const Profile = () => {
                         </div>
                     </section>
                 </div>
-                <div className="home-section3 bg-faedf8 py-5">
+                {/* <div className="home-section3 bg-faedf8 py-5">
                     <div className="container">
                         <div className="row">
-                            {/* Swiper start */}
+                            <h2 className="text-center fw-bold text-4b164c mb-4">Featured Ads</h2>
+                            
                             <Swiper
                                 slidesPerView={1}
                                 spaceBetween={10}
@@ -195,7 +196,6 @@ const Profile = () => {
                                                 <p>{post.name}</p>
                                                 <p>{post.city}</p>
                                             </div>
-                                            {/* Added overlay to match the static design */}
                                             <div className="overlay-sim-text-2 overlay-xs-1">
                                                 <p className="mb-1">
                                                     {post.description.length > maxLength
@@ -215,10 +215,9 @@ const Profile = () => {
                                     </SwiperSlide>
                                 )) : <p>No posts available</p>}
                             </Swiper>
-                            {/* Slider end */}
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div>
                     <SwiperPage />
                 </div>

@@ -40,9 +40,10 @@ const SwiperPage = () => {
     }, []);
     return (
         <div>
-            <div className="home-section3 bg-faedf8 py-5">
+            <div className="home-section3 bg-faedf8 py-4">
                 <div className="container">
                     <div className="row">
+                        <h2 className="text-center fw-bold text-4b164c mb-4">Featured Ads</h2>
                         {/* Swiper start */}
                         <Swiper
                             slidesPerView={1}

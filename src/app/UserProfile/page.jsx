@@ -251,9 +251,9 @@ const UserProfile = () => {
                                                         <img
                                                             src={profile.image || NoImg.src}
                                                             alt="Profile"
-                                                            width={150}
-                                                            height={150}
-                                                            className="profileImage rounded-circle"
+                                                            width={250}
+                                                            height={250}
+                                                            className="profileImage rounded-4"
                                                         />
 
 

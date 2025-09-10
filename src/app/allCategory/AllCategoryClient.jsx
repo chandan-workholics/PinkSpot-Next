@@ -34,6 +34,20 @@ const AllCategoryClient = () => {
         isVerified: '',
     });
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const adsPerPage = 20;
+
+    // Calculate indexes
+    const indexOfLastAd = currentPage * adsPerPage;
+    const indexOfFirstAd = indexOfLastAd - adsPerPage;
+    const currentAds = post.slice(indexOfFirstAd, indexOfLastAd);
+
+    const totalPages = Math.ceil(post.length / adsPerPage);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [currentPage]);
+
 
     const fetchCategory = async () => {
         const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
@@ -152,9 +166,6 @@ const AllCategoryClient = () => {
                                     </div>
                                     <div className="col-md-8">
                                         <div className="row">
-
-
-
                                             {/* <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
@@ -293,37 +304,28 @@ const AllCategoryClient = () => {
                         <div className="container box-detail">
                             {/* Mobile View */}
                             <div className="row d-block d-md-none">
-                                {post && post.length > 0 ? (
-                                    <>
-                                        {post?.map((val, index) =>
-                                            val.isActive ? (
-                                                <div className="col-12 col-md-4 col-xl-3" key={index}>
-                                                    <Link
-                                                        href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
-                                                        state={{ data: val }}
-                                                        className={`categeory-card ${val.highlight ? "highlight-box" : null
-                                                            }`}
-                                                    >
-                                                        <div className="img-box">
-                                                            <img src={val.image1} alt="Img" />
-                                                        </div>
-                                                        <div className="card-text" style={{ overflow: "hidden" }}>
-                                                            <h6 style={{ fontSize: "14px", fontWeight: "600" }}>
-                                                                {val?.title}
-                                                            </h6>
-                                                            <span>{val?.name}</span>
-                                                            <br />
-                                                            <span className="text-capitalize">
-                                                                {val?.city}, {val?.provincesid?.name}
-                                                            </span>
-                                                            <br />
-                                                            <span>{val?.age}</span>
-                                                        </div>
-                                                    </Link>
-                                                </div>
-                                            ) : null
-                                        )}
-                                    </>
+                                {currentAds.length > 0 ? (
+                                    currentAds.map((val, index) =>
+                                        val.isActive ? (
+                                            <div className="col-12 col-md-4 col-xl-3" key={index}>
+                                                <Link
+                                                    href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                    className={`categeory-card ${val.highlight ? "highlight-box" : ""}`}
+                                                >
+                                                    <div className="img-box">
+                                                        <img src={val.image1} alt="Img" />
+                                                    </div>
+                                                    <div className="card-text" style={{ overflow: "hidden" }}>
+                                                        <h5 className="fw-bold">{val?.name}</h5>
+                                                        <h6>
+                                                            <i className="fa-solid fa-house me-1"></i>
+                                                            {val?.city}, {val?.provincesid?.name}
+                                                        </h6>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        ) : null
+                                    )
                                 ) : (
                                     <div className="col-12 text-center">
                                         <p>No data found</p>
@@ -333,52 +335,69 @@ const AllCategoryClient = () => {
 
                             {/* Desktop View */}
                             <div className="d-none-mobile row">
-                                {post && post.length > 0 ? (
-                                    <>
-                                        {post?.map((val, index) =>
-                                            val.isActive ? (
-                                                <div className="col-12 col-md-4 col-xl-3" key={index}>
-                                                    <Link
-                                                        href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
-                                                        state={{ data: val }}
-                                                    >
-                                                        <div
-                                                            className={`card mb-4 ${val.highlight ? "highlight-box" : null
-                                                                }`}
-                                                        >
-                                                            <div className="card-box">
-                                                                <div className="card-img">
-                                                                    <img
-                                                                        src={val.image1}
-                                                                        className="card-img-top"
-                                                                        alt="..."
-                                                                    />
-                                                                </div>
-                                                                <div className="card-content shadow-lg">
-                                                                    <h3 className="per-name">{val?.name}</h3>
-                                                                    <h4 className="per-ethnicity">{val?.ethicity}</h4>
-                                                                    <h4 className="per-age">Age : {val?.age}</h4>
-                                                                    <h5 className="per-city">
-                                                                        <span>
-                                                                            <i className="fa-solid fa-location-dot"></i>
-                                                                        </span>{" "}
-                                                                        {val?.city}
-                                                                    </h5>
-                                                                    <h4 className="per-descriptn">{val?.title}</h4>
-                                                                </div>
+                                {currentAds.length > 0 ? (
+                                    currentAds.map((val, index) =>
+                                        val.isActive ? (
+                                            <div className="col-12 col-md-4 col-xl-3" key={index}>
+                                                <Link
+                                                    href={`/profile/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                >
+                                                    <div className={`card mb-4 ${val.highlight ? "highlight-box" : ""}`}>
+                                                        <div className="card-box">
+                                                            <div className="card-img">
+                                                                <img src={val.image1} className="card-img-top" alt="..." />
+                                                            </div>
+                                                            <div className="card-content shadow-lg">
+                                                                <h3 className="per-name">{val?.name}</h3>
+                                                                <h4 className="per-ethnicity">{val?.ethicity}</h4>
+                                                                <h4 className="per-age">Age : {val?.age}</h4>
+                                                                <h5 className="per-city">
+                                                                    <i className="fa-solid fa-location-dot"></i> {val?.city}
+                                                                </h5>
+                                                                <h4 className="per-descriptn">{val?.title}</h4>
                                                             </div>
                                                         </div>
-                                                    </Link>
-                                                </div>
-                                            ) : null
-                                        )}
-                                    </>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        ) : null
+                                    )
                                 ) : (
                                     <div className="col-12 text-center">
                                         <p>No data found</p>
                                     </div>
                                 )}
                             </div>
+
+                            {/* Pagination */}
+                            <div className="pagination d-flex justify-content-center mt-4">
+                                <button
+                                    className="btn btn-secondary mx-1"
+                                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    Prev
+                                </button>
+
+                                {[...Array(totalPages)].map((_, i) => (
+                                    <button
+                                        key={i}
+                                        className={`btn mx-1 ${currentPage === i + 1 ? "active btn-primary" : "btn-outline-primary"}`}
+                                        onClick={() => setCurrentPage(i + 1)}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                ))}
+
+                                <button
+                                    className="btn btn-secondary mx-1"
+                                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    Next
+                                </button>
+                            </div>
+
                         </div>
 
                     </div>
