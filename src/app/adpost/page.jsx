@@ -399,32 +399,29 @@ const AdPost = () => {
                 <div className="adPost-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
-                                {/* <div className="">
+                                <div className="">
                                     <h1 className="text-white">Ad Post</h1>
                                     <h3 className="text-white">
                                         Home
                                         <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i>
                                         Ad Post
                                     </h3>
-                                </div> */}
-
-                                <div className="">
-                                    <button
-                                        onClick={() => router.back()} // 🔹 navigate to previous page
-                                        className="btn btn-light mb-2"
-                                    >
-                                        <i className="fa-solid fa-arrow-left me-2"></i> Back
-                                    </button>
-
-
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="">
-                        <div className="container my-5">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
+                    </div>
+                    <div className="">
+                        <div className="container mt-3 mb-5">
                             {!isSubmitted ? (
                                 <div className="row justify-content-center">
                                     <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span className="text-dd88cf">$20</span></h2>
@@ -524,12 +521,11 @@ const AdPost = () => {
                                                             </div>
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Mobile Number *</label>
-                                                                <div class="input-group mb-3">
-                                                                   
-                                                                    <span class="input-group-text">+1</span>
+                                                                <div className="input-group form-control p-0">
+                                                                    <span className="input-group-text">+1</span>
                                                                     <input
                                                                         type="number"
-                                                                        className="form-control"
+                                                                        className="form-control border-0 border-start"
                                                                         placeholder="Enter Mobile Number"
                                                                         name="phone"
                                                                         value={formData.phone}
@@ -537,7 +533,6 @@ const AdPost = () => {
                                                                         required
                                                                     />
                                                                 </div>
-                                                               
                                                                 {errors.phone && <p className='input-errormsg'>{errors.phone}</p>}
                                                             </div>
                                                             <div className="col-md-6 mb-3">
@@ -608,10 +603,10 @@ const AdPost = () => {
                                                             {/* Weight */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Weight</label>
-                                                                <div className="input-group">
+                                                                <div className="input-group form-control p-0">
                                                                     <input
                                                                         type="text"
-                                                                        className="form-control"
+                                                                        className="form-control border-0 border-end"
                                                                         placeholder="Enter weight"
                                                                         value={formData.weight.replace(/(kg|pounds)$/, "")}
                                                                         onChange={(e) => {

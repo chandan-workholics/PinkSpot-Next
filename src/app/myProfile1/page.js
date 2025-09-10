@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import MasonryGallery from '../components/masonryGallery/page'
 import { useParams } from 'next/navigation'
@@ -10,6 +11,7 @@ import 'swiper/css/pagination';
 import ProtectedRoute from '../Common_Method/protectedroute';
 
 const MyProfile1 = () => {
+     const router = useRouter();
     const [posts, setPosts] = useState(null);
     const [data, setData] = useState([]);
     const { slug } = useParams();
@@ -63,7 +65,7 @@ const MyProfile1 = () => {
             <div className="container-fluid p-0">
                 <div className="profile-page">
                     <div className='home-banner'>
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">Single Profile</h1>
@@ -72,7 +74,15 @@ const MyProfile1 = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                    </div>
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
                     </div>
                     <section className="container my-5">
                         <div className="row">

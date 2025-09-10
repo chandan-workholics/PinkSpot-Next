@@ -362,7 +362,7 @@ const HomePage = () => {
                     <div className="home-section4">
                         <section className="container mb-5 mt-3">
                             <div className="row align-items-center">
-                                <div className="col-lg-5 mb-4 mb-lg-0 mx-auto" data-aos="fade-right" data-aos-duration="1800">
+                                <div className="col-lg-5 mb-lg-0 mx-auto" data-aos="fade-right" data-aos-duration="1800">
                                     <div className=" text-center">
                                         <img src={logo.src} alt="" className="" style={{ width: '271px' }} />
                                     </div>
@@ -372,11 +372,14 @@ const HomePage = () => {
                                     <p className='text-center'>
                                         A secure, discreet platform featuring verified listings you can trust.
                                     </p>
-                                    <ul>
-                                        <li>Fake or suspicious ads removed promptly.</li>
-                                        <li>Transparent, fair pricing for posting listings.</li>
-                                        <li>Canada’s fastest-growing female escort directory.</li>
-                                    </ul>
+                                    <div className="d-flex justify-center-center">
+                                        <ul className='mx-auto'>
+                                            <li>Fake or suspicious ads removed promptly.</li>
+                                            <li>Transparent, fair pricing for posting listings.</li>
+                                            <li>Canada’s fastest-growing female escort directory.</li>
+                                        </ul>
+                                    </div>
+
                                     <div className="d-flex">
                                         <Link href='/allCategory' className="mx-auto btn bg-dd88cf text-white">
                                             Search ads <span>&raquo;</span>

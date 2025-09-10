@@ -236,6 +236,8 @@ a {
 
 
 .header {
+  border-bottom: 1px solid #dd88cf !important;
+
   .navbar-brand img {
     width: 165px;
     padding: 0;
@@ -556,7 +558,7 @@ a {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .box {
     width: 100%;
     height: auto;
@@ -619,12 +621,13 @@ a {
 
   .home-banner {
     width: 100%;
-    height: 40vh;
-    background-image: url(../../public/images/bannerImg.jpg);
-    background-position: center;
+    /* height: 40vh; */
+    /* background-image: url(../../public/images/bannerImg.jpg); */
+    /* background-position: center;
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: currentColor;
 
     .header .navbar .nav-item .nav-link {
       color: #FFFFFF;
@@ -656,7 +659,7 @@ a {
     }
 
     .banner-content {
-      height: 30vh;
+      /* height: 30vh; */
       display: flex;
       justify-content: left;
       align-items: center;
@@ -821,12 +824,13 @@ a {
 
   .home-banner {
     width: 100%;
-    height: 40vh;
+    /* height: 40vh;
     background-image: url(../../public/images/bannerImg.jpg);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: currentColor;
 
     .header .navbar .nav-item .nav-link {
       color: #FFFFFF;
@@ -858,7 +862,7 @@ a {
     }
 
     .banner-content {
-      height: 30vh;
+      /* height: 30vh; */
       display: flex;
       justify-content: left;
       align-items: center;
@@ -1336,12 +1340,13 @@ a {
 
   .home-banner {
     width: 100%;
-    height: 40vh;
+    /* height: 40vh;
     background-image: url(../../public/images/bannerImg.jpg);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: currentColor;
 
     .header .navbar .nav-item .nav-link {
       color: #FFFFFF;
@@ -1373,7 +1378,7 @@ a {
     }
 
     .banner-content {
-      height: 30vh;
+      /* height: 30vh; */
       display: flex;
       justify-content: left;
       align-items: center;
@@ -1526,7 +1531,7 @@ a {
   }
 
   .step.active .step-label {
-    color: #dd88cf;
+    color: #dd88cf !important;
     font-weight: bold;
   }
 
@@ -2189,12 +2194,13 @@ a {
 
   .home-banner {
     width: 100%;
-    height: 40vh;
+    /* height: 40vh;
     background-image: url(../../public/images/bannerImg.jpg);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: currentColor;
 
     .header .navbar .nav-item .nav-link {
       color: #FFFFFF;
@@ -2226,7 +2232,7 @@ a {
     }
 
     .banner-content {
-      height: 30vh;
+      /* height: 30vh; */
       display: flex;
       justify-content: left;
       align-items: center;
@@ -2248,7 +2254,7 @@ a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    grid-gap: 60px;
+    /* grid-gap: 60px; */
   }
 
   .contentLeft,
@@ -2411,12 +2417,13 @@ a {
 
   .home-banner {
     width: 100%;
-    height: 40vh;
+    /* height: 40vh;
     background-image: url(../../public/images/bannerImg.jpg);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: currentColor;
 
     .header .navbar .nav-item .nav-link {
       color: #FFFFFF;
@@ -2448,7 +2455,7 @@ a {
     }
 
     .banner-content {
-      height: 30vh;
+      /* height: 30vh; */
       display: flex;
       justify-content: left;
       align-items: center;

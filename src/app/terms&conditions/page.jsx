@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import { useRouter } from "next/navigation";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import Link from 'next/link';
 import Head from "next/head";
 
-const term = () => {    
+const term = () => {
+    const router = useRouter();
     const canonicalUrl = `https://pinkspot.cc/terms&conditions/`;
 
     const [seo, setSeo] = useState();
@@ -47,7 +49,7 @@ const term = () => {
                     <div className="terms-page">
                         <div className='home-banner'>
                             <Header className="position-absolute w-100" />
-                            <div className="container">
+                            {/* <div className="container">
                                 <div className="banner-content text-start">
                                     <div className="">
                                         <h1 className="text-white">Terms & Conditions</h1>
@@ -56,8 +58,17 @@ const term = () => {
                                         </h3>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
+                        <div className="">
+                            <button
+                                onClick={() => router.back()} // 🔹 navigate to previous page
+                                className="btn btn-light shadow-sm m-3"
+                            >
+                                <i className="fa-solid fa-arrow-left me-2"></i> Back
+                            </button>
+                        </div>
+
                         <div className="py-5">
                             <div className='container mt-3'>
                                 <div className='row'>

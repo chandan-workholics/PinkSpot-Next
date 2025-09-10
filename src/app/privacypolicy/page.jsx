@@ -1,24 +1,26 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import { useRouter } from "next/navigation";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import Link from 'next/link';
 import Head from "next/head";
 
 const term = () => {
+    const router = useRouter();
     const [seo, setSeo] = useState();
     const canonicalUrl = `https://pinkspot.cc/privacypolicy/`;
     const ogImage = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png";
 
     const getseodetail = () => {
-    fetch(`https://pinkspot.cc/api/v1/pages/getPageById/653251a1efe8c2f29fdce87d`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSeo(data?.data || {});
-      })
-      .catch((err) => console.error("SEO fetch error:", err));
-  };
+        fetch(`https://pinkspot.cc/api/v1/pages/getPageById/653251a1efe8c2f29fdce87d`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSeo(data?.data || {});
+            })
+            .catch((err) => console.error("SEO fetch error:", err));
+    };
     useEffect(() => {
         getseodetail();
     }, []);
@@ -66,7 +68,7 @@ const term = () => {
                 <meta
                     name="twitter:description"
                     content={
-                        seo?.seodescription ||"Read PinkSpot's privacy policy to understand how we handle your personal data."
+                        seo?.seodescription || "Read PinkSpot's privacy policy to understand how we handle your personal data."
                     }
                 />
                 <meta name="twitter:image" content={seo?.seoimageurl || ogImage} />
@@ -100,7 +102,7 @@ const term = () => {
                     <div className="terms-page">
                         <div className='home-banner'>
                             <Header className="position-absolute w-100" />
-                            <div className="container">
+                            {/* <div className="container">
                                 <div className="banner-content text-start">
                                     <div className="">
                                         <h1 className="text-white">Privacy Policy</h1>
@@ -109,8 +111,17 @@ const term = () => {
                                         </h3>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
+                        <div className="">
+                            <button
+                                onClick={() => router.back()} // 🔹 navigate to previous page
+                                className="btn btn-light shadow-sm m-3"
+                            >
+                                <i className="fa-solid fa-arrow-left me-2"></i> Back
+                            </button>
+                        </div>
+
                         <div className="py-5">
                             <div className='container mt-3'>
                                 <div className='row'>

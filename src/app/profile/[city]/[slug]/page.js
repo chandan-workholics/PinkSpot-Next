@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import Image from 'next/image';
 import MasonryGallery from '../../../components/masonryGallery/page'
-import { useParams } from 'next/navigation'
+import { useParams,useRouter } from 'next/navigation'
 import callAPI, { interceptor } from '../../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -13,6 +13,7 @@ import Head from 'next/head';
 import SwiperPage from '../../../components/Swiper/page'
 
 const Profile = () => {
+    const router = useRouter();
     const [posts, setPosts] = useState(null);
     const { slug } = useParams();
     const [active, setActive] = useState();
@@ -127,7 +128,7 @@ const Profile = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">User Profile</h1>
@@ -136,7 +137,15 @@ const Profile = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                    </div>
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
                     </div>
 
                     <section className="container my-5">

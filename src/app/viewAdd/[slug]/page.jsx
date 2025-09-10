@@ -5,13 +5,14 @@ import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import Image from 'next/image';
 import MasonryGallery from '../../components/masonryGallery/page'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import callAPI, { interceptor } from '../../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import SwiperPage from '../../components/Swiper/page'
 
 const ViewAdd = () => {
+    const router = useRouter();
     const [posts, setPosts] = useState(null);  
     const [data, setData] = useState([]);
     const [urlpath, SetUrlpath] = useState("");
@@ -67,7 +68,7 @@ const ViewAdd = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <h1 className="text-white">Single Profile</h1>
                                 <h3 className="text-white">
@@ -76,7 +77,15 @@ const ViewAdd = () => {
                                     Single Profile
                                 </h3>
                             </div>
-                        </div>
+                        </div> */}
+                    </div>
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
                     </div>
 
                     <section className="container my-5">

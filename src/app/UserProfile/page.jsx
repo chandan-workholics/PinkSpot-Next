@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import Link from 'next/link'
 import Footer from '../components/footer/Footer';
 import Header from '../components/header/Header';
@@ -9,7 +10,6 @@ import NoImg from '../../../public/images/no-img.png';
 import profileImg from "../../../public/images/pro-img.png";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import callAPI from '../Common_Method/api';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -19,11 +19,11 @@ const UserProfile = () => {
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
 
+    const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
     const [posts, Setposts] = useState([{}]);
     const [showModal, setShowModal] = useState(false);
     const [myProfile, setMyProfile] = useState('');
-    const router = useRouter();
     const usertoken = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
     const [users, setUsers] = useState([]);
@@ -226,7 +226,7 @@ const UserProfile = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">User Profile</h1>
@@ -235,9 +235,18 @@ const UserProfile = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <section className="container my-5">
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
+                    </div>
+
+                    <section className="container mt-3 mb-5">
                         <div className="row">
                             {/* Left Profile Card */}
                             <div className="col-lg-4">

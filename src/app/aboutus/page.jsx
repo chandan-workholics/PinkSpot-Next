@@ -1,4 +1,7 @@
+"use client"
+
 import React from 'react'
+import { useRouter } from "next/navigation";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import logo from '../../../public/images/pink-logo.png'
@@ -24,6 +27,8 @@ const canonicalUrl = `https://pinkspot.cc/aboutus/`;
 const OG_IMAGE = `https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png`;
 
 const aboutus = () => {
+    const router = useRouter();
+
     return (
         <>
             <Head>
@@ -104,16 +109,24 @@ const aboutus = () => {
                             <Header className="position-absolute w-100" />
                             <div className="container">
                                 <div className="banner-content text-start">
-                                    <div className="">
+                                    {/* <div className="">
                                         <h1 className="text-white">About Us</h1>
                                         <h3 className="text-white">
                                             Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> About Us
                                         </h3>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
-                        <div className="py-5">
+                        <div className="">
+                            <button
+                                onClick={() => router.back()} // 🔹 navigate to previous page
+                                className="btn btn-light shadow-sm m-3"
+                            >
+                                <i className="fa-solid fa-arrow-left me-2"></i> Back
+                            </button>
+                        </div>
+                        <div className="pb-5">
                             <div className="about-container container pb-lg-5 text-center text-lg-start">
                                 <div className="contentLeft">
                                     {/* <div className="row mx-auto text-center">

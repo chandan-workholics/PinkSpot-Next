@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Head from "next/head";
 import Footer from "../components/footer/Footer";
@@ -10,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 
 
 const AllCategoryClient = () => {
-
+    const router = useRouter();
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
@@ -143,7 +144,7 @@ const AllCategoryClient = () => {
                 <div className="category-page bg-ffdef7">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">All Category</h1>
@@ -152,10 +153,18 @@ const AllCategoryClient = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <div className="container py-5 filterSection">
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
+                    </div>
 
+                    <div className="container pt-3 pb-5 filterSection">
                         <div className="p-2 mb-5 rounded-5 border-0 shadow-lg w-100">
                             <div className="bg-4b164c rounded-5 p-4">
                                 <div className="row">
@@ -316,10 +325,18 @@ const AllCategoryClient = () => {
                                                         <img src={val.image1} alt="Img" />
                                                     </div>
                                                     <div className="card-text" style={{ overflow: "hidden" }}>
+                                                        <div className="d-flex mb-2">
+                                                            <h6 className="mb-0 px-2 py-1 bg-4b164c text-white rounded-1">Escort</h6>
+                                                        </div>
                                                         <h5 className="fw-bold">{val?.name}</h5>
-                                                        <h6>
+                                                        <h6 className="text-capitalize">
                                                             <i className="fa-solid fa-house me-1"></i>
                                                             {val?.city}, {val?.provincesid?.name}
+                                                        </h6>
+                                                        {/* <h6>{val?.age}</h6> */}
+                                                        <h6 className="mt-4" style={{ height: '95px', overflow: 'hidden' }}>
+                                                            <i className="fa-solid fa-tags me-1"></i>
+                                                            {val?.title}
                                                         </h6>
                                                     </div>
                                                 </Link>
@@ -370,13 +387,13 @@ const AllCategoryClient = () => {
                             </div>
 
                             {/* Pagination */}
-                            <div className="pagination d-flex justify-content-center mt-4">
+                            {/* <div className="pagination d-flex justify-content-center mt-4">
                                 <button
                                     className="btn btn-secondary mx-1"
                                     onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                                     disabled={currentPage === 1}
                                 >
-                                    Prev
+                                    <i class="fa-solid fa-angle-left"></i>
                                 </button>
 
                                 {[...Array(totalPages)].map((_, i) => (
@@ -394,9 +411,69 @@ const AllCategoryClient = () => {
                                     onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                                     disabled={currentPage === totalPages}
                                 >
-                                    Next
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </button>
+                            </div> */}
+
+                            <div className="pagination d-flex justify-content-center mt-4">
+                                {/* Prev Button */}
+                                <button
+                                    className="btn btn-secondary mx-1"
+                                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    <i className="fa-solid fa-angle-left"></i>
+                                </button>
+
+                                {/* Pages */}
+                                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                    .filter((page) => {
+                                        // ✅ Show first 2 and last 2 pages always
+                                        if (page <= 2 || page > totalPages - 2) return true;
+                                        // ✅ Show current, previous and next page
+                                        if (page >= currentPage - 1 && page <= currentPage + 1) return true;
+                                        return false;
+                                    })
+                                    .map((page, idx, arr) => {
+                                        // ✅ Add "..." if there is a gap
+                                        const prevPage = arr[idx - 1];
+                                        if (idx > 0 && page - prevPage > 1) {
+                                            return (
+                                                <React.Fragment key={page}>
+                                                    <span className="mx-1">...</span>
+                                                    <button
+                                                        className={`btn mx-1 ${currentPage === page ? "active btn-primary" : "btn-outline-primary"
+                                                            }`}
+                                                        onClick={() => setCurrentPage(page)}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                </React.Fragment>
+                                            );
+                                        }
+
+                                        return (
+                                            <button
+                                                key={page}
+                                                className={`btn mx-1 ${currentPage === page ? "active btn-primary" : "btn-outline-primary"
+                                                    }`}
+                                                onClick={() => setCurrentPage(page)}
+                                            >
+                                                {page}
+                                            </button>
+                                        );
+                                    })}
+
+                                {/* Next Button */}
+                                <button
+                                    className="btn btn-secondary mx-1"
+                                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    <i className="fa-solid fa-angle-right"></i>
                                 </button>
                             </div>
+
 
                         </div>
 

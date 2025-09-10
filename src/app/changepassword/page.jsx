@@ -50,7 +50,7 @@ const UserProfile = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">Change Password</h1>
@@ -59,8 +59,17 @@ const UserProfile = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
+                    </div>
+
                     <div className="container my-5 px-4">
                         <div className="row shadow-lg bg-white rounded-5">
 

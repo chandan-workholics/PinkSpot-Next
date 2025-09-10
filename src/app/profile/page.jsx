@@ -7,7 +7,7 @@ import Image from 'next/image';
 import MasonryGallery from '../components/masonryGallery/page';
 import profileImg from "../../../public/images/pro-img.png";
 import callAPI, { interceptor } from '../Common_Method/api';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -16,6 +16,7 @@ import Head from 'next/head';
 import SwiperPage from '../components/Swiper/page';
 
 const Profile = () => {
+    const router = useRouter();
     const { slug } = useParams();
     const [posts, setPosts] = useState([]);
     const [urlpath, SetUrlpath] = useState("");
@@ -113,7 +114,7 @@ const Profile = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        <div className="container">
+                        {/* <div className="container">
                             <div className="banner-content text-start">
                                 <div className="">
                                     <h1 className="text-white">Single Profile</h1>
@@ -122,7 +123,15 @@ const Profile = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                    </div>
+                    <div className="">
+                        <button
+                            onClick={() => router.back()} // 🔹 navigate to previous page
+                            className="btn btn-light shadow-sm m-3"
+                        >
+                            <i className="fa-solid fa-arrow-left me-2"></i> Back
+                        </button>
                     </div>
                     <section className="container my-5">
                         <div className="row">
