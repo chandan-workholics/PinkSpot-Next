@@ -249,7 +249,7 @@ const AllCategoryClient = () => {
                                                 </select>
                                             </div>
 
-                                            <div className="col-md-6 position-relative mb-3">
+                                            {/* <div className="col-md-6 position-relative mb-3">
                                                 <span className="arrow-span">
                                                     <i className="fa-solid fa-angle-down text-white"></i>
                                                 </span>
@@ -264,7 +264,7 @@ const AllCategoryClient = () => {
                                                     <option value="false">No</option>
                                                 </select>
 
-                                            </div>
+                                            </div> */}
                                             <div className="col-md-12">
                                                 <button
                                                     className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-2 py-2 px-4"

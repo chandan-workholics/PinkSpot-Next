@@ -51,7 +51,7 @@ const Header = () => {
                                 <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 text-capitalize me-0'>Log in/ Sign up</button>
                             ) : (<></>)}
                             <button className="btn d-block d-lg-none me-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                                <i class="fa-solid fa-bars text-dd88cf fs-1"></i>
+                                <i className="fa-solid fa-bars text-dd88cf fs-1"></i>
                             </button>
                         </div>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">

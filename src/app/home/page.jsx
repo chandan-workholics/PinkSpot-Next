@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head';
 import noImg from "../../../public/images/no-img.png";
+import logo from "../../../public/images/pink-logo.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -359,18 +360,25 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className="home-section4">
-                        <section className="container my-5">
+                        <section className="container mb-5 mt-3">
                             <div className="row align-items-center">
-                                <div className="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1800">
-                                    <h2 className="fw-bold text-center text-lg-start">
+                                <div className="col-lg-5 mb-4 mb-lg-0 mx-auto" data-aos="fade-right" data-aos-duration="1800">
+                                    <div className=" text-center">
+                                        <img src={logo.src} alt="" className="" style={{ width: '271px' }} />
+                                    </div>
+                                    <h2 className="fw-bold text-center">
                                         <span className="text-4b164c">Trusted, Verified, Discreet</span>
                                     </h2>
-                                    <p className='text-center text-lg-start'>
-                                        We link clients with verified providers in a secure, discreet space.
-                                        Fake ads are removed quickly, and fair pricing keeps costs low without sacrificing quality.
+                                    <p className='text-center'>
+                                        A secure, discreet platform featuring verified listings you can trust.
                                     </p>
+                                    <ul>
+                                        <li>Fake or suspicious ads removed promptly.</li>
+                                        <li>Transparent, fair pricing for posting listings.</li>
+                                        <li>Canada’s fastest-growing female escort directory.</li>
+                                    </ul>
                                     <div className="d-flex">
-                                        <Link href='/allCategory' className="mx-auto ms-lg-0 btn bg-dd88cf text-white">
+                                        <Link href='/allCategory' className="mx-auto btn bg-dd88cf text-white">
                                             Search ads <span>&raquo;</span>
                                         </Link>
                                     </div>
@@ -416,8 +424,11 @@ const HomePage = () => {
                         </section>
                     </div>
                     <div className="home-section5">
-                        {/* <h1>Gallery Images</h1> */}
-                        <section>
+                        <h2 className="fw-bold bg-white py-4 ps-3 mb-0">
+                            <span className="text-4b164c">Featured Ads</span>
+                        </h2>
+                        {/* <h1>Featured Ads</h1> */}
+                        {/* <section>
                             <div className="gallery gallery-left">
                                 <div className="left">
                                     {Array.isArray(posts?.data) &&
@@ -498,7 +509,76 @@ const HomePage = () => {
                                         ))}
                                 </div>
                             </div>
+
+                            <div className="gallery gallery-right">
+                                <div className="right">
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(18, 21).map((post, index) => (
+                                            <img
+                                                key={`right-top-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
+                                </div>
+                                <div className="right">
+                                    {Array.isArray(posts?.data) &&
+                                        posts.data.slice(21, 24).map((post, index) => (
+                                            <img
+                                                key={`right-bottom-${index}`}
+                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
+                                                className="box box1"
+                                                alt={`Gallery image ${index}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
+                                </div>
+                            </div>
+                        </section> */}
+                        <section>
+                            {Array.isArray(posts?.data) &&
+                                posts.data
+                                    .reduce((acc, post, index) => {
+                                        // Har 4 images ka ek group banayenge
+                                        if (index % 4 === 0) acc.push([]);
+                                        acc[acc.length - 1].push(post);
+                                        return acc;
+                                    }, [])
+                                    .map((group, gIndex) => {
+                                        // Gallery position cycle: left → left-center → right-center → right → repeat
+                                        const positions = [
+                                            "gallery-left",
+                                            "gallery-left-center",
+                                            "gallery-right-center",
+                                            "gallery-right",
+                                        ];
+                                        const posClass = positions[gIndex % positions.length];
+                                        const sideClass = posClass.split("-")[1]; // left, left-center, right-center, right
+
+                                        return (
+                                            <div key={`gallery-${gIndex}`} className={`gallery ${posClass}`}>
+                                                <div className={sideClass}>
+                                                    {group.map((post, index) => (
+                                                        <img
+                                                            key={`img-${gIndex}-${index}`}
+                                                            src={
+                                                                post?.image1 && post.image1.trim() !== ""
+                                                                    ? post.image1
+                                                                    : noImg.src
+                                                            }
+                                                            className="box box1"
+                                                            alt={`Gallery image ${gIndex}-${index}`}
+                                                            loading="lazy"
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                         </section>
+
 
                     </div>
                 </div>

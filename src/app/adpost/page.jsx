@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from 'next/image';
 import Footer from '../components/footer/Footer'
@@ -12,6 +13,7 @@ import cheersImg from "../../../public/images/cheersImg.png";
 import Link from 'next/link';
 
 const AdPost = () => {
+    const router = useRouter();
     const [category, setCategory] = useState('');
     const [subcategories, setSubcategories] = useState([]);
     const [images, setImages] = useState([]);
@@ -60,11 +62,15 @@ const AdPost = () => {
     const nextStep = () => {
         if (validateForm() && step < totalSteps) {
             setStep(step + 1);
+            window.scrollTo({ top: 0, behavior: "smooth" }); // ✅ scroll to top smoothly
         }
     };
 
     const prevStep = () => {
-        if (step > 1) setStep(step - 1);
+        if (step > 1) {
+            setStep(step - 1);
+            window.scrollTo({ top: 0, behavior: "smooth" }); // ✅ scroll to top smoothly
+        }
     };
 
     const handleShow = async () => {
@@ -395,13 +401,24 @@ const AdPost = () => {
                         <Header className="position-absolute w-100" />
                         <div className="container">
                             <div className="banner-content text-start">
-                                <div className="">
+                                {/* <div className="">
                                     <h1 className="text-white">Ad Post</h1>
                                     <h3 className="text-white">
                                         Home
                                         <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i>
                                         Ad Post
                                     </h3>
+                                </div> */}
+
+                                <div className="">
+                                    <button
+                                        onClick={() => router.back()} // 🔹 navigate to previous page
+                                        className="btn btn-light mb-2"
+                                    >
+                                        <i className="fa-solid fa-arrow-left me-2"></i> Back
+                                    </button>
+
+
                                 </div>
                             </div>
                         </div>
@@ -413,7 +430,7 @@ const AdPost = () => {
                                     <h2 className="text-center fw-bold text-4b164c mb-4">Start promoting your ad for just <span className="text-dd88cf">$20</span></h2>
 
                                     <div className="col-lg-6 d-flex align-items-center">
-                                        <img src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg" />
+                                        <img src={AdPostFormImg.src} alt="Profile" width={400} height={636} className="w-100 object-fit-contain adpost-leftImg d-none d-lg-block" />
                                     </div>
                                     <div className="col-lg-6 d-flex align-items-center">
                                         <div className="form-container w-100">
@@ -507,15 +524,20 @@ const AdPost = () => {
                                                             </div>
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Mobile Number *</label>
-                                                                <input
-                                                                    type="number"
-                                                                    className="form-control"
-                                                                    placeholder="e.g. 416 555 1234"
-                                                                    name="phone"
-                                                                    value={formData.phone}
-                                                                    onChange={handleChange}
-                                                                    required
-                                                                />
+                                                                <div class="input-group mb-3">
+                                                                   
+                                                                    <span class="input-group-text">+1</span>
+                                                                    <input
+                                                                        type="number"
+                                                                        className="form-control"
+                                                                        placeholder="Enter Mobile Number"
+                                                                        name="phone"
+                                                                        value={formData.phone}
+                                                                        onChange={handleChange}
+                                                                        required
+                                                                    />
+                                                                </div>
+                                                               
                                                                 {errors.phone && <p className='input-errormsg'>{errors.phone}</p>}
                                                             </div>
                                                             <div className="col-md-6 mb-3">
