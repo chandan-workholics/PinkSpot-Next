@@ -258,7 +258,7 @@ const HomePage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row mt-5">
+                                        <div className="row my-5">
                                             <div className="col-12 col-lg-8 col-xl-6 col-xxl-5 mx-auto">
                                                 <select
                                                     className="form-select form-select-lg filter-btn position-relative rounded-pill shadow-none border-secondary-subtle mb-3"
