@@ -67,6 +67,8 @@ const LoginClient = () => {
           sessionStorage.setItem("token", response.data.token);
           sessionStorage.setItem("userid", response.data.userdata._id);
           router.push("/adpost");
+        } else if (response.status === 403) {
+          toast.error("User not verified. Please Sign Up again for verification.")
         } else {
           toast.error("Invalid credentials");
         }
