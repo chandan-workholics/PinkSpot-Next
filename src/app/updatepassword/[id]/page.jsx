@@ -27,7 +27,7 @@ const page = () => {
         setMessage({ type: "", text: "" });
 
         try {
-            const res = await fetch(`http://206.189.130.102:4000/api/v1/users/updatepassword`, {
+            const res = await fetch(`https://pinkspot.cc/api/v1/users/updatepassword`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ password: data.password, resettoken: id }),
@@ -50,62 +50,62 @@ const page = () => {
 
     return (
         <div className="container-fluid bg-ffdef7 vh-100">
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="card rounded-4 shadow-lg p-4" style={{ maxWidth: "450px", width: "100%" }}>
-                <div className="text-center mb-4">
-                    <img
-                        src={logo.src}
-                        alt="Logo"
-                        style={{ width: "160px" }}
-                        className="mb-3"
-                    />
-                    <h4 className="fw-bold">Update Password</h4>
-                    <p className="text-muted">Enter your new password below</p>
+            <div className="container d-flex justify-content-center align-items-center min-vh-100">
+                <div className="card rounded-4 shadow-lg p-4" style={{ maxWidth: "450px", width: "100%" }}>
+                    <div className="text-center mb-4">
+                        <img
+                            src={logo.src}
+                            alt="Logo"
+                            style={{ width: "160px" }}
+                            className="mb-3"
+                        />
+                        <h4 className="fw-bold">Update Password</h4>
+                        <p className="text-muted">Enter your new password below</p>
+                    </div>
+
+                    {message.text && (
+                        <div className={`alert alert-${message.type}`} role="alert">
+                            {message.text}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label className="form-label">New Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                value={data.password}
+                                onChange={handleChange}
+                                required
+                                placeholder="Enter new password"
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label className="form-label">Confirm Password</label>
+                            <input
+                                type="password"
+                                name="copassword"
+                                className="form-control"
+                                value={data.copassword}
+                                onChange={handleChange}
+                                required
+                                placeholder="Confirm new password"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn bg-4b164c text-white w-100"
+                            disabled={loading}
+                        >
+                            {loading ? "Updating..." : "Update Password"}
+                        </button>
+                    </form>
                 </div>
-
-                {message.text && (
-                    <div className={`alert alert-${message.type}`} role="alert">
-                        {message.text}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">New Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            value={data.password}
-                            onChange={handleChange}
-                            required
-                            placeholder="Enter new password"
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Confirm Password</label>
-                        <input
-                            type="password"
-                            name="copassword"
-                            className="form-control"
-                            value={data.copassword}
-                            onChange={handleChange}
-                            required
-                            placeholder="Confirm new password"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="btn bg-4b164c text-white w-100"
-                        disabled={loading}
-                    >
-                        {loading ? "Updating..." : "Update Password"}
-                    </button>
-                </form>
             </div>
-        </div>
         </div>
     );
 };

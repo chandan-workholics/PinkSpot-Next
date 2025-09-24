@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://206.189.130.102:4000/api/v1/users/forgetpassword`, {
+      const response = await fetch(`https://pinkspot.cc/api/v1/users/forgetpassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
