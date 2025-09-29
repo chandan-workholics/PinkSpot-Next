@@ -373,7 +373,7 @@ const UserProfile = () => {
                                                             <div className="row g-0 align-items-center">
                                                                 {/* Image section */}
                                                                 <div className="col-md-3">
-                                                                    <Image
+                                                                    <img
                                                                         src={post.favouriteToPostid?.image1 || NoImg.src}
                                                                         alt="Profile"
                                                                         width={150}

@@ -16,10 +16,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import DisclaimerModal from '../components/DisclaimerModal/DisclaimerModal'
 import { useRouter } from 'next/navigation';
-import modelImg1 from "../../../public/images/m7.jpg";
-import modelImg2 from "../../../public/images/m2.jpg";
-import modelImg3 from "../../../public/images/m3.jpg";
-import modelImg4 from "../../../public/images/m4.jpg";
+
 
 const HomePage = () => {
     const router = useRouter();
@@ -117,15 +114,14 @@ const HomePage = () => {
         <>
             {/* SEO Meta Tags */}
             <Head>
+                {/* Canonical */}
                 <link rel="canonical" href={canonicalUrl} />
+
+                {/* Title & Description */}
                 <title>Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More</title>
                 <meta
                     name="description"
                     content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Enjoy safe, premium, and discreet connections."
-                />
-                <meta
-                    name="keywords"
-                    content="female escorts Canada, Toronto escorts, Edmonton escorts, verified escorts, premium adult services, discreet dating Canada, Pink Spot, adult companionship Toronto"
                 />
                 <meta name="author" content="Pink Spot" />
                 <meta name="robots" content="index, follow" />
@@ -137,6 +133,7 @@ const HomePage = () => {
                 <meta property="og:url" content={canonicalUrl} />
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en_CA" />
+                <meta property="og:site_name" content="Pinkspot.cc" />
 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -146,36 +143,49 @@ const HomePage = () => {
                 <meta name="twitter:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot." />
                 <meta name="twitter:image" content="https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png" />
 
-                {/* Performance Hints */}
+                {/* Performance */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <meta name="theme-color" content="#dd88cf" />
                 <link rel="icon" href="/favicon.ico" />
 
-                {/* Schema.org JSON-LD for Local Business */}
+                {/* JSON-LD Structured Data */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "LocalBusiness",
-                            name: "Pink Spot",
-                            url: "https://pinkspot.cc/",
-                            logo: "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png",
-                            description:
-                                "Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet.",
-                            address: {
-                                "@type": "PostalAddress",
-                                addressCountry: "CA"
+                        __html: JSON.stringify([
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "Organization",
+                                "name": "Pink Spot",
+                                "url": "https://pinkspot.cc/",
+                                "logo": "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png",
+                                "description": "Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet.",
+                                "sameAs": [
+                                    "https://facebook.com/pinkspot",
+                                    "https://instagram.com/pinkspot"
+                                ],
+                                "contactPoint": {
+                                    "@type": "ContactPoint",
+                                    "email": "support@pinkspot.cc",
+                                    "contactType": "Customer Support"
+                                }
                             },
-                            sameAs: [
-                                "https://facebook.com/pinkspot",
-                                "https://instagram.com/pinkspot"
-                            ]
-                        })
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "WebSite",
+                                "url": "https://pinkspot.cc/",
+                                "potentialAction": {
+                                    "@type": "SearchAction",
+                                    "target": "https://pinkspot.cc/search?query={search_term_string}",
+                                    "query-input": "required name=search_term_string"
+                                }
+                            }
+                        ])
                     }}
                 />
             </Head>
+
 
             <div className="container-fluid p-0">
                 <div className="home-page">
