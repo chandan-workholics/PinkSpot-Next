@@ -96,7 +96,7 @@ const ViewAdd = () => {
                                     {posts && (
                                         <div>
                                             <div className="profileHeader"></div>
-                                            <Image
+                                            <img
                                                 src={posts.image1}
                                                 alt="Profile"
                                                 className="profileImage"

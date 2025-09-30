@@ -31,7 +31,7 @@ const Footer = () => {
 
     // const handleSearch = async (city) => {
     //     try {
-    //         router.push(`/allCategory?city=${city}`);
+    //         router.push(`/search-escorts?city=${city}`);
     //     } catch (error) {
     //         console.error("Search failed", error);
     //     }
@@ -42,7 +42,7 @@ const Footer = () => {
 
     const handleSearch = async (city) => {
         try {
-            window.location.href = `/allCategory?city=${city}`;
+            window.location.href = `/search-escorts?city=${city}`;
         } catch (error) {
             console.error("Search failed", error);
         }

@@ -399,18 +399,7 @@ const AdPost = () => {
                 <div className="adPost-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        {/* <div className="container">
-                            <div className="banner-content text-start">
-                                <div className="">
-                                    <h1 className="text-white">Ad Post</h1>
-                                    <h3 className="text-white">
-                                        Home
-                                        <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i>
-                                        Ad Post
-                                    </h3>
-                                </div>
-                            </div>
-                        </div> */}
+
                     </div>
                     <div className="">
                         <button

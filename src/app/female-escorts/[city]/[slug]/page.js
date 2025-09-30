@@ -311,7 +311,7 @@ export async function generateMetadata({ params }) {
     const seoTitle = post.title ? `${post.title} - ${post.city || ""} | Pink Spot` : "Profile | Pink Spot";
     const seoDescription = post.description || "Discover amazing profiles on Pink Spot.";
     const seoImage = post.image || "/pink-logo.png";
-    const urlpath = `https://pinkspot.cc/profile/${city}/${slug}`;
+    const urlpath = `https://pinkspot.cc/female-escorts/${city}/${slug}`;
 
     return {
         title: seoTitle,

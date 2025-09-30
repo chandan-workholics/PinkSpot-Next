@@ -87,7 +87,7 @@ const HomePage = () => {
 
     const handleSearch = async () => {
         try {
-            router.push(`/allCategory?province=${filters.province}&city=${filters.city}`);
+            router.push(`/search-escorts?province=${filters.province}&city=${filters.city}`);
         } catch (error) {
             console.error("Search failed", error);
         }
@@ -191,16 +191,11 @@ const HomePage = () => {
                 <div className="home-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
+
                         <div className="container">
                             <div className="banner-content text-center">
                                 <div className="w-100">
                                     <div className="" data-aos="fade-up" data-aos-duration="1000">
-                                        {/* <h1 className="text-white">Welcome To
-                                            <span className="text-dd88cf"> Pink Spot</span><br />
-                                            Choose Your Vibe
-                                        </h1> */}
-                                        {/* <h3 className="text-white fw-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
-                                        <Link href="/allCategory" className='btn bg-dd88cf text-4b164c fw-semibold rounded-pill py-2 px-3 mt-5'>Get Started</Link> */}
 
                                         <div className="row position-relative my-5 d-block d-lg-none" style={{ height: "400px" }}>
                                             <div className="col-12">
@@ -251,7 +246,7 @@ const HomePage = () => {
                                                                                 <Link
                                                                                     className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
                                                                                     key={index}
-                                                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                                                    href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                                                 >
                                                                                     View More
                                                                                 </Link>
@@ -268,6 +263,7 @@ const HomePage = () => {
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="row my-5">
                                             <div className="col-12 col-lg-8 col-xl-6 col-xxl-5 mx-auto">
                                                 <select
@@ -302,11 +298,13 @@ const HomePage = () => {
                                                 </button>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="home-section3 bg-faedf8 py-5 d-none d-lg-block">
                         <div className="container">
                             <div className="row" data-aos="zoom-in-up" data-aos-duration="1000">
@@ -353,7 +351,7 @@ const HomePage = () => {
                                                         <Link
                                                             className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'
                                                             key={index}
-                                                            href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                            href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                         >
                                                             View More
                                                         </Link>
@@ -363,12 +361,13 @@ const HomePage = () => {
                                                 </div>
                                             </div>
                                         </SwiperSlide>
-                                    )) : <p>No posts available</p>}
+                                    )) : <p></p>}
                                 </Swiper>
                                 {/* Slider end */}
                             </div>
                         </div>
                     </div>
+
                     <div className="home-section4">
                         <section className="container mb-5 mt-3">
                             <div className="row align-items-center">
@@ -391,165 +390,21 @@ const HomePage = () => {
                                     </div>
 
                                     <div className="d-flex">
-                                        <Link href='/allCategory' className="mx-auto btn bg-dd88cf text-white">
+                                        <Link href='/search-escorts' className="mx-auto btn bg-dd88cf text-white">
                                             Search ads <span>&raquo;</span>
                                         </Link>
                                     </div>
                                 </div>
-                                {/* <div className="col-lg-7" data-aos="fade-left" data-aos-duration="2000">
-                                    <div className="row g-4">
-                                        <div className="col-md-6 d-flex align-items-center">
-                                            <div className="">
-                                                <div className="cardFeature">
-                                                    <i className="fa-solid fa-user-tie text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Verified Profiles</h5>
-                                                    <p>We prioritize authenticity. All providers go through a verification process to ensure genuine and trusted connections.</p>
-                                                </div>
-                                                <div className="cardFeature">
-                                                    <i className="fa-solid fa-comments text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Private Messaging</h5>
-                                                    <p>Connect securely through our built-in messaging system — your conversations remain 100% confidential.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 d-flex align-items-center">
-                                            <div className="">
-                                                <div className="cardFeature">
-                                                    <i className="fa-brands fa-web-awesome text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Premium Listings</h5>
-                                                    <p>Stand out from the crowd. Boost your profile visibility and attract more clients with featured placements.</p>
-                                                </div>
-                                                <div className="cardFeature active">
-                                                    <i className="fa-solid fa-user-shield text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Safety Assurance</h5>
-                                                    <p>Your security is our top priority — from encrypted data to anonymous browsing, we’ve got you covered.</p>
-                                                </div>
-                                                <div className="cardFeature">
-                                                    <i className="fa-solid fa-globe text-dd88cf fs-1 mb-2"></i>
-                                                    <h5 className="fw-bold">Find Nearby Providers</h5>
-                                                    <p>Easily explore verified escort services near your location across Canada, with advanced local search filters.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> */}
+
                             </div>
                         </section>
                     </div>
+
                     <div className="home-section5">
                         <h2 className="fw-bold bg-white py-4 ps-3 mb-0">
                             <span className="text-4b164c">Featured Ads</span>
                         </h2>
-                        {/* <h1>Featured Ads</h1> */}
-                        {/* <section>
-                            <div className="gallery gallery-left">
-                                <div className="left">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(0, 3).map((post, index) => (
-                                            <img
-                                                key={`left-top-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                                <div className="left">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(3, 6).map((post, index) => (
-                                            <img
-                                                key={`left-bottom-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                            </div>
 
-                            <div className="gallery gallery-center">
-                                <div className="center">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(6, 9).map((post, index) => (
-                                            <img
-                                                key={`center-top-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                                <div className="center">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(9, 12).map((post, index) => (
-                                            <img
-                                                key={`center-bottom-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                            </div>
-
-                            <div className="gallery gallery-right">
-                                <div className="right">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(12, 15).map((post, index) => (
-                                            <img
-                                                key={`right-top-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                                <div className="right">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(15, 18).map((post, index) => (
-                                            <img
-                                                key={`right-bottom-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                            </div>
-
-                            <div className="gallery gallery-right">
-                                <div className="right">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(18, 21).map((post, index) => (
-                                            <img
-                                                key={`right-top-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                                <div className="right">
-                                    {Array.isArray(posts?.data) &&
-                                        posts.data.slice(21, 24).map((post, index) => (
-                                            <img
-                                                key={`right-bottom-${index}`}
-                                                src={post?.image1 && post.image1.trim() !== "" ? post.image1 : noImg.src}
-                                                className="box box1"
-                                                alt={`Gallery image ${index}`}
-                                                loading="lazy"
-                                            />
-                                        ))}
-                                </div>
-                            </div>
-                        </section> */}
                         <section>
                             {Array.isArray(posts?.data) &&
                                 posts.data

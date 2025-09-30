@@ -86,7 +86,7 @@ const SwiperPage = () => {
                                                 <Link
                                                     className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
                                                     key={index}
-                                                    href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                    href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                 >
                                                     View More
                                                 </Link>

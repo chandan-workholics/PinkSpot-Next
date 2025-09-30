@@ -50,16 +50,7 @@ const UserProfile = () => {
                 <div className="profile-page">
                     <div className='home-banner'>
                         <Header className="position-absolute w-100" />
-                        {/* <div className="container">
-                            <div className="banner-content text-start">
-                                <div className="">
-                                    <h1 className="text-white">Change Password</h1>
-                                    <h3 className="text-white">
-                                        User Profile <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Change Password
-                                    </h3>
-                                </div>
-                            </div>
-                        </div> */}
+                      
                     </div>
                     <div className="">
                         <button

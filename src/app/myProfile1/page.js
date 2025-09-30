@@ -65,16 +65,7 @@ const MyProfile1 = () => {
             <div className="container-fluid p-0">
                 <div className="profile-page">
                     <div className='home-banner'>
-                        {/* <div className="container">
-                            <div className="banner-content text-start">
-                                <div className="">
-                                    <h1 className="text-white">Single Profile</h1>
-                                    <h3 className="text-white">
-                                        Home <i className="fa-solid fa-angle-right text-white mx-2 fs-6"></i> Single Profile
-                                    </h3>
-                                </div>
-                            </div>
-                        </div> */}
+                       
                     </div>
                     <div className="">
                         <button

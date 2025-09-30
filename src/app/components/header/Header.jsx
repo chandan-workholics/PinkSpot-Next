@@ -82,7 +82,7 @@ const Header = () => {
                                 {!isAuthenticated ? (
                                     <>
                                         <Link className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill me-3 py-2 px-3"
-                                            href="/allCategory?from=header">
+                                            href="/search-escorts?from=header">
                                             Search Escorts
                                         </Link>
                                         <button onClick={() => router.push("/login?mode=login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
@@ -91,7 +91,7 @@ const Header = () => {
                                 ) : (
                                     <>
                                         <Link className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill me-3 py-2 px-3"
-                                            href="/allCategory?from=header">
+                                            href="/search-escorts?from=header">
                                             Search Escorts
                                         </Link>
                                         <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3'>POST YOUR AD</button>
@@ -152,7 +152,7 @@ const Header = () => {
 
                                 <li className="nav-item d-none d-lg-block">
                                     <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill my-3 py-2 px-3 mb-3"
-                                        href="/allCategory?from=header">
+                                        href="/search-escorts?from=header">
                                         Search Escorts
                                     </CloseOffcanvasLink>
                                 </li>
@@ -187,7 +187,7 @@ const Header = () => {
                                         </li>
                                         <li className="nav-item d-block d-lg-none">
                                             <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill mt-3 py-2 px-3"
-                                                href="/allCategory?from=header">
+                                                href="/search-escorts?from=header">
                                                 Search Escorts
                                             </CloseOffcanvasLink>
                                         </li>

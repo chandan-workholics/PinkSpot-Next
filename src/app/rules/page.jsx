@@ -59,7 +59,7 @@ export default function RulesPage() {
 
           <div className="mt-5">
             <button
-            
+
               className="btn btn-light shadow-sm m-3"
             >
               <i className="fa-solid fa-arrow-left me-2"></i> Back
