@@ -2605,3 +2605,58 @@ a {
 }
 
 /* Subscription-Page - End */
+
+
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e0e0e0;
+  border-radius: 8px;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: shimmer 1.3s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.skeleton-img {
+  height: 220px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.skeleton-text {
+  height: 14px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-text.sm {
+  width: 40%;
+}
+
+.skeleton-text.md {
+  width: 60%;
+}
+
+.skeleton-text.lg {
+  width: 80%;
+}
