@@ -3,12 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Head from "next/head";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import filterImg from "../../../public/images/filterImg2.png";
 import { useSearchParams } from 'next/navigation';
-
 
 const AllCategoryClient = () => {
     const router = useRouter();
@@ -16,53 +14,26 @@ const AllCategoryClient = () => {
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
     const [loading, setLoading] = useState(true);
-    const [category, setCategory] = useState([]);
-    const [subcategory, setSubcategory] = useState([]);
-
     const [province, setProvince] = useState([]);
     const [city, setCity] = useState([]);
     const [ethicity, setEthicity] = useState([]);
-
     const [post, setPost] = useState([]);
-    const [seoData, setSeoData] = useState({});
+    const [totalPages, setTotalPages] = useState(1);
 
     const [filters, setFilters] = useState({
-        categoryid: '',
-        subcategoryid: '',
-        province: queryProvince || '',
-        city: queryCity || '',
-        ethicity: '',
-        isVerified: '',
+        categoryid: searchParams.get("categoryid") || '',
+        subcategoryid: searchParams.get("subcategoryid") || '',
+        province: searchParams.get("province") || '',
+        city: searchParams.get("city") || '',
+        ethicity: searchParams.get("ethicity") || '',
+        isVerified: searchParams.get("isVerified") || '',
     });
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const adsPerPage = 20;
+    const [currentPage, setCurrentPage] = useState(
+        Number(searchParams.get("page")) || 1
+    );
 
-    // Calculate indexes
-    const indexOfLastAd = currentPage * adsPerPage;
-    const indexOfFirstAd = indexOfLastAd - adsPerPage;
-    const currentAds = post.slice(indexOfFirstAd, indexOfLastAd);
-
-    const totalPages = Math.ceil(post.length / adsPerPage);
-
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [currentPage]);
-
-
-    const fetchCategory = async () => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
-        const result = await response.json();
-        setCategory(result?.data);
-    };
-
-    const fetchSubcategories = async (id) => {
-        const response = await fetch(
-            `https://pinkspot.cc/api/v1/category/getsubcategorybycatid/${id}`
-        );
-        const result = await response.json();
-        setSubcategory(result?.data);
-    };
+    useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [currentPage]);
 
     const fetchProvince = async () => {
         const response = await fetch(`https://pinkspot.cc/api/v1/getallprovince`);
@@ -84,34 +55,38 @@ const AllCategoryClient = () => {
     };
 
     const handleFilterChange = (field, value) => {
-        setFilters((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
-
-    const fetchSeoData = async () => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
-        const result = await response.json();
-        setSeoData(result?.data || {});
+        setFilters((prev) => ({ ...prev, [field]: value, }));
+        setCurrentPage(1); // ✅ MOST IMPORTANT
     };
 
     useEffect(() => {
-        fetchCategory();
         fetchEthnicity();
         fetchProvince();
-        fetchFilteredPosts();
-        fetchSeoData();
     }, []);
 
+    useEffect(() => {
+        fetchFilteredPosts(currentPage);
+    }, [currentPage, filters]);
+
+    useEffect(() => {
+        const params = new URLSearchParams();
+
+        params.set("page", currentPage);
+
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value) params.set(key, value);
+        });
+
+        window.history.replaceState(null, "", `?${params.toString()}`);
+    }, [filters, currentPage]);
 
     // Fetch posts (filtered or not)
-    const fetchFilteredPosts = async () => {
+    const fetchFilteredPosts = async (page = 1) => {
         try {
             setLoading(true);
 
             const response = await fetch(
-                `https://pinkspot.cc/api/v1/filter/getPostAdByCategoryfilterPagination`,
+                `https://pinkspot.cc/api/v1/filter/getPostAdByCategoryfilterPagination?page=${page}&limit=20`,
                 {
                     method: "POST",
                     headers: {
@@ -122,14 +97,16 @@ const AllCategoryClient = () => {
             );
 
             const result = await response.json();
+
             setPost(result?.data || []);
+            setTotalPages(result?.pagination?.totalPages || 1);
+
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
     };
-
     // Clear filters
     const handleClearFilters = () => {
         const cleared = {
@@ -140,24 +117,32 @@ const AllCategoryClient = () => {
             ethicity: '',
             isVerified: '',
         };
+
         setFilters(cleared);
-        fetchFilteredPosts();
+        setCurrentPage(1);
+
+        window.history.replaceState(null, "", "?page=1");
     };
 
-    const SkeletonCard = () => {
+    const SkeletonCard = ({ index }) => {
         return (
-            <div className="col-12 col-md-4 col-xl-3">
-                <div className="card mb-4">
-                    <div className="p-2">
-                        <div className="skeleton skeleton-img"></div>
+            <div
+                className="col-12 col-md-4 col-xl-3 skeleton-wrapper"
+                style={{ animationDelay: `${index * 0.1}s` }}
+            >
+                <div className="card skeleton-card">
 
-                        <div className="p-2">
-                            <div className="skeleton skeleton-text lg"></div>
-                            <div className="skeleton skeleton-text md"></div>
-                            <div className="skeleton skeleton-text sm"></div>
-                            <div className="skeleton skeleton-text lg"></div>
-                        </div>
+                    {/* Image */}
+                    <div className="skeleton skeleton-img"></div>
+
+                    {/* Content */}
+                    <div className="p-3">
+                        <div className="skeleton skeleton-title"></div>
+                        <div className="skeleton skeleton-line"></div>
+                        <div className="skeleton skeleton-line short"></div>
+                        <div className="skeleton skeleton-line"></div>
                     </div>
+
                 </div>
             </div>
         );
@@ -278,13 +263,15 @@ const AllCategoryClient = () => {
                             {/* Mobile View */}
                             <div className="row d-block d-md-none">
                                 {loading ? (
-                                    [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
-                                ) : currentAds.length > 0 ? (
-                                    currentAds.map((val, index) =>
+                                    [...Array(8)].map((_, i) => (
+                                        <SkeletonCard key={i} index={i} />
+                                    ))
+                                ) : post.length > 0 ? (
+                                    post.map((val, index) =>
                                         val.isActive ? (
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
-                                                    href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                    href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}?page=${currentPage}`}
                                                     className={`categeory-card ${val.highlight ? "highlight-box" : ""}`}
                                                 >
                                                     <div className="img-box">
@@ -319,9 +306,11 @@ const AllCategoryClient = () => {
                             {/* Desktop View */}
                             <div className="d-none-mobile row">
                                 {loading ? (
-                                    [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
-                                ) : currentAds.length > 0 ? (
-                                    currentAds.map((val, index) =>
+                                    [...Array(8)].map((_, i) => (
+                                        <SkeletonCard key={i} index={i} />
+                                    ))
+                                ) : post.length > 0 ? (
+                                    post.map((val, index) =>
                                         val.isActive ? (
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
@@ -359,7 +348,10 @@ const AllCategoryClient = () => {
                                 {/* Prev Button */}
                                 <button
                                     className="btn btn-secondary mx-1"
-                                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                    onClick={() => {
+                                        setCurrentPage(1);
+                                        fetchFilteredPosts(1);
+                                    }}
                                     disabled={currentPage === 1}
                                 >
                                     <i className="fa-solid fa-angle-left"></i>

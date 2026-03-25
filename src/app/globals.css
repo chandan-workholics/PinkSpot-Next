@@ -2608,55 +2608,113 @@ a {
 
 
 
+
+/* Wrapper animation (stagger effect) */
+.skeleton-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card styling */
+.skeleton-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.skeleton-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Base skeleton */
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #e0e0e0;
-  border-radius: 8px;
+  background: #ececec;
+  border-radius: 12px;
+  animation: pulse 2s ease-in-out infinite;
 }
 
+/* Shimmer layer */
 .skeleton::after {
   content: "";
   position: absolute;
   top: 0;
-  left: -150px;
+  left: -150%;
   height: 100%;
-  width: 150px;
+  width: 150%;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.6),
-    transparent
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 80%
   );
-  animation: shimmer 1.3s infinite;
+  animation: shimmerMove 1.5s infinite;
 }
 
-@keyframes shimmer {
+/* shimmer animation */
+@keyframes shimmerMove {
   100% {
-    transform: translateX(300%);
+    left: 150%;
   }
 }
 
+/* pulse animation */
+@keyframes pulse {
+  0% {
+    background-color: #ececec;
+  }
+  50% {
+    background-color: #f5f5f5;
+  }
+  100% {
+    background-color: #ececec;
+  }
+}
+
+/* Image */
 .skeleton-img {
-  height: 220px;
   width: 100%;
-  border-radius: 10px;
+  height: 240px;
+  border-radius: 16px 16px 0 0;
 }
 
-.skeleton-text {
-  height: 14px;
-  margin-top: 10px;
-  border-radius: 5px;
+/* Title */
+.skeleton-title {
+  height: 18px;
+  width: 70%;
+  margin-bottom: 12px;
 }
 
-.skeleton-text.sm {
-  width: 40%;
+/* Lines */
+.skeleton-line {
+  height: 12px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.skeleton-text.md {
+.skeleton-line.short {
   width: 60%;
 }
 
-.skeleton-text.lg {
-  width: 80%;
+/* Grid spacing fix */
+.box-detail .row {
+  gap: 20px 0;
+}
+
+/* Optional: better background */
+.category-page {
+  background: #fdf7fb;
 }
