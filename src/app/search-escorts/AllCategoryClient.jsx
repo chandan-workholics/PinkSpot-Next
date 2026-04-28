@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 
 const AllCategoryClient = ({ initialCity = null }) => {
     const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
     const queryCity = searchParams.get('city');
@@ -33,8 +34,22 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const [currentPage, setCurrentPage] = useState(
         Number(searchParams.get("page")) || 1
     );
+    const hasRestoredScroll = useRef(false);
 
-    useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [currentPage]);
+    const getScrollStorageKey = () => {
+        if (typeof window === "undefined") return "";
+        return `pinkspot-scroll:${window.location.pathname}${window.location.search}`;
+    };
+
+    const saveScrollPosition = () => {
+        if (typeof window === "undefined") return;
+        sessionStorage.setItem(getScrollStorageKey(), String(window.scrollY));
+    };
+
+    const scrollToTop = () => {
+        if (typeof window === "undefined") return;
+        window.scrollTo({ top: 0, behavior: "auto" });
+    };
 
     const fetchProvince = async () => {
         const response = await fetch(`https://pinkspot.cc/api/v1/getallprovince`);
@@ -68,6 +83,20 @@ const AllCategoryClient = ({ initialCity = null }) => {
     useEffect(() => {
         fetchFilteredPosts(currentPage);
     }, [currentPage, filters]);
+
+    useEffect(() => {
+        if (loading || hasRestoredScroll.current || typeof window === "undefined") return;
+
+        const savedScroll = sessionStorage.getItem(getScrollStorageKey());
+        if (savedScroll) {
+            window.requestAnimationFrame(() => {
+                window.scrollTo({ top: Number(savedScroll), behavior: "auto" });
+                sessionStorage.removeItem(getScrollStorageKey());
+            });
+        }
+
+        hasRestoredScroll.current = true;
+    }, [loading, pathname, searchParams]);
 
     // useEffect(() => {
     //     const params = new URLSearchParams();
@@ -159,8 +188,12 @@ const AllCategoryClient = ({ initialCity = null }) => {
 
         setFilters(cleared);
         setCurrentPage(1);
+        router.replace(initialCity ? `/female-escorts/${initialCity}` : `?page=1`);
+    };
 
-        window.history.replaceState(null, "", "?page=1");
+    const handlePageChange = (page) => {
+        scrollToTop();
+        setCurrentPage(page);
     };
 
     const citySlug = initialCity || filters.city;
@@ -373,6 +406,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                 <Link
                                                     // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}?page=${currentPage}`}
                                                     href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
+                                                    onClick={saveScrollPosition}
                                                     className={`categeory-card ${val.highlight ? "highlight-box" : ""}`}
                                                 >
                                                     <div className="img-box">
@@ -417,6 +451,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                 <Link
                                                     // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}`}
                                                     href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
+                                                    onClick={saveScrollPosition}
                                                 >
                                                     <div className={`card mb-4 ${val.highlight ? "highlight-box" : ""}`}>
                                                         <div className="card-box">
@@ -450,10 +485,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                 {/* Prev Button */}
                                 <button
                                     className="btn btn-secondary mx-1"
-                                    onClick={() => {
-                                        setCurrentPage(1);
-                                        fetchFilteredPosts(1);
-                                    }}
+                                    onClick={() => handlePageChange(1)}
                                     disabled={currentPage === 1}
                                 >
                                     <i className="fa-solid fa-angle-left"></i>
@@ -478,7 +510,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                     <button
                                                         className={`btn mx-1 ${currentPage === page ? "active btn-primary" : "btn-outline-primary"
                                                             }`}
-                                                        onClick={() => setCurrentPage(page)}
+                                                        onClick={() => handlePageChange(page)}
                                                     >
                                                         {page}
                                                     </button>
@@ -491,7 +523,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                 key={page}
                                                 className={`btn mx-1 ${currentPage === page ? "active btn-primary" : "btn-outline-primary"
                                                     }`}
-                                                onClick={() => setCurrentPage(page)}
+                                                onClick={() => handlePageChange(page)}
                                             >
                                                 {page}
                                             </button>
@@ -501,7 +533,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                 {/* Next Button */}
                                 <button
                                     className="btn btn-secondary mx-1"
-                                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                                    onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
                                     disabled={currentPage === totalPages}
                                 >
                                     <i className="fa-solid fa-angle-right"></i>

@@ -18,6 +18,9 @@ const ViewAdd = () => {
     const [urlpath, SetUrlpath] = useState("");
     const { slug } = useParams();
     const maxLength = 10;
+    const availabilityText = Array.isArray(posts?.availability)
+        ? posts.availability.join(", ")
+        : posts?.availability;
 
     const getPost = useCallback(async () => {
         try {
@@ -135,7 +138,7 @@ const ViewAdd = () => {
                                                 </tr>
                                                 <tr>
                                                     <td>Availability</td>
-                                                    <td>{posts.availability}</td>
+                                                    <td>{availabilityText}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Title</td>
@@ -156,7 +159,7 @@ const ViewAdd = () => {
                                 <div className="profileDetails">
                                     <h4>Myself Summary</h4>
                                     <hr />
-                                    <p>
+                                    <p style={{ whiteSpace: "pre-line" }}>
                                         {posts ? posts.description : "No description available."}
                                     </p>
                                 </div>

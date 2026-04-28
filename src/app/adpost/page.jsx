@@ -33,6 +33,8 @@ const AdPost = () => {
     const [step, setStep] = useState(1);
 
     const totalSteps = 3;
+    const [heightFeet, setHeightFeet] = useState("");
+    const [heightInches, setHeightInches] = useState("");
 
     const [formData, setFormData] = useState({
         postbyuserid: sessionStorage.getItem("userid") || "",
@@ -43,7 +45,7 @@ const AdPost = () => {
         city: "",
         provincesid: "",
         ethicity: "",
-        availability: "",
+        availability: [],
         bodystatus: "",
         phone: "",
         height: "",
@@ -58,6 +60,8 @@ const AdPost = () => {
         orderid: "",
         highlight: true,
     });
+
+    const formattedHeight = heightFeet && heightInches ? `${heightFeet}’${heightInches}”` : "";
 
     const nextStep = () => {
         if (validateForm() && step < totalSteps) {
@@ -135,11 +139,13 @@ const AdPost = () => {
                 highlight
             } = formData;
 
+            const availabilityValue = Array.isArray(availability) ? availability.join(", ") : availability;
+
             const emptyFieldsList = Object.entries({
-                category, subcategoryid, name, age, provincesid, city, availability, phone, title, description,
+                category, subcategoryid, name, age, provincesid, city, availability: availabilityValue, phone, title, description,
                 images: images && images.length > 0 ? images : null,
             })
-                .filter(([_, value]) => !value)
+                .filter(([_, value]) => Array.isArray(value) ? value.length === 0 : !value)
                 .map(([key]) => key);
 
             if (emptyFieldsList.length > 0) {
@@ -182,6 +188,8 @@ const AdPost = () => {
             // 🧾 Prepare final payload
             const payload = {
                 ...formData,
+                availability: availabilityValue,
+                height: formattedHeight,
                 ...imageFields,
                 images: undefined  // remove the array field
             };
@@ -236,6 +244,37 @@ const AdPost = () => {
             }));
         }
     };
+
+    const handleAvailabilityChange = (value) => {
+        setFormData((prevFormData) => {
+            const nextAvailability = prevFormData.availability.includes(value)
+                ? prevFormData.availability.filter((item) => item !== value)
+                : [...prevFormData.availability, value];
+
+            return {
+                ...prevFormData,
+                availability: nextAvailability,
+            };
+        });
+    };
+
+    const handleHeightChange = (part, value) => {
+        const sanitizedValue = value.replace(/\D/g, "");
+
+        if (part === "feet") {
+            setHeightFeet(sanitizedValue);
+            return;
+        }
+
+        setHeightInches(sanitizedValue);
+    };
+
+    useEffect(() => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            height: formattedHeight,
+        }));
+    }, [formattedHeight]);
 
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
@@ -304,16 +343,17 @@ const AdPost = () => {
 
 
             if (!formData.provincesid) tempErrors.provincesid = "Province is required";
-            if (!formData.availability) tempErrors.availability = "Availability is required";
+            if (!formData.availability.length) tempErrors.availability = "Availability is required";
 
-            // Height (only numbers and must end with "cm" or "inches")
-            if (formData.height && !/^\d+(cm|inches)$/.test(formData.height)) {
-                tempErrors.height = "Height must end with 'cm' or 'inches' (e.g. 170cm)";
+            if ((heightFeet || heightInches) && !(heightFeet && heightInches)) {
+                tempErrors.height = "Please enter both feet and inches";
+            } else if (heightInches && Number(heightInches) > 11) {
+                tempErrors.height = "Inches must be between 0 and 11";
             }
 
-            // Weight (only numbers and must end with "kg" or "pounds")
-            if (formData.weight && !/^\d+(kg|pounds)$/.test(formData.weight)) {
-                tempErrors.weight = "Weight must end with 'kg' or 'pounds' (e.g. 60kg)";
+            // Weight (only numbers and must end with "kg" or "lbs")
+            if (formData.weight && !/^\d+(kg|lbs)$/.test(formData.weight)) {
+                tempErrors.weight = "Weight must end with 'kg' or 'lbs' (e.g. 120lbs)";
             }
 
         } else if (step === 2) {
@@ -525,8 +565,26 @@ const AdPost = () => {
                                                                 {errors.phone && <p className='input-errormsg'>{errors.phone}</p>}
                                                             </div>
                                                             <div className="col-md-6 mb-3">
-                                                                <label className="form-label">Availability *</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Availability" name='availability' value={formData.availability} onChange={handleChange} required />
+                                                                <label className="form-label">
+                                                                    Availability * <span className="availability-helper">(Select all that apply)</span>
+                                                                </label>
+                                                                <div className="availability-options">
+                                                                    {["Incall", "Outcall", "Online"].map((option) => (
+                                                                        <div className="form-check availability-option" key={option}>
+                                                                            <input
+                                                                                className="form-check-input"
+                                                                                type="checkbox"
+                                                                                id={`availability-${option}`}
+                                                                                name="availability"
+                                                                                checked={formData.availability.includes(option)}
+                                                                                onChange={() => handleAvailabilityChange(option)}
+                                                                            />
+                                                                            <label className="form-check-label" htmlFor={`availability-${option}`}>
+                                                                                {option}
+                                                                            </label>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
                                                                 {errors.availability && <p className='input-errormsg'>{errors.availability}</p>}
                                                             </div>
                                                             <div className="col-md-6 mb-3">
@@ -553,39 +611,36 @@ const AdPost = () => {
                                                     <>
                                                         <div className="row">
                                                             <div className="col-md-6 mb-3">
-                                                                <label className="form-label">Body Status</label>
-                                                                <input type="text" className="form-control" placeholder="Enter Body Status" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
+                                                                <label className="form-label">Bust</label>
+                                                                <input type="text" className="form-control" placeholder="Enter Bust" value={formData.bodystatus} name='bodystatus' onChange={handleChange} />
                                                                 {errors.bodystatus && <p className='input-errormsg'>{errors.bodystatus}</p>}
                                                             </div>
                                                             {/* Height */}
                                                             <div className="col-md-6 mb-3">
                                                                 <label className="form-label">Height</label>
-                                                                <div className="input-group">
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control"
-                                                                        placeholder="Enter height"
-                                                                        value={formData.height.replace(/(cm|inches)$/, "")} // numeric only
-                                                                        onChange={(e) => {
-                                                                            const number = e.target.value.replace(/\D/g, ""); // keep only digits
-                                                                            const unit = formData.height.match(/(cm|inches)$/)?.[0] || "";
-                                                                            setFormData({ ...formData, height: number + unit });
-                                                                        }}
-                                                                        onKeyDown={allowOnlyNumbers}
-                                                                    />
-                                                                    <select
-                                                                        className="form-select"
-                                                                        style={{ width: "10px" }}
-                                                                        value={formData.height.match(/(cm|inches)$/)?.[0] || ""}
-                                                                        onChange={(e) => {
-                                                                            const number = formData.height.replace(/(cm|inches)$/, "");
-                                                                            setFormData({ ...formData, height: number + e.target.value });
-                                                                        }}
-                                                                    >
-                                                                        <option value="cm">cm</option>
-                                                                        <option value="inches">inches</option>
-                                                                    </select>
+                                                                <div className="row g-2">
+                                                                    <div className="col-6">
+                                                                        <input
+                                                                            type="text"
+                                                                            className="form-control"
+                                                                            placeholder="Feet"
+                                                                            value={heightFeet}
+                                                                            onChange={(e) => handleHeightChange("feet", e.target.value)}
+                                                                            onKeyDown={allowOnlyNumbers}
+                                                                        />
+                                                                    </div>
+                                                                    <div className="col-6">
+                                                                        <input
+                                                                            type="text"
+                                                                            className="form-control"
+                                                                            placeholder="Inches"
+                                                                            value={heightInches}
+                                                                            onChange={(e) => handleHeightChange("inches", e.target.value)}
+                                                                            onKeyDown={allowOnlyNumbers}
+                                                                        />
+                                                                    </div>
                                                                 </div>
+                                                                {formattedHeight && <small className="text-muted d-block mt-1">Format: {formattedHeight}</small>}
                                                                 {errors.height && <p className="input-errormsg">{errors.height}</p>}
                                                             </div>
 
@@ -597,15 +652,15 @@ const AdPost = () => {
                                                                         type="text"
                                                                         className="form-control border-0 border-end"
                                                                         placeholder="Enter weight"
-                                                                        value={formData.weight.replace(/(kg|pounds)$/, "")}
+                                                                        value={formData.weight.replace(/(kg|lbs)$/, "")}
                                                                         onChange={(e) => {
                                                                             const number = e.target.value.replace(/\D/g, "");
-                                                                            const unit = formData.weight.match(/(kg|pounds)$/)?.[0] || "";
+                                                                            const unit = formData.weight.match(/(kg|lbs)$/)?.[0] || "lbs";
                                                                             setFormData({ ...formData, weight: number + unit });
                                                                         }}
                                                                         onKeyDown={allowOnlyNumbers}
                                                                     />
-                                                                    <span className="input-group-text">pounds</span>
+                                                                    <span className="input-group-text">lbs</span>
                                                                 </div>
                                                                 {errors.weight && <p className="input-errormsg">{errors.weight}</p>}
                                                             </div>

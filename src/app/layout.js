@@ -42,24 +42,23 @@ export default function RootLayout({ children }) {
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           strategy="afterInteractive"
         />
+      </head>
 
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* ✅ Google Analytics (GA4) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-T3DBWTSQ48"
+          src="https://www.googletagmanager.com/gtag/js?id=G-T3DBWT5Q48"
           strategy="afterInteractive"
         />
-
         <Script id="ga4" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-T3DBWTSQ48');
+            gtag('config', 'G-T3DBWT5Q48');
           `}
         </Script>
-      </head>
 
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
     </html>

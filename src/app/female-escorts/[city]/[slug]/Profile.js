@@ -12,6 +12,9 @@ const Profile = ({ post }) => {
     const router = useRouter();
     const [posts, setPosts] = useState(post);
     const [active, setActive] = useState();
+    const availabilityText = Array.isArray(posts?.availability)
+        ? posts.availability.join(", ")
+        : posts?.availability;
 
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
@@ -130,7 +133,7 @@ const Profile = ({ post }) => {
                                             </tr>
                                             <tr>
                                                 <td>Availability</td>
-                                                <td>{posts.availability}</td>
+                                                <td>{availabilityText}</td>
                                             </tr>
                                             <tr>
                                                 <td>Title</td>
@@ -151,7 +154,7 @@ const Profile = ({ post }) => {
                             <div className="profileDetails">
                                 <h4>Myself Summary</h4>
                                 <hr />
-                                <p>
+                                <p style={{ whiteSpace: "pre-line" }}>
                                     {posts ? posts.description : "No description available."}
                                 </p>
                             </div>
