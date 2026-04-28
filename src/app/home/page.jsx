@@ -85,14 +85,54 @@ const HomePage = () => {
         }));
     };
 
+    // const handleSearch = async () => {
+    //     try {
+    //         router.push(`/search-escorts?province=${filters.province}&city=${filters.city}`);
+    //     } catch (error) {
+    //         console.error("Search failed", error);
+    //     }
+
+    // };
+
+
+    // const handleSearch = async () => {
+    //     try {
+    //         // ✅ CASE 1: city selected → SEO page
+    //         if (filters.city) {
+    //             router.push(`/female-escorts/${filters.city.toLowerCase()}`);
+    //         }
+    //         // ✅ CASE 2: only province selected → SEO page
+    //         else if (filters.province) {
+    //             // agar province name available hai to slug bana
+    //             // warna abhi id aa raha hai to mapping karni padegi
+    //             router.push(`/female-escorts/${filters.province}`);
+    //         }
+    //         // ✅ CASE 3: no filter → search page
+    //         else {
+    //             router.push(`/search-escorts?page=1`);
+    //         }
+    //     } catch (error) {
+    //         console.error("Search failed", error);
+    //     }
+    // };
+
+
+
     const handleSearch = async () => {
         try {
-            router.push(`/search-escorts?province=${filters.province}&city=${filters.city}`);
+            // ✅ Only city matters
+            if (filters.city) {
+                router.push(`/female-escorts/${filters.city?.toLowerCase().replace(/\s+/g, "-")}`);
+            }
+            // ❌ province → search page me hi rehne de
+            else {
+                router.push(`/search-escorts?page=1&province=${filters.province || ""}`);
+            }
         } catch (error) {
             console.error("Search failed", error);
         }
-
     };
+
 
     const fetchProvince = async () => {
         const response = await fetch(`https://pinkspot.cc/api/v1/getallprovince`);
@@ -118,17 +158,17 @@ const HomePage = () => {
                 <link rel="canonical" href={canonicalUrl} />
 
                 {/* Title & Description */}
-                <title>Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More</title>
+                <title>Female Escorts in Canada – Verified Ads | Pinkspot</title>
                 <meta
                     name="description"
-                    content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Enjoy safe, premium, and discreet connections."
+                    content="Explore verified female escort ads across Canada. Discreet, safe, and easy to browse. Find real companions in your city on Pinkspot."
                 />
                 <meta name="author" content="Pink Spot" />
                 <meta name="robots" content="index, follow" />
 
                 {/* Open Graph */}
-                <meta property="og:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
-                <meta property="og:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet." />
+                <meta property="og:title" content="Female Escorts in Canada – Verified Ads | Pinkspot" />
+                <meta property="og:description" content="Explore verified female escort ads across Canada. Discreet, safe, and easy to browse. Find real companions in your city on Pinkspot." />
                 <meta property="og:image" content="https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png" />
                 <meta property="og:url" content={canonicalUrl} />
                 <meta property="og:type" content="website" />
@@ -139,8 +179,8 @@ const HomePage = () => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:domain" content="pinkspot.cc" />
                 <meta name="twitter:url" content={canonicalUrl} />
-                <meta name="twitter:title" content="Pinkspot – Female Escorts in Canada | Toronto, Edmonton & More" />
-                <meta name="twitter:description" content="Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot." />
+                <meta name="twitter:title" content="Female Escorts in Canada – Verified Ads | Pinkspot" />
+                <meta name="twitter:description" content="Explore verified female escort ads across Canada. Discreet, safe, and easy to browse. Find real companions in your city on Pinkspot." />
                 <meta name="twitter:image" content="https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png" />
 
                 {/* Performance */}
@@ -160,7 +200,7 @@ const HomePage = () => {
                                 "name": "Pink Spot",
                                 "url": "https://pinkspot.cc/",
                                 "logo": "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png",
-                                "description": "Discover verified female escorts in Toronto, Edmonton, and across Canada with PinkSpot. Safe, premium, and discreet.",
+                                "description": "Explore verified female escort ads across Canada. Discreet, safe, and easy to browse. Find real companions in your city on Pinkspot.",
                                 "sameAs": [
                                     "https://facebook.com/pinkspot",
                                     "https://instagram.com/pinkspot"
@@ -246,7 +286,7 @@ const HomePage = () => {
                                                                                 <Link
                                                                                     className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'
                                                                                     key={index}
-                                                                                    href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                                                    href={`/female-escorts/${post?.city?.toLowerCase().replace(/\s+/g, "-")}/${post?.slug}`}
                                                                                 >
                                                                                     View More
                                                                                 </Link>
@@ -351,7 +391,7 @@ const HomePage = () => {
                                                         <Link
                                                             className='btn bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'
                                                             key={index}
-                                                            href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                            href={`/female-escorts/${post?.city?.toLowerCase().replace(/\s+/g, "-")}/${post?.slug}`}
                                                         >
                                                             View More
                                                         </Link>

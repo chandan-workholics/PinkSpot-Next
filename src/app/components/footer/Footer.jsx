@@ -40,9 +40,19 @@ const Footer = () => {
 
 
 
+    // const handleSearch = async (city) => {
+    //     try {
+    //         window.location.href = `/search-escorts?city=${city}`;
+    //     } catch (error) {
+    //         console.error("Search failed", error);
+    //     }
+    // };
+
+
     const handleSearch = async (city) => {
         try {
-            window.location.href = `/search-escorts?city=${city}`;
+            const citySlug = city?.toLowerCase().replace(/\s+/g, "-");
+            window.location.href = `/female-escorts/${citySlug}`;
         } catch (error) {
             console.error("Search failed", error);
         }

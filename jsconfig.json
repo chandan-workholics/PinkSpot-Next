@@ -7,22 +7,3 @@
   }
 }
 
-
-
-
-// {
-//   "compilerOptions": {
-//     "paths": {
-//       "@/*": ["./src/*"]
-//     }
-//   }
-// }
-
-// {
-//   "compilerOptions": {
-//     "baseUrl": "."
-//   },
-//   "include": [
-//     "src"
-//   ]
-// }

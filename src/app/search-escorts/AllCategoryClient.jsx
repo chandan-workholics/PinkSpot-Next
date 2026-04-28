@@ -8,7 +8,7 @@ import Header from "../components/header/Header";
 import filterImg from "../../../public/images/filterImg2.png";
 import { useSearchParams } from 'next/navigation';
 
-const AllCategoryClient = () => {
+const AllCategoryClient = ({ initialCity = null }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryProvince = searchParams.get('province');
@@ -24,7 +24,8 @@ const AllCategoryClient = () => {
         categoryid: searchParams.get("categoryid") || '',
         subcategoryid: searchParams.get("subcategoryid") || '',
         province: searchParams.get("province") || '',
-        city: searchParams.get("city") || '',
+        // city: searchParams.get("city") || '',
+        city: initialCity || searchParams.get("city") || '',
         ethicity: searchParams.get("ethicity") || '',
         isVerified: searchParams.get("isVerified") || '',
     });
@@ -68,7 +69,37 @@ const AllCategoryClient = () => {
         fetchFilteredPosts(currentPage);
     }, [currentPage, filters]);
 
+    // useEffect(() => {
+    //     const params = new URLSearchParams();
+
+    //     // params.set("page", currentPage);
+
+    //     if (!initialCity) {
+    //         params.set("page", currentPage);
+    //     }
+
+    //     Object.entries(filters).forEach(([key, value]) => {
+    //         if (value) params.set(key, value);
+    //     });
+
+    //     // window.history.replaceState(null, "", `?${params.toString()}`);
+
+
+    //     // if (!initialCity) {
+    //     //     window.history.replaceState(null, "", `?${params.toString()}`);
+    //     // }
+
+    //     if (!initialCity) {
+    //         router.replace(`?${params.toString()}`);
+    //     }
+
+    // }, [filters, currentPage]);
+
+
     useEffect(() => {
+        // ❌ city page pe mat chala
+        if (initialCity) return;
+
         const params = new URLSearchParams();
 
         params.set("page", currentPage);
@@ -77,8 +108,15 @@ const AllCategoryClient = () => {
             if (value) params.set(key, value);
         });
 
-        window.history.replaceState(null, "", `?${params.toString()}`);
+        router.replace(`?${params.toString()}`);
     }, [filters, currentPage]);
+
+    const formattedFilters = {
+        ...filters,
+        city: filters.city
+            ? filters.city.charAt(0).toUpperCase() + filters.city.slice(1)
+            : "",
+    };
 
     // Fetch posts (filtered or not)
     const fetchFilteredPosts = async (page = 1) => {
@@ -92,7 +130,8 @@ const AllCategoryClient = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(filters),
+                    // body: JSON.stringify(filters),
+                    body: JSON.stringify(formattedFilters),
                 }
             );
 
@@ -123,6 +162,22 @@ const AllCategoryClient = () => {
 
         window.history.replaceState(null, "", "?page=1");
     };
+
+    const citySlug = initialCity || filters.city;
+
+    const formattedCity = citySlug
+        ? citySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "";
+
+
+    useEffect(() => {
+        if (initialCity) {
+            setFilters((prev) => ({
+                ...prev,
+                city: initialCity,
+            }));
+        }
+    }, [initialCity]);
 
     const SkeletonCard = ({ index }) => {
         return (
@@ -166,6 +221,32 @@ const AllCategoryClient = () => {
                         </button>
                     </div>
 
+
+                    {/* 🔥 H1 + H2 SEO TEXT */}
+
+                    {/* 🔥 H1 + H2 SEO TEXT */}
+                    {/* {citySlug && (
+                        <div className="container text-center mt-4 mb-3">
+                            <h1 style={{ fontSize: "32px", fontWeight: "700", color: "#4b164c" }}>
+                                Female Escorts in {formattedCity} – Verified & Real Listings
+                            </h1>
+
+                            <p style={{ fontSize: "16px", color: "#4b164c" }}>
+                                Browse verified female escort ads across Canada.
+                            </p>
+                        </div>
+                    )} */}
+
+
+                    {citySlug && (
+                        <div className="container text-center mt-4 mb-3">
+                            <h1 style={{ fontSize: "32px", fontWeight: "700", color: "#4b164c" }}>
+                                Female Escorts in {formattedCity}
+                            </h1>
+                        </div>
+                    )}
+
+
                     <div className="container pt-3 pb-5 filterSection">
                         <div className="p-2 mb-5 rounded-5 border-0 shadow-lg w-100">
                             <div className="bg-4b164c rounded-5 p-4">
@@ -205,7 +286,18 @@ const AllCategoryClient = () => {
                                                     className="form-select filter-btn position-relative"
                                                     name="city"
                                                     value={filters.city}
-                                                    onChange={(e) => handleFilterChange('city', e.target.value)}
+                                                    // onChange={(e) => handleFilterChange('city', e.target.value)}
+
+                                                    onChange={(e) => {
+                                                        const selectedCity = e.target.value;
+
+                                                        handleFilterChange("city", selectedCity);
+
+                                                        if (selectedCity) {
+                                                            const citySlug = selectedCity.toLowerCase().replace(/\s+/g, "-");
+                                                            router.push(`/female-escorts/${citySlug}`);
+                                                        }
+                                                    }}
                                                 >
                                                     <option value="">City</option>
                                                     {city.map((val, index) => (
@@ -237,7 +329,15 @@ const AllCategoryClient = () => {
                                             <div className="col-md-12">
                                                 <button
                                                     className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-2 py-2 px-4"
-                                                    onClick={fetchFilteredPosts}
+                                                    // onClick={fetchFilteredPosts}
+                                                    onClick={() => {
+                                                        if (filters.city) {
+                                                            const citySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
+                                                            router.push(`/female-escorts/${citySlug}`);
+                                                        } else {
+                                                            fetchFilteredPosts();
+                                                        }
+                                                    }}
                                                 >
                                                     <i className="fa-solid fa-magnifying-glass me-1"></i>
                                                     Search
@@ -271,7 +371,8 @@ const AllCategoryClient = () => {
                                         val.isActive ? (
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
-                                                    href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}?page=${currentPage}`}
+                                                    // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}?page=${currentPage}`}
+                                                    href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
                                                     className={`categeory-card ${val.highlight ? "highlight-box" : ""}`}
                                                 >
                                                     <div className="img-box">
@@ -314,7 +415,8 @@ const AllCategoryClient = () => {
                                         val.isActive ? (
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
-                                                    href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                    // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}`}
+                                                    href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
                                                 >
                                                     <div className={`card mb-4 ${val.highlight ? "highlight-box" : ""}`}>
                                                         <div className="card-box">

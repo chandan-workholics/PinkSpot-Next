@@ -133,7 +133,7 @@ const nextConfig = {
     ],
   },
   output: "standalone",
-  trailingSlash: true,
+ trailingSlash: false,
   webpack: (config) => {
     config.cache = false;
     return config;

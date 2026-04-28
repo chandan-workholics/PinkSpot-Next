@@ -1,16 +1,19 @@
 // SERVER COMPONENT – handles SEO
 import AllCategory from "./AllCategory";
+import { redirect } from "next/navigation";
 
 const OG_IMAGE = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png";
 
 export async function generateMetadata({ params }) {
-    const { city } = params; // dynamic city from URL
+    const city = params.city?.toLowerCase();
 
-    const seoTitle = `${city ? city : "Search"} Escorts | Pinkspot.cc – Canada's Sex Worker-Owned Escort Directory`;
+    const formattedCity =
+        city?.charAt(0).toUpperCase() + city?.slice(1);
 
-    const seoDescription = `Discover top escorts in ${city} on Pinkspot.cc. Browse verified profiles and find your ideal match.`;
+    const seoTitle = `Female Escorts in ${formattedCity}`;
+    const seoDescription = `Browse Pinkspot’s female escort ads in ${formattedCity}`;
 
-    const urlpath = `https://pinkspot.cc/${city}-escorts`;
+    const urlpath = `https://pinkspot.cc/female-escorts/${city}`;
 
     return {
         title: seoTitle,
@@ -20,7 +23,7 @@ export async function generateMetadata({ params }) {
             title: seoTitle,
             description: seoDescription,
             url: urlpath,
-            type: "profile",
+            type: "website",
             images: [{ url: OG_IMAGE }]
         },
         twitter: {
@@ -33,5 +36,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Page({ params }) {
-    return <AllCategory params={params}/>;
+    return <AllCategory params={params} />;
 }
