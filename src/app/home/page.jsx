@@ -438,7 +438,7 @@ export default function HomePage() {
                   <Link className="pink-outline-button" href="/search-escorts"><i className="fa-solid fa-magnifying-glass"></i> Explore Listings</Link>
                 </div>
               </div>
-              <img src="/images/mascot-padded.png" alt="Pinkspot signup mascot" />
+              <img src="/images/mascot-final.png" alt="Pinkspot signup mascot" />
             </section>
 
             <section className="pink-section pink-popular">

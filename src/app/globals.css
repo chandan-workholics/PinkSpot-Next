@@ -3559,7 +3559,12 @@ a {
 
 .pink-about-card__logo {
   display: block;
+  width: min(300px, 86%) !important;
   margin: 42px auto 34px;
+}
+
+.pink-about-card .pink-divider {
+  width: min(260px, 86%);
 }
 
 .pink-divider--about {
@@ -5000,8 +5005,12 @@ a {
   }
 
   .pink-about-card__logo {
-    width: min(270px, 98%) !important;
+    width: min(232px, 86%) !important;
     margin: 32px auto 30px;
+  }
+
+  .pink-about-card .pink-divider {
+    width: min(230px, 84%);
   }
 
   .pink-about-card p {
