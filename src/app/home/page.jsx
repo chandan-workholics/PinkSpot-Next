@@ -10,17 +10,12 @@ import "swiper/css/pagination";
 import callAPI, { interceptor } from "../Common_Method/api";
 import DisclaimerModal from "../components/DisclaimerModal/DisclaimerModal";
 import noImg from "../../../public/images/no-img.png";
-import logo from "../../../public/images/pink-logo.png";
-import bannerImg from "../../../public/images/bannerImg.jpg";
-import homeSec2 from "../../../public/images/homeSec2-img.png";
-import sec3Slider from "../../../public/images/sec3-sliderImg.png";
 import m1 from "../../../public/images/m1.jpg";
 import m2 from "../../../public/images/m2.jpg";
 import m3 from "../../../public/images/m3.jpg";
 import m4 from "../../../public/images/m4.jpg";
 import m5 from "../../../public/images/m5.jpg";
 import m6 from "../../../public/images/m6.jpg";
-import m7 from "../../../public/images/m7.jpg";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
@@ -34,14 +29,46 @@ const featuredFallback = [
 ];
 
 const cityCards = [
-  { name: "Toronto", image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=700&q=75" },
-  { name: "Vancouver", image: "https://images.unsplash.com/photo-1559511260-66a654ae982a?auto=format&fit=crop&w=700&q=75" },
-  { name: "Montreal", image: "https://images.unsplash.com/photo-1519178614-68673b201f36?auto=format&fit=crop&w=700&q=75" },
-  { name: "Calgary", image: "https://images.unsplash.com/photo-1564959130747-897fb406b9af?auto=format&fit=crop&w=700&q=75" },
-  { name: "Ottawa", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=75" },
-  { name: "Edmonton", image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=700&q=75" },
-  { name: "Mississauga", image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=700&q=75" },
-  { name: "Quebec City", image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&w=700&q=75" },
+  {
+    name: "Toronto",
+    image: "/images/cities/Toronto.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Vancouver",
+    image: "/images/cities/Vancouver.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1559511260-66a654ae982a?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Montreal",
+    image: "/images/cities/Montreal.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1519178614-68673b201f36?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Calgary",
+    image: "/images/cities/Calgary.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1564959130747-897fb406b9af?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Ottawa",
+    image: "/images/cities/Ottawa.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Edmonton",
+    image: "/images/cities/Edmonton.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Mississauga",
+    image: "/images/cities/Mississauga.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=700&q=75",
+  },
+  {
+    name: "Quebec City",
+    image: "/images/cities/Quebec City.jpeg",
+    fallbackImage: "https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&w=700&q=75",
+  },
 ];
 
 const popularCities = [
@@ -241,7 +268,6 @@ export default function HomePage() {
                     <SwiperSlide key={`${listing.name}-${index}`}>
                       <Link className="pink-latest-card" href={openListing(listing)}>
                         <img src={listing.image} alt={`${listing.name} in ${listing.city}`} />
-                        <span>{listing.name}</span>
                       </Link>
                     </SwiperSlide>
                   ))
@@ -252,16 +278,18 @@ export default function HomePage() {
             <section className="pink-section pink-why">
               <div className="pink-section__heading">
                 <h2>Why Choose Pinkspot</h2>
-                <p>Canada's trusted platform for verified companion listings.</p>
+                <p>Canada's trusted platform for <strong>verified</strong> companion listings.</p>
               </div>
 
               <div className="pink-trust-card">
-                <img src={homeSec2.src} alt="" />
+                <img className="pink-trust-card__mascot" src="/images/search-flemingo-clean.png" alt="Pinkspot search mascot" />
                 <div>
                   <h3>Canada's Leading Companion Directory</h3>
-                  <p><i className="fa-solid fa-check"></i> Largest selection of verified listings</p>
-                  <p><i className="fa-solid fa-check"></i> Listings across major cities</p>
-                  <p><i className="fa-solid fa-check"></i> Fast and accurate location search</p>
+                  <ul className="pink-trust-list">
+                    <li><i className="fa-solid fa-check"></i> Largest selection of verified listings</li>
+                    <li><i className="fa-solid fa-check"></i> Listings across major cities</li>
+                    <li><i className="fa-solid fa-check"></i> Fast & accurate location search</li>
+                  </ul>
                 </div>
               </div>
 
@@ -277,6 +305,7 @@ export default function HomePage() {
                   <strong>$100</strong>
                   <span>Monthly Plan</span>
                   <p>Post daily for maximum exposure</p>
+                  <img className="pink-offer-mascot" src="/images/offer-flemingo-clean.png" alt="" />
                 </div>
               </div>
 
@@ -323,7 +352,14 @@ export default function HomePage() {
               <div className="pink-city-grid">
                 {cityCards.map((item) => (
                   <Link key={item.name} className="pink-city-card" href={`/female-escorts/${slugify(item.name)}`}>
-                    <img src={item.image} alt={`${item.name} skyline`} />
+                    <img
+                      src={item.image}
+                      alt={`${item.name} skyline`}
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src = item.fallbackImage;
+                      }}
+                    />
                     <strong>{item.name}</strong>
                   </Link>
                 ))}
@@ -340,14 +376,19 @@ export default function HomePage() {
                 <p className="pink-agency__statement">Thousands of clients browse <span>Pinkspot</span> every day.</p>
                 <Link className="pink-solid-button" href="/adpost">List Your Agency Now <i className="fa-solid fa-arrow-right"></i></Link>
               </div>
-              <img className="pink-agency__image" src={bannerImg.src} alt="Pinkspot agency advertising" />
+              <img
+                className="pink-agency__image"
+                src="/images/agency-service.jpeg"
+                alt="Pinkspot agency service"
+              />
             </section>
 
             <section className="pink-section pink-about">
               <div className="pink-about-card">
-                <img src={sec3Slider.src} alt="Pinkspot verified browsing" />
                 <h2>About Pinkspot</h2>
                 <span className="pink-divider"><i className="fa-solid fa-heart"></i></span>
+                <img className="pink-about-card__logo" src="/images/about-clean.png" alt="Pinkspot.cc" />
+                <span className="pink-divider pink-divider--about"><i className="fa-solid fa-heart"></i></span>
                 <p>Pinkspot is a platform for browsing verified companion listings across Canada. Explore profiles in major cities like Toronto, Vancouver, and Montreal, and connect quickly and discreetly with providers near you.</p>
               </div>
             </section>
@@ -361,7 +402,7 @@ export default function HomePage() {
               </div>
               <div className="pink-faq-list">
                 {faqs.slice(0, 3).map((item, index) => (
-                  <details key={item.question} className="pink-faq-item" open>
+                  <details key={item.question} className="pink-faq-item">
                     <summary><span>{index + 1}</span>{item.question}<i className="fa-solid fa-chevron-down"></i></summary>
                     <p>{item.answer}</p>
                   </details>
@@ -372,14 +413,14 @@ export default function HomePage() {
             <section className="pink-section pink-faq pink-faq--part-two">
               <div className="pink-faq-list">
                 {faqs.slice(3).map((item, index) => (
-                  <details key={item.question} className="pink-faq-item" open>
+                  <details key={item.question} className="pink-faq-item">
                     <summary><span>{index + 4}</span>{item.question}<i className="fa-solid fa-chevron-down"></i></summary>
                     <p>{item.answer}</p>
                   </details>
                 ))}
               </div>
               <div className="pink-support">
-                <img src={logo.src} alt="" />
+                <img src="/images/flemingo.jpeg" alt="Pinkspot flamingo logo" />
                 <div>
                   <strong>Still have questions?</strong>
                   <p>Our support team is here to help.</p>
@@ -397,7 +438,7 @@ export default function HomePage() {
                   <Link className="pink-outline-button" href="/search-escorts"><i className="fa-solid fa-magnifying-glass"></i> Explore Listings</Link>
                 </div>
               </div>
-              <img src={m7.src} alt="Pinkspot provider" />
+              <img src="/images/mascot-padded.png" alt="Pinkspot signup mascot" />
             </section>
 
             <section className="pink-section pink-popular">

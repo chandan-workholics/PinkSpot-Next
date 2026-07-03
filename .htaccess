@@ -1,6 +1,12 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /pinkspot/
+  RewriteBase /
+
+  # Serve Next.js build assets directly. If these requests are rewritten to
+  # index.html, the page loads as unstyled HTML.
+  RewriteRule ^_next/static/(.*)$ .next/static/$1 [L]
+  RewriteRule ^static/(.*)$ static/$1 [L]
+  RewriteRule ^images/(.*)$ images/$1 [L]
 
   # Redirect all requests to index.html for client-side routing
   RewriteCond %{REQUEST_FILENAME} !-f

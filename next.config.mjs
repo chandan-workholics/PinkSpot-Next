@@ -134,8 +134,11 @@ const nextConfig = {
   },
   output: "standalone",
  trailingSlash: false,
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.cache = false;
+    if (isServer && config.output) {
+      config.output.chunkFilename = "chunks/[name].js";
+    }
     return config;
   },
 };

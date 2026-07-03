@@ -3004,6 +3004,7 @@ a {
   border: 0;
   outline: 0;
   background: transparent;
+  padding-right: 28px;
   font-size: 18px;
   color: #1b1b1f;
 }
@@ -3094,15 +3095,6 @@ a {
   width: 100%;
   height: 520px;
   object-fit: cover;
-}
-
-.pink-latest-card span {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  font-size: 24px;
-  font-weight: 800;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
 }
 
 .pink-listing-placeholder {
@@ -3236,21 +3228,44 @@ a {
 }
 
 .pink-price-card--hot {
+  isolation: isolate;
   overflow: hidden;
+  padding-top: 34px;
   background: linear-gradient(145deg, #f32185, #ff76b4);
   color: #ffffff;
 }
 
 .pink-price-card--hot strong {
+  position: relative;
+  z-index: 1;
   color: #ffffff;
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
 }
 
+.pink-price-card--hot span:not(.pink-badge),
+.pink-price-card--hot p {
+  position: relative;
+  z-index: 1;
+  max-width: 58%;
+}
+
+.pink-offer-mascot {
+  position: absolute;
+  right: -8px;
+  bottom: -10px;
+  z-index: 0;
+  width: min(270px, 48%);
+  max-height: 92%;
+  object-fit: contain;
+  object-position: right bottom;
+  pointer-events: none;
+}
+
 .pink-badge {
   position: absolute;
-  top: 0;
+  z-index: 2;
+  top: 10px;
   right: 14px;
-  transform: translateY(-45%);
   padding: 8px 13px;
   border-radius: 999px;
   background: #df1772;
@@ -3329,8 +3344,7 @@ a {
   box-shadow: 0 10px 20px rgba(31, 13, 42, 0.2);
 }
 
-.pink-featured-card::after,
-.pink-latest-card::after {
+.pink-featured-card::after {
   content: "";
   position: absolute;
   inset: 42% 0 0;
@@ -3505,39 +3519,60 @@ a {
   width: 100%;
   max-width: 720px;
   height: 330px;
-  margin: 0 auto;
+  margin: 12px auto 0;
   border-radius: 8px;
   object-fit: cover;
   object-position: center;
 }
 
 .pink-about {
-  background: #fff0f8;
+  padding: 82px 18px;
+  background:
+    radial-gradient(circle at 50% 92%, rgba(255, 255, 255, 0.86), transparent 24%),
+    linear-gradient(180deg, #fff7fc 0%, #ffeaf6 100%);
 }
 
 .pink-about-card {
-  padding: 26px 18px 34px;
+  max-width: 560px;
+  padding: 58px 42px 62px;
+  border: 1px solid rgba(213, 79, 140, 0.08);
+  border-radius: 8px;
   text-align: center;
+  box-shadow: 0 20px 36px rgba(102, 30, 67, 0.13);
 }
 
 .pink-about-card img {
-  width: min(340px, 100%);
-  height: 260px;
+  width: min(360px, 100%);
+  height: auto;
   object-fit: contain;
 }
 
 .pink-about-card h2 {
-  margin: 18px 0 0;
-  font-size: 40px;
+  margin: 0;
+  color: #050617;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 42px;
+  line-height: 1.12;
   font-weight: 900;
+  text-transform: uppercase;
+}
+
+.pink-about-card__logo {
+  display: block;
+  margin: 42px auto 34px;
+}
+
+.pink-divider--about {
+  margin-bottom: 24px;
 }
 
 .pink-about-card p {
-  max-width: 560px;
+  max-width: 430px;
   margin: 0 auto;
-  color: #111827;
-  font-size: 24px;
-  line-height: 1.65;
+  color: #050617;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  line-height: 1.28;
 }
 
 .pink-faq {
@@ -3593,6 +3628,11 @@ a {
 
 .pink-faq-item summary i {
   color: var(--pink);
+  transition: transform 0.2s ease;
+}
+
+.pink-faq-item[open] summary i {
+  transform: rotate(180deg);
 }
 
 .pink-faq-item p {
@@ -3606,24 +3646,32 @@ a {
 
 .pink-support {
   display: grid;
-  grid-template-columns: 115px 1fr;
-  gap: 18px;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 28px;
   align-items: center;
   margin-top: 28px;
-  padding: 16px;
-  border: 1px solid #eaa7ca;
+  padding: 28px 34px;
+  border: 2px solid rgba(203, 73, 133, 0.35);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
 }
 
 .pink-support img {
-  width: 110px;
+  width: 210px;
+  max-width: 100%;
 }
 
 .pink-support strong {
-  font-size: 22px;
+  color: var(--ink);
+  font-size: 30px;
+  line-height: 1.12;
 }
 
 .pink-support p {
-  margin: 4px 0 12px;
+  margin: 14px 0 20px;
+  color: #4c4651;
+  font-size: 22px;
+  line-height: 1.35;
 }
 
 .pink-support a {
@@ -3631,7 +3679,7 @@ a {
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  border: 1px solid #e1579d;
+  border: 2px solid rgba(203, 73, 133, 0.75);
   border-radius: 999px;
   color: var(--pink);
   font-weight: 800;
@@ -3685,9 +3733,9 @@ a {
   width: min(360px, 72vw);
   height: 360px;
   margin: -40px auto 0;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top center;
+  border-radius: 0;
+  object-fit: contain;
+  object-position: center;
 }
 
 .pink-popular {
@@ -3807,7 +3855,9 @@ a {
   }
 
   .pink-home__nav .navbar-brand img {
-    width: 138px !important;
+    width: 158px !important;
+    max-height: 44px;
+    object-fit: contain;
   }
 
   .pink-home__nav .btn-login {
@@ -3815,11 +3865,23 @@ a {
   }
 
   .pink-hero h1 {
-    font-size: 36px;
+    font-size: 28px;
   }
 
   .pink-section__heading h2 {
-    font-size: 31px;
+    font-size: 24px;
+  }
+
+  .pink-latest .pink-section__heading--row h2 {
+    font-size: 20px;
+  }
+
+  .pink-latest .pink-section__heading--row {
+    gap: 8px;
+  }
+
+  .pink-latest .pink-section__heading--row a {
+    font-size: 12px;
   }
 
   .pink-trust-card {
@@ -3998,13 +4060,29 @@ a {
     padding: 32px 16px;
   }
 
+  .pink-latest {
+    padding-top: 24px;
+  }
+
   .pink-section__heading {
     margin-bottom: 20px;
+  }
+
+  .pink-latest .pink-section__heading {
+    margin-bottom: 12px;
   }
 
   .pink-section__heading h2 {
     font-size: 28px;
     line-height: 1.12;
+  }
+
+  .pink-latest .pink-section__heading--row h2 {
+    font-size: 21px;
+  }
+
+  .pink-latest .pink-section__heading--row a {
+    font-size: 13px;
   }
 
   .pink-section__heading p {
@@ -4014,38 +4092,38 @@ a {
   }
 
   .pink-hero {
-    padding: 40px 16px 28px;
+    padding: 30px 16px 20px;
   }
 
   .pink-hero h1 {
-    font-size: 34px;
+    font-size: 29px;
     line-height: 1.16;
   }
 
   .pink-hero p {
-    margin: 14px auto 24px;
-    font-size: 18px;
+    margin: 10px auto 18px;
+    font-size: 15px;
   }
 
   .pink-search {
     gap: 10px;
-    padding: 14px;
+    padding: 10px;
   }
 
   .pink-search label {
-    min-height: 54px;
+    min-height: 48px;
   }
 
   .pink-search select {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .pink-search button,
   .pink-solid-button,
   .pink-wide-button,
   .pink-outline-button {
-    min-height: 56px;
-    font-size: 18px;
+    min-height: 50px;
+    font-size: 16px;
     white-space: normal;
   }
 
@@ -4091,6 +4169,10 @@ a {
   .pink-price-card {
     min-height: 190px;
     padding: 18px 14px;
+  }
+
+  .pink-price-card--hot {
+    padding-top: 32px;
   }
 
   .pink-price-card strong {
@@ -4302,9 +4384,9 @@ a {
   }
 
   .pink-final-cta img {
-    width: min(260px, 68vw);
-    height: min(260px, 68vw);
-    margin: -6px auto 0;
+    width: min(285px, 76vw);
+    height: min(285px, 76vw);
+    margin: -12px auto 0;
   }
 
   .pink-popular {
@@ -4330,6 +4412,28 @@ a {
   .footer .searchCitySection .cityBadge {
     padding: 9px 13px;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .pink-hero h1 {
+    font-size: 28px;
+  }
+
+  .pink-section__heading h2 {
+    font-size: 24px;
+  }
+
+  .pink-latest .pink-section__heading--row {
+    gap: 8px;
+  }
+
+  .pink-latest .pink-section__heading--row h2 {
+    font-size: 20px;
+  }
+
+  .pink-latest .pink-section__heading--row a {
+    font-size: 12px;
   }
 }
 
@@ -4443,6 +4547,10 @@ a {
 
 .pink-home p {
   color: var(--muted);
+}
+
+.pink-home .pink-hero p {
+  color: #ffffff;
 }
 
 .pink-section__heading h2,
@@ -4627,5 +4735,304 @@ a {
   .pink-popular-grid a {
     font-size: 14px;
     font-weight: 820;
+  }
+
+}
+
+/* Edit #3: branded Why Choose / Pricing section */
+.pink-why {
+  padding: 86px 24px 96px;
+  background:
+    radial-gradient(circle at 52% 42%, rgba(255, 255, 255, 0.58), transparent 32%),
+    linear-gradient(180deg, #ffe8f5 0%, #fff4fb 54%, #ffe4f3 100%);
+}
+
+.pink-why .pink-section__heading {
+  margin-bottom: 46px;
+}
+
+.pink-why .pink-section__heading h2 {
+  color: #120d35;
+  font-size: 48px;
+  line-height: 1.06;
+  font-weight: 900;
+}
+
+.pink-why .pink-section__heading p {
+  max-width: 500px;
+  color: #141622;
+  font-size: 25px;
+  line-height: 1.4;
+}
+
+.pink-why .pink-section__heading p strong {
+  color: #0d1230;
+  font-weight: 900;
+}
+
+.pink-why .pink-trust-card {
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 46px;
+  max-width: 1040px;
+  min-height: 310px;
+  margin-bottom: 44px;
+  padding: 48px 56px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 42px rgba(102, 30, 67, 0.14);
+}
+
+.pink-why .pink-trust-card__mascot {
+  width: 100%;
+  max-width: 360px;
+  height: 260px;
+  object-fit: contain;
+}
+
+.pink-why .pink-trust-card h3 {
+  max-width: 430px;
+  color: #201044;
+  font-size: 34px;
+  line-height: 1.16;
+  font-weight: 900;
+}
+
+.pink-trust-list {
+  display: grid;
+  gap: 22px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pink-trust-list li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  color: #15151c;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.pink-trust-list i {
+  margin: 2px 0 0;
+  color: #2bb673;
+  font-size: 21px;
+}
+
+.pink-why .pink-subtitle {
+  margin: 0 0 24px;
+  color: #120d35;
+  font-size: 38px;
+  line-height: 1.06;
+}
+
+.pink-why .pink-price-card {
+  border-radius: 10px;
+}
+
+.pink-why .pink-benefits div {
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .pink-why {
+    padding: 28px 12px 24px;
+  }
+
+  .pink-why .pink-section__heading {
+    margin-bottom: 18px;
+  }
+
+  .pink-why .pink-section__heading h2 {
+    font-size: 22px;
+    line-height: 1.08;
+  }
+
+  .pink-why .pink-section__heading p {
+    max-width: 240px;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .pink-why .pink-trust-card {
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 12px;
+    min-height: 140px;
+    margin-bottom: 22px;
+    padding: 14px 12px;
+    border-radius: 7px;
+    box-shadow: 0 14px 24px rgba(102, 30, 67, 0.11);
+  }
+
+  .pink-why .pink-trust-card__mascot {
+    width: 86px;
+    height: 112px;
+  }
+
+  .pink-why .pink-trust-card h3 {
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.02;
+  }
+
+  .pink-trust-list {
+    gap: 6px;
+    margin-top: 7px;
+  }
+
+  .pink-trust-list li {
+    grid-template-columns: 14px minmax(0, 1fr);
+    gap: 6px;
+    font-size: 10.5px;
+    line-height: 1.28;
+  }
+
+  .pink-trust-list i {
+    margin-top: 1px;
+    font-size: 10px;
+  }
+
+  .pink-why .pink-subtitle {
+    margin-bottom: 12px;
+    font-size: 24px;
+  }
+
+  .pink-why .pink-pricing {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .pink-why .pink-price-card {
+    min-height: 148px;
+    padding: 16px 12px;
+  }
+
+  .pink-why .pink-price-card--hot {
+    padding-top: 30px;
+  }
+
+  .pink-why .pink-price-card--hot span:not(.pink-badge),
+  .pink-why .pink-price-card--hot p {
+    max-width: 62%;
+  }
+
+  .pink-why .pink-offer-mascot {
+    right: -12px;
+    bottom: -8px;
+    width: min(118px, 50%);
+    max-height: 88%;
+  }
+
+  .pink-why .pink-price-card strong {
+    font-size: 37px;
+  }
+
+  .pink-why .pink-price-card span:not(.pink-badge) {
+    font-size: 15px;
+    line-height: 1.04;
+  }
+
+  .pink-why .pink-price-card p {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .pink-why .pink-badge {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .pink-why .pink-benefits {
+    gap: 7px;
+  }
+
+  .pink-why .pink-benefits div {
+    min-height: 84px;
+    gap: 8px;
+    padding: 10px 5px;
+    font-size: 10px;
+    line-height: 1.05;
+  }
+
+  .pink-why .pink-benefits i {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+}
+
+/* Edits #5-#8: agency/about separation, closed FAQ, clearer logo */
+.pink-agency + .pink-about {
+  border-top: 14px solid #fff7fc;
+}
+
+@media (max-width: 600px) {
+  .pink-agency {
+    padding-bottom: 24px;
+  }
+
+  .pink-agency__image {
+    height: 248px;
+    margin-top: 18px;
+    border-radius: 8px;
+    object-position: center;
+  }
+
+  .pink-about {
+    padding: 62px 14px 68px;
+  }
+
+  .pink-about-card {
+    max-width: 320px;
+    padding: 38px 18px 40px;
+    border-radius: 7px;
+  }
+
+  .pink-about-card h2 {
+    font-size: 30px;
+    line-height: 1.18;
+  }
+
+  .pink-about-card__logo {
+    width: min(270px, 98%) !important;
+    margin: 32px auto 30px;
+  }
+
+  .pink-about-card p {
+    max-width: 255px;
+    font-size: 20px;
+    line-height: 1.34;
+  }
+
+  .pink-support {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 22px 16px;
+    text-align: center;
+  }
+
+  .pink-support img {
+    width: 190px;
+    margin: 0 auto;
+  }
+
+  .pink-support strong {
+    font-size: 25px;
+  }
+
+  .pink-support p {
+    margin: 10px auto 16px;
+    font-size: 19px;
+  }
+
+  .pink-support a {
+    justify-content: center;
+    margin: 0 auto;
   }
 }
