@@ -126,28 +126,44 @@ const Header = () => {
 
                 {/* Mobile-View */}
                 <div className="d-block d-lg-none">
-                    <div className="offcanvas offcanvas-start w-75" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div className="offcanvas offcanvas-start w-75 pink-mobile-menu" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                         <div className="offcanvas-header">
-                            <div className="">
-                                <CloseOffcanvasLink className="navbar-brand text-dd88cf" href="/">
+                            <div>
+                                <CloseOffcanvasLink className="navbar-brand text-dd88cf pink-mobile-menu__brand" href="/">
                                     <img src={logo.src} alt="" className="" />
                                 </CloseOffcanvasLink>
                             </div>
-                            <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <button type="button" className="pink-mobile-menu__close" data-bs-dismiss="offcanvas" aria-label="Close">
+                                <i className="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
                         </div>
                         <div className="offcanvas-body">
                             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname === "/" ? "active" : ""}`} aria-current="page" href="/" >Home</CloseOffcanvasLink>
+                                    <CloseOffcanvasLink className={`nav-link ${pathname === "/" ? "active" : ""}`} aria-current="page" href="/" >
+                                        <i className="fa-solid fa-house" aria-hidden="true"></i>
+                                        Home
+                                    </CloseOffcanvasLink>
                                 </li>
                                 <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/aboutus") ? "active" : ""}`} aria-current="page" href="/aboutus">About Us</CloseOffcanvasLink>
+                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/aboutus") ? "active" : ""}`} aria-current="page" href="/aboutus">
+                                        <i className="fa-solid fa-circle-info" aria-hidden="true"></i>
+                                        About Us
+                                    </CloseOffcanvasLink>
                                 </li>
+                                {!isAuthenticated ? (
+                                    <li className="nav-item">
+                                        <CloseOffcanvasLink className="nav-link" href="/login">
+                                            <i className="fa-solid fa-user-plus" aria-hidden="true"></i>
+                                            Register
+                                        </CloseOffcanvasLink>
+                                    </li>
+                                ) : null}
                                 <li className="nav-item">
-                                    <CloseOffcanvasLink className="nav-link" href="/login">Register</CloseOffcanvasLink>
-                                </li>
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</CloseOffcanvasLink>
+                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">
+                                        <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+                                        Contact Us
+                                    </CloseOffcanvasLink>
                                 </li>
 
                                 <li className="nav-item d-none d-lg-block">
@@ -158,7 +174,10 @@ const Header = () => {
                                 </li>
                                 {!isAuthenticated ? (
                                     <li className="nav-item">
-                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'>LOG IN</button>
+                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'>
+                                            <i className="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
+                                            LOG IN
+                                        </button>
                                     </li>
                                 ) : (
                                     <>
@@ -166,6 +185,7 @@ const Header = () => {
                                             <CloseOffcanvasLink
                                                 className={`nav-link ${pathname.startsWith("/subscription") ? "active" : ""}`}
                                                 href="/subscription">
+                                                <i className="fa-solid fa-crown" aria-hidden="true"></i>
                                                 Subscription Plan
                                             </CloseOffcanvasLink>
                                         </li>
@@ -173,6 +193,7 @@ const Header = () => {
                                             <CloseOffcanvasLink
                                                 className={`nav-link ${pathname.startsWith("/UserProfile") ? "active" : ""}`}
                                                 href="/UserProfile">
+                                                <i className="fa-solid fa-circle-user" aria-hidden="true"></i>
                                                 My Profile
                                             </CloseOffcanvasLink>
                                             {/* <div onClick={() => router.push("/UserProfile")} className='nav-link' style={{ cursor: "pointer" }}>My Profile</div> <br /> */}
@@ -181,6 +202,7 @@ const Header = () => {
                                             <CloseOffcanvasLink
                                                 className={`nav-link ${pathname.startsWith("/Wallet") ? "active" : ""}`}
                                                 href="/Wallet">
+                                                <i className="fa-solid fa-wallet" aria-hidden="true"></i>
                                                 Wallet
                                             </CloseOffcanvasLink>
                                             {/* <div onClick={() => router.push("/Wallet")} className='nav-link' style={{ cursor: "pointer" }}>Wallet</div> <br /> */}
@@ -188,13 +210,20 @@ const Header = () => {
                                         <li className="nav-item d-block d-lg-none">
                                             <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill mt-3 py-2 px-3"
                                                 href="/search-escorts?from=header">
+                                                <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                                                 Search Escorts
                                             </CloseOffcanvasLink>
                                         </li>
                                         <li className="nav-item">
                                             <div className="d-flex mt-3">
-                                                <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill me-2'>POST YOUR AD</button>
-                                                <button onClick={handleLogout} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill'>LOGOUT</button>
+                                                <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill me-2'>
+                                                    <i className="fa-solid fa-plus" aria-hidden="true"></i>
+                                                    POST YOUR AD
+                                                </button>
+                                                <button onClick={handleLogout} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill'>
+                                                    <i className="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                                                    LOGOUT
+                                                </button>
                                             </div>
                                         </li>
                                     </>
