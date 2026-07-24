@@ -1,5 +1,6 @@
 // /src/app/terms/page.jsx
 import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 import Header from "../components/header/Header";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ const OG_IMAGE = "https://pinkspot.cc/api/v1/uploads/default-seo-image.png"; // 
 async function getSeoData() {
     try {
         const res = await fetch(
-            "https://pinkspot.cc/api/v1/pages/getPageById/653274eaefe8c2f29fdcea99",
+            apiUrl("/pages/getPageById/653274eaefe8c2f29fdcea99"),
             { next: { revalidate: 60 } } // optional caching
         );
         const data = await res.json();

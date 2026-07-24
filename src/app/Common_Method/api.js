@@ -1,8 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
-const apiURL = "https://pinkspot.cc/api/v1";
-
-const axiosApiInstance = axios.create({ baseURL: apiURL });
+const axiosApiInstance = axios.create({ baseURL: API_BASE_URL });
 
 export const interceptor = () => {
     axiosApiInstance.interceptors.request.use(

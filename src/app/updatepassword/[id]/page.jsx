@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import logo from '../../../../public/images/pink-logo.png'
+import Footer from '../../components/footer/Footer'
+import { apiUrl } from '../../../config/api'
 
 const page = () => {
     const { id } = useParams(); // reset token from URL
@@ -27,7 +29,7 @@ const page = () => {
         setMessage({ type: "", text: "" });
 
         try {
-            const res = await fetch(`https://pinkspot.cc/api/v1/users/updatepassword`, {
+            const res = await fetch(apiUrl("/users/updatepassword"), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ password: data.password, resettoken: id }),
@@ -49,8 +51,9 @@ const page = () => {
     };
 
     return (
-        <div className="container-fluid bg-ffdef7 vh-100">
-            <div className="container d-flex justify-content-center align-items-center min-vh-100">
+        <div>
+        <div className="container-fluid bg-ffdef7">
+            <div className="container d-flex justify-content-center align-items-center min-vh-100 py-5">
                 <div className="card rounded-4 shadow-lg p-4" style={{ maxWidth: "450px", width: "100%" }}>
                     <div className="text-center mb-4">
                         <img
@@ -106,6 +109,8 @@ const page = () => {
                     </form>
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };

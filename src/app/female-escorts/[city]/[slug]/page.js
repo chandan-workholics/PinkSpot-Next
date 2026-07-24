@@ -1,4 +1,5 @@
 import Profile from "./Profile";
+import { apiUrl } from "../../../../config/api";
 
 export async function generateMetadata({ params }) {
     const { slug, city } = params; // ✅ destructure params first
@@ -6,7 +7,7 @@ export async function generateMetadata({ params }) {
     let post = {};
 
     try {
-        const res = await fetch(`https://pinkspot.cc/api/v1/postad/getpostadby_single_slug`, {
+        const res = await fetch(apiUrl("/postad/getpostadby_single_slug"), {
             method: "POST",
             body: JSON.stringify({ slug }),
             headers: { "Content-Type": "application/json" },
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProfilePage({ params }) {
     try {
-        const res = await fetch(`https://pinkspot.cc/api/v1/postad/getpostadby_single_slug`, {
+        const res = await fetch(apiUrl("/postad/getpostadby_single_slug"), {
             method: "POST",
             body: JSON.stringify({ slug: params.slug }),
             headers: { "Content-Type": "application/json" },

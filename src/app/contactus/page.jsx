@@ -4,6 +4,7 @@ import Link from "next/link";
 import Header from "../components/header/Header";
 import contactus from "../../../public/images/Contact us-rafiki.png";
 import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 
 const canonicalUrl = "https://pinkspot.cc/contactus/";
 const OG_IMAGE = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b4f22c.png"; // fallback
@@ -12,7 +13,7 @@ const OG_IMAGE = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b
 async function getSeoData() {
   try {
     const res = await fetch(
-      "https://pinkspot.cc/api/v1/pages/getPageById/653274eaefe8c2f29fdcea88",
+      apiUrl("/pages/getPageById/653274eaefe8c2f29fdcea88"),
       { next: { revalidate: 60 } } // cache for 60 seconds
     );
     const data = await res.json();

@@ -9,6 +9,7 @@ import callAPI, { interceptor } from '../Common_Method/api'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import ProtectedRoute from '../Common_Method/protectedroute';
+import Footer from '../components/footer/Footer';
 
 const MyProfile1 = () => {
      const router = useRouter();
@@ -158,6 +159,7 @@ const MyProfile1 = () => {
                     </section>
                 </div>
             </div >
+            <Footer />
         </>
     )
 }

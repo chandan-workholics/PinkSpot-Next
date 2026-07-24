@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Header from "../components/header/Header";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -37,7 +39,7 @@ const Otp = () => {
 
     try {
       const res = await fetch(
-        `https://pinkspot.cc/api/v1/users/verifyemailotp/${userId}`,
+        apiUrl(`/users/verifyemailotp/${userId}`),
         {
           method: "POST",
           headers: {
@@ -69,7 +71,7 @@ const Otp = () => {
     }
 
     try {
-      const res = await fetch("https://pinkspot.cc/api/v1/users/resendotp", {
+      const res = await fetch(apiUrl("/users/resendotp"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
@@ -167,6 +169,7 @@ const Otp = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

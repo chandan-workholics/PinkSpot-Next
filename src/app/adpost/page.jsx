@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from 'next/image';
 import Footer from '../components/footer/Footer'
+import { apiUrl } from '../../config/api'
 import Header from '../components/header/Header'
 import AdPostFormImg from "../../../public/images/adpost-formImg.png";
 import callAPI from '../Common_Method/api';
@@ -80,7 +81,7 @@ const AdPost = () => {
     const handleShow = async () => {
 
         // Step 1: Pre-check with API
-        const checkResponse = await fetch("https://pinkspot.cc/api/v1/postad/checkPostLimit", {
+        const checkResponse = await fetch(apiUrl("/postad/checkPostLimit"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId: formData.postbyuserid })
@@ -169,7 +170,7 @@ const AdPost = () => {
                 const formDataUpload = new FormData();
                 formDataUpload.append("image", file);
 
-                const response = await axios.post("https://pinkspot.cc/api/v1/upload", formDataUpload, {
+                const response = await axios.post(apiUrl("/upload"), formDataUpload, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
@@ -194,7 +195,7 @@ const AdPost = () => {
                 images: undefined  // remove the array field
             };
 
-            const response = await fetch("https://pinkspot.cc/api/v1/postad/createpostad", {
+            const response = await fetch(apiUrl("/postad/createpostad"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -298,7 +299,7 @@ const AdPost = () => {
 
 
     const getCategory = async () => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/category/getallcategory`);
+        const response = await fetch(apiUrl("/category/getallcategory"));
         const result = await response.json();
         setCategory(result?.data);
     };

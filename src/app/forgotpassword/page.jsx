@@ -6,6 +6,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/header/Header";
 import emailSentGif from "../../../public/images/emailsent.gif";
+import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ const ForgotPassword = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://pinkspot.cc/api/v1/users/forgetpassword`, {
+      const response = await fetch(apiUrl("/users/forgetpassword"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -165,6 +167,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

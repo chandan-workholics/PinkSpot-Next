@@ -5,6 +5,8 @@ export default async function sitemap() {
   const staticPages = [
     "",
     "/search-escorts",
+    "/pricing",
+    "/get-verified",
   ];
 
   // 👉 city list (same slug as meta)

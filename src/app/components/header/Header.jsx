@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import logo from '../../../../public/images/pink-logo.png'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import CloseOffcanvasLink from '../CloseOffcanvasLink'
 
 const Header = () => {
@@ -44,11 +44,11 @@ const Header = () => {
                 <nav className="navbar navbar-expand-lg px-0 px-xl-5">
                     <div className="container-fluid p-0">
                         <Link className="navbar-brand text-dd88cf me-0" href="/">
-                            <img src={logo.src} alt="" className="" />
+                            <img src={logo.src} alt="Pinkspot.cc" className="" />
                         </Link>
                         <div className="d-flex align-items-center gap-2 d-lg-none">
                             {!isAuthenticated ? (
-                                <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 text-capitalize me-0'>Log in/ Sign up</button>
+                                <button onClick={() => router.push("/login?mode=login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 text-capitalize me-0'>Log In</button>
                             ) : (<></>)}
                             <button className="btn d-block d-lg-none me-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                                 <i className="fa-solid fa-bars text-dd88cf fs-1"></i>
@@ -62,6 +62,22 @@ const Header = () => {
                                 <li className="nav-item">
                                     <Link className={`nav-link ${pathname.startsWith("/aboutus") ? "active" : ""}`} href="/aboutus">About Us</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link className={`nav-link ${pathname.startsWith("/pricing") ? "active" : ""}`} href="/pricing">Pricing</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={`nav-link ${pathname.startsWith("/get-verified") ? "active" : ""}`} href="/get-verified">Get Verified</Link>
+                                </li>
+                                {!isAuthenticated ? (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className={`nav-link ${pathname.startsWith("/login") ? "active" : ""}`} href="/login?mode=login">Log In</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" href="/login?mode=signup">Register</Link>
+                                        </li>
+                                    </>
+                                ) : null}
                                 <li className="nav-item">
                                     <Link className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</Link>
                                 </li>
@@ -80,14 +96,7 @@ const Header = () => {
                             </ul>
                             <div className="d-flex">
                                 {!isAuthenticated ? (
-                                    <>
-                                        <Link className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill me-3 py-2 px-3"
-                                            href="/search-escorts?from=header">
-                                            Search Escorts
-                                        </Link>
-                                        <button onClick={() => router.push("/login?mode=login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>LOG IN</button>
-                                        <button onClick={() => router.push("/login?mode=signup")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-3 py-2 px-3'>Signup</button>
-                                    </>
+                                    null
                                 ) : (
                                     <>
                                         <Link className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill me-3 py-2 px-3"
@@ -151,13 +160,33 @@ const Header = () => {
                                         About Us
                                     </CloseOffcanvasLink>
                                 </li>
+                                <li className="nav-item">
+                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/pricing") ? "active" : ""}`} href="/pricing">
+                                        <i className="fa-solid fa-dollar-sign" aria-hidden="true"></i>
+                                        Pricing
+                                    </CloseOffcanvasLink>
+                                </li>
+                                <li className="nav-item">
+                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/get-verified") ? "active" : ""}`} href="/get-verified">
+                                        <i className="fa-solid fa-shield-heart" aria-hidden="true"></i>
+                                        Get Verified
+                                    </CloseOffcanvasLink>
+                                </li>
                                 {!isAuthenticated ? (
-                                    <li className="nav-item">
-                                        <CloseOffcanvasLink className="nav-link" href="/login">
-                                            <i className="fa-solid fa-user-plus" aria-hidden="true"></i>
-                                            Register
-                                        </CloseOffcanvasLink>
-                                    </li>
+                                    <>
+                                        <li className="nav-item">
+                                            <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/login") ? "active" : ""}`} href="/login?mode=login">
+                                                <i className="fa-solid fa-user" aria-hidden="true"></i>
+                                                Log In
+                                            </CloseOffcanvasLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <CloseOffcanvasLink className="nav-link" href="/login?mode=signup">
+                                                <i className="fa-solid fa-user-plus" aria-hidden="true"></i>
+                                                Register
+                                            </CloseOffcanvasLink>
+                                        </li>
+                                    </>
                                 ) : null}
                                 <li className="nav-item">
                                     <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">
@@ -172,14 +201,7 @@ const Header = () => {
                                         Search Escorts
                                     </CloseOffcanvasLink>
                                 </li>
-                                {!isAuthenticated ? (
-                                    <li className="nav-item">
-                                        <button onClick={() => router.push("/login")} className='btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-3'>
-                                            <i className="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
-                                            LOG IN
-                                        </button>
-                                    </li>
-                                ) : (
+                                {!isAuthenticated ? null : (
                                     <>
                                         <li className="nav-item">
                                             <CloseOffcanvasLink

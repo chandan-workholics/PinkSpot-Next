@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header/Header";
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import Footer from '../components/footer/Footer'
+import { apiUrl } from '../../config/api'
 
 const userId =
     typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
 const Page = () => {
-    const pathname = usePathname();
-
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
@@ -23,6 +23,16 @@ const Page = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false); // ✅ confirmation modal toggle
 
     // 👉 Subscribe API Call
+    useEffect(() => {
+        const plan = new URLSearchParams(window.location.search).get("plan");
+        const prices = { silver: "69.99", gold: "99.99" };
+        if (prices[plan]) {
+            setSelectedPlan(plan);
+            setSelectedPlanprice(prices[plan]);
+            setShowConfirmModal(true);
+        }
+    }, []);
+
     const confirmSubscribe = async () => {
         if (!selectedPlan) return;
 
@@ -32,7 +42,7 @@ const Page = () => {
 
         try {
             const res = await fetch(
-                "https://pinkspot.cc/api/v1/subscription/create-subscription",
+                apiUrl("/subscription/create-subscription"),
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -69,7 +79,7 @@ const Page = () => {
     const handleShowDetail = async () => {
         try {
             const res = await fetch(
-                `https://pinkspot.cc/api/v1/subscription/subscription-detail/${userId}`
+                apiUrl(`/subscription/subscription-detail/${userId}`)
             );
             const data = await res.json();
 
@@ -119,7 +129,7 @@ const Page = () => {
                                     <h5 className="mb-3">Basic Plan</h5>
 
                                     <h1 className="price">
-                                        $20.00 <span className="fs-6 text-muted">/AD</span>
+                                        $19.99 <span className="fs-6 text-muted">/AD</span>
                                     </h1>
                                     <p className="text-muted">
                                         Get started with our Basic Plan kickstart your AD post
@@ -139,20 +149,20 @@ const Page = () => {
                             <div className="col-md-4 mb-4">
                                 <div className="card pricing-card highlight p-4 h-100 position-relative">
                                     <span className="popular-badge">Popular</span>
-                                    <h5 className="mb-3">Standard Plan</h5>
+                                    <h5 className="mb-3">Silver Plan</h5>
                                     <h1 className="price">
-                                        $100.00 <span className="fs-6 text-muted">/month</span>
+                                        $69.99 <span className="fs-6 text-muted">/month</span>
                                     </h1>
-                                    <p>Premium Plan for a comprehensive experience.</p>
+                                    <p>Post every other day with up to 15 included ads per month.</p>
                                     <ul className="list-unstyled mt-3 mb-4">
                                         <li>✔ Post one AD daily</li>
                                     </ul>
                                     <button
                                         className="btn btn-premium w-100"
-                                        onClick={() => handleSubscribe("standard", "100")}
+                                        onClick={() => handleSubscribe("silver", "69.99")}
                                         disabled={loading}
                                     >
-                                        {loading ? "Processing..." : "Go Standard"}
+                                        {loading ? "Processing..." : "Get Silver"}
                                     </button>
                                 </div>
                             </div>
@@ -160,22 +170,22 @@ const Page = () => {
                             {/* Premium Plan */}
                             <div className="col-md-4 mb-4">
                                 <div className="card pricing-card p-4 h-100">
-                                    <h5 className="mb-3">Premium Plan</h5>
+                                    <h5 className="mb-3">Gold Plan</h5>
                                     <h1 className="price">
-                                        $150.00 <span className="fs-6 text-muted">/month</span>
+                                        $99.99 <span className="fs-6 text-muted">/month</span>
                                     </h1>
                                     <p className="text-muted">
-                                        Go Pro and take your experience to the next level.
+                                        Post daily with up to 30 included ads per month.
                                     </p>
                                     <ul className="list-unstyled mt-3 mb-4">
                                         <li>✔ Post two ADs daily</li>
                                     </ul>
                                     <button
                                         className="btn btn-premium w-100"
-                                        onClick={() => handleSubscribe("premium", "150")}
+                                        onClick={() => handleSubscribe("gold", "99.99")}
                                         disabled={loading}
                                     >
-                                        {loading ? "Processing..." : "Go Premium"}
+                                        {loading ? "Processing..." : "Get Gold"}
                                     </button>
                                 </div>
                             </div>
@@ -340,6 +350,7 @@ const Page = () => {
                     <div className="modal-backdrop fade show"></div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 };

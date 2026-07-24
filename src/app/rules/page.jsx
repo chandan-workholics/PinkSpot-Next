@@ -1,5 +1,6 @@
 // /src/app/rules/page.jsx
 import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 import Header from "../components/header/Header";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ const OG_IMAGE = "https://pinkspot.cc/api/v1/uploads/4bcbbf50c52b57fe1dd3fb78c1b
 async function getSeoData() {
   try {
     const res = await fetch(
-      "https://pinkspot.cc/api/v1/pages/getPageById/653281cdefe8c2f29fdcecaf"
+      apiUrl("/pages/getPageById/653281cdefe8c2f29fdcecaf")
     );
     const data = await res.json();
     return data?.data || {};

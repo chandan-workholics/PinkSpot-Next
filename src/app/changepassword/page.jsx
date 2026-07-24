@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from 'next/link'
 import Footer from '../components/footer/Footer';
+import { apiUrl } from '../../config/api';
 import Header from '../components/header/Header';
 import changepassword from '../../../public/images/changepassword.png';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
@@ -15,7 +16,7 @@ const UserProfile = () => {
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
     const handleSubmitChangePassword = () => {
-        const postURL = `https://pinkspot.cc/api/v1/users/change-password`;
+        const postURL = apiUrl('/users/change-password');
         fetch(postURL, {
             method: 'POST',
             headers: {

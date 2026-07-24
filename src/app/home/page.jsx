@@ -18,6 +18,8 @@ import m5 from "../../../public/images/m5.jpg";
 import m6 from "../../../public/images/m6.jpg";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import VerifiedBadge from "../components/VerifiedBadge/VerifiedBadge";
+import { apiUrl } from "../../config/api";
 
 const featuredFallback = [
   { name: "Vanessa", city: "Vancouver", image: m1.src },
@@ -129,7 +131,7 @@ export default function HomePage() {
 
     const fetchProvince = async () => {
       try {
-        const response = await fetch("https://pinkspot.cc/api/v1/getallprovince");
+        const response = await fetch(apiUrl("/getallprovince"));
         const result = await response.json();
         setProvince(Array.isArray(result?.data) ? result.data : []);
       } catch (error) {
@@ -150,6 +152,7 @@ export default function HomePage() {
       city: post?.city || featuredFallback[index]?.city || "Canada",
       image: post?.image1?.trim() ? post.image1 : featuredFallback[index]?.image || noImg.src,
       slug: post?.slug,
+      source: post,
     }));
   }, [posts, postsLoading]);
 
@@ -162,6 +165,7 @@ export default function HomePage() {
       city: post?.city || featuredFallback[index]?.city || "Canada",
       image: post?.image1?.trim() ? post.image1 : featuredFallback[index]?.image || noImg.src,
       slug: post?.slug,
+      source: post,
     }));
   }, [posts, postsLoading]);
 
@@ -170,7 +174,7 @@ export default function HomePage() {
     if (!provinceId) return;
 
     try {
-      const response = await fetch(`https://pinkspot.cc/api/v1/getallcity/${provinceId}`);
+      const response = await fetch(apiUrl(`/getallcity/${provinceId}`));
       const result = await response.json();
       setCity(Array.isArray(result?.data) ? result.data : []);
     } catch (error) {
@@ -268,6 +272,7 @@ export default function HomePage() {
                     <SwiperSlide key={`${listing.name}-${index}`}>
                       <Link className="pink-latest-card" href={openListing(listing)}>
                         <img src={listing.image} alt={`${listing.name} in ${listing.city}`} />
+                        <VerifiedBadge record={listing.source} compact />
                       </Link>
                     </SwiperSlide>
                   ))
@@ -333,6 +338,7 @@ export default function HomePage() {
                   : featuredListings.map((listing, index) => (
                     <Link key={`${listing.name}-${index}`} className="pink-featured-card" href={openListing(listing)}>
                       <img src={listing.image} alt={`${listing.name} in ${listing.city}`} />
+                      <VerifiedBadge record={listing.source} compact />
                       <span>
                         <strong>{listing.name}</strong>
                         <small><i className="fa-solid fa-location-dot"></i> {listing.city}</small>

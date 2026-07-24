@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Link from 'next/link'
 import Footer from '../components/footer/Footer';
+import { apiUrl } from '../../config/api';
 import Header from '../components/header/Header';
 import Image from 'next/image';
 import NoImg from '../../../public/images/no-img.png';
@@ -105,7 +106,7 @@ const UserProfile = () => {
         formData.append("image", e.target.files[0]);
         var requestOptions = { headers: { "Content-Type": "multipart/form-data", }, };
         try {
-            const fetchdata = await axios.post("https://pinkspot.cc/api/v1/upload", formData, requestOptions);
+            const fetchdata = await axios.post(apiUrl("/upload"), formData, requestOptions);
 
             const response = fetchdata;
             if (response?.status === 200) {
@@ -199,7 +200,7 @@ const UserProfile = () => {
     const handleDelete = async () => {
 
         try {
-            const response = await fetch(`https://pinkspot.cc/api/v1/postad/deletepostadby_single_id/${deleteId}`,
+            const response = await fetch(apiUrl(`/postad/deletepostadby_single_id/${deleteId}`),
                 {
                     method: 'DELETE',
                     headers: {

@@ -5,8 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import filterImg from "../../../public/images/filterImg2.png";
+import VerifiedBadge from "../components/VerifiedBadge/VerifiedBadge";
 import { useSearchParams } from 'next/navigation';
+import { apiUrl } from '../../config/api';
 
 const AllCategoryClient = ({ initialCity = null }) => {
     const router = useRouter();
@@ -20,6 +21,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const [ethicity, setEthicity] = useState([]);
     const [post, setPost] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
+    const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
     const [filters, setFilters] = useState({
         categoryid: searchParams.get("categoryid") || '',
@@ -52,20 +54,20 @@ const AllCategoryClient = ({ initialCity = null }) => {
     };
 
     const fetchProvince = async () => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/getallprovince`);
+        const response = await fetch(apiUrl("/getallprovince"));
         const result = await response.json();
         setProvince(result?.data);
     };
 
     const fetchCities = async (provinceId) => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/getallcity/${provinceId}`);
+        const response = await fetch(apiUrl(`/getallcity/${provinceId}`));
         const result = await response.json();
         setCity(result?.data);
         return result?.data || [];
     };
 
     const fetchEthnicity = async () => {
-        const response = await fetch(`https://pinkspot.cc/api/v1/getall-ethnicity`);
+        const response = await fetch(apiUrl("/getall-ethnicity"));
         const result = await response.json();
         setEthicity(result?.data);
     };
@@ -153,7 +155,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
             setLoading(true);
 
             const response = await fetch(
-                `https://pinkspot.cc/api/v1/filter/getPostAdByCategoryfilterPagination?page=${page}&limit=20`,
+                apiUrl(`/filter/getPostAdByCategoryfilterPagination?page=${page}&limit=20`),
                 {
                     method: "POST",
                     headers: {
@@ -201,6 +203,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const formattedCity = citySlug
         ? citySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "";
+    const activeFilterCount = [filters.ethicity, filters.isVerified].filter(Boolean).length;
 
 
     useEffect(() => {
@@ -280,116 +283,125 @@ const AllCategoryClient = ({ initialCity = null }) => {
                     )}
 
 
-                    <div className="container pt-3 pb-5 filterSection">
-                        <div className="p-2 mb-5 rounded-5 border-0 shadow-lg w-100">
-                            <div className="bg-4b164c rounded-5 p-4">
-                                <div className="row">
-                                    <div className="col-md-4">
-                                        <div className="">
-                                            <img src={filterImg.src} alt="" className="w-100" />
-                                        </div>
+                    <div className="container pt-3 pb-5 filterSection listing-search-section">
+                        <section className="listing-search-panel" aria-label="Search escort listings">
+                            <div className="listing-search-panel__location">
+                                <label>
+                                    <span>Province</span>
+                                    <div className="listing-search-select">
+                                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                        <select
+                                            name="province"
+                                            value={filters.province}
+                                            onChange={(event) => {
+                                                handleFilterChange("province", event.target.value);
+                                                handleFilterChange("city", "");
+                                                fetchCities(event.target.value);
+                                            }}
+                                        >
+                                            <option value="">Select Province</option>
+                                            {province.map((item) => (
+                                                <option key={item._id} value={item._id}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                        <i className="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                     </div>
-                                    <div className="col-md-8">
-                                        <div className="row">
-                                            <div className="col-md-6 position-relative mb-3">
-                                                <span className="arrow-span">
-                                                    <i className="fa-solid fa-angle-down text-white"></i>
-                                                </span>
-                                                <select
-                                                    className="form-select filter-btn position-relative"
-                                                    name="province"
-                                                    value={filters.province}
-                                                    onChange={(e) => {
-                                                        handleFilterChange('province', e.target.value);
-                                                        fetchCities(e.target.value);
-                                                    }}
-                                                >
-                                                    <option value="">Province</option>
-                                                    {province.map((val, index) => (
-                                                        <option key={index} value={val._id}>{val.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
+                                </label>
 
-                                            <div className="col-md-6 position-relative mb-3">
-                                                <span className="arrow-span">
-                                                    <i className="fa-solid fa-angle-down text-white"></i>
-                                                </span>
-                                                <select
-                                                    className="form-select filter-btn position-relative"
-                                                    name="city"
-                                                    value={filters.city}
-                                                    // onChange={(e) => handleFilterChange('city', e.target.value)}
-
-                                                    onChange={(e) => {
-                                                        const selectedCity = e.target.value;
-
-                                                        handleFilterChange("city", selectedCity);
-
-                                                        if (selectedCity) {
-                                                            const citySlug = selectedCity.toLowerCase().replace(/\s+/g, "-");
-                                                            router.push(`/female-escorts/${citySlug}`);
-                                                        }
-                                                    }}
-                                                >
-                                                    <option value="">City</option>
-                                                    {city.map((val, index) => (
-                                                        <option key={index} value={val.name}>{val.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-
-                                            <div className="col-md-6 position-relative mb-3">
-                                                <span className="arrow-span">
-                                                    <i className="fa-solid fa-angle-down text-white"></i>
-                                                </span>
-                                                <select
-                                                    className="form-select filter-btn position-relative"
-                                                    name="ethnicity"
-                                                    value={filters.ethicity}
-                                                    onChange={(e) => handleFilterChange('ethicity', e.target.value)}
-                                                >
-                                                    <option value="">Ethnicity</option>
-                                                    {ethicity.map((val, index) => (
-                                                        <option key={index} value={val.name}>
-                                                            {val.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-
-
-                                            <div className="col-md-12">
-                                                <button
-                                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill me-2 py-2 px-4"
-                                                    // onClick={fetchFilteredPosts}
-                                                    onClick={() => {
-                                                        if (filters.city) {
-                                                            const citySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
-                                                            router.push(`/female-escorts/${citySlug}`);
-                                                        } else {
-                                                            fetchFilteredPosts();
-                                                        }
-                                                    }}
-                                                >
-                                                    <i className="fa-solid fa-magnifying-glass me-1"></i>
-                                                    Search
-                                                </button>
-                                                <button
-                                                    className="btn btn-login bg-fcf3fa text-4b164c fw-semibold rounded-pill py-2 px-4"
-                                                    onClick={handleClearFilters}
-                                                >
-                                                    <i className="fa-solid fa-ban me-1"></i>
-                                                    Clear
-                                                </button>
-                                            </div>
-                                        </div>
+                                <label>
+                                    <span>City</span>
+                                    <div className="listing-search-select">
+                                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                        <select
+                                            name="city"
+                                            value={filters.city}
+                                            onChange={(event) => handleFilterChange("city", event.target.value)}
+                                        >
+                                            <option value="">Select City</option>
+                                            {initialCity && !city.some((item) => item.name === initialCity) && (
+                                                <option value={initialCity}>{formattedCity}</option>
+                                            )}
+                                            {city.map((item) => (
+                                                <option key={item._id || item.name} value={item.name}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                        <i className="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                     </div>
-                                </div>
+                                </label>
                             </div>
-                        </div>
+
+                            {showAdvancedFilters && (
+                                <div className="listing-search-panel__advanced">
+                                    <label>
+                                        <span>Ethnicity</span>
+                                        <select
+                                            name="ethnicity"
+                                            value={filters.ethicity}
+                                            onChange={(event) => handleFilterChange("ethicity", event.target.value)}
+                                        >
+                                            <option value="">Any Ethnicity</option>
+                                            {ethicity.map((item) => (
+                                                <option key={item._id || item.name} value={item.name}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <span>Verification</span>
+                                        <select
+                                            name="isVerified"
+                                            value={filters.isVerified}
+                                            onChange={(event) => handleFilterChange("isVerified", event.target.value)}
+                                        >
+                                            <option value="">All Listings</option>
+                                            <option value="true">Verified Only</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            )}
+
+                            <div className="listing-search-panel__actions">
+                                <button
+                                    type="button"
+                                    className="listing-filter-toggle"
+                                    aria-expanded={showAdvancedFilters}
+                                    onClick={() => setShowAdvancedFilters((current) => !current)}
+                                >
+                                    <i className="fa-solid fa-sliders" aria-hidden="true"></i>
+                                    Filters ({activeFilterCount})
+                                    <i className={`fa-solid fa-chevron-${showAdvancedFilters ? "up" : "down"}`} aria-hidden="true"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    className="listing-search-submit"
+                                    onClick={() => {
+                                        if (filters.city) {
+                                            const selectedCitySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
+                                            router.push(`/female-escorts/${selectedCitySlug}`);
+                                        } else {
+                                            fetchFilteredPosts();
+                                        }
+                                    }}
+                                >
+                                    <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </section>
+
+                        <button type="button" className="listing-clear-filters" onClick={handleClearFilters}>
+                            Clear Filters
+                        </button>
                         {/* Filters */}
 
+                        <div className="listing-results-heading">
+                            <div>
+                                <span aria-hidden="true">
+                                    <i className="fa-regular fa-star"></i>
+                                </span>
+                                <h2>Latest Listings</h2>
+                            </div>
+                            <small>{post.filter((item) => item.isActive).length} results</small>
+                        </div>
 
                         {/* Posts Section */}
                         <div className="container box-detail">
@@ -416,13 +428,16 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                         <div className="d-flex mb-2">
                                                             <h6 className="mb-0 px-2 py-1 bg-4b164c text-white rounded-1">Escort</h6>
                                                         </div>
-                                                        <h5 className="fw-bold">{val?.name}</h5>
+                                                        <div className="listing-name-with-badge">
+                                                            <h5 className="fw-bold">{val?.name}</h5>
+                                                            <VerifiedBadge record={val} compact />
+                                                        </div>
                                                         <h6 className="text-capitalize">
                                                             <i className="fa-solid fa-house me-1"></i>
                                                             {val?.city}, {val?.provincesid?.name}
                                                         </h6>
                                                         {/* <h6>{val?.age}</h6> */}
-                                                        <h6 className="mt-4" style={{ height: '95px', overflow: 'hidden' }}>
+                                                        <h6 className="listing-card-title">
                                                             <i className="fa-solid fa-tags me-1"></i>
                                                             {val?.title}
                                                         </h6>
@@ -459,7 +474,10 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                                 <img src={val.image1} className="card-img-top" alt="..." />
                                                             </div>
                                                             <div className="card-content shadow-lg">
-                                                                <h3 className="per-name">{val?.name}</h3>
+                                                                <div className="listing-name-with-badge">
+                                                                    <h3 className="per-name">{val?.name}</h3>
+                                                                    <VerifiedBadge record={val} compact />
+                                                                </div>
                                                                 <h4 className="per-ethnicity">{val?.ethicity}</h4>
                                                                 <h4 className="per-age">Age : {val?.age}</h4>
                                                                 <h5 className="per-city">

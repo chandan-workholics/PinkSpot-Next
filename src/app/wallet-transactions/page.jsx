@@ -1,182 +1,227 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import ProtectedRoute from '../Common_Method/protectedroute';
+import React, { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import Link from "next/link";
+import ProtectedRoute from "../Common_Method/protectedroute";
 import Header from "../components/header/Header";
-const userId = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
+import Footer from "../components/footer/Footer";
+import { apiUrl } from "../../config/api";
 
-const walletTransaction = () => {
+const ITEMS_PER_PAGE = 10;
 
+const WalletTransactions = () => {
     const [transactions, setTransactions] = useState([]);
-    const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const [filterType, setFilterType] = useState('all');
+    const [filterType, setFilterType] = useState("all");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
-
-    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
-    const currentTransactions = filteredTransactions.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    const handlePageChange = (pageNumber) => {
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-            setCurrentPage(pageNumber);
-        }
-    };
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchData = async () => {
+        const userId = sessionStorage.getItem("userid");
+        const token = sessionStorage.getItem("token");
+
+        const fetchTransactions = async () => {
             try {
-                const response = await axios.get(`https://pinkspot.cc/api/v1/payment/info/${userId}`);
-                const sortedData = response.data.transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                setTransactions(sortedData);
-                setFilteredTransactions(sortedData);
-            } catch (error) {
-                console.error('Error fetching wallet transactions:', error);
+                setLoading(true);
+                const response = await axios.get(apiUrl(`/payment/info/${userId}`), {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const sorted = [...(response.data?.transactions || [])].sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                );
+                setTransactions(sorted);
+            } catch (fetchError) {
+                console.error("Error fetching wallet transactions:", fetchError);
+                setError("We couldn't load your transactions. Please try again shortly.");
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchData();
-    }, [userId]);
+        if (userId) fetchTransactions();
+    }, []);
+
+    const filteredTransactions = useMemo(() => {
+        if (filterType === "all") return transactions;
+        return transactions.filter((transaction) => transaction.type === filterType);
+    }, [filterType, transactions]);
+
+    const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+    const currentTransactions = filteredTransactions.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const handleFilter = (type) => {
         setFilterType(type);
         setCurrentPage(1);
-        if (type === 'all') {
-            setFilteredTransactions(transactions);
-        } else {
-            const filtered = transactions.filter((tx) => tx.type === type);
-            setFilteredTransactions(filtered);
-        }
     };
 
-    const formatDate = (isoDate) => new Date(isoDate).toLocaleString();
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) setCurrentPage(page);
+    };
 
+    const formatTransactionDate = (value) => {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return { date: "—", time: "" };
+
+        return {
+            date: date.toLocaleDateString("en-CA", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            }),
+            time: date.toLocaleTimeString("en-CA", {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+            }),
+        };
+    };
 
     return (
-        <div className="container-fluid p-0">
-            <div className="wallet-page">
-                <Header className="w-100 shadow" />
-                <div className="main-card d-flex justify-content-center">
-                    <div className="container h-100">
-                        <div className="row h-100">
-                            <div className="col-12 px-3 px-lg-0">
-                                <div className="row">
-                                    <div className="col-12 col-lg-11 col-xxl-10 mx-auto pb-5 pt-3 pt-lg-5">
-                                        <div className="box" data-aos="fade-down" data-aos-duration="1000">
-                                            <div className="card-container">
-                                                <div className="wallet-container text-center p-4 rounded-5">
-                                                    <div className="d-lg-flex justify-content-between align-items-center mb-4">
-                                                        <h5 className="page-title mb-3 mb-lg-0">Wallet Transactions</h5>
-                                                        <div className="btn-group gap-2 justify-content-end">
-                                                            <button
-                                                                className="btn shadow btn-secondary text-white fw-semibold rounded-pill py-2 px-4"
-                                                                onClick={() => handleFilter('all')}
-                                                            >
-                                                                All
-                                                            </button>
-                                                            <button
-                                                                className={`btn shadow btn-login ${filterType === 'debit' ? 'bg-danger' : 'bg-ff0000'} text-white fw-semibold rounded-pill py-2 px-3`}
-                                                                onClick={() => handleFilter('debit')}
-                                                            >
-                                                                Debit
-                                                            </button>
-                                                            <button
-                                                                className={`btn shadow btn-login ${filterType === 'credit' ? 'bg-success' : 'bg-04c904'} text-white fw-semibold rounded-pill py-2 px-3`}
-                                                                onClick={() => handleFilter('credit')}
-                                                            >
-                                                                Credit
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="transaction-table">
-                                                        <div className="table-responsive">
-                                                            <table className="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col" style={{ minWidth: '160px', maxWidth: '170px' }}>Date & Time</th>
-                                                                        <th scope="col" style={{ minWidth: '170px', maxWidth: '200px' }} className='text-start'>Description</th>
-                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: '130px' }}>Payment ID</th>
-                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: '130px' }}>Status</th>
-                                                                        <th scope="col" style={{ minWidth: '120px', maxWidth: 'fit-content' }}>Amount</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {currentTransactions.length > 0 ? (
-                                                                        currentTransactions.map((tx) => (
-                                                                            <tr key={tx._id}>
-                                                                                <td className='text-start'>
-                                                                                    <div className="d-flex justify-content-center align-items-center">
-                                                                                        {tx.type === 'debit' ? (
-                                                                                            <i className="fas fa-arrow-up me-3" style={{ color: "#ff0000", transform: "rotateZ(30deg)" }}></i>
-                                                                                        ) : (
-                                                                                            <i className="fas fa-arrow-up me-3" style={{ color: "#00ff00", transform: "rotateZ(-150deg)" }}></i>
-                                                                                        )}
-                                                                                        {formatDate(tx.createdAt)}
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td className='text-start'>{tx.description}</td>
-                                                                                <td>{tx.payment_id}</td>
-                                                                                <td className='text-capitalize'>
-                                                                                    {tx.status === 'confirmed' ? (
-                                                                                        <span className="text-success">{tx.status}</span>
-                                                                                    ) : (
-                                                                                        <span className="text-warning">{tx.status}</span>
-                                                                                    )}
-                                                                                </td>
-                                                                                <td className={tx.type === 'debit' ? 'text-danger' : 'text-success'}>
-                                                                                    {tx.type === 'debit' ? '-' : '+'} ${tx.amount.toFixed(2)}
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))
-                                                                    ) : (
-                                                                        <tr>
-                                                                            <td colSpan="5" className="text-center">No transactions found</td>
-                                                                        </tr>
-                                                                    )}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+        <div className="wallet-transactions-page">
+            <Header />
+
+            <main className="wallet-transactions-main">
+                <section className="wallet-transactions-shell" aria-labelledby="transactions-title">
+                    <Link href="/Wallet" className="wallet-transactions-back">
+                        <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        Back to Wallet
+                    </Link>
+
+                    <div className="wallet-transactions-card">
+                        <header className="wallet-transactions-heading">
+                            <div>
+                                <h1 id="transactions-title">Wallet Transactions</h1>
+                                <p>Review all deposits and wallet deductions.</p>
+                            </div>
+
+                            <div className="wallet-transaction-filters" aria-label="Filter transactions">
+                                {[
+                                    ["all", "All"],
+                                    ["debit", "Debit"],
+                                    ["credit", "Credit"],
+                                ].map(([value, label]) => (
+                                    <button
+                                        type="button"
+                                        key={value}
+                                        className={`${filterType === value ? "active" : ""} wallet-filter--${value}`}
+                                        aria-pressed={filterType === value}
+                                        onClick={() => handleFilter(value)}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                        </header>
+
+                        <div className="wallet-transactions-list">
+                            <div className="wallet-transaction-row wallet-transaction-row--header" aria-hidden="true">
+                                <span>Date &amp; Time</span>
+                                <span>Description</span>
+                                <span>Payment ID</span>
+                                <span>Status</span>
+                                <span>Amount</span>
+                            </div>
+
+                            {loading ? (
+                                <div className="wallet-transactions-state">
+                                    <i className="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                                    <strong>Loading transactions...</strong>
+                                </div>
+                            ) : error ? (
+                                <div className="wallet-transactions-state wallet-transactions-state--error">
+                                    <i className="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+                                    <strong>Unable to load transactions</strong>
+                                    <p>{error}</p>
+                                </div>
+                            ) : currentTransactions.length ? (
+                                currentTransactions.map((transaction) => {
+                                    const formattedDate = formatTransactionDate(transaction.createdAt);
+                                    const isDebit = transaction.type === "debit";
+                                    const status = transaction.status || "pending";
+                                    const amount = Number(transaction.amount || 0).toFixed(2);
+
+                                    return (
+                                        <article className="wallet-transaction-row" key={transaction._id || transaction.payment_id}>
+                                            <div className="wallet-transaction-date" data-label="Date & Time">
+                                                <span className={`wallet-transaction-direction ${isDebit ? "debit" : "credit"}`} aria-hidden="true">
+                                                    <i className={`fa-solid ${isDebit ? "fa-arrow-up" : "fa-arrow-down"}`}></i>
+                                                </span>
+                                                <div>
+                                                    <strong>{formattedDate.date}</strong>
+                                                    <span>{formattedDate.time}</span>
                                                 </div>
                                             </div>
-                                            {totalPages > 1 && (
-                                                <nav className="mt-4">
-                                                    <ul className="pagination justify-content-center">
-                                                        <li className={`page-item ${currentPage === 1 && "disabled"}`}>
-                                                            <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(currentPage - 1)}>
-                                                                &laquo;
-                                                            </button>
-                                                        </li>
-
-                                                        {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
-                                                            <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                                                                <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(number)}>
-                                                                    {number}
-                                                                </button>
-                                                            </li>
-                                                        ))}
-
-                                                        <li className={`page-item ${currentPage === totalPages && "disabled"}`}>
-                                                            <button className="page-link rounded-circle mx-1 shadow-sm" onClick={() => handlePageChange(currentPage + 1)}>
-                                                                &raquo;
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </nav>
-                                            )}
-                                        </div>
-                                    </div>
+                                            <div className="wallet-transaction-description" data-label="Description">
+                                                {transaction.description || "Wallet transaction"}
+                                            </div>
+                                            <div className="wallet-transaction-id" data-label="Payment ID">
+                                                {transaction.payment_id || "—"}
+                                            </div>
+                                            <div data-label="Status">
+                                                <span className={`wallet-transaction-status wallet-transaction-status--${status.toLowerCase()}`}>
+                                                    {status}
+                                                </span>
+                                            </div>
+                                            <strong className={`wallet-transaction-amount ${isDebit ? "debit" : "credit"}`} data-label="Amount">
+                                                {isDebit ? "−" : "+"}${amount}
+                                            </strong>
+                                        </article>
+                                    );
+                                })
+                            ) : (
+                                <div className="wallet-transactions-state">
+                                    <span className="wallet-transactions-state__icon" aria-hidden="true">
+                                        <i className="fa-solid fa-receipt"></i>
+                                    </span>
+                                    <strong>No transactions found</strong>
+                                    <p>Your {filterType === "all" ? "wallet" : filterType} transactions will appear here.</p>
                                 </div>
-                            </div>
+                            )}
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
 
-export default ProtectedRoute(walletTransaction);
+                        {totalPages > 1 && (
+                            <nav className="wallet-transactions-pagination" aria-label="Transaction pages">
+                                <button
+                                    type="button"
+                                    aria-label="Previous page"
+                                    disabled={currentPage === 1}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                >
+                                    <i className="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                                </button>
+
+                                {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                                    <button
+                                        type="button"
+                                        key={page}
+                                        className={currentPage === page ? "active" : ""}
+                                        aria-current={currentPage === page ? "page" : undefined}
+                                        onClick={() => handlePageChange(page)}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+
+                                <button
+                                    type="button"
+                                    aria-label="Next page"
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                >
+                                    <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                                </button>
+                            </nav>
+                        )}
+                    </div>
+                </section>
+            </main>
+            <Footer />
+        </div>
+    );
+};
+
+export default ProtectedRoute(WalletTransactions);

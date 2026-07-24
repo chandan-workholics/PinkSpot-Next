@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import Spinner from "../components/spinner/Spinner";
+import Footer from "../components/footer/Footer";
 
 const LoginClient = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -236,6 +237,7 @@ const LoginClient = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

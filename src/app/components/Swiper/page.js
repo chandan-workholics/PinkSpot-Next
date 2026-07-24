@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
 import callAPI, { interceptor } from '../../Common_Method/api'
 import { useRouter } from "next/navigation"
+import VerifiedBadge from '../VerifiedBadge/VerifiedBadge'
 
 
 const SwiperPage = () => {
@@ -72,7 +73,10 @@ const SwiperPage = () => {
                                         />
 
                                         <div className="simple-text">
-                                            <p>{post.name}</p>
+                                            <div className="featured-name-with-badge">
+                                                <p>{post.name}</p>
+                                                <VerifiedBadge record={post} compact />
+                                            </div>
                                             <p>{post.city}</p>
                                         </div>
                                         {/* Added overlay to match the static design */}
