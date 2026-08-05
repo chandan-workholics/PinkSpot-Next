@@ -106,7 +106,11 @@ const faqs = [
   },
 ];
 
-const slugify = (value) => value?.toLowerCase().trim().replace(/\s+/g, "-");
+const citySlugOverrides = {
+  Mississauga: "mississauga",
+};
+
+const slugify = (value) => citySlugOverrides[value] || value?.toLowerCase().trim().replace(/\s+/g, "-");
 
 export default function HomePage() {
   const router = useRouter();
@@ -271,7 +275,13 @@ export default function HomePage() {
                   latestListings.map((listing, index) => (
                     <SwiperSlide key={`${listing.name}-${index}`}>
                       <Link className="pink-latest-card" href={openListing(listing)}>
-                        <img src={listing.image} alt={`${listing.name} in ${listing.city}`} />
+                        <img
+                          src={listing.image}
+                          alt={`${listing.name} in ${listing.city}`}
+                          loading={index === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                          fetchPriority={index === 0 ? "high" : "auto"}
+                        />
                         <VerifiedBadge record={listing.source} compact />
                       </Link>
                     </SwiperSlide>

@@ -82,7 +82,12 @@ const Profile = ({ post }) => {
 
                         <div className="ad-profile-gallery">
                             <div className="ad-profile-gallery__main">
-                                <img src={activeImage} alt={`${posts?.name || "Provider"} profile`} />
+                                <img
+                                    src={activeImage}
+                                    alt={`${posts?.name || "Provider"} profile`}
+                                    decoding="async"
+                                    fetchPriority="high"
+                                />
                                 <span>
                                     <i className="fa-regular fa-images" aria-hidden="true"></i>
                                     {images.length} {images.length === 1 ? "Photo" : "Photos"}
@@ -99,7 +104,7 @@ const Profile = ({ post }) => {
                                             aria-label={`View photo ${index + 1}`}
                                             onClick={() => setSelectedImage(image)}
                                         >
-                                            <img src={image} alt="" />
+                                            <img src={image} alt="" loading="lazy" decoding="async" />
                                         </button>
                                     ))}
                                 </div>
@@ -151,6 +156,10 @@ const Profile = ({ post }) => {
                             ))}
                         </dl>
                     </section>
+
+                    <aside className="ad-profile-seen-badge" aria-label="Say you saw my ad on Pinkspot">
+                        <img src="/images/seen-my-ad-badge.jpeg" alt="Mention you saw my ad on Pinkspot.cc" />
+                    </aside>
 
                     <section className="ad-profile-about" aria-labelledby="profile-about-title">
                         <h2 id="profile-about-title">About Me</h2>

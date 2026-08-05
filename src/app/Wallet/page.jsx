@@ -11,41 +11,53 @@ const Wallet = () => {
     const [paymentInfo, setPaymentInfo] = useState({});
     const [staticWallet, setStaticWallet] = useState(null);
     const [walletLoading, setWalletLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [walletError, setWalletError] = useState("");
     const [copied, setCopied] = useState(false);
 
-    useEffect(() => {
+    const loadWallet = async ({ refreshOnly = false } = {}) => {
         const userId = sessionStorage.getItem("userid");
         const token = sessionStorage.getItem("token");
+        if (!userId || !token) return;
 
-        const loadWallet = async () => {
-            try {
-                const headers = { Authorization: `Bearer ${token}` };
-                const [balanceResponse, addressResponse] = await Promise.all([
-                    fetch(apiUrl(`/payment/info/${userId}`), { headers }),
-                    fetch(apiUrl(`/payment/trybit/static-wallet/${userId}`), {
-                        method: "POST",
-                        headers,
-                    }),
-                ]);
-                const balanceData = await balanceResponse.json();
+        try {
+            if (refreshOnly) setRefreshing(true);
+            else setWalletLoading(true);
+
+            const headers = { Authorization: `Bearer ${token}` };
+            const requests = [fetch(apiUrl(`/payment/info/${userId}`), { headers })];
+
+            if (!refreshOnly || !staticWallet?.address) {
+                requests.push(fetch(apiUrl(`/payment/trybit/static-wallet/${userId}`), {
+                    method: "POST",
+                    headers,
+                }));
+            }
+
+            const [balanceResponse, addressResponse] = await Promise.all(requests);
+            const balanceData = await balanceResponse.json();
+
+            if (balanceResponse.ok) setPaymentInfo(balanceData);
+
+            if (addressResponse) {
                 const addressData = await addressResponse.json();
-
-                if (balanceResponse.ok) setPaymentInfo(balanceData);
                 if (addressResponse.ok) {
                     setStaticWallet(addressData.data);
                 } else {
                     setWalletError(addressData.message || "Litecoin wallet is temporarily unavailable.");
                 }
-            } catch (error) {
-                console.error("Error fetching payment info:", error);
-                setWalletError("Litecoin wallet is temporarily unavailable.");
-            } finally {
-                setWalletLoading(false);
             }
-        };
+        } catch (error) {
+            console.error("Error fetching payment info:", error);
+            setWalletError("Litecoin wallet is temporarily unavailable.");
+        } finally {
+            setWalletLoading(false);
+            setRefreshing(false);
+        }
+    };
 
-        if (userId) loadWallet();
+    useEffect(() => {
+        loadWallet();
     }, []);
 
     const balance = Number(paymentInfo?.balance || 0).toFixed(2);
@@ -97,32 +109,12 @@ const Wallet = () => {
                             {walletError && <small role="alert">{walletError}</small>}
                         </div>
 
-                        <div className="wallet-deposit-notice">
-                            <span aria-hidden="true"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                        <div className="wallet-info-bubble">
+                            <span aria-hidden="true"><i className="fa-solid fa-info"></i></span>
                             <div>
-                                <strong>Payment will show after blockchain confirmation.</strong>
-                                <p>After sending LTC, your deposit is processing. Your CAD balance and transaction history will update automatically once the payment is confirmed.</p>
+                                <p>Send Litecoin (LTC) only. Deposits typically arrive in under 1 minute, but can take 1-5 minutes. Funds are added to your wallet automatically after network confirmation.</p>
                             </div>
                         </div>
-
-                        <div className="wallet-deposit-status">
-                            <div>
-                                <i className="fa-solid fa-paper-plane" aria-hidden="true"></i>
-                                <span>Send LTC</span>
-                            </div>
-                            <div>
-                                <i className="fa-solid fa-spinner" aria-hidden="true"></i>
-                                <span>Processing</span>
-                            </div>
-                            <div>
-                                <i className="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                <span>Balance credited</span>
-                            </div>
-                        </div>
-
-                        <p className="wallet-deposit-warning">
-                            Send only Litecoin (LTC) on the supported network. If you sent a payment and it does not appear after confirmation, please contact support with your transaction hash.
-                        </p>
                     </article>
 
                     <article className="wallet-balance-card">
@@ -131,7 +123,18 @@ const Wallet = () => {
                         </div>
                         <div className="wallet-balance-card__amount">
                             <span>Wallet Balance</span>
-                            <strong>${balance} <small>CAD</small></strong>
+                            <div className="wallet-balance-card__row">
+                                <strong>${balance} <small>CAD</small></strong>
+                                <button
+                                    type="button"
+                                    className="wallet-balance-refresh"
+                                    aria-label="Refresh wallet balance"
+                                    disabled={refreshing}
+                                    onClick={() => loadWallet({ refreshOnly: true })}
+                                >
+                                    <i className={`fa-solid fa-rotate-right ${refreshing ? "fa-spin" : ""}`} aria-hidden="true"></i>
+                                </button>
+                            </div>
                             <p>Available to use</p>
                         </div>
                         <Link href="/wallet-transactions">

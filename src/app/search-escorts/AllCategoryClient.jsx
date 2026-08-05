@@ -9,6 +9,20 @@ import VerifiedBadge from "../components/VerifiedBadge/VerifiedBadge";
 import { useSearchParams } from 'next/navigation';
 import { apiUrl } from '../../config/api';
 
+const cityNameOverrides = {
+    mississauga: "Mississauga",
+};
+
+const formatCityForApi = (value = "") => {
+    const slug = value.toLowerCase().trim();
+    if (cityNameOverrides[slug]) return cityNameOverrides[slug];
+
+    return value
+        .replace(/-/g, " ")
+        .trim()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+};
+
 const AllCategoryClient = ({ initialCity = null }) => {
     const router = useRouter();
     const pathname = usePathname();
@@ -144,9 +158,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
 
     const formattedFilters = {
         ...filters,
-        city: filters.city
-            ? filters.city.charAt(0).toUpperCase() + filters.city.slice(1)
-            : "",
+        city: filters.city ? formatCityForApi(filters.city) : "",
     };
 
     // Fetch posts (filtered or not)
@@ -154,19 +166,28 @@ const AllCategoryClient = ({ initialCity = null }) => {
         try {
             setLoading(true);
 
-            const response = await fetch(
+            const requestPosts = (requestFilters) => fetch(
                 apiUrl(`/filter/getPostAdByCategoryfilterPagination?page=${page}&limit=20`),
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    // body: JSON.stringify(filters),
-                    body: JSON.stringify(formattedFilters),
+                    body: JSON.stringify(requestFilters),
                 }
             );
 
-            const result = await response.json();
+            let response = await requestPosts(formattedFilters);
+            let result = await response.json();
+
+            if (
+                initialCity &&
+                formattedFilters.city?.toLowerCase() === "mississauga" &&
+                (!result?.data || result.data.length === 0)
+            ) {
+                response = await requestPosts({ ...formattedFilters, city: "mississauga" });
+                result = await response.json();
+            }
 
             setPost(result?.data || []);
             setTotalPages(result?.pagination?.totalPages || 1);

@@ -236,11 +236,14 @@ a {
 
 
 .header {
+  background: #1b1b1f;
   border-bottom: 1px solid #dd88cf !important;
 
   .navbar-brand img {
-    width: 165px;
+    width: 210px;
+    max-height: 58px;
     padding: 0;
+    object-fit: contain;
   }
 
   .offcanvas .nav-item .nav-link {
@@ -285,7 +288,8 @@ a {
 
   @media only screen and (max-width:767px) {
     .navbar-brand img {
-      width: 150px;
+      width: 170px;
+      max-height: 48px;
       padding: 0;
     }
   }
@@ -299,7 +303,7 @@ a {
 
 @media (min-width: 992px) and (max-width: 1350px) {
   .header .navbar-brand img {
-    width: 135px;
+    width: 170px;
   }
 
   .header .navbar .nav-item .nav-link {
@@ -781,8 +785,8 @@ a {
 
 .ad-profile-gallery__main {
   position: relative;
-  height: min(68vw, 660px);
-  min-height: 420px;
+  height: min(62vw, 600px);
+  min-height: 390px;
   overflow: hidden;
   border: 3px solid #fff;
   border-radius: 22px;
@@ -795,6 +799,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
 .ad-profile-gallery__main > span {
@@ -865,7 +870,9 @@ a {
   gap: 14px;
   margin: 0;
   color: #685769;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.35;
 }
 
 .ad-profile-intro__meta span + span::before {
@@ -877,6 +884,7 @@ a {
 .ad-profile-intro__meta i {
   margin-right: 5px;
   color: #ed0a69;
+  font-size: 18px;
 }
 
 .ad-profile-favourite {
@@ -901,7 +909,7 @@ a {
 
 .ad-profile-title-preview {
   margin-top: 17px;
-  padding: 14px 18px;
+  padding: 16px 20px;
   border: 1px solid #f4dfe9;
   border-radius: 10px;
   background: #fff3f9;
@@ -912,8 +920,9 @@ a {
   margin: 0;
   overflow: hidden;
   color: #df0b66;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 760;
+  line-height: 1.45;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
@@ -925,8 +934,8 @@ a {
   }
 
   .ad-profile-gallery__main {
-    height: min(112vw, 560px);
-    min-height: 380px;
+    height: min(104vw, 520px);
+    min-height: 340px;
     border-radius: 18px;
   }
 
@@ -942,6 +951,18 @@ a {
 
   .ad-profile-intro h1 {
     font-size: 25px;
+  }
+
+  .ad-profile-intro__meta {
+    font-size: 15px;
+  }
+
+  .ad-profile-title-preview {
+    padding: 15px 16px;
+  }
+
+  .ad-profile-title-preview p {
+    font-size: 15px;
   }
 
   .ad-profile-favourite {
@@ -1014,7 +1035,7 @@ a {
 .ad-profile-details dt {
   margin-bottom: 6px;
   color: #766b77;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -1022,7 +1043,7 @@ a {
   margin: 0;
   overflow-wrap: anywhere;
   color: #241726;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 720;
   line-height: 1.4;
 }
@@ -1031,6 +1052,19 @@ a {
   color: #ed0a69;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.ad-profile-seen-badge {
+  margin: 16px 0 20px;
+}
+
+.ad-profile-seen-badge img {
+  display: block;
+  width: 100%;
+  border: 1px solid #f3d6e5;
+  border-radius: 12px;
+  background: #fff7fb;
+  box-shadow: 0 10px 24px rgba(237, 31, 128, 0.12);
 }
 
 .ad-profile-about {
@@ -1084,7 +1118,15 @@ a {
   }
 
   .ad-profile-details dd {
-    font-size: 13px;
+    font-size: 15px;
+  }
+
+  .ad-profile-details dt {
+    font-size: 12.5px;
+  }
+
+  .ad-profile-seen-badge {
+    margin: 14px 0 18px;
   }
 
   .ad-profile-about {
@@ -1434,13 +1476,27 @@ a {
     font-size: 80px;
   }
 
-  .header .btn-login {
-    background-color: #ffdef7 !important;
-  }
-
   @media only screen and (max-width:767px) {
     .login-content h2 {
       font-size: 40px;
+    }
+
+    .header .navbar {
+      padding-right: 18px !important;
+      padding-left: 18px !important;
+    }
+
+    .header .navbar-brand img {
+      width: 150px !important;
+      max-height: 42px;
+    }
+
+    .header .d-lg-none .btn-login {
+      display: none;
+    }
+
+    .header .d-lg-none {
+      margin-left: auto;
     }
   }
 
@@ -4290,88 +4346,33 @@ a {
   background: transparent;
 }
 
-.wallet-deposit-notice {
+.wallet-info-bubble {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   margin-top: 20px;
-  padding: 16px;
+  padding: 18px;
   border-radius: 10px;
+  border: 1px solid #f4dbe8;
   background: #fff0f7;
 }
 
-.wallet-deposit-notice > span {
+.wallet-info-bubble > span {
   display: grid;
-  flex: 0 0 42px;
-  width: 42px;
-  height: 42px;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border-radius: 50%;
   color: #fff;
   background: #ed0a69;
-  font-size: 19px;
+  font-size: 20px;
 }
 
-.wallet-deposit-notice strong {
-  display: block;
-  margin-bottom: 4px;
-  color: #211a22;
-  font-size: 12px;
-}
-
-.wallet-deposit-notice p {
+.wallet-info-bubble p {
   margin: 0;
-  color: #655b65;
-  font-size: 11px;
-  line-height: 1.45;
-}
-
-.wallet-deposit-status {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.wallet-deposit-status > div {
-  display: grid;
-  min-height: 72px;
-  place-items: center;
-  gap: 7px;
-  padding: 10px 6px;
-  border: 1px solid #f7d8e8;
-  border-radius: 8px;
-  background: #fff9fc;
-  color: #4b164c;
-  text-align: center;
-}
-
-.wallet-deposit-status i {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border-radius: 50%;
-  background: #fff0f7;
-  color: #ed0a69;
-  font-size: 13px;
-}
-
-.wallet-deposit-status span {
-  color: #211a22;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.wallet-deposit-warning {
-  margin: 12px 0 0;
-  padding: 12px 14px;
-  border-left: 3px solid #ed0a69;
-  border-radius: 8px;
-  background: #fff7fb;
-  color: #625562;
-  font-size: 11px;
+  color: #332b34;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -4400,6 +4401,13 @@ a {
   flex-direction: column;
 }
 
+.wallet-balance-card__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
 .wallet-balance-card__amount > span,
 .wallet-balance-card__amount p {
   color: #655d67;
@@ -4421,10 +4429,30 @@ a {
   margin: 3px 0 0;
 }
 
+.wallet-balance-refresh {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid #f5cfe2;
+  border-radius: 10px;
+  background: #fff0f7;
+  color: #ed0a69;
+  font-size: 17px;
+}
+
+.wallet-balance-refresh:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .wallet-balance-card > a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  grid-column: 1 / -1;
   padding: 12px 16px;
   border-radius: 7px;
   color: #fff;
@@ -4497,23 +4525,13 @@ a {
     height: 160px;
   }
 
-  .wallet-deposit-status {
-    gap: 6px;
+  .wallet-info-bubble {
+    align-items: flex-start;
+    padding: 16px;
   }
 
-  .wallet-deposit-status > div {
-    min-height: 66px;
-    padding: 9px 4px;
-  }
-
-  .wallet-deposit-status i {
-    width: 28px;
-    height: 28px;
-  }
-
-  .wallet-deposit-status span,
-  .wallet-deposit-warning {
-    font-size: 10px;
+  .wallet-info-bubble p {
+    font-size: 12px;
   }
 
   .wallet-balance-card {
@@ -4531,9 +4549,15 @@ a {
     font-size: 22px;
   }
 
+  .wallet-balance-refresh {
+    width: 38px;
+    height: 38px;
+  }
+
   .wallet-balance-card > a {
     grid-column: 1 / -1;
     justify-content: center;
+    width: 100%;
   }
 
   .wallet-help-card {
@@ -5547,7 +5571,7 @@ a {
 }
 
 .pink-listing-swiper {
-  max-width: 680px;
+  max-width: 620px;
   padding-bottom: 42px !important;
 }
 
@@ -5555,7 +5579,7 @@ a {
   position: relative;
   display: block;
   overflow: hidden;
-  min-height: 520px;
+  min-height: 460px;
   border-radius: 8px;
   background: #efe5ea;
   color: #ffffff;
@@ -5563,8 +5587,9 @@ a {
 
 .pink-latest-card img {
   width: 100%;
-  height: 520px;
+  height: 460px;
   object-fit: cover;
+  object-position: center top;
 }
 
 .pink-listing-placeholder {
@@ -7513,5 +7538,91 @@ a {
   .pink-support a {
     justify-content: center;
     margin: 0 auto;
+  }
+}
+
+/* Client update: standardized dark charcoal header */
+.header,
+.pink-home__nav {
+  background: #1b1b1f !important;
+}
+
+.header {
+  border-bottom: 1px solid rgba(237, 31, 128, 0.42) !important;
+}
+
+.header .navbar {
+  min-height: 76px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.header .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.header .navbar-brand img,
+.pink-home__nav .navbar-brand img {
+  width: 210px !important;
+  max-height: 58px;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.header .navbar .nav-item .nav-link,
+.pink-home__nav .nav-link {
+  color: #ffffff !important;
+}
+
+.header .navbar .nav-item .nav-link.active,
+.header .navbar .nav-item .nav-link:hover,
+.pink-home__nav .nav-link.active,
+.pink-home__nav .nav-link:hover {
+  color: #ff72b2 !important;
+}
+
+.header .navbar .nav-item .nav-link::after,
+.pink-home__nav .navbar .nav-item .nav-link::after {
+  background: #ff72b2 !important;
+}
+
+.header .fa-bars,
+.pink-home__nav .fa-bars {
+  color: #ff72b2 !important;
+}
+
+.header .btn-login {
+  background: #ffffff !important;
+  color: #1b1b1f !important;
+}
+
+.header .btn-addPost {
+  background: #ed1f80 !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 767px) {
+  .header .navbar {
+    min-height: 72px;
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+  }
+
+  .header .navbar-brand img,
+  .pink-home__nav .navbar-brand img {
+    width: 152px !important;
+    max-height: 48px;
+  }
+
+  .header .navbar .container-fluid {
+    gap: 12px;
+  }
+
+  .header .d-lg-none .btn {
+    min-height: 42px;
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+    font-size: 14px !important;
   }
 }

@@ -11,7 +11,11 @@ const popularCities = [
   "Sarnia", "Montreal", "Calgary",
 ];
 
-const slugify = (value) => value.toLowerCase().trim().replace(/\s+/g, "-");
+const citySlugOverrides = {
+  Mississauga: "mississauga",
+};
+
+const slugify = (value) => citySlugOverrides[value] || value.toLowerCase().trim().replace(/\s+/g, "-");
 
 const Footer = () => {
   const pathname = usePathname();

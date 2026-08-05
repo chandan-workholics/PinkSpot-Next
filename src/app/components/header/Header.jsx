@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
-import logo from '../../../../public/images/pink-logo.png'
+import logo from '../../../../public/images/pinkspot-logo-charcoal.png'
 import { useRouter, usePathname } from 'next/navigation'
 import CloseOffcanvasLink from '../CloseOffcanvasLink'
 
@@ -11,6 +11,27 @@ const Header = () => {
 
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const loggedOutLinks = [
+        { href: "/", label: "Home", icon: "fa-house", active: pathname === "/" },
+        { href: "/pricing", label: "Pricing", icon: "fa-dollar-sign", active: pathname.startsWith("/pricing") },
+        { href: "/login?mode=signup", label: "Register", icon: "fa-user-plus", active: false },
+        { href: "/login?mode=login", label: "Log In", icon: "fa-user", active: pathname.startsWith("/login") },
+        { href: "/get-verified", label: "Get Verified", icon: "fa-shield-heart", active: pathname.startsWith("/get-verified") },
+        { href: "/aboutus", label: "About Us", icon: "fa-circle-info", active: pathname.startsWith("/aboutus") },
+        { href: "/contactus", label: "Contact Us", icon: "fa-envelope", active: pathname.startsWith("/contactus") },
+    ];
+    const loggedInLinks = [
+        { href: "/", label: "Home", icon: "fa-house", active: pathname === "/" },
+        { href: "/search-escorts?from=header", label: "Search Escorts", icon: "fa-magnifying-glass", active: pathname.startsWith("/search-escorts") || pathname.startsWith("/female-escorts") },
+        { href: "/UserProfile", label: "My Profile", icon: "fa-circle-user", active: pathname.startsWith("/UserProfile") },
+        { href: "/Wallet", label: "Wallet", icon: "fa-wallet", active: pathname.startsWith("/Wallet") },
+        { href: "/subscription", label: "Subscription Plan", icon: "fa-crown", active: pathname.startsWith("/subscription") },
+        { href: "/get-verified", label: "Get Verified", icon: "fa-shield-heart", active: pathname.startsWith("/get-verified") },
+        { href: "/pricing", label: "Pricing", icon: "fa-dollar-sign", active: pathname.startsWith("/pricing") },
+        { href: "/contactus", label: "Contact Us", icon: "fa-envelope", active: pathname.startsWith("/contactus") },
+        { href: "/aboutus", label: "About Us", icon: "fa-circle-info", active: pathname.startsWith("/aboutus") },
+    ];
+    const navLinks = isAuthenticated ? loggedInLinks : loggedOutLinks;
     useEffect(() => {
         const token = sessionStorage.getItem("token");
         setIsAuthenticated(!!token);
@@ -56,53 +77,17 @@ const Header = () => {
                         </div>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <Link className={`nav-link ${pathname === "/" ? "active" : ""}`} aria-current="page" href="/">Home</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`nav-link ${pathname.startsWith("/aboutus") ? "active" : ""}`} href="/aboutus">About Us</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`nav-link ${pathname.startsWith("/pricing") ? "active" : ""}`} href="/pricing">Pricing</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`nav-link ${pathname.startsWith("/get-verified") ? "active" : ""}`} href="/get-verified">Get Verified</Link>
-                                </li>
-                                {!isAuthenticated ? (
-                                    <>
-                                        <li className="nav-item">
-                                            <Link className={`nav-link ${pathname.startsWith("/login") ? "active" : ""}`} href="/login?mode=login">Log In</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" href="/login?mode=signup">Register</Link>
-                                        </li>
-                                    </>
-                                ) : null}
-                                <li className="nav-item">
-                                    <Link className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">Contact Us</Link>
-                                </li>
-                                {isAuthenticated ? (
-                                    <li className="nav-item">
-                                        <Link
-                                            className={`nav-link ${pathname.startsWith("/subscription") ? "active" : ""}`}
-                                            href="/subscription"
-                                        >
-                                            Subscription Plan
-                                        </Link>
+                                {navLinks.map((item) => (
+                                    <li className="nav-item" key={item.href}>
+                                        <Link className={`nav-link ${item.active ? "active" : ""}`} href={item.href}>{item.label}</Link>
                                     </li>
-                                ) : ''}
-
-
+                                ))}
                             </ul>
                             <div className="d-flex">
                                 {!isAuthenticated ? (
                                     null
                                 ) : (
                                     <>
-                                        <Link className="btn btn-login text-4b164c bg-ffdef7 fw-semibold rounded-pill me-3 py-2 px-3"
-                                            href="/search-escorts?from=header">
-                                            Search Escorts
-                                        </Link>
                                         <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill py-xxl-2 px-xxl-3 me-3'>POST YOUR AD</button>
 
                                         <div className="dropdown">
@@ -148,94 +133,16 @@ const Header = () => {
                         </div>
                         <div className="offcanvas-body">
                             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname === "/" ? "active" : ""}`} aria-current="page" href="/" >
-                                        <i className="fa-solid fa-house" aria-hidden="true"></i>
-                                        Home
-                                    </CloseOffcanvasLink>
-                                </li>
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/aboutus") ? "active" : ""}`} aria-current="page" href="/aboutus">
-                                        <i className="fa-solid fa-circle-info" aria-hidden="true"></i>
-                                        About Us
-                                    </CloseOffcanvasLink>
-                                </li>
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/pricing") ? "active" : ""}`} href="/pricing">
-                                        <i className="fa-solid fa-dollar-sign" aria-hidden="true"></i>
-                                        Pricing
-                                    </CloseOffcanvasLink>
-                                </li>
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/get-verified") ? "active" : ""}`} href="/get-verified">
-                                        <i className="fa-solid fa-shield-heart" aria-hidden="true"></i>
-                                        Get Verified
-                                    </CloseOffcanvasLink>
-                                </li>
-                                {!isAuthenticated ? (
-                                    <>
-                                        <li className="nav-item">
-                                            <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/login") ? "active" : ""}`} href="/login?mode=login">
-                                                <i className="fa-solid fa-user" aria-hidden="true"></i>
-                                                Log In
-                                            </CloseOffcanvasLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <CloseOffcanvasLink className="nav-link" href="/login?mode=signup">
-                                                <i className="fa-solid fa-user-plus" aria-hidden="true"></i>
-                                                Register
-                                            </CloseOffcanvasLink>
-                                        </li>
-                                    </>
-                                ) : null}
-                                <li className="nav-item">
-                                    <CloseOffcanvasLink className={`nav-link ${pathname.startsWith("/contactus") ? "active" : ""}`} href="/contactus">
-                                        <i className="fa-solid fa-envelope" aria-hidden="true"></i>
-                                        Contact Us
-                                    </CloseOffcanvasLink>
-                                </li>
-
-                                <li className="nav-item d-none d-lg-block">
-                                    <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill my-3 py-2 px-3 mb-3"
-                                        href="/search-escorts?from=header">
-                                        Search Escorts
-                                    </CloseOffcanvasLink>
-                                </li>
+                                {navLinks.map((item) => (
+                                    <li className="nav-item" key={item.href}>
+                                        <CloseOffcanvasLink className={`nav-link ${item.active ? "active" : ""}`} href={item.href}>
+                                            <i className={`fa-solid ${item.icon}`} aria-hidden="true"></i>
+                                            {item.label}
+                                        </CloseOffcanvasLink>
+                                    </li>
+                                ))}
                                 {!isAuthenticated ? null : (
                                     <>
-                                        <li className="nav-item">
-                                            <CloseOffcanvasLink
-                                                className={`nav-link ${pathname.startsWith("/subscription") ? "active" : ""}`}
-                                                href="/subscription">
-                                                <i className="fa-solid fa-crown" aria-hidden="true"></i>
-                                                Subscription Plan
-                                            </CloseOffcanvasLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <CloseOffcanvasLink
-                                                className={`nav-link ${pathname.startsWith("/UserProfile") ? "active" : ""}`}
-                                                href="/UserProfile">
-                                                <i className="fa-solid fa-circle-user" aria-hidden="true"></i>
-                                                My Profile
-                                            </CloseOffcanvasLink>
-                                            {/* <div onClick={() => router.push("/UserProfile")} className='nav-link' style={{ cursor: "pointer" }}>My Profile</div> <br /> */}
-                                        </li>
-                                        <li className="nav-item">
-                                            <CloseOffcanvasLink
-                                                className={`nav-link ${pathname.startsWith("/Wallet") ? "active" : ""}`}
-                                                href="/Wallet">
-                                                <i className="fa-solid fa-wallet" aria-hidden="true"></i>
-                                                Wallet
-                                            </CloseOffcanvasLink>
-                                            {/* <div onClick={() => router.push("/Wallet")} className='nav-link' style={{ cursor: "pointer" }}>Wallet</div> <br /> */}
-                                        </li>
-                                        <li className="nav-item d-block d-lg-none">
-                                            <CloseOffcanvasLink className="btn btn-login text-4b164c bg-fcf3fa fw-semibold rounded-pill mt-3 py-2 px-3"
-                                                href="/search-escorts?from=header">
-                                                <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                                                Search Escorts
-                                            </CloseOffcanvasLink>
-                                        </li>
                                         <li className="nav-item">
                                             <div className="d-flex mt-3">
                                                 <button onClick={() => router.push("/adpost")} className='btn btn-addPost bg-4b164c text-white fw-semibold rounded-pill me-2'>
