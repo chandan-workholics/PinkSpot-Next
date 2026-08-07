@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import callAPI, { interceptor } from "../../../Common_Method/api";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
@@ -10,15 +10,35 @@ import VerifiedBadge from "../../../components/VerifiedBadge/VerifiedBadge";
 
 const Profile = ({ post }) => {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [posts, setPosts] = useState(post);
     const [selectedImage, setSelectedImage] = useState("");
+    const [isZoomOpen, setIsZoomOpen] = useState(false);
 
     const availabilityText = Array.isArray(posts?.availability)
         ? posts.availability.join(", ")
         : posts?.availability;
     const userid = typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
-    const images = Array.from({ length: 20 }, (_, index) => posts?.[`image${index + 1}`]).filter(Boolean);
+    const images = Array.from(
+        new Set([...Array.from({ length: 20 }, (_, index) => posts?.[`image${index + 1}`]), posts?.image].filter(Boolean))
+    );
     const activeImage = selectedImage || images[0] || "/images/no-img.png";
+    const activeImageBackground = `url("${String(activeImage).replace(/"/g, "%22")}")`;
+    const backUrl = searchParams.get("back");
+    const activeImageIndex = Math.max(images.indexOf(activeImage), 0);
+    const showImageNav = images.length > 1;
+
+    const showPreviousImage = () => {
+        if (!images.length) return;
+        const previousIndex = activeImageIndex === 0 ? images.length - 1 : activeImageIndex - 1;
+        setSelectedImage(images[previousIndex]);
+    };
+
+    const showNextImage = () => {
+        if (!images.length) return;
+        const nextIndex = activeImageIndex === images.length - 1 ? 0 : activeImageIndex + 1;
+        setSelectedImage(images[nextIndex]);
+    };
     const isFavourite = posts?.favouritepostbyuser?.includes(userid);
     const hourlyRate = posts?.price
         ? `${String(posts.price).startsWith("$") ? "" : "$"}${posts.price}/hr`
@@ -68,6 +88,10 @@ const Profile = ({ post }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [posts?.slug, getPost]);
 
+    useEffect(() => {
+        setSelectedImage("");
+    }, [posts?._id, posts?.image1]);
+
     return (
         <div className="container-fluid p-0">
             <div className="profile-page">
@@ -75,24 +99,50 @@ const Profile = ({ post }) => {
 
                 <section className="ad-profile-hero">
                     <div className="ad-profile-hero__inner">
-                        <button type="button" onClick={() => router.back()} className="ad-profile-back">
+                        <button type="button" onClick={() => (backUrl ? router.push(backUrl) : router.back())} className="ad-profile-back">
                             <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
                             Back
                         </button>
 
                         <div className="ad-profile-gallery">
-                            <div className="ad-profile-gallery__main">
+                            <div className="ad-profile-gallery__main" style={{ "--profile-image": activeImageBackground }}>
                                 <img
                                     src={activeImage}
                                     alt={`${posts?.name || "Provider"} profile`}
                                     decoding="async"
                                     fetchPriority="high"
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() => setIsZoomOpen(true)}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter" || event.key === " ") setIsZoomOpen(true);
+                                    }}
                                 />
                                 <span>
                                     <i className="fa-regular fa-images" aria-hidden="true"></i>
-                                    {images.length} {images.length === 1 ? "Photo" : "Photos"}
+                                    {images.length ? activeImageIndex + 1 : 0} / {images.length || 1}
                                 </span>
                             </div>
+                            {showImageNav && (
+                                <>
+                                    <button
+                                        type="button"
+                                        className="ad-profile-gallery__nav ad-profile-gallery__nav--prev"
+                                        aria-label="Previous photo"
+                                        onClick={showPreviousImage}
+                                    >
+                                        <i className="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="ad-profile-gallery__nav ad-profile-gallery__nav--next"
+                                        aria-label="Next photo"
+                                        onClick={showNextImage}
+                                    >
+                                        <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </>
+                            )}
 
                             {images.length > 1 && (
                                 <div className="ad-profile-gallery__thumbs" aria-label="Profile photos">
@@ -137,6 +187,15 @@ const Profile = ({ post }) => {
                                 </div>
                             )}
                         </div>
+
+                        {isZoomOpen && (
+                            <div className="ad-profile-zoom" role="dialog" aria-modal="true" aria-label="Zoomed profile photo" onClick={() => setIsZoomOpen(false)}>
+                                <button type="button" className="ad-profile-zoom__close" aria-label="Close zoomed image" onClick={() => setIsZoomOpen(false)}>
+                                    <i className="fa-solid fa-xmark" aria-hidden="true"></i>
+                                </button>
+                                <img src={activeImage} alt={`${posts?.name || "Provider"} zoomed profile`} onClick={(event) => event.stopPropagation()} />
+                            </div>
+                        )}
                     </div>
                 </section>
 

@@ -63,6 +63,13 @@ const AllCategoryClient = ({ initialCity = null }) => {
         sessionStorage.setItem(getScrollStorageKey(), String(window.scrollY));
     };
 
+    const saveListingState = () => {
+        if (typeof window === "undefined") return;
+        const url = `${window.location.pathname}${window.location.search}`;
+        sessionStorage.setItem("pinkspot-last-listing-url", url);
+        sessionStorage.setItem(getScrollStorageKey(), String(window.scrollY));
+    };
+
     const scrollToTop = () => {
         if (typeof window === "undefined") return;
         window.scrollTo({ top: 0, behavior: "auto" });
@@ -233,6 +240,24 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const handlePageChange = (page) => {
         scrollToTop();
         setCurrentPage(page);
+    };
+
+    const getBackUrl = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", String(currentPage));
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value) params.set(key, value);
+            else params.delete(key);
+        });
+
+        const query = params.toString();
+        return `${pathname}${query ? `?${query}` : ""}`;
+    };
+
+    const getListingHref = (val) => {
+        const citySlug = val?.city?.toLowerCase().replace(/\s+/g, "-");
+        const detailUrl = `/female-escorts/${citySlug}/${val?.slug}`;
+        return `${detailUrl}?back=${encodeURIComponent(getBackUrl())}`;
     };
 
     const citySlug = initialCity || filters.city;
@@ -468,8 +493,8 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
                                                     // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}?page=${currentPage}`}
-                                                    href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
-                                                    onClick={saveScrollPosition}
+                                                    href={getListingHref(val)}
+                                                    onClick={saveListingState}
                                                     className={`categeory-card ${val.highlight ? "highlight-box" : ""}`}
                                                 >
                                                     <div className="img-box">
@@ -524,8 +549,8 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                             <div className="col-12 col-md-4 col-xl-3" key={index}>
                                                 <Link
                                                     // href={`/female-escorts/${val?.city.split(" ").join("-")}/${val?.slug}`}
-                                                    href={`/female-escorts/${val?.city?.toLowerCase().replace(/\s+/g, "-")}/${val?.slug}`}
-                                                    onClick={saveScrollPosition}
+                                                    href={getListingHref(val)}
+                                                    onClick={saveListingState}
                                                 >
                                                     <div className={`card mb-4 ${val.highlight ? "highlight-box" : ""}`}>
                                                         <div className="card-box">

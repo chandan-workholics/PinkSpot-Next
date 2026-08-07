@@ -783,6 +783,10 @@ a {
   font-weight: 650;
 }
 
+.ad-profile-gallery {
+  position: relative;
+}
+
 .ad-profile-gallery__main {
   position: relative;
   height: min(62vw, 600px);
@@ -8622,8 +8626,51 @@ a {
   .pink-why .pink-price-card {
     min-height: 260px;
     padding: 42px 8px 10px;
-    border-radius: 8px;
-  }
+  border-radius: 8px;
+  cursor: zoom-in;
+}
+
+.ad-profile-zoom {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.88);
+  overflow: hidden;
+}
+
+.ad-profile-zoom img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 36px);
+  max-height: calc(100vh - 48px);
+  object-fit: contain;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  margin: 0 auto;
+}
+
+.ad-profile-zoom__close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 10000;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #4b164c;
+  font-size: 20px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
 
   .pink-why .pink-price-card:first-child {
     padding-top: 50px;
@@ -8934,43 +8981,167 @@ a {
 .pink-latest-card {
   display: grid;
   place-items: center;
-  min-height: 420px;
-  background: #171717;
+  min-height: 360px;
+  background: #ffffff !important;
+}
+
+.pink-latest-card::before {
+  display: none !important;
 }
 
 .pink-latest-card img {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  height: 420px;
+  height: 360px;
   object-fit: contain !important;
   object-position: center center !important;
-  background: #171717;
+  background: transparent !important;
 }
 
 .ad-profile-gallery__main {
   display: grid;
   place-items: center;
-  height: min(74vw, 640px);
-  min-height: 430px;
-  background: #171717;
+  width: min(100%, 430px);
+  height: min(78vw, 560px);
+  min-height: 390px;
+  margin: 0 auto;
+  background: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.ad-profile-gallery__main::before {
+  display: none !important;
 }
 
 .ad-profile-gallery__main > img {
+  position: relative;
+  z-index: 1;
   width: 100%;
+  max-width: 100%;
   height: 100%;
-  object-fit: contain !important;
+  max-height: 100%;
+  object-fit: scale-down !important;
   object-position: center center !important;
-  background: #171717;
+  background: transparent !important;
+  border-radius: 14px;
+}
+
+.ad-profile-gallery__main > span {
+  z-index: 2;
+}
+
+.ad-profile-gallery__nav {
+  position: absolute;
+  z-index: 6;
+  top: min(39vw, 280px);
+  display: grid;
+  width: 48px;
+  height: 58px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #4b164c;
+  font-size: 22px;
+  box-shadow: 0 10px 24px rgba(20, 10, 20, 0.16);
+  transform: translateY(-50%);
+}
+
+.ad-profile-gallery__nav--prev {
+  left: 10px;
+}
+
+.ad-profile-gallery__nav--next {
+  right: 10px;
 }
 
 @media (max-width: 767px) {
   .pink-latest-card,
   .pink-latest-card img {
-    min-height: 370px !important;
-    height: 370px !important;
+    min-height: 310px !important;
+    height: 310px !important;
   }
 
   .ad-profile-gallery__main {
-    height: min(118vw, 520px);
-    min-height: 390px;
+    width: min(88vw, 328px) !important;
+    height: 310px !important;
+    min-height: 310px !important;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    border: 0;
+    background: #ffffff !important;
+  }
+
+  .ad-profile-gallery__main > img {
+    display: block;
+    width: 100% !important;
+    height: 310px !important;
+    max-width: 100% !important;
+    max-height: 310px !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    border-radius: 8px;
+  }
+
+  .ad-profile-gallery__thumbs {
+    position: relative;
+    z-index: 4;
+    margin-top: 18px;
+    padding-top: 4px;
+  }
+
+  .ad-profile-gallery__nav {
+    width: 38px;
+    height: 52px;
+    top: 155px;
+    font-size: 18px;
+  }
+
+  .ad-profile-gallery__nav--prev {
+    left: 6px;
+  }
+
+  .ad-profile-gallery__nav--next {
+    right: 6px;
+  }
+}
+
+/* Featured ads: keep every image card equal height */
+.pink-featured-card {
+  display: block;
+  height: 250px !important;
+  min-height: 250px !important;
+}
+
+.pink-featured-card img {
+  display: block;
+  width: 100%;
+  height: 250px !important;
+  min-height: 250px !important;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .pink-featured-card {
+    height: 215px !important;
+    min-height: 215px !important;
+  }
+
+  .pink-featured-card img {
+    height: 215px !important;
+    min-height: 215px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .pink-featured-card {
+    height: 200px !important;
+    min-height: 200px !important;
+  }
+
+  .pink-featured-card img {
+    height: 200px !important;
+    min-height: 200px !important;
   }
 }

@@ -281,7 +281,11 @@ export default function HomePage() {
                 ) : (
                   latestListings.map((listing, index) => (
                     <SwiperSlide key={`${listing.name}-${index}`}>
-                      <Link className="pink-latest-card" href={openListing(listing)}>
+                      <Link
+                        className="pink-latest-card"
+                        href={openListing(listing)}
+                        style={{ "--listing-image": `url("${String(listing.image).replace(/"/g, "%22")}")` }}
+                      >
                         <img
                           src={listing.image}
                           alt={`${listing.name} in ${listing.city}`}
