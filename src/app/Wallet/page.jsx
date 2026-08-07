@@ -61,6 +61,10 @@ const Wallet = () => {
     }, []);
 
     const balance = Number(paymentInfo?.balance || 0).toFixed(2);
+    const qrCodeUrl = staticWallet?.address
+        ? `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=${encodeURIComponent(staticWallet.address)}`
+        : "";
+
     const copyAddress = async () => {
         if (!staticWallet?.address) return;
         await navigator.clipboard.writeText(staticWallet.address);
@@ -86,7 +90,13 @@ const Wallet = () => {
                         </div>
                         <p>Scan the QR code or send Litecoin to the address below.</p>
 
-                        <div className="wallet-qr-placeholder" aria-label="Litecoin QR code will be provided by the payment partner"></div>
+                        <div className="wallet-qr-placeholder" aria-label="Litecoin deposit QR code">
+                            {qrCodeUrl ? (
+                                <img src={qrCodeUrl} alt="Litecoin wallet QR code" />
+                            ) : (
+                                <span>{walletLoading ? "Loading QR..." : "QR unavailable"}</span>
+                            )}
+                        </div>
 
                         <div className="wallet-address">
                             <span>Your Litecoin Address</span>
@@ -112,7 +122,8 @@ const Wallet = () => {
                         <div className="wallet-info-bubble">
                             <span aria-hidden="true"><i className="fa-solid fa-info"></i></span>
                             <div>
-                                <p>Send Litecoin (LTC) only. Deposits typically arrive in under 1 minute, but can take 1-5 minutes. Funds are added to your wallet automatically after network confirmation.</p>
+                                <strong>LTC Deposits Only</strong>
+                                <p>Send LTC only. Funds are credited automatically after network confirmation (usually under 1 minute).</p>
                             </div>
                         </div>
                     </article>

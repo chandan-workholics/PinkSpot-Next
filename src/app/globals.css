@@ -2808,6 +2808,53 @@ a {
   text-underline-offset: 3px;
 }
 
+.listing-search-error,
+.pink-search-error {
+  width: 100%;
+  margin: 10px 0 0;
+  color: #ed0a69;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.listing-location-required {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: 18px auto 0;
+  padding: 28px 18px;
+  border: 1px solid #f2d4e4;
+  border-radius: 12px;
+  background: #fff7fb;
+  color: #2a1830;
+  text-align: center;
+}
+
+.listing-location-required i {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  background: #ed0a69;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.listing-location-required strong {
+  font-size: 20px;
+  font-weight: 850;
+}
+
+.listing-location-required p {
+  max-width: 440px;
+  margin: 0;
+  color: #665869;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .listing-results-heading {
   display: flex;
   align-items: center;
@@ -3735,6 +3782,356 @@ a {
   }
 }
 
+/* Pricing page redesign: large horizontal cards matching client reference */
+.pink-pricing-page {
+  background: #fff;
+}
+
+.pink-pricing-main {
+  padding: 58px 18px 82px;
+  background: #fff;
+}
+
+.pink-pricing-shell {
+  width: min(100%, 1160px);
+}
+
+.pink-pricing-heading {
+  margin-bottom: 34px;
+}
+
+.pink-pricing-heading h1 {
+  color: #070721;
+  font-size: 56px;
+  font-weight: 900;
+}
+
+.pink-pricing-heading > span {
+  background: #e0005e;
+}
+
+.pink-pricing-list {
+  display: grid;
+  gap: 28px;
+}
+
+.pink-pricing-plan {
+  min-height: 0;
+  padding: 58px 58px 60px;
+  border: 1px solid #eeeef1;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 22px 38px rgba(0, 0, 0, 0.13);
+}
+
+.pink-pricing-plan--featured {
+  border-color: #eeeef1;
+}
+
+.pink-pricing-plan__top {
+  position: relative;
+  align-items: flex-start;
+}
+
+.pink-pricing-plan__identity {
+  gap: 40px;
+}
+
+.pink-pricing-plan__icon {
+  flex: 0 0 110px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #ffe5ef;
+  color: #e84b8a;
+  font-size: 54px;
+}
+
+.pink-pricing-plan h2 {
+  margin: 6px 0 12px;
+  color: #070721;
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.pink-pricing-plan__identity p {
+  color: #5a5963;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.pink-pricing-plan__badge,
+.pink-pricing-plan--gold .pink-pricing-plan__badge {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  background: #ffe1ea;
+  color: #a52d59;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.pink-pricing-plan__badge i {
+  display: none;
+}
+
+.pink-pricing-plan__purchase {
+  margin: 70px 0 54px;
+  padding-bottom: 54px;
+  border-bottom: 2px solid #e7e7e8;
+}
+
+.pink-pricing-plan__price {
+  display: block;
+}
+
+.pink-pricing-plan__price strong {
+  display: block;
+  color: #070721;
+  font-size: 76px;
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+.pink-pricing-plan__price span {
+  display: block;
+  margin-top: 18px;
+  color: #77777d;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.pink-pricing-plan__button {
+  min-width: 350px;
+  min-height: 112px;
+  gap: 28px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #8a0b38 0%, #a41148 100%);
+  color: #fff;
+  font-size: 34px;
+  font-weight: 650;
+  box-shadow: none;
+}
+
+.pink-pricing-plan__button i {
+  font-size: 32px;
+}
+
+.pink-pricing-plan--featured .pink-pricing-plan__button,
+.pink-pricing-plan__button:hover {
+  background: linear-gradient(135deg, #8a0b38 0%, #a41148 100%);
+  color: #fff;
+}
+
+.pink-pricing-plan__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 34px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pink-pricing-plan__features li {
+  justify-content: flex-start;
+  min-height: 0;
+  gap: 28px;
+  padding: 0;
+  color: #080819;
+  font-size: 32px;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.pink-pricing-plan__features li + li {
+  border-left: 0;
+}
+
+.pink-pricing-plan__features i {
+  flex: 0 0 34px;
+  color: #777a7f;
+  font-size: 30px;
+}
+
+.pink-pricing-plan__saving {
+  display: none;
+}
+
+.pink-pricing-secure {
+  margin-top: 26px;
+  color: #6e6e73;
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .pink-pricing-main {
+    padding: 34px 12px 54px;
+  }
+
+  .pink-pricing-shell {
+    width: min(100%, 420px);
+  }
+
+  .pink-pricing-heading {
+    margin-bottom: 22px;
+  }
+
+  .pink-pricing-heading h1 {
+    font-size: 42px;
+  }
+
+  .pink-pricing-heading p {
+    font-size: 14px;
+  }
+
+  .pink-pricing-heading small {
+    font-size: 12px;
+  }
+
+  .pink-pricing-list {
+    gap: 18px;
+  }
+
+  .pink-pricing-plan {
+    padding: 26px 22px 30px;
+    border-radius: 18px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+  }
+
+  .pink-pricing-plan__identity {
+    gap: 16px;
+  }
+
+  .pink-pricing-plan__icon {
+    flex-basis: 58px;
+    width: 58px;
+    height: 58px;
+    font-size: 28px;
+  }
+
+  .pink-pricing-plan h2 {
+    margin: 2px 0 7px;
+    font-size: 30px;
+  }
+
+  .pink-pricing-plan__identity p {
+    font-size: 20px;
+  }
+
+  .pink-pricing-plan__badge,
+  .pink-pricing-plan--gold .pink-pricing-plan__badge {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .pink-pricing-plan__purchase {
+    gap: 16px;
+    margin: 36px 0 28px;
+    padding-bottom: 28px;
+    border-bottom-width: 1px;
+  }
+
+  .pink-pricing-plan__price strong {
+    font-size: 45px;
+  }
+
+  .pink-pricing-plan__price span {
+    margin-top: 10px;
+    font-size: 20px;
+  }
+
+  .pink-pricing-plan__button {
+    min-width: 150px;
+    min-height: 58px;
+    gap: 13px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+
+  .pink-pricing-plan__button i {
+    font-size: 17px;
+  }
+
+  .pink-pricing-plan__features {
+    gap: 18px;
+  }
+
+  .pink-pricing-plan__features li {
+    flex-direction: row;
+    gap: 14px;
+    font-size: 18px;
+  }
+
+  .pink-pricing-plan__features i {
+    flex-basis: 20px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 430px) {
+  .pink-pricing-plan {
+    padding: 23px 19px 27px;
+  }
+
+  .pink-pricing-plan__top {
+    gap: 10px;
+  }
+
+  .pink-pricing-plan__identity {
+    gap: 13px;
+  }
+
+  .pink-pricing-plan__icon {
+    flex-basis: 52px;
+    width: 52px;
+    height: 52px;
+    font-size: 25px;
+  }
+
+  .pink-pricing-plan h2 {
+    font-size: 26px;
+  }
+
+  .pink-pricing-plan__identity p {
+    font-size: 17px;
+  }
+
+  .pink-pricing-plan__badge,
+  .pink-pricing-plan--gold .pink-pricing-plan__badge {
+    padding: 8px 10px;
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+
+  .pink-pricing-plan__price strong {
+    font-size: 40px;
+  }
+
+  .pink-pricing-plan__price span {
+    font-size: 18px;
+  }
+
+  .pink-pricing-plan__button {
+    min-width: 134px;
+    min-height: 54px;
+    padding: 10px 13px;
+    font-size: 16px;
+  }
+
+  .pink-pricing-plan__features li {
+    font-size: 16px;
+  }
+}
+
 /* Get Verified page */
 .get-verified-page {
   min-height: 100vh;
@@ -4307,12 +4704,28 @@ a {
 }
 
 .wallet-qr-placeholder {
+  display: grid;
+  place-items: center;
   width: 186px;
   height: 186px;
   margin: 0 auto 18px;
   border: 1px dashed #f4bfd7;
   border-radius: 14px;
   background: #fffafd;
+  overflow: hidden;
+}
+
+.wallet-qr-placeholder img {
+  display: block;
+  width: 158px;
+  height: 158px;
+  object-fit: contain;
+}
+
+.wallet-qr-placeholder span {
+  color: #7b6d79;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .wallet-address {
@@ -4374,6 +4787,14 @@ a {
   color: #332b34;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.wallet-info-bubble strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #ed0a69;
+  font-size: 16px;
+  font-weight: 850;
 }
 
 .wallet-balance-card {
@@ -7467,6 +7888,826 @@ a {
   }
 }
 
+/* Homepage edit: compact Why Choose / Simple Pricing block like client reference */
+.pink-why {
+  padding: 48px 14px 32px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.8), transparent 34%),
+    linear-gradient(180deg, #fff2fa 0%, #ffe5f4 100%);
+}
+
+.pink-why .pink-section__heading {
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.pink-why .pink-section__heading h2 {
+  margin: 0;
+  color: #120d35;
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.pink-why .pink-section__heading p {
+  max-width: 290px;
+  margin: 8px auto 0;
+  color: #080816;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.pink-why .pink-section__heading p strong {
+  color: #080816;
+  font-weight: 900;
+}
+
+.pink-why .pink-trust-card {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 560px;
+  min-height: 150px;
+  margin: 0 auto 22px;
+  padding: 18px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(99, 25, 64, 0.08);
+}
+
+.pink-why .pink-trust-card__mascot {
+  width: 92px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.pink-why .pink-trust-card h3 {
+  max-width: 240px;
+  margin: 0;
+  color: #16113e;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.pink-why .pink-trust-list {
+  display: grid;
+  gap: 6px;
+  margin: 9px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pink-why .pink-trust-list li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  color: #12131f;
+  font-size: 11px;
+  line-height: 1.22;
+}
+
+.pink-why .pink-trust-list i {
+  margin-top: 1px;
+  color: #0fa66a;
+  font-size: 10px;
+}
+
+.pink-why .pink-subtitle {
+  margin: 0 0 14px;
+  color: #120d35;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+.pink-why .pink-pricing {
+  display: grid;
+  grid-template-columns: 1fr 1.74fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto 18px;
+}
+
+.pink-why .pink-price-card {
+  position: relative;
+  min-height: 154px;
+  padding: 18px 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 18px rgba(120, 30, 80, 0.08);
+}
+
+.pink-why .pink-price-card strong {
+  display: block;
+  color: #f20778;
+  font-size: 38px;
+  line-height: 0.88;
+  font-weight: 950;
+  letter-spacing: -0.06em;
+}
+
+.pink-why .pink-price-card span:not(.pink-badge) {
+  display: block;
+  margin-top: 2px;
+  color: #070817;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.pink-why .pink-price-card p {
+  max-width: 96px;
+  margin: 18px 0 0;
+  color: #2e2739;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pink-why .pink-price-card--hot {
+  padding: 22px 12px 18px;
+  background: linear-gradient(135deg, #ff2b94 0%, #f20778 55%, #ea0d70 100%);
+}
+
+.pink-why .pink-price-card--hot strong,
+.pink-why .pink-price-card--hot span:not(.pink-badge),
+.pink-why .pink-price-card--hot p {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+.pink-why .pink-price-card--hot strong {
+  font-size: 40px;
+}
+
+.pink-why .pink-price-card--hot p {
+  max-width: 118px;
+  margin-top: 18px;
+}
+
+.pink-why .pink-badge {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(189, 0, 94, 0.48);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.pink-why .pink-offer-mascot {
+  position: absolute;
+  z-index: 1;
+  right: -6px;
+  bottom: -4px;
+  width: 120px;
+  max-width: 58%;
+  height: auto;
+  pointer-events: none;
+}
+
+.pink-why .pink-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.pink-why .pink-benefits div {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  min-height: 86px;
+  padding: 11px 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #050819;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.05;
+  text-align: center;
+  box-shadow: 0 10px 18px rgba(120, 30, 80, 0.08);
+}
+
+.pink-why .pink-benefits i {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: #f20778;
+  color: #fff;
+  font-size: 17px;
+}
+
+@media (min-width: 768px) {
+  .pink-why {
+    padding: 70px 24px 72px;
+  }
+
+  .pink-why .pink-section__heading h2,
+  .pink-why .pink-subtitle {
+    font-size: 42px;
+  }
+
+  .pink-why .pink-section__heading p {
+    font-size: 16px;
+  }
+
+  .pink-why .pink-trust-card,
+  .pink-why .pink-pricing,
+  .pink-why .pink-benefits {
+    max-width: 760px;
+  }
+
+  .pink-why .pink-trust-card {
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 28px;
+    padding: 28px 34px;
+  }
+
+  .pink-why .pink-trust-card__mascot {
+    width: 180px;
+    height: 210px;
+  }
+
+  .pink-why .pink-trust-card h3 {
+    max-width: 360px;
+    font-size: 26px;
+  }
+
+  .pink-why .pink-trust-list li {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .pink-why {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .pink-why .pink-section__heading h2,
+  .pink-why .pink-subtitle {
+    font-size: 24px;
+  }
+
+  .pink-why .pink-price-card strong,
+  .pink-why .pink-price-card--hot strong {
+    font-size: 34px;
+  }
+
+  .pink-why .pink-price-card span:not(.pink-badge) {
+    font-size: 14px;
+  }
+}
+
+/* Homepage edit v2: full client reference for Why Choose + Pricing */
+.pink-why {
+  padding: 64px 20px 78px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(180deg, #fff5fa 0%, #ffeef7 100%);
+}
+
+.pink-why .pink-section__heading {
+  margin: 0 auto 44px;
+}
+
+.pink-why .pink-section__heading h2 {
+  margin: 0;
+  color: #050505;
+  font-size: 70px;
+  line-height: 0.98;
+  font-weight: 950;
+  letter-spacing: -0.055em;
+}
+
+.pink-why .pink-section__heading h2 span {
+  color: #d9055f;
+}
+
+.pink-why .pink-trust-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(310px, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: 58px;
+  width: 100%;
+  max-width: 1160px;
+  min-height: 610px;
+  margin: 0 auto 62px;
+  padding: 42px 58px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 24px 42px rgba(209, 56, 123, 0.13);
+}
+
+.pink-why .pink-trust-card::after {
+  content: "";
+  position: absolute;
+  top: 72px;
+  bottom: 72px;
+  left: 49%;
+  width: 2px;
+  background: #f5d4e5;
+}
+
+.pink-why .pink-trust-card__mascot {
+  width: 100%;
+  max-width: 475px;
+  height: 520px;
+  object-fit: contain;
+}
+
+.pink-why .pink-trust-card h3 {
+  max-width: 520px;
+  margin: 0;
+  color: #050505;
+  font-size: 50px;
+  line-height: 1.15;
+  font-weight: 950;
+  letter-spacing: -0.055em;
+}
+
+.pink-why .pink-trust-card h3 span {
+  display: block;
+  color: #d9055f;
+}
+
+.pink-why .pink-trust-list {
+  display: grid;
+  gap: 0;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pink-why .pink-trust-list li {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+  min-height: 116px;
+  color: #060606;
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 500;
+}
+
+.pink-why .pink-trust-list li + li {
+  border-top: 2px solid #f5d4e5;
+}
+
+.pink-why .pink-trust-list i {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border-radius: 50%;
+  background: #e0005e;
+  color: #fff;
+  font-size: 30px;
+}
+
+.pink-why .pink-subtitle {
+  margin: 0;
+  color: #030303;
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+
+.pink-why .pink-pricing-note {
+  margin: 12px auto 30px;
+  color: #1b1b1d;
+  font-size: 24px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.pink-why .pink-pricing {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 22px;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.pink-why .pink-price-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  padding: 84px 28px 26px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 30px rgba(210, 67, 129, 0.14);
+}
+
+.pink-why .pink-price-card:first-child {
+  padding-top: 92px;
+}
+
+.pink-why .pink-price-card strong {
+  display: block;
+  color: #e0005e;
+  font-size: 82px;
+  line-height: 0.9;
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  text-align: center;
+}
+
+.pink-why .pink-price-card strong sup {
+  position: relative;
+  top: -0.22em;
+  margin-right: 4px;
+  font-size: 0.58em;
+  line-height: 0;
+}
+
+.pink-why .pink-price-card strong span {
+  display: inline;
+  margin: 0 0 0 3px;
+  color: inherit;
+  font-size: 0.46em;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pink-why .pink-price-divider {
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin: 24px auto 18px;
+  border-radius: 999px;
+  background: #e0005e;
+}
+
+.pink-why .pink-price-card > span:not(.pink-badge) {
+  display: block;
+  margin: 0;
+  color: #050505;
+  font-size: 30px;
+  line-height: 1.05;
+  font-weight: 950;
+  text-align: center;
+}
+
+.pink-why .pink-price-card p {
+  max-width: none;
+  margin: 9px 0 34px;
+  color: #313133;
+  font-size: 20px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.pink-why .pink-price-card ul {
+  margin: 0 0 28px;
+  padding: 30px 0 0;
+  border-top: 2px solid #f6d8e5;
+  list-style: none;
+}
+
+.pink-why .pink-price-card li {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  color: #050505;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.pink-why .pink-price-card li i {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e0005e;
+  color: #fff;
+  font-size: 20px;
+}
+
+.pink-why .pink-price-card b {
+  display: block;
+  margin: auto 0 14px;
+  padding: 18px 12px;
+  border-radius: 10px;
+  background: #ffe7f0;
+  color: #030303;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 950;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pink-why .pink-price-card b span {
+  color: #e0005e;
+  margin-left: 12px;
+}
+
+.pink-why .pink-price-card a {
+  display: grid;
+  place-items: center;
+  min-height: 74px;
+  margin-top: auto;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #f00668 0%, #df004f 100%);
+  color: #fff;
+  font-size: 26px;
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 12px 18px rgba(224, 0, 94, 0.16);
+}
+
+.pink-why .pink-badge {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  min-height: 58px;
+  padding: 0 18px;
+  border-radius: 18px 18px 0 0;
+  background: #e0005e;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.pink-why .pink-price-card--popular .pink-badge {
+  background: #ffe1ec;
+  color: #d9055f;
+}
+
+@media (max-width: 767px) {
+  .pink-why {
+    padding: 38px 12px 42px;
+  }
+
+  .pink-why .pink-section__heading {
+    margin-bottom: 18px;
+  }
+
+  .pink-why .pink-section__heading h2 {
+    font-size: 31px;
+    line-height: 1;
+  }
+
+  .pink-why .pink-trust-card {
+    grid-template-columns: 44% minmax(0, 56%);
+    gap: 12px;
+    min-height: 0;
+    margin-bottom: 26px;
+    padding: 16px 13px;
+    border-radius: 9px;
+  }
+
+  .pink-why .pink-trust-card::after {
+    top: 16px;
+    bottom: 16px;
+    left: 47%;
+    width: 1px;
+  }
+
+  .pink-why .pink-trust-card__mascot {
+    max-width: 132px;
+    height: 168px;
+  }
+
+  .pink-why .pink-trust-card h3 {
+    font-size: 18px;
+    line-height: 1.03;
+  }
+
+  .pink-why .pink-trust-list {
+    margin-top: 11px;
+  }
+
+  .pink-why .pink-trust-list li {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 34px;
+    font-size: 13px;
+  }
+
+  .pink-why .pink-trust-list li + li {
+    border-top-width: 1px;
+  }
+
+  .pink-why .pink-trust-list i {
+    width: 21px;
+    height: 21px;
+    font-size: 12px;
+  }
+
+  .pink-why .pink-subtitle {
+    font-size: 31px;
+  }
+
+  .pink-why .pink-pricing-note {
+    margin: 8px auto 18px;
+    font-size: 15px;
+  }
+
+  .pink-why .pink-pricing {
+    gap: 10px;
+  }
+
+  .pink-why .pink-price-card {
+    min-height: 310px;
+    padding: 52px 12px 14px;
+    border-radius: 10px;
+  }
+
+  .pink-why .pink-price-card:first-child {
+    padding-top: 66px;
+  }
+
+  .pink-why .pink-price-card strong {
+    font-size: 50px;
+  }
+
+  .pink-why .pink-price-card > span:not(.pink-badge) {
+    font-size: 18px;
+  }
+
+  .pink-why .pink-price-card p {
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .pink-why .pink-price-card ul {
+    margin-bottom: 18px;
+    padding-top: 18px;
+    border-top-width: 1px;
+  }
+
+  .pink-why .pink-price-card li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 9px;
+    font-size: 13px;
+  }
+
+  .pink-why .pink-price-card li i {
+    width: 25px;
+    height: 25px;
+    font-size: 13px;
+  }
+
+  .pink-why .pink-price-card b {
+    padding: 12px 8px;
+    font-size: 16px;
+  }
+
+  .pink-why .pink-price-card a {
+    min-height: 46px;
+    font-size: 17px;
+  }
+
+  .pink-why .pink-badge {
+    min-height: 37px;
+    gap: 10px;
+    border-radius: 10px 10px 0 0;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 560px) {
+  .pink-why .pink-pricing {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 100%;
+    gap: 8px;
+    padding: 0 2px;
+  }
+
+  .pink-why .pink-price-card {
+    min-height: 260px;
+    padding: 42px 8px 10px;
+    border-radius: 8px;
+  }
+
+  .pink-why .pink-price-card:first-child {
+    padding-top: 50px;
+  }
+
+  .pink-why .pink-price-card strong,
+  .pink-why .pink-price-card--hot strong {
+    font-size: 34px;
+    letter-spacing: -0.07em;
+  }
+
+  .pink-why .pink-price-card strong sup {
+    margin-right: 1px;
+    font-size: 0.48em;
+  }
+
+  .pink-why .pink-price-card strong span {
+    display: inline;
+    font-size: 0.42em;
+  }
+
+  .pink-why .pink-price-divider {
+    width: 24px;
+    height: 2px;
+    margin: 13px auto 10px;
+  }
+
+  .pink-why .pink-price-card > span:not(.pink-badge) {
+    font-size: 13px;
+    line-height: 1.05;
+  }
+
+  .pink-why .pink-price-card p {
+    margin: 6px 0 14px;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .pink-why .pink-price-card ul {
+    margin-bottom: 12px;
+    padding-top: 12px;
+  }
+
+  .pink-why .pink-price-card li {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 5px;
+    font-size: 9.5px;
+    line-height: 1.15;
+  }
+
+  .pink-why .pink-price-card li i {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .pink-why .pink-price-card b {
+    margin-bottom: 10px;
+    padding: 8px 4px;
+    border-radius: 6px;
+    font-size: 11px;
+  }
+
+  .pink-why .pink-price-card b span {
+    display: inline;
+    margin-left: 3px;
+  }
+
+  .pink-why .pink-price-card a {
+    min-height: 36px;
+    border-radius: 7px;
+    font-size: 12px;
+  }
+
+  .pink-why .pink-badge {
+    min-height: 30px;
+    gap: 4px;
+    padding: 0 4px;
+    border-radius: 8px 8px 0 0;
+    font-size: 8.5px;
+    white-space: nowrap;
+  }
+}
+
 /* Edits #5-#8: agency/about separation, closed FAQ, clearer logo */
 .pink-agency + .pink-about {
   border-top: 14px solid #fff7fc;
@@ -7541,59 +8782,67 @@ a {
   }
 }
 
-/* Client update: standardized dark charcoal header */
+/* Client update: standardized white header */
 .header,
 .pink-home__nav {
-  background: #1b1b1f !important;
+  background: #ffffff !important;
 }
 
 .header {
-  border-bottom: 1px solid rgba(237, 31, 128, 0.42) !important;
+  border-bottom: 1px solid rgba(237, 31, 128, 0.18) !important;
+  box-shadow: 0 8px 18px rgba(25, 18, 30, 0.06);
 }
 
 .header .navbar {
-  min-height: 76px;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  min-height: 84px;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
 }
 
 .header .navbar-brand {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: 224px;
+  min-height: 64px;
+  padding: 6px 10px !important;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: none;
 }
 
 .header .navbar-brand img,
 .pink-home__nav .navbar-brand img {
-  width: 210px !important;
-  max-height: 58px;
+  width: 200px !important;
+  max-height: 54px;
   object-fit: contain;
   filter: none !important;
 }
 
 .header .navbar .nav-item .nav-link,
 .pink-home__nav .nav-link {
-  color: #ffffff !important;
+  color: #1b1b1f !important;
 }
 
 .header .navbar .nav-item .nav-link.active,
 .header .navbar .nav-item .nav-link:hover,
 .pink-home__nav .nav-link.active,
 .pink-home__nav .nav-link:hover {
-  color: #ff72b2 !important;
+  color: #ed1f80 !important;
 }
 
 .header .navbar .nav-item .nav-link::after,
 .pink-home__nav .navbar .nav-item .nav-link::after {
-  background: #ff72b2 !important;
+  background: #ed1f80 !important;
 }
 
 .header .fa-bars,
 .pink-home__nav .fa-bars {
-  color: #ff72b2 !important;
+  color: #ed1f80 !important;
 }
 
 .header .btn-login {
-  background: #ffffff !important;
+  background: #ffe4f3 !important;
   color: #1b1b1f !important;
 }
 
@@ -7604,15 +8853,22 @@ a {
 
 @media (max-width: 767px) {
   .header .navbar {
-    min-height: 72px;
+    min-height: 82px;
     padding-right: 16px !important;
     padding-left: 16px !important;
   }
 
   .header .navbar-brand img,
   .pink-home__nav .navbar-brand img {
-    width: 152px !important;
+    width: 156px !important;
     max-height: 48px;
+  }
+
+  .header .navbar-brand {
+    min-width: 176px;
+    min-height: 56px;
+    padding: 4px 8px !important;
+    border-radius: 9px;
   }
 
   .header .navbar .container-fluid {
@@ -7624,5 +8880,97 @@ a {
     padding-right: 16px !important;
     padding-left: 16px !important;
     font-size: 14px !important;
+  }
+}
+
+/* Final mobile menu polish: keep active/Search Escorts menu item aligned cleanly */
+.header .pink-mobile-menu .nav-link {
+  justify-content: flex-start !important;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.header .pink-mobile-menu .nav-link i {
+  margin-right: 2px;
+}
+
+.header .pink-mobile-menu .nav-link.active {
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  text-align: left;
+}
+
+/* Subscription page: reuse redesigned pricing cards with matching spacing */
+.subscription-page .subscription-main {
+  background: #fff !important;
+}
+
+.subscription-page .container {
+  max-width: 1160px;
+}
+
+.subscription-page .subscription-pricing-list {
+  width: min(100%, 1080px);
+  margin: 0 auto;
+}
+
+.subscription-page .text-4b164c {
+  color: #4b164c !important;
+}
+
+@media (max-width: 767px) {
+  .subscription-page .container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+.subscription-page .subscription-pricing-list {
+    width: min(100%, 420px);
+  }
+}
+
+/* Image clarity/cropping fix: show full portrait photos in carousel and ad detail */
+.pink-latest-card {
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+  background: #171717;
+}
+
+.pink-latest-card img {
+  width: 100%;
+  height: 420px;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #171717;
+}
+
+.ad-profile-gallery__main {
+  display: grid;
+  place-items: center;
+  height: min(74vw, 640px);
+  min-height: 430px;
+  background: #171717;
+}
+
+.ad-profile-gallery__main > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #171717;
+}
+
+@media (max-width: 767px) {
+  .pink-latest-card,
+  .pink-latest-card img {
+    min-height: 370px !important;
+    height: 370px !important;
+  }
+
+  .ad-profile-gallery__main {
+    height: min(118vw, 520px);
+    min-height: 390px;
   }
 }

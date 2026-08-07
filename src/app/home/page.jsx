@@ -119,6 +119,7 @@ export default function HomePage() {
   const [province, setProvince] = useState([]);
   const [city, setCity] = useState([]);
   const [filters, setFilters] = useState({ province: "", city: "" });
+  const [searchError, setSearchError] = useState("");
 
   useEffect(() => {
     const getPosts = async () => {
@@ -187,12 +188,13 @@ export default function HomePage() {
   };
 
   const handleSearch = () => {
-    if (filters.city) {
-      router.push(`/female-escorts/${slugify(filters.city)}`);
+    if (!filters.province || !filters.city) {
+      setSearchError("Please select both a province and city to search.");
       return;
     }
 
-    router.push(`/search-escorts?page=1&province=${filters.province || ""}`);
+    setSearchError("");
+    router.push(`/female-escorts/${slugify(filters.city)}?province=${filters.province}`);
   };
 
   const openListing = (listing) => {
@@ -217,13 +219,14 @@ export default function HomePage() {
                 <h1>Find Female Escorts in Canada</h1>
                 <p>Browse verified listings by city and province.</p>
 
-                <div className="pink-search" aria-label="Search listings">
+                <div id="location-search" className="pink-search" aria-label="Search listings">
                   <label>
                     <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
                     <select
                       value={filters.province}
                       onChange={(event) => {
                         const value = event.target.value;
+                        setSearchError("");
                         setFilters({ province: value, city: "" });
                         fetchCities(value);
                       }}
@@ -238,7 +241,10 @@ export default function HomePage() {
                     <i className="fa-regular fa-building" aria-hidden="true"></i>
                     <select
                       value={filters.city}
-                      onChange={(event) => setFilters((current) => ({ ...current, city: event.target.value }))}
+                      onChange={(event) => {
+                        setSearchError("");
+                        setFilters((current) => ({ ...current, city: event.target.value }));
+                      }}
                     >
                       <option value="">Select City</option>
                       {city.map((item) => (
@@ -250,6 +256,7 @@ export default function HomePage() {
                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     Search
                   </button>
+                  {searchError && <p className="pink-search-error">{searchError}</p>}
                 </div>
               </div>
             </section>
@@ -257,7 +264,7 @@ export default function HomePage() {
             <section className="pink-section pink-latest">
               <div className="pink-section__heading pink-section__heading--row">
                 <h2><i className="fa-solid fa-fire" aria-hidden="true"></i> Latest Listings</h2>
-                <Link href="/search-escorts">View all <i className="fa-solid fa-chevron-right" aria-hidden="true"></i></Link>
+                <Link href="/female-escorts/toronto">Search Escorts <i className="fa-solid fa-chevron-right" aria-hidden="true"></i></Link>
               </div>
               <Swiper
                 slidesPerView={1}
@@ -292,42 +299,58 @@ export default function HomePage() {
 
             <section className="pink-section pink-why">
               <div className="pink-section__heading">
-                <h2>Why Choose Pinkspot</h2>
-                <p>Canada's trusted platform for <strong>verified</strong> companion listings.</p>
+                <h2>Why Choose <span>Pinkspot</span></h2>
               </div>
 
               <div className="pink-trust-card">
                 <img className="pink-trust-card__mascot" src="/images/search-flemingo-clean.png" alt="Pinkspot search mascot" />
                 <div>
-                  <h3>Canada's Leading Companion Directory</h3>
+                  <h3>Canada's Trusted <span>Companion Directory</span></h3>
                   <ul className="pink-trust-list">
-                    <li><i className="fa-solid fa-check"></i> Largest selection of verified listings</li>
-                    <li><i className="fa-solid fa-check"></i> Listings across major cities</li>
+                    <li><i className="fa-solid fa-check"></i> Verified profiles</li>
+                    <li><i className="fa-solid fa-check"></i> Canada-wide coverage</li>
                     <li><i className="fa-solid fa-check"></i> Fast & accurate location search</li>
                   </ul>
                 </div>
               </div>
 
               <h3 className="pink-subtitle">Simple Pricing</h3>
+              <p className="pink-pricing-note">Choose the plan that fits your needs.</p>
               <div className="pink-pricing">
                 <div className="pink-price-card">
-                  <strong>$20</strong>
+                  <strong><sup>$</sup>19<span>.99</span></strong>
+                  <i className="pink-price-divider" />
                   <span>Single Ad</span>
-                  <p>Post anytime, no commitment</p>
+                  <p>Valid for 30 days</p>
+                  <ul>
+                    <li><i className="fa-solid fa-check"></i> Pay as you go</li>
+                  </ul>
+                  <Link href="/pricing">Choose Plan</Link>
                 </div>
-                <div className="pink-price-card pink-price-card--hot">
-                  <span className="pink-badge">Best Value</span>
-                  <strong>$100</strong>
+                <div className="pink-price-card pink-price-card--featured">
+                  <span className="pink-badge"><i className="fa-solid fa-star"></i> Best Value <i className="fa-solid fa-star"></i></span>
+                  <strong><sup>$</sup>99<span>.99</span></strong>
+                  <i className="pink-price-divider" />
                   <span>Monthly Plan</span>
-                  <p>Post daily for maximum exposure</p>
-                  <img className="pink-offer-mascot" src="/images/offer-flemingo-clean.png" alt="" />
+                  <p>Valid for 30 days</p>
+                  <ul>
+                    <li><i className="fa-solid fa-check"></i> 30 ads (Use anytime)</li>
+                  </ul>
+                  <b>Save <span>$500</span></b>
+                  <Link href="/pricing?plan=gold">Choose Plan</Link>
                 </div>
-              </div>
-
-              <div className="pink-benefits">
-                <div><i className="fa-solid fa-eye"></i><span>Maximum visibility</span></div>
-                <div><i className="fa-solid fa-litecoin-sign"></i><span>Fast Litecoin Deposits</span></div>
-                <div><i className="fa-solid fa-dollar-sign"></i><span>Keep more of your earnings</span></div>
+                <div className="pink-price-card pink-price-card--popular">
+                  <span className="pink-badge"><i className="fa-solid fa-star"></i> Most Popular <i className="fa-solid fa-star"></i></span>
+                  <strong><sup>$</sup>69<span>.99</span></strong>
+                  <i className="pink-price-divider" />
+                  <span>15 Ads Plan</span>
+                  <p>Valid for 30 days</p>
+                  <ul>
+                    <li><i className="fa-solid fa-check"></i> 15 ads (Use anytime)</li>
+                  </ul>
+                  <b>Save <span>$230</span></b>
+                  <Link href="/pricing?plan=silver">Choose Plan</Link>
+                </div>
               </div>
             </section>
 
@@ -356,7 +379,7 @@ export default function HomePage() {
                     </Link>
                   ))}
               </div>
-              <Link className="pink-wide-button" href="/search-escorts">Explore All Listings <i className="fa-solid fa-chevron-right"></i></Link>
+              <Link className="pink-wide-button" href="/female-escorts/toronto">Search Escorts <i className="fa-solid fa-chevron-right"></i></Link>
             </section>
 
             <section className="pink-section pink-cities">
@@ -451,7 +474,7 @@ export default function HomePage() {
                 <p>Join thousands of providers earning on Pinkspot.</p>
                 <div className="pink-cta-actions">
                   <Link className="pink-solid-button" href="/adpost"><i className="fa-solid fa-plus"></i> Post Your Ad</Link>
-                  <Link className="pink-outline-button" href="/search-escorts"><i className="fa-solid fa-magnifying-glass"></i> Explore Listings</Link>
+                  <Link className="pink-outline-button" href="/female-escorts/toronto"><i className="fa-solid fa-magnifying-glass"></i> Search Escorts</Link>
                 </div>
               </div>
               <img src="/images/mascot-final.png" alt="Pinkspot signup mascot" />

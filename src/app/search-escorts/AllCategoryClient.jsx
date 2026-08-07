@@ -36,6 +36,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const [post, setPost] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+    const [searchError, setSearchError] = useState("");
 
     const [filters, setFilters] = useState({
         categoryid: searchParams.get("categoryid") || '',
@@ -87,6 +88,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
     };
 
     const handleFilterChange = (field, value) => {
+        setSearchError("");
         setFilters((prev) => ({ ...prev, [field]: value, }));
         setCurrentPage(1); // ✅ MOST IMPORTANT
     };
@@ -95,6 +97,12 @@ const AllCategoryClient = ({ initialCity = null }) => {
         fetchEthnicity();
         fetchProvince();
     }, []);
+
+    useEffect(() => {
+        if (!initialCity && !queryProvince && !queryCity) {
+            router.replace("/female-escorts/toronto");
+        }
+    }, [initialCity, queryProvince, queryCity, router]);
 
     useEffect(() => {
         fetchFilteredPosts(currentPage);
@@ -164,6 +172,13 @@ const AllCategoryClient = ({ initialCity = null }) => {
     // Fetch posts (filtered or not)
     const fetchFilteredPosts = async (page = 1) => {
         try {
+            if (!initialCity && (!filters.province || !filters.city)) {
+                setPost([]);
+                setTotalPages(1);
+                setLoading(false);
+                return;
+            }
+
             setLoading(true);
 
             const requestPosts = (requestFilters) => fetch(
@@ -210,8 +225,9 @@ const AllCategoryClient = ({ initialCity = null }) => {
         };
 
         setFilters(cleared);
+        setPost([]);
         setCurrentPage(1);
-        router.replace(initialCity ? `/female-escorts/${initialCity}` : `?page=1`);
+        router.replace(initialCity ? `/female-escorts/${initialCity}` : `/search-escorts`);
     };
 
     const handlePageChange = (page) => {
@@ -225,6 +241,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
         ? citySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "";
     const activeFilterCount = [filters.ethicity, filters.isVerified].filter(Boolean).length;
+    const canShowResults = Boolean(initialCity || (filters.province && filters.city));
 
 
     useEffect(() => {
@@ -395,12 +412,16 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                     type="button"
                                     className="listing-search-submit"
                                     onClick={() => {
-                                        if (filters.city) {
-                                            const selectedCitySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
-                                            router.push(`/female-escorts/${selectedCitySlug}`);
-                                        } else {
-                                            fetchFilteredPosts();
+                                        if (!filters.province || !filters.city) {
+                                            setSearchError("Please select both a province and city to search.");
+                                            setPost([]);
+                                            setTotalPages(1);
+                                            return;
                                         }
+
+                                        const selectedCitySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
+                                        setSearchError("");
+                                        router.push(`/female-escorts/${selectedCitySlug}?province=${filters.province}`);
                                     }}
                                 >
                                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -412,6 +433,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                         <button type="button" className="listing-clear-filters" onClick={handleClearFilters}>
                             Clear Filters
                         </button>
+                        {searchError && <p className="listing-search-error">{searchError}</p>}
                         {/* Filters */}
 
                         <div className="listing-results-heading">
@@ -421,14 +443,22 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                 </span>
                                 <h2>Latest Listings</h2>
                             </div>
-                            <small>{post.filter((item) => item.isActive).length} results</small>
+                            <small>{canShowResults ? post.filter((item) => item.isActive).length : 0} results</small>
                         </div>
 
                         {/* Posts Section */}
                         <div className="container box-detail">
                             {/* Mobile View */}
                             <div className="row d-block d-md-none">
-                                {loading ? (
+                                {!canShowResults ? (
+                                    <div className="col-12">
+                                        <div className="listing-location-required">
+                                            <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                            <strong>Select a province and city</strong>
+                                            <p>Search results are location-based. Please choose a valid province and city to view ads.</p>
+                                        </div>
+                                    </div>
+                                ) : loading ? (
                                     [...Array(8)].map((_, i) => (
                                         <SkeletonCard key={i} index={i} />
                                     ))
@@ -476,7 +506,15 @@ const AllCategoryClient = ({ initialCity = null }) => {
 
                             {/* Desktop View */}
                             <div className="d-none-mobile row">
-                                {loading ? (
+                                {!canShowResults ? (
+                                    <div className="col-12">
+                                        <div className="listing-location-required">
+                                            <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                            <strong>Select a province and city</strong>
+                                            <p>Search results are location-based. Please choose a valid province and city to view ads.</p>
+                                        </div>
+                                    </div>
+                                ) : loading ? (
                                     [...Array(8)].map((_, i) => (
                                         <SkeletonCard key={i} index={i} />
                                     ))

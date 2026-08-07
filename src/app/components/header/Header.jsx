@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
-import logo from '../../../../public/images/pinkspot-logo-charcoal.png'
+const logoSrc = "/new-logo-cropped.png";
 import { useRouter, usePathname } from 'next/navigation'
 import CloseOffcanvasLink from '../CloseOffcanvasLink'
 
@@ -22,7 +22,7 @@ const Header = () => {
     ];
     const loggedInLinks = [
         { href: "/", label: "Home", icon: "fa-house", active: pathname === "/" },
-        { href: "/search-escorts?from=header", label: "Search Escorts", icon: "fa-magnifying-glass", active: pathname.startsWith("/search-escorts") || pathname.startsWith("/female-escorts") },
+        { href: "/female-escorts/toronto", label: "Search Escorts", icon: "fa-magnifying-glass", active: pathname.startsWith("/search-escorts") || pathname.startsWith("/female-escorts") },
         { href: "/UserProfile", label: "My Profile", icon: "fa-circle-user", active: pathname.startsWith("/UserProfile") },
         { href: "/Wallet", label: "Wallet", icon: "fa-wallet", active: pathname.startsWith("/Wallet") },
         { href: "/subscription", label: "Subscription Plan", icon: "fa-crown", active: pathname.startsWith("/subscription") },
@@ -65,7 +65,7 @@ const Header = () => {
                 <nav className="navbar navbar-expand-lg px-0 px-xl-5">
                     <div className="container-fluid p-0">
                         <Link className="navbar-brand text-dd88cf me-0" href="/">
-                            <img src={logo.src} alt="Pinkspot.cc" className="" />
+                            <img src={logoSrc} alt="Pinkspot.cc" className="" />
                         </Link>
                         <div className="d-flex align-items-center gap-2 d-lg-none">
                             {!isAuthenticated ? (
@@ -124,7 +124,7 @@ const Header = () => {
                         <div className="offcanvas-header">
                             <div>
                                 <CloseOffcanvasLink className="navbar-brand text-dd88cf pink-mobile-menu__brand" href="/">
-                                    <img src={logo.src} alt="" className="" />
+                                    <img src={logoSrc} alt="" className="" />
                                 </CloseOffcanvasLink>
                             </div>
                             <button type="button" className="pink-mobile-menu__close" data-bs-dismiss="offcanvas" aria-label="Close">
