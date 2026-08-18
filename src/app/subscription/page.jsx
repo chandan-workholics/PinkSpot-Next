@@ -9,6 +9,8 @@ import { apiUrl } from "../../config/api";
 const userId =
     typeof window !== "undefined" ? sessionStorage.getItem("userid") : null;
 
+const formatDate = (value) => value ? new Date(value).toLocaleDateString("en-GB") : "-";
+
 const Page = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -215,7 +217,7 @@ const Page = () => {
                                         <ul className="pink-pricing-plan__features">
                                             <li><i className="fa-solid fa-check" aria-hidden="true"></i><span>Verification Badge</span></li>
                                             <li><i className="fa-solid fa-check" aria-hidden="true"></i><span>Up to 12 Photos</span></li>
-                                            <li><i className="fa-solid fa-check" aria-hidden="true"></i><span>Post Daily (Up to 30 Ads/Month)</span></li>
+                                            <li><i className="fa-solid fa-check" aria-hidden="true"></i><span>30 Ads (Post Anytime)</span></li>
                                             <li><i className="fa-solid fa-check" aria-hidden="true"></i><span>Save over $499/month</span></li>
                                         </ul>
                                     </article>
@@ -294,19 +296,19 @@ const Page = () => {
                                         <tbody>
                                             <tr>
                                                 <th scope="row" className="border-end">Start Date</th>
-                                                <td>{new Date(subscriptionDetail.startDate).toLocaleDateString()}</td>
+                                                <td>{formatDate(subscriptionDetail.startDate)}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row" className="border-end">End Date</th>
-                                                <td>{new Date(subscriptionDetail.endDate).toLocaleDateString()}</td>
+                                                <td>{formatDate(subscriptionDetail.endDate)}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row" className="border-end">Days Left</th>
                                                 <td>{subscriptionDetail.daysLeft}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" className="border-end">Ads Posted Today</th>
-                                                <td>{subscriptionDetail.adsPostedToday}</td>
+                                                <th scope="row" className="border-end">Ads Remaining</th>
+                                                <td>{subscriptionDetail.adsRemaining ?? 0}</td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -39,12 +39,12 @@ const plans = [
             ["fa-solid fa-check", "Verification Badge"],
             ["fa-solid fa-check", "Up to 12 Photos"],
             ["fa-solid fa-check", "15 Ads (Post Anytime)"],
-            ["fa-solid fa-check", "Save over $229/month"],
+            ["fa-solid fa-check", "Save $230"],
         ],
     },
     {
         id: "gold",
-        name: "Gold Plan",
+        name: "Monthly Plan",
         description: "Valid for 30 days.",
         price: "$99.99",
         period: "/ month",
@@ -55,8 +55,8 @@ const plans = [
         features: [
             ["fa-solid fa-check", "Verification Badge"],
             ["fa-solid fa-check", "Up to 12 Photos"],
-            ["fa-solid fa-check", "Post Daily (Up to 30 Ads/Month)"],
-            ["fa-solid fa-check", "Save over $499/month"],
+            ["fa-solid fa-check", "30 Ads (Post Anytime)"],
+            ["fa-solid fa-check", "Save $500"],
         ],
     },
 ];
