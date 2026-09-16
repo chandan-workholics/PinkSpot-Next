@@ -81,24 +81,36 @@ const AdPost = () => {
     const handleShow = async () => {
 
         // Step 1: Pre-check with API
-        const checkResponse = await fetch(apiUrl("/postad/checkPostLimit"), {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: formData.postbyuserid })
-        });
+        let checkResponse;
+        let checkResult;
+        try {
+            checkResponse = await fetch(apiUrl("/postad/checkPostLimit"), {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: formData.postbyuserid })
+            });
+            checkResult = await checkResponse.json().catch(() => ({}));
+        } catch {
+            setErrorMessage("We could not check your wallet. Please check your internet connection and try again.");
+            return;
+        }
 
-        const checkResult = await checkResponse.json();
+        if (!checkResponse.ok) {
+            setErrorMessage(checkResult.message || checkResult.error || `Unable to check posting eligibility (HTTP ${checkResponse.status}).`);
+            return;
+        }
 
         if (checkResult.status === "warning") {
             if (!checkResult.canPost) {
-                alert("Insufficient balance. Please top up your wallet to post.");
+                setErrorMessage(`Insufficient wallet balance. You need $${checkResult.cost || 20} to post this ad, but your wallet has $${Number(checkResult.wallet || 0).toFixed(2)}.`);
                 return; // stop here
             } else {
                 const confirmProceed = confirm(checkResult.message + " Do you want to continue?");
                 if (!confirmProceed) return; // stop posting if user cancels
             }
-        } else {
-            alert(checkResult.message);
+        } else if (checkResult.status !== "ok") {
+            setErrorMessage(checkResult.message || "Your account is not currently eligible to post this ad.");
+            return;
         }
 
 
@@ -170,14 +182,13 @@ const AdPost = () => {
                 const formDataUpload = new FormData();
                 formDataUpload.append("image", file);
 
-                const response = await axios.post(apiUrl("/upload"), formDataUpload, {
+                const response = await axios.post(apiUrl("/uploading"), formDataUpload, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
                 const imageUrl = response.data?.data?.url;
-                if (imageUrl) {
-                    uploadedUrls.push(imageUrl);
-                }
+                if (!imageUrl) throw new Error("Image upload completed without a file URL.");
+                uploadedUrls.push(imageUrl);
             }
 
             // Prepare final payload
@@ -216,13 +227,17 @@ const AdPost = () => {
                     setIsSubmitted(true);
                 }
             } else {
-                setErrorMessage(result.error || result.message);
+                setErrorMessage(result.error || result.message || `Ad could not be submitted (HTTP ${response.status}).`);
                 setIsSubmitted(false);
             }
 
         } catch (error) {
             console.error("Error while submitting form:", error);
-            alert("An error occurred. Please try again later.");
+            const status = error.response?.status;
+            const serverMessage = error.response?.data?.message || error.response?.data?.error;
+            setErrorMessage(serverMessage || (status
+                ? `Image upload failed (HTTP ${status}). Please try again.`
+                : "We could not submit your ad. Please check your connection and try again."));
         }
         finally {
             setBtnLoading(false);
