@@ -48,9 +48,30 @@ const AllCategoryClient = ({ initialCity = null }) => {
         isVerified: searchParams.get("isVerified") || '',
     });
 
-    const [currentPage, setCurrentPage] = useState(
-        Number(searchParams.get("page")) || 1
-    );
+    const [currentPage, setCurrentPage] = useState(() => {
+        const queryPage = Number(searchParams.get("page"));
+        if (queryPage > 0) return queryPage;
+
+        // City URLs intentionally stay clean (without a page query). Keep the
+        // last visited page in session storage so returning from a profile does
+        // not unexpectedly reset the listing to page 1.
+        if (typeof window !== "undefined") {
+            const savedUrl = sessionStorage.getItem("pinkspot-last-listing-url");
+            if (savedUrl) {
+                try {
+                    const saved = new URL(savedUrl, window.location.origin);
+                    if (saved.pathname === pathname) {
+                        const savedPage = Number(saved.searchParams.get("page"));
+                        if (savedPage > 0) return savedPage;
+                    }
+                } catch {
+                    // Ignore an invalid stale session value.
+                }
+            }
+        }
+
+        return 1;
+    });
     const hasRestoredScroll = useRef(false);
 
     const getScrollStorageKey = () => {
@@ -61,13 +82,21 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const saveScrollPosition = () => {
         if (typeof window === "undefined") return;
         sessionStorage.setItem(getScrollStorageKey(), String(window.scrollY));
+        sessionStorage.setItem(`pinkspot-scroll:${pathname}`, String(window.scrollY));
     };
 
     const saveListingState = () => {
         if (typeof window === "undefined") return;
-        const url = `${window.location.pathname}${window.location.search}`;
+        const params = new URLSearchParams(window.location.search);
+        params.set("page", String(currentPage));
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value) params.set(key, value);
+        });
+        const query = params.toString();
+        const url = `${window.location.pathname}${query ? `?${query}` : ""}`;
         sessionStorage.setItem("pinkspot-last-listing-url", url);
         sessionStorage.setItem(getScrollStorageKey(), String(window.scrollY));
+        sessionStorage.setItem(`pinkspot-scroll:${pathname}`, String(window.scrollY));
     };
 
     const scrollToTop = () => {
@@ -118,7 +147,8 @@ const AllCategoryClient = ({ initialCity = null }) => {
     useEffect(() => {
         if (loading || hasRestoredScroll.current || typeof window === "undefined") return;
 
-        const savedScroll = sessionStorage.getItem(getScrollStorageKey());
+        const savedScroll = sessionStorage.getItem(getScrollStorageKey())
+            || sessionStorage.getItem(`pinkspot-scroll:${pathname}`);
         if (savedScroll) {
             window.requestAnimationFrame(() => {
                 window.scrollTo({ top: Number(savedScroll), behavior: "auto" });
@@ -257,7 +287,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
     const getListingHref = (val) => {
         const citySlug = val?.city?.toLowerCase().replace(/\s+/g, "-");
         const detailUrl = `/female-escorts/${citySlug}/${val?.slug}`;
-        return `${detailUrl}?back=${encodeURIComponent(getBackUrl())}`;
+        return detailUrl;
     };
 
     const citySlug = initialCity || filters.city;
@@ -446,7 +476,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
 
                                         const selectedCitySlug = filters.city.toLowerCase().replace(/\s+/g, "-");
                                         setSearchError("");
-                                        router.push(`/female-escorts/${selectedCitySlug}?province=${filters.province}`);
+                                        router.push(`/female-escorts/${selectedCitySlug}`);
                                     }}
                                 >
                                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -500,23 +530,23 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                     <div className="img-box">
                                                         <img src={val.image1} alt="Img" />
                                                     </div>
-                                                    <div className="card-text" style={{ overflow: "hidden" }}>
-                                                        <div className="d-flex mb-2">
-                                                            <h6 className="mb-0 px-2 py-1 bg-4b164c text-white rounded-1">Escort</h6>
+                                                    <div className="card-text listing-card-body" style={{ overflow: "hidden" }}>
+                                                        <div className="d-flex mb-2 listing-card-type">
+                                                            <h6 className="mb-0 px-2 py-1 bg-4b164c text-white rounded-1"><i className="fa-solid fa-tag me-1" aria-hidden="true"></i>Escort</h6>
                                                         </div>
                                                         <div className="listing-name-with-badge">
                                                             <h5 className="fw-bold">{val?.name}</h5>
                                                             <VerifiedBadge record={val} compact />
                                                         </div>
-                                                        <h6 className="text-capitalize">
-                                                            <i className="fa-solid fa-house me-1"></i>
+                                                        <h6 className="text-capitalize listing-card-location">
+                                                            <i className="fa-solid fa-location-dot me-1"></i>
                                                             {val?.city}, {val?.provincesid?.name}
                                                         </h6>
-                                                        {/* <h6>{val?.age}</h6> */}
                                                         <h6 className="listing-card-title">
                                                             <i className="fa-solid fa-tags me-1"></i>
                                                             {val?.title}
                                                         </h6>
+                                                        <span className="listing-card-age"><i className="fa-solid fa-user me-1"></i>Age {val?.age}</span>
                                                     </div>
                                                 </Link>
                                             </div>
@@ -558,6 +588,9 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                                 <img src={val.image1} className="card-img-top" alt="..." />
                                                             </div>
                                                             <div className="card-content shadow-lg">
+                                                                <div className="listing-card-type">
+                                                                    <h6 className="mb-2 px-2 py-1 bg-4b164c text-white rounded-1"><i className="fa-solid fa-tag me-1" aria-hidden="true"></i>Escort</h6>
+                                                                </div>
                                                                 <div className="listing-name-with-badge">
                                                                     <h3 className="per-name">{val?.name}</h3>
                                                                     <VerifiedBadge record={val} compact />
@@ -568,6 +601,7 @@ const AllCategoryClient = ({ initialCity = null }) => {
                                                                     <i className="fa-solid fa-location-dot"></i> {val?.city}
                                                                 </h5>
                                                                 <h4 className="per-descriptn">{val?.title}</h4>
+                                                                <span className="listing-card-age"><i className="fa-solid fa-user me-1"></i>Age {val?.age}</span>
                                                             </div>
                                                         </div>
                                                     </div>

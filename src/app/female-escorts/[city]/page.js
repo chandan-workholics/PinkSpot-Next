@@ -18,6 +18,9 @@ export async function generateMetadata({ params }) {
     description:
       meta?.description ||
       `Browse Pinkspot’s female escort ads in ${formattedCity}`,
+    alternates: {
+      canonical: `https://pinkspot.cc/female-escorts/${city}`,
+    },
   };
 }
 

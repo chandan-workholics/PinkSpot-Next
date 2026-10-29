@@ -64,7 +64,10 @@ const Profile = () => {
     const seoDescription = post?.description || "Discover amazing profiles on Pink Spot.";
     const seoKeywords = `${post?.name || ''}, ${post?.city || ''}, ${post?.availability || ''}, escorts, models, pink spot`;
     const seoImage = post?.image || profileImg.src;
-    const canonicalUrl = `https://pinkspot.cc/profile/${post?.slug || ''}`;
+    const canonicalCity = post?.city ? post.city.toLowerCase().trim().replace(/\s+/g, "-") : "";
+    const canonicalUrl = post?.slug
+        ? `https://pinkspot.cc/female-escorts/${canonicalCity}/${post.slug}`
+        : "https://pinkspot.cc/female-escorts";
 
     // ✅ JSON-LD Structured Data
     const jsonLd = {
@@ -78,7 +81,7 @@ const Profile = () => {
             "addressLocality": post?.city || "",
             "addressRegion": post?.provincesid || ""
         },
-        "url": post?.slug ? `https://pinkspot.cc/profile/${post.slug}` : ""
+        "url": post?.slug ? canonicalUrl : ""
 
     };
 
@@ -214,7 +217,7 @@ const Profile = () => {
                                                 {post.description.length > maxLength && (
                                                     <Link
                                                         key={index}
-                                                        href={`/profile/${post?.city.split(" ").join("-")}/${post?.slug}`}
+                                                        href={`/female-escorts/${post?.city.split(" ").join("-")}/${post?.slug}`}
                                                     >
                                                         Read More
                                                     </Link>

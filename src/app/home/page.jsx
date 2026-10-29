@@ -116,6 +116,7 @@ export default function HomePage() {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
+  const [postsError, setPostsError] = useState(false);
   const [province, setProvince] = useState([]);
   const [city, setCity] = useState([]);
   const [filters, setFilters] = useState({ province: "", city: "" });
@@ -125,10 +126,14 @@ export default function HomePage() {
     const getPosts = async () => {
       try {
         interceptor();
-        const response = await callAPI.post("/postad/getallpostad_sort_desc", { limit: "15" });
+        const response = await callAPI.post("/postad/getallpostad_sort_desc", {
+          limit: "15",
+          verifiedOnly: true,
+        });
         setPosts(Array.isArray(response?.data?.data) ? response.data.data : []);
       } catch (error) {
         setPosts([]);
+        setPostsError(true);
       } finally {
         setPostsLoading(false);
       }
@@ -150,7 +155,7 @@ export default function HomePage() {
 
   const featuredListings = useMemo(() => {
     if (postsLoading) return [];
-    if (!posts.length) return featuredFallback;
+    if (!posts.length) return postsError ? featuredFallback : [];
 
     return posts.slice(0, 6).map((post, index) => ({
       name: post?.name || featuredFallback[index]?.name || "Featured",
@@ -159,11 +164,11 @@ export default function HomePage() {
       slug: post?.slug,
       source: post,
     }));
-  }, [posts, postsLoading]);
+  }, [posts, postsLoading, postsError]);
 
   const latestListings = useMemo(() => {
     if (postsLoading) return [];
-    if (!posts.length) return featuredFallback.slice(0, 5);
+    if (!posts.length) return postsError ? featuredFallback.slice(0, 5) : [];
 
     return posts.slice(0, 6).map((post, index) => ({
       name: post?.name || featuredFallback[index]?.name || "Latest",
@@ -172,7 +177,7 @@ export default function HomePage() {
       slug: post?.slug,
       source: post,
     }));
-  }, [posts, postsLoading]);
+  }, [posts, postsLoading, postsError]);
 
   const fetchCities = async (provinceId) => {
     setCity([]);
@@ -194,7 +199,7 @@ export default function HomePage() {
     }
 
     setSearchError("");
-    router.push(`/female-escorts/${slugify(filters.city)}?province=${filters.province}`);
+    router.push(`/female-escorts/${slugify(filters.city)}`);
   };
 
   const openListing = (listing) => {

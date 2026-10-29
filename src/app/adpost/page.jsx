@@ -182,7 +182,8 @@ const AdPost = () => {
                 const formDataUpload = new FormData();
                 formDataUpload.append("image", file);
 
-                const response = await axios.post(apiUrl("/uploading"), formDataUpload, {
+                // /upload applies the server-side watermark before storing the image.
+                const response = await axios.post(apiUrl("/upload"), formDataUpload, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 

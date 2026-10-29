@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import callAPI, { interceptor } from "../../../Common_Method/api";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
@@ -10,7 +10,6 @@ import VerifiedBadge from "../../../components/VerifiedBadge/VerifiedBadge";
 
 const Profile = ({ post }) => {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const [posts, setPosts] = useState(post);
     const [selectedImage, setSelectedImage] = useState("");
     const [isZoomOpen, setIsZoomOpen] = useState(false);
@@ -24,7 +23,6 @@ const Profile = ({ post }) => {
     );
     const activeImage = selectedImage || images[0] || "/images/no-img.png";
     const activeImageBackground = `url("${String(activeImage).replace(/"/g, "%22")}")`;
-    const backUrl = searchParams.get("back");
     const activeImageIndex = Math.max(images.indexOf(activeImage), 0);
     const showImageNav = images.length > 1;
 
@@ -99,7 +97,13 @@ const Profile = ({ post }) => {
 
                 <section className="ad-profile-hero">
                     <div className="ad-profile-hero__inner">
-                        <button type="button" onClick={() => (backUrl ? router.push(backUrl) : router.back())} className="ad-profile-back">
+                        <button type="button" onClick={() => {
+                            const savedListingUrl = typeof window !== "undefined"
+                                ? sessionStorage.getItem("pinkspot-last-listing-url")
+                                : null;
+                            if (savedListingUrl) router.push(savedListingUrl);
+                            else router.back();
+                        }} className="ad-profile-back">
                             <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
                             Back
                         </button>

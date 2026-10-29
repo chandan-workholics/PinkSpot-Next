@@ -6278,7 +6278,7 @@ a {
   object-fit: cover;
 }
 
-.pink-featured-card span {
+.pink-featured-card > span:not(.account-verified-badge) {
   position: absolute;
   z-index: 1;
   left: 14px;
@@ -7164,11 +7164,29 @@ a {
     min-height: 220px;
   }
 
-  .pink-featured-card span {
+.pink-featured-card > span:not(.account-verified-badge) {
     left: 12px;
     right: 12px;
     bottom: 12px;
   }
+
+/* The featured-card caption rule must not resize the verification pill.
+   Both elements are spans, so an unscoped selector turns the badge into a
+   large oval covering the image on small screens. */
+.pink-featured-card > .account-verified-badge {
+  display: inline-flex;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  max-width: max-content;
+  left: auto;
+  right: 10px;
+  bottom: auto;
+  padding: 4px 7px;
+  border-radius: 999px;
+  overflow: visible;
+}
 
   .pink-featured-card strong {
     font-size: 20px;
@@ -9143,5 +9161,242 @@ a {
   .pink-featured-card img {
     height: 200px !important;
     min-height: 200px !important;
+  }
+}
+
+/* Listing cards: compact mobile layout matching the approved ad-list design. */
+@media (max-width: 767px) {
+  .category-page .categeory-card {
+    align-items: stretch;
+    height: 205px;
+    min-height: 205px;
+    margin: 0 0 12px;
+    padding: 6px;
+    border: 1px solid #f1d4e3;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(76, 22, 69, .07);
+  }
+
+  .category-page .categeory-card .img-box {
+    flex: 0 0 41%;
+    width: 41%;
+    height: 191px;
+    overflow: hidden;
+    border-radius: 9px;
+  }
+
+  .category-page .categeory-card .img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .category-page .categeory-card .card-text {
+    min-width: 0;
+    height: 100%;
+    padding: 14px 12px 10px;
+  }
+
+  .category-page .categeory-card .card-text .d-flex {
+    margin: 0 0 9px !important;
+  }
+
+  .category-page .categeory-card .card-text .d-flex h6 {
+    margin: 0;
+    padding: 6px 10px !important;
+    border-radius: 7px !important;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .category-page .categeory-card .listing-name-with-badge {
+    min-width: 0;
+    gap: 7px;
+    margin-bottom: 8px;
+  }
+
+  .category-page .categeory-card .listing-name-with-badge h5 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: #07142d;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .category-page .categeory-card .account-verified-badge--compact {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    border-color: #f2add9;
+    color: #8b1380;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .category-page .categeory-card .card-text > h6 {
+    display: block;
+    margin: 0 0 10px;
+    overflow: hidden;
+    color: #4d4650;
+    font-size: 12px;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .category-page .categeory-card .card-text > h6 i {
+    color: #4b164c;
+  }
+
+  .category-page .categeory-card .listing-card-title {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: #4b164c;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .category-page .categeory-card .listing-card-age {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: #6c2586;
+    background: #f9e7ff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+/* Full-width horizontal cards on larger listing screens. */
+@media (min-width: 768px) {
+  /* Bootstrap's anchor defaults can win on the desktop listing wrapper.
+     Keep the whole card link visually card-like instead of underlining every
+     heading and metadata field inside it. */
+  .category-page .d-none-mobile > [class*="col-"] > a,
+  .category-page .d-none-mobile > [class*="col-"] > a:hover,
+  .category-page .d-none-mobile > [class*="col-"] > a:focus {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
+  .category-page .d-none-mobile > [class*="col-"] > a :is(h3, h4, h5, h6, span) {
+    text-decoration: none !important;
+  }
+
+  .category-page .d-none-mobile.row > [class*="col-"] {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .category-page .d-none-mobile .card {
+    margin-bottom: 18px !important;
+    padding: 12px;
+    border: 1px solid #f1d4e3;
+    border-radius: 28px;
+    background: #fff;
+    box-shadow: 0 10px 26px rgba(76, 22, 69, .1);
+  }
+
+  .category-page .d-none-mobile .card-box {
+    display: flex;
+    align-items: stretch;
+    min-height: 280px;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .category-page .d-none-mobile .card-img {
+    flex: 0 0 36%;
+    width: 36%;
+    height: 256px;
+    border-radius: 21px;
+  }
+
+  .category-page .d-none-mobile .card-img img {
+    height: 256px;
+    border-radius: 21px;
+    object-fit: cover;
+  }
+
+  .category-page .d-none-mobile .card-content {
+    position: relative;
+    width: auto;
+    height: auto;
+    flex: 1;
+    padding: 22px 28px;
+    background: #fff !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .category-page .d-none-mobile .card-box:hover .card-content {
+    transform: none;
+  }
+
+  .category-page .d-none-mobile .card-content .listing-card-type h6 {
+    display: inline-block;
+    margin: 0 0 16px;
+    padding: 10px 24px !important;
+    border-radius: 999px !important;
+    font-size: 18px;
+  }
+
+  .category-page .d-none-mobile .listing-name-with-badge {
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .category-page .d-none-mobile .listing-name-with-badge .account-verified-badge {
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #e4f3ff;
+    color: #1478c9;
+    font-size: 18px;
+  }
+
+  .category-page .d-none-mobile .card-content .per-name {
+    margin: 0 0 15px;
+    color: #07142d;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 52px;
+    line-height: 1;
+  }
+
+  .category-page .d-none-mobile .card-content .per-city,
+  .category-page .d-none-mobile .card-content .per-descriptn,
+  .category-page .d-none-mobile .card-content .per-ethnicity,
+  .category-page .d-none-mobile .card-content .per-age {
+    margin: 0 0 15px;
+    color: #07142d;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    line-height: 1.2;
+  }
+
+  .category-page .d-none-mobile .listing-card-age {
+    display: inline-flex;
+    padding: 10px 20px;
+    border-radius: 999px;
+    color: #6c2586;
+    background: #f9e7ff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: 700;
   }
 }

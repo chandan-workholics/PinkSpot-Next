@@ -26,5 +26,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.1"
   },
-  "homepage": "https://pinkspot.cc/"
+  "homepage": "https://pinkspot.cc/",
+  "engines": {
+    "node": ">=22.23.4"
+  }
 }
